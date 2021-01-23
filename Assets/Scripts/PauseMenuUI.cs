@@ -6,6 +6,19 @@ using UnityEngine.SceneManagement;
 public class PauseMenuUI : MonoBehaviour
 {
     public GameObject container;
+
+    private void Start()
+    {
+        //TODO: SetVolume() get playerPref for volume
+    }
+
+    public void TogglePause()
+    {
+        if (container.activeInHierarchy)
+            Resume();
+        else
+            Pause();
+    }
     public void Pause()
     {
         Time.timeScale = 0;
