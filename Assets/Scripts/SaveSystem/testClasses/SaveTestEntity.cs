@@ -7,7 +7,6 @@ public class SaveTestEntity : MonoBehaviour, ISaveable
 {
 
     public float health = 100;
-    Vector2 position = new Vector2(0, 0);
 
     private void Start()
     {
@@ -18,25 +17,27 @@ public class SaveTestEntity : MonoBehaviour, ISaveable
 
     public object CaptureState()
     {
-        return new SaveData
-        {
-            health = this.health,
-            position = new float[2] {position.x, position.y}
-        };
+        return new SaveData(health, transform.position.x, transform.position.y);
     }
     public void RestoreState(object state)
     {
         var saveData = (SaveData)state;
 
         health = saveData.health;
-        position.x = saveData.position[0];
-        position.y = saveData.position[1];
+        transform.position = new Vector2(saveData.x, saveData.y);
     }
 
     [Serializable]
-    struct SaveData
+    public class SaveData
     {
         public float health;
-        public float[] position;
+        public float x;
+        public float y;
+        public SaveData(float health, float x, float y)
+        {
+            this.health = health;
+            this.x = x;
+            this.y = y;
+        }
     }
 }

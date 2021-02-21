@@ -163,18 +163,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 27657380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea9f9fd17cb6b7348b742c1b5e219210, type: 3}
+  m_Script: {fileID: 11500000, guid: 790dd1d9a86aa054cbfa034c40fa5b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSave:
-    player:
-      health: 0
-      position: []
-      mana: 0
-    entities: []
-  player: {fileID: 0}
-  monster1: {fileID: 0}
-  monster2: {fileID: 0}
 --- !u!1 &414570950
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +332,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8340396455784985110, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
+      propertyPath: health
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8340396455784985111, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
       propertyPath: m_Name
       value: Enemy2 (1)
@@ -444,6 +439,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 73752671961865014, guid: 0a79b75a41d152f43b673e130e773949, type: 3}
+      propertyPath: mana
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 73752671961865014, guid: 0a79b75a41d152f43b673e130e773949, type: 3}
+      propertyPath: health
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 73752671961865015, guid: 0a79b75a41d152f43b673e130e773949, type: 3}
       propertyPath: m_Name
       value: Player
@@ -519,6 +522,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 386453963689169216, guid: 6386866178382a44490fa2977e7282af, type: 3}
+      propertyPath: health
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 386453963689169218, guid: 6386866178382a44490fa2977e7282af, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -638,6 +645,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4708126334264503534, guid: efa940a2defeb9946b28bae3a9fc92da, type: 3}
+      propertyPath: health
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4708126334264503535, guid: efa940a2defeb9946b28bae3a9fc92da, type: 3}
       propertyPath: m_Name
       value: Npc
@@ -711,6 +722,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8340396455784985108, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8340396455784985110, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
+      propertyPath: health
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8340396455784985111, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}

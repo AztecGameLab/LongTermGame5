@@ -1,65 +1,75 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-public static class SaveSystem
+public class SaveSystem : MonoBehaviour
 {
-    static string gameSavePath = Application.persistentDataPath + "/savefile.AGL"; //can make multiple saves by saving with different names
-    static string SettingsSavePath = Application.persistentDataPath + "/settings.AGLs"; //can make multiple saves by saving with different names
+    static string gameSavePath;
+    static string SettingsSavePath;
 
-    public static void SaveGame(SaveGame saveGame)
+    private void Start()
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(gameSavePath, FileMode.Create);
-
-        formatter.Serialize(stream, saveGame);
-        stream.Close();
+        gameSavePath = Application.persistentDataPath + "/savefile.AGL"; //can make multiple saves by saving with different names
+        SettingsSavePath = Application.persistentDataPath + "/settings.AGLs"; //can make multiple saves by saving with different names
     }
 
-    public static SaveGame LoadGame()
+    [EasyButtons.Button]
+    public void Save()
     {
-        if (File.Exists(gameSavePath))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(gameSavePath, FileMode.Open);
+        var state = LoadFile();
+        CaptureAllStates(state);
+        SaveFile(state);
+    }
 
-            SaveGame saveGame = formatter.Deserialize(stream) as SaveGame;
-            stream.Close();
+    [EasyButtons.Button]
+    public void Load()
+    {
+        var state = LoadFile();
+        RestoreAllStates(state);
+    }
 
-            return saveGame;
-        }
-        else
+    void CaptureAllStates(Dictionary<string, object> state)
+    {
+        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
         {
-            Debug.LogError("Game save file not found in:" + gameSavePath);
-            return null;
+            state[saveable.id] = saveable.CaptureComponentStates();
         }
     }
 
-    public static void SaveSettings(SaveSettings saveSettings)
+    void RestoreAllStates(Dictionary<string, object> state)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(SettingsSavePath, FileMode.Create);
-
-        formatter.Serialize(stream, saveSettings);
-        stream.Close();
+        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        {
+            if (state.TryGetValue(saveable.id, out object value))
+            {
+                saveable.RestoreComponentStates(value);
+            }
+        }
     }
 
-    public static SaveSettings LoadSettings()
+
+    void SaveFile(object state)
     {
-        if (File.Exists(SettingsSavePath))
+        using (var stream = File.Open(gameSavePath, FileMode.Create))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(SettingsSavePath, FileMode.Open);
-
-            SaveSettings saveSettings = formatter.Deserialize(stream) as SaveSettings;
-            stream.Close();
-
-            return saveSettings;
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(stream, state);
         }
-        else
+    }
+
+    Dictionary<string, object> LoadFile()
+    {
+        if (!File.Exists(gameSavePath))
         {
-            Debug.LogError("Settings save file not found in:" + SettingsSavePath);
-            return null;
+            return new Dictionary<string, object>();
+        }
+
+        using (FileStream stream = File.Open(gameSavePath, FileMode.Open))
+        {
+            var formatter = new BinaryFormatter();
+            return (Dictionary<string, object>)formatter.Deserialize(stream);
         }
     }
 

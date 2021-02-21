@@ -23,7 +23,7 @@ public class SaveableEntity : MonoBehaviour
             state[saveable.GetType().ToString()] = saveable.CaptureState();
         }
 
-        return state
+        return state;
     }
 
     public void RestoreComponentStates(object state)

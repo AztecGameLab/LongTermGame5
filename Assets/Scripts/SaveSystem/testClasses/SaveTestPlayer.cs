@@ -22,22 +22,26 @@ public class SaveTestPlayer : SaveTestEntity, ISaveable
 
     public object CaptureState()
     {
-        return new SaveData
-        {
-            mana = this.mana
-        };
+        var baseSaveData = (SaveTestEntity.SaveData)base.CaptureState();
+
+        return new SaveData(health, transform.position.x, transform.position.y, mana);
     }
-    public void RestoreState(object state)
+    new public void RestoreState(object state)
     {
         var saveData = (SaveData)state;
 
+        health = saveData.health;
+        transform.position = new Vector2(saveData.x, saveData.y);
         mana = saveData.mana;
     }
 
     [Serializable]
-    struct SaveData
+    public class SaveData : SaveTestEntity.SaveData
     {
         public float mana;
+        public SaveData(float health, float x, float y, float mana) : base(health, x, y)
+        {
+            this.mana = mana;
+        }
     }
-
 }
