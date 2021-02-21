@@ -8,27 +8,18 @@ public class SaveTestEntity : MonoBehaviour, ISaveable
 
     public float health = 100;
 
-    private void Start()
+    void Start()
     {
+        //im a normal script that someone made. look at me gooo
 
-        //add myself to save file
     }
 
 
-    public object CaptureState()
-    {
-        return new SaveData(health, transform.position.x, transform.position.y);
-    }
-    public void RestoreState(object state)
-    {
-        var saveData = (SaveData)state;
 
-        health = saveData.health;
-        transform.position = new Vector2(saveData.x, saveData.y);
-    }
 
+    //SAVE SYSTEM
     [Serializable]
-    public class SaveData
+    protected class SaveData //class acts as a container for data that needs to be saved
     {
         public float health;
         public float x;
@@ -40,4 +31,18 @@ public class SaveTestEntity : MonoBehaviour, ISaveable
             this.y = y;
         }
     }
+
+    public object CaptureState() //store current state into the SaveData class
+    {
+        return new SaveData(health, transform.position.x, transform.position.y);
+    }
+    public void RestoreState(object state) //receive SaveData class and set data
+    {
+        var saveData = (SaveData)state;
+
+        health = saveData.health;
+        transform.position = new Vector2(saveData.x, saveData.y);
+    }
+
+
 }

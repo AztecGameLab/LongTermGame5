@@ -6,27 +6,35 @@ using UnityEngine;
 public class SaveTestPlayer : SaveTestEntity, ISaveable
 {
 
-    public static SaveTestPlayer instance;
     public float mana = 200;
 
-    private void Awake()
-    {
-        instance = this;
-    }
 
     void Start()
     {
+        //im a normal script that someone made. look at me gooo
 
-        //add myself to save file
     }
 
-    public object CaptureState()
+
+
+    //SAVE SYSTEM
+    [Serializable]
+    new protected class SaveData : SaveTestEntity.SaveData //inherited class acts as a container for data that needs to be saved
+    {
+        public float mana;
+        public SaveData(float health, float x, float y, float mana) : base(health, x, y)
+        {
+            this.mana = mana;
+        }
+    }
+
+    new public object CaptureState() //store current state into the SaveData class
     {
         var baseSaveData = (SaveTestEntity.SaveData)base.CaptureState();
 
         return new SaveData(health, transform.position.x, transform.position.y, mana);
     }
-    new public void RestoreState(object state)
+    new public void RestoreState(object state) //receive SaveData class and set data
     {
         var saveData = (SaveData)state;
 
@@ -35,13 +43,5 @@ public class SaveTestPlayer : SaveTestEntity, ISaveable
         mana = saveData.mana;
     }
 
-    [Serializable]
-    public class SaveData : SaveTestEntity.SaveData
-    {
-        public float mana;
-        public SaveData(float health, float x, float y, float mana) : base(health, x, y)
-        {
-            this.mana = mana;
-        }
-    }
+
 }
