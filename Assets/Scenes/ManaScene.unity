@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b574b72ac8f8540b6b8a2943d76e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMana: 100
+  maxMana: 1000
   currentMana: 0
   ManaBarUI: {fileID: 1725841762}
 --- !u!4 &1721483808
@@ -523,6 +523,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ManaBarFill: {fileID: 1293296639}
+  adjustMana: 0
+  lerpDuration: 1.5
 --- !u!4 &1725841763
 Transform:
   m_ObjectHideFlags: 0

@@ -9,12 +9,11 @@ public class ManaSystem : MonoBehaviour
 
     public ManaBarUI ManaBarUI;
 
-    /* Start is called before the first frame update
+    /* When the game starts set the currentMana to the max it can be
      * 
      */
     void Start()
     {
-        //When the game starts set the currentMana to the max it can be
         currentMana = maxMana;
     }
 
@@ -29,62 +28,89 @@ public class ManaSystem : MonoBehaviour
 
     /* This method allows the player to gain mana when called elsewhere
      * 
-     * If manaGained would put the player over maxMana:
-     *      Set currentMana to maxMana
-     * Otherwise:
+     * If manaGained is positive:
+     *      Set a temporary variable for the currentMana that is used in the ChangeFillAmount() Lerp function
      *      Set currentMana to the value of currentMana plus manaGained
+     *      Clamp this value to the maxMana so that the player never has more than max mana
+     *      ChangeFillAmount() based on the new mana level
      *      
-     * Update the UI FillAmount to be (new currentMana)/maxMana
+     * Otherwise manaGained must be negative:
+     *      As such, the programer is told via Debug.LogError that they likely intended to use ConsumeMana()
+     *      
      */
-    public void GainMana(float manaGained)
+    public void GainMana(float manaGain)
     {
-        if (currentMana + manaGained >= maxMana)
+        if (manaGain > 0)
         {
-            currentMana = maxMana;
+            float manaBefore = currentMana;
+            currentMana += manaGain;
+            Mathf.Clamp(currentMana, 0, maxMana);
+            StartCoroutine(ManaBarUI.ChangeFillAmount(manaBefore,currentMana, maxMana));
         }
         else
         {
-            currentMana += manaGained;
+            Debug.LogError("The GainMana() function expects a positive manaGain not a negative one");
+            Debug.LogError("Did you intend to use the ConsumeMana() function?");
         }
-
-        ManaBarUI.ChangeFillAmount(currentMana, maxMana);
     }
 
 
     /* This method is executed when an ability is attempted to be used.
      * 
-     * If the player has enough mana to use the ability:
+     * If the programer gave a negative manaCost:
+     *      The programer is told via Debug.LogError that they likely intended to use GainMana() &&
+     *      
+     * Else if the player has enough mana to use the ability:
+     *      Set a temporary variable for the currentMana that is used in the ChangeFillAmount() Lerp function &&
      *      The mana is consumed && 
-     *      The UI updates to the based on the lower mana level &&
+     *      The UI updates based on the lower mana level &&
      *      True is returned indicating the ability can be used
-     * Otherwise:
-     *      False is returned indicating the player needs more mana. 
+     *      
+     * False is returned indicating the player needs more mana or the function had a negative manaCost. 
+     *      
      */
     public bool ConsumeMana(float manaCost)
     {
 
-        if (currentMana >= manaCost)
+        if (manaCost < 0)
         {
+            Debug.LogError("The ConsumeMana() function expects a positive manaCost not a negative one");
+            Debug.LogError("Did you intend to use the GainMana() function?");
+        }
+        else if(currentMana >= manaCost)
+        {
+            float manaBefore = currentMana;
             currentMana -= manaCost;
-            ManaBarUI.ChangeFillAmount(currentMana, maxMana);
+            StartCoroutine(ManaBarUI.ChangeFillAmount(manaBefore, currentMana, maxMana));
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
+        
     }
 
 
     /* This method increases the maxMana by the manaIncrease parameter
-     * Following this, the GainMana(manaIncrease) is called to also update currentMana
-     * Update the UI FillAmount to be (new currentMana)/(new maxMana)
+     * 
+     * If the manaIncrease is negative:
+     *      The programer is told IncreaseMaxMana expects positive manaIncrease
+     *      They are also told a negative manaIncrease has not been implemented
+     *      
+     * Otherwise manaIncrease is positive:
+     *      maxMana is increase by manaIncrease &&
+     *      GainMana(manaIncrease) is called to also update currentMana
      *
      */
     public void IncreaseMaxMana(float manaIncrease)
     {
-        maxMana += manaIncrease;
-        GainMana(manaIncrease);
-        ManaBarUI.ChangeFillAmount(currentMana, maxMana);
-    }   
+        if (manaIncrease < 0)
+        {
+            Debug.LogError("The IncreaseMaxMana() function expects a positive manaIncrease not a negative one");
+            Debug.LogError("A negative manaIncrease has not been implemented.");
+        }
+        else
+        {
+            maxMana += manaIncrease;
+            GainMana(manaIncrease);
+        }
+    }
 }
