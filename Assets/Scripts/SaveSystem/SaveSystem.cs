@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿using System.IO;
 using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour
 {
+    /*
+        GameFile is Dictionary<SceneNames, Dictionary<GameObjectIDs, Dictionary<ComponentTypes, SaveData>>>
+
+        GameFile -> SceneName -> GameObject -> ComponentType -> SaveData -> SavedVariables
+    */
+
     static string gameSavePath;
     static string SettingsSavePath;
 
@@ -15,64 +21,69 @@ public class SaveSystem : MonoBehaviour
         SettingsSavePath = Application.persistentDataPath + "/settings.AGLs"; //can make multiple saves by saving with different names
     }
 
+
+    //get the dictionary of all scenes and put the current scene into that dictionary
     [EasyButtons.Button]
-    public void Save()
+    public void SaveCurrentScene()
     {
-        var state = LoadFile();
-        CaptureAllStates(state);
-        SaveFile(state);
+        var Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData = LoadGameFile();
+        Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData[SceneManager.GetActiveScene().name] = GatherGameObjectsSaveData();
+        SaveGameFile(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
     }
 
     [EasyButtons.Button]
-    public void Load()
+    public void LoadCurrentScene()
     {
-        var state = LoadFile();
-        RestoreAllStates(state);
+        //get file
+        //get this scene and restore that
+
+        var Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData = LoadGameFile();
+        RestoreGameObjectsSaveData(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData[SceneManager.GetActiveScene().name]);
     }
 
-    void CaptureAllStates(Dictionary<string, object> state)
-    {
-        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
-        {
-            state[saveable.id] = saveable.CaptureComponentStates();
-        }
-    }
-
-    void RestoreAllStates(Dictionary<string, object> state)
-    {
-        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
-        {
-            if (state.TryGetValue(saveable.id, out object value))
-            {
-                saveable.RestoreComponentStates(value);
-            }
-        }
-    }
-
-
-    void SaveFile(object state)
+    void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData)
     {
         using (var stream = File.Open(gameSavePath, FileMode.Create))
         {
             var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, state);
+            formatter.Serialize(stream, Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
         }
     }
 
-    Dictionary<string, object> LoadFile()
+    Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> LoadGameFile()
     {
         if (!File.Exists(gameSavePath))
         {
-            return new Dictionary<string, object>();
+            return new Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>();
         }
 
         using (FileStream stream = File.Open(gameSavePath, FileMode.Open))
         {
             var formatter = new BinaryFormatter();
-            return (Dictionary<string, object>)formatter.Deserialize(stream);
+            return (Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>)formatter.Deserialize(stream);
         }
     }
 
+    Dictionary<string, Dictionary<string, SaveData>> GatherGameObjectsSaveData()
+    {
+        var Dict_GameObjectIDs_ComponentTypes_SaveData = new Dictionary<string, Dictionary<string, SaveData>>();
 
+        foreach (var saveableGameObject in FindObjectsOfType<SaveableGameObject>()) //for each saveable GameObject in the current scene
+        {
+            Dict_GameObjectIDs_ComponentTypes_SaveData[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
+        }
 
+        return Dict_GameObjectIDs_ComponentTypes_SaveData;
+    }
+
+    void RestoreGameObjectsSaveData(Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes_SaveData)
+    {
+        foreach (var saveableGameObject in FindObjectsOfType<SaveableGameObject>())
+        {
+            if (Dict_GameObjectIDs_ComponentTypes_SaveData.TryGetValue(saveableGameObject.id, out Dictionary<string, SaveData> ComponentTypes_SaveData_Dict))
+            {
+                saveableGameObject.RestoreComponentsSaveData(ComponentTypes_SaveData_Dict);
+            }
+        }
+    }
 }
