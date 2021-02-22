@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Component that is added to GameObjects that have other components (that implements ISaveable) that need to be saved
+[ExecuteInEditMode]
 public class SaveableGameObject : MonoBehaviour
 {
     public string id = string.Empty;
@@ -10,9 +11,10 @@ public class SaveableGameObject : MonoBehaviour
     [ContextMenu("Generate ID")]
     private void GenerateId() => id = System.Guid.NewGuid().ToString();
 
-    private void Reset()
+    void OnEnable()
     {
-        GenerateId();
+        if (System.String.IsNullOrEmpty(id))
+            GenerateId();
     }
 
     public Dictionary<string, SaveData> GatherComponentsSaveData()
@@ -32,7 +34,7 @@ public class SaveableGameObject : MonoBehaviour
         foreach (var saveableComponent in GetComponents<ISaveableComponent>())
         {
             string typeName = saveableComponent.GetType().ToString();
-            if(ComponentTypes_SaveData_Dict.TryGetValue(typeName, out SaveData saveData))
+            if (ComponentTypes_SaveData_Dict.TryGetValue(typeName, out SaveData saveData))
             {
                 saveableComponent.RestoreSaveData(saveData);
             }

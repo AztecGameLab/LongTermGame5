@@ -12,6 +12,19 @@ public class SaveSystem : MonoBehaviour
         GameFile -> SceneName -> GameObject -> ComponentType -> SaveData -> SavedVariables
     */
 
+    private static SaveSystem _instance;
+    public static SaveSystem instance
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<SaveSystem>();
+            }
+            return _instance;
+        }
+    }
+
     static string gameSavePath;
     static string SettingsSavePath;
 
@@ -29,16 +42,24 @@ public class SaveSystem : MonoBehaviour
         var Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData = LoadGameFile();
         Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData[SceneManager.GetActiveScene().name] = GatherGameObjectsSaveData();
         SaveGameFile(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
+        Debug.Log("\"" + SceneManager.GetActiveScene().name + "\" scene was saved");
     }
 
     [EasyButtons.Button]
     public void LoadCurrentScene()
     {
-        //get file
-        //get this scene and restore that
-
         var Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData = LoadGameFile();
-        RestoreGameObjectsSaveData(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData[SceneManager.GetActiveScene().name]);
+
+        if (Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData.TryGetValue(SceneManager.GetActiveScene().name, out Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes_SaveData))
+        {
+            RestoreGameObjectsSaveData(Dict_GameObjectIDs_ComponentTypes_SaveData);
+            Debug.Log("\"" + SceneManager.GetActiveScene().name + "\" save loaded");
+        }
+        else
+        {
+            Debug.LogWarning("\"" + SceneManager.GetActiveScene().name + "\" save not found");
+        }
+
     }
 
     void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData)
