@@ -166,6 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790dd1d9a86aa054cbfa034c40fa5b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveDisplay:
+    scenes: []
 --- !u!1001 &100299115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,7 +225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2515964274051508445, guid: 6386866178382a44490fa2977e7282af, type: 3}
       propertyPath: id
-      value: 2c228151-fa2f-4e42-85de-9780f416f5dc
+      value: 3d96f0b8-4756-4c58-9e75-ca227e2cbfdb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6386866178382a44490fa2977e7282af, type: 3}
@@ -234,6 +236,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8460521036314170939, guid: 0a79b75a41d152f43b673e130e773949, type: 3}
+      propertyPath: id
+      value: 5c237b50-4f16-4eef-8525-0a02ed4567d0
+      objectReference: {fileID: 0}
     - target: {fileID: 73752671961865015, guid: 0a79b75a41d152f43b673e130e773949, type: 3}
       propertyPath: m_Name
       value: Player
@@ -406,6 +412,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5734215656592124400, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
+      propertyPath: id
+      value: f97d8c5b-e75e-4439-8ed4-4261aefe7746
+      objectReference: {fileID: 0}
     - target: {fileID: 8340396455784985108, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -463,6 +473,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1763463134122602170, guid: efa940a2defeb9946b28bae3a9fc92da, type: 3}
+      propertyPath: id
+      value: 945267be-a929-4663-b401-0f1fcf87543e
+      objectReference: {fileID: 0}
     - target: {fileID: 4708126334264503532, guid: efa940a2defeb9946b28bae3a9fc92da, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -520,6 +534,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5734215656592124400, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
+      propertyPath: id
+      value: ba51bc84-c74f-4098-a8ad-37b2d06e9149
+      objectReference: {fileID: 0}
     - target: {fileID: 8340396455784985108, guid: b5ec0fbd55a41884b8ee4bfff8b5ffea, type: 3}
       propertyPath: m_RootOrder
       value: 3

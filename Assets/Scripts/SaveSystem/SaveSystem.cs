@@ -12,12 +12,68 @@ public class SaveSystem : MonoBehaviour
         GameFile -> SceneName -> GameObject -> ComponentType -> SaveData -> SavedVariables
     */
 
+    #region json compatable classes
+    public SaveDisplay saveDisplay;
+    [System.Serializable]
+    public class SaveDisplay
+    {
+        public List<SceneSaveDisplay> scenes = new List<SceneSaveDisplay>();
+        public SaveDisplay(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> save)
+        {
+            foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, SaveData>>> item in save)
+            {
+                scenes.Add(new SceneSaveDisplay(item.Key, item.Value));
+            }
+        }
+    }
+    [System.Serializable]
+    public class SceneSaveDisplay
+    {
+        public string sceneName;
+        public List<GameObjectSaveDisplay> gameobjects = new List<GameObjectSaveDisplay>();
+        public SceneSaveDisplay(string key, Dictionary<string, Dictionary<string, SaveData>> save)
+        {
+            sceneName = key;
+            foreach (KeyValuePair<string, Dictionary<string, SaveData>> item in save)
+            {
+                gameobjects.Add(new GameObjectSaveDisplay(item.Key, item.Value));
+            }
+        }
+    }
+    [System.Serializable]
+    public class GameObjectSaveDisplay
+    {
+        public string gameobjectID;
+        public List<ComponentSaveDisplay> components = new List<ComponentSaveDisplay>();
+        public GameObjectSaveDisplay(string key, Dictionary<string, SaveData> save)
+        {
+            gameobjectID = key;
+            foreach (KeyValuePair<string, SaveData> item in save)
+            {
+                components.Add(new ComponentSaveDisplay(item.Key, item.Value.ToString()));
+            }
+        }
+    }
+    [System.Serializable]
+    public class ComponentSaveDisplay
+    {
+        public string componentType;
+        public string saveData;
+        public ComponentSaveDisplay(string key, string data)
+        {
+            componentType = key;
+            saveData = data;
+        }
+    }
+    #endregion
+
+
     private static SaveSystem _instance;
     public static SaveSystem instance
     {
         get
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 _instance = GameObject.FindObjectOfType<SaveSystem>();
             }
@@ -30,8 +86,14 @@ public class SaveSystem : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
+        gameSavePath = Application.persistentDataPath + "/savefile.EDITOR.AGL"; //can make multiple saves by saving with different names
+        SettingsSavePath = Application.persistentDataPath + "/settings.EDITOR.AGLs"; //can make multiple saves by saving with different names
+#else
         gameSavePath = Application.persistentDataPath + "/savefile.AGL"; //can make multiple saves by saving with different names
         SettingsSavePath = Application.persistentDataPath + "/settings.AGLs"; //can make multiple saves by saving with different names
+#endif
+
     }
 
 
@@ -64,6 +126,9 @@ public class SaveSystem : MonoBehaviour
 
     void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData)
     {
+        saveDisplay = new SaveDisplay(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
+        SaveGameJSON(saveDisplay);
+
         using (var stream = File.Open(gameSavePath, FileMode.Create))
         {
             var formatter = new BinaryFormatter();
@@ -83,6 +148,19 @@ public class SaveSystem : MonoBehaviour
             var formatter = new BinaryFormatter();
             return (Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>)formatter.Deserialize(stream);
         }
+    }
+
+    void SaveGameJSON(SaveDisplay saveDisplay)
+    {
+        var path = Application.persistentDataPath + "/";
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+        string json = JsonUtility.ToJson(saveDisplay, true);
+#if UNITY_EDITOR
+        File.WriteAllText(path + "savefile.EDITOR.JSON", json);
+#else
+        File.WriteAllText(path + "savefile.JSON", json);
+#endif
     }
 
     Dictionary<string, Dictionary<string, SaveData>> GatherGameObjectsSaveData()

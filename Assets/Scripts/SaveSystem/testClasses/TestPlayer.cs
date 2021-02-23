@@ -23,6 +23,11 @@ public class TestPlayer : TestEntity, ISaveableComponent
     protected class TestPlayerSaveData : TestEntitySaveData //inherited class that is a container for data that will be saved
     {
         public float mana;
+
+        public override string ToString()
+        {
+            return (base.ToString() + '\n' + "mana: " + mana);
+        }
     }
 
     new public SaveData GatherSaveData() //store current state into the SaveData class

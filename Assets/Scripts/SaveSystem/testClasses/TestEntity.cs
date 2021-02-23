@@ -25,6 +25,12 @@ public class TestEntity : MonoBehaviour, ISaveableComponent
         public float health;
         public float x;
         public float y;
+
+        public override string ToString()
+        {
+            return "health: " + health + '\n' +
+                   "position: (" + x + ", " + y + ")";
+        }
     }
 
     public SaveData GatherSaveData() //store current state into the SaveData class

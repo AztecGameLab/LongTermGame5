@@ -1,20 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 //Component that is added to GameObjects that have other components (that implements ISaveable) that need to be saved
 [ExecuteInEditMode]
+[System.Serializable]
 public class SaveableGameObject : MonoBehaviour
 {
-    public string id = string.Empty;
+    [ReadOnly]
+    public string id;
 
-    [ContextMenu("Generate ID")]
-    private void GenerateId() => id = System.Guid.NewGuid().ToString();
 
-    void OnEnable()
+    void SetIDIfInActiveScene()
     {
-        if (System.String.IsNullOrEmpty(id))
-            GenerateId();
+        if (SceneManager.GetActiveScene().name == gameObject.scene.name) //if this component is in the active scene
+        {
+            if (System.String.IsNullOrEmpty(id)) //if i dont have an id
+            {
+                id = System.Guid.NewGuid().ToString(); //give me a random id
+                EditorUtility.SetDirty(this);
+            }
+        }
+        else
+        {
+            id = ""; //set my id to null if im not in the active scene (ex. if im an object in the prefab editor)
+        }
+    }
+    void OnValidate()
+    {
+        SetIDIfInActiveScene();
+    }
+
+    private void Reset()
+    {
+        SetIDIfInActiveScene();
     }
 
     public Dictionary<string, SaveData> GatherComponentsSaveData()

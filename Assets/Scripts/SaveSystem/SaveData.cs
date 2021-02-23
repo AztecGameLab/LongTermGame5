@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class SaveData
+public abstract class SaveData
 {
-    
+    new public abstract string ToString();
 }
