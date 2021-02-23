@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -67,7 +68,6 @@ public class SaveSystem : MonoBehaviour
     }
     #endregion
 
-
     private static SaveSystem _instance;
     public static SaveSystem instance
     {
@@ -115,13 +115,14 @@ public class SaveSystem : MonoBehaviour
         if (Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData.TryGetValue(SceneManager.GetActiveScene().name, out Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes_SaveData))
         {
             RestoreGameObjectsSaveData(Dict_GameObjectIDs_ComponentTypes_SaveData);
+            if(!Application.isPlaying)
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             Debug.Log("\"" + SceneManager.GetActiveScene().name + "\" save loaded");
         }
         else
         {
             Debug.LogWarning("\"" + SceneManager.GetActiveScene().name + "\" save not found");
         }
-
     }
 
     void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData)
