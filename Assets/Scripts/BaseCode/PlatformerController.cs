@@ -41,8 +41,8 @@ public class PlatformerController : MonoBehaviour
         this.GetComponent<Collider2D>().sharedMaterial = material;
 
         anim = this.GetComponent<Animator>();
-        if(rigid == null){
-            rigid = this.gameObject.AddComponent<Rigidbody2D>();
+        if(anim == null){
+            anim = this.gameObject.AddComponent<Animator>();
         }
 
         render = this.GetComponent<SpriteRenderer>();
@@ -52,8 +52,8 @@ public class PlatformerController : MonoBehaviour
     }
 
     void Update(){
-        anim.SetFloat("HorizontalSpeed", rigid.velocity.x);
-        anim.SetFloat("VerticalSpeed", rigid.velocity.y);
+        //anim.SetFloat("HorizontalSpeed", rigid.velocity.x);
+        //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
         if(Mathf.Abs(rigid.velocity.x) > 0){
             render.flipX = rigid.velocity.x > 0;

@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0650727aeb4bf1ae08ae56fb79d33415, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 8714dea5dd8605f4dac94d57b029f0cd, type: 3}
+  m_Name: PlatformerParameters
   m_EditorClassIdentifier: 
-  CoyoteTime: 0.05
-  JumpHeight: 2
-  JumpBufferTime: 1.15
+  CoyoteTime: 1
+  JumpHeight: 1
+  JumpBufferTime: 1
   JumpCount: 1
   JumpSpeed: 5
   MaxFallSpeed: 2
-  MaxRunSpeed: 4
+  MaxRunSpeed: 2
   MaxGroundAngle: 45
   AccelerationProfile:
     serializedVersion: 2
@@ -26,18 +26,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -49,21 +49,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
