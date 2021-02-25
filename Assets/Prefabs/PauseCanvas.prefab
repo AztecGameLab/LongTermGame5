@@ -599,7 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 9230b4edbd812764982a9cff965286b1, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: e4bb5ad0f1c9c2a40911e0b5d0f618b3, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -612,6 +612,38 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ac470387-e5cd-4ec4-af83-549149d1afe3
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3fc0875e-f202-4d19-b321-73e5c650cea9
+    m_ActionName: Player/Interact
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f8b1a4d2-e8f8-45c2-99e3-e96f36a573dc
+    m_ActionName: Player/RangedAttack
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 78f8dce3-aa72-4523-9d0e-6aeff034fb36
+    m_ActionName: Player/Attack
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 770c58db-f473-4a21-8e14-eaea6b4da128
+    m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6066de22-3e2d-40a1-a703-e95481d4e352
+    m_ActionName: Player/Bash
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1984b00e-a79e-4022-9bbc-897777f07a33
+    m_ActionName: Player/Roll
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f8313d5-ad2d-4789-b5f4-71e804d4966e
+    m_ActionName: Player/ManaHeal
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8539188235642701396}
@@ -626,8 +658,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 5506e558-5707-43e6-aec8-762690ea086a
-    m_ActionName: PauseMenu/Escape[/Keyboard/escape]
+    m_ActionId: 4fc1ace0-1078-4e22-88c9-574e83487202
+    m_ActionName: UI/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
