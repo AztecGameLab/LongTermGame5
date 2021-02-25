@@ -1,0 +1,24 @@
+﻿using UnityEngine;
+
+namespace KainsTestScripts
+{
+    public class SaveTest : MonoBehaviour
+    {
+        void Start()
+        {
+            print("pretend im something that changes scenes or something idk");
+        }
+
+        [EasyButtons.Button]
+        public void save()
+        {
+            SaveLoad.SaveCurrentScene();
+        }
+
+        [EasyButtons.Button]
+        public void load()
+        {
+            SaveLoad.LoadCurrentScene();
+        }
+    }
+}

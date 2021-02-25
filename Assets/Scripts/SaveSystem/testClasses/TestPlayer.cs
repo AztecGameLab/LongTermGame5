@@ -1,47 +1,54 @@
 ﻿using UnityEngine;
+using SaveSystem;
 
-//Example of a class/component that inherits from SaveTestEntity and implements ISaveable and is saved to the SaveSystem
-public class TestPlayer : TestEntity, ISaveableComponent
+namespace KainsTestScripts
 {
 
-    public float mana = 200;
-
-    void Start()
+    //Example of a class/component that inherits from SaveTestEntity and implements ISaveable and is saved to the SaveSystem
+    public class TestPlayer : TestEntity, ISaveableComponent
     {
-        //im a normal script that someone made. look at me gooo
 
-    }
+        public float mana = 200;
 
-
-
-
-
-
-
-    //SAVE SYSTEM
-    [System.Serializable]
-    protected class TestPlayerSaveData : TestEntitySaveData //inherited class that is a container for data that will be saved
-    {
-        public float mana;
-
-        public override string ToString()
+        void Start()
         {
-            return (base.ToString() + '\n' + "mana: " + mana);
+            //im a normal script that someone made. look at me gooo
+
         }
-    }
 
-    new public SaveData GatherSaveData() //store current state into the SaveData class
-    {
-        return new TestPlayerSaveData { health = health, x = transform.position.x, y = transform.position.y, mana = mana };
-    }
-    new public void RestoreSaveData(SaveData state) //receive SaveData class and set variables
-    {
-        var saveData = (TestPlayerSaveData)state;
 
-        health = saveData.health;
-        transform.position = new Vector2(saveData.x, saveData.y);
-        mana = saveData.mana;
-    }
 
+
+
+
+
+        #region SAVE SYSTEM
+        [System.Serializable]
+        protected class TestPlayerSaveData : TestEntitySaveData //inherited class that is a container for data that will be saved
+        {
+            public float mana;
+
+            public override string ToString()
+            {
+                return (base.ToString() + '\n' + "mana: " + mana);
+            }
+        }
+
+        new public SaveData GatherSaveData() //store current state into the SaveData class
+        {
+            return new TestPlayerSaveData { health = health, x = transform.position.x, y = transform.position.y, mana = mana };
+        }
+        new public void RestoreSaveData(SaveData state) //receive SaveData class and set variables
+        {
+            var saveData = (TestPlayerSaveData)state;
+
+            health = saveData.health;
+            transform.position = new Vector2(saveData.x, saveData.y);
+            mana = saveData.mana;
+        }
+        #endregion
+
+
+    }
 
 }

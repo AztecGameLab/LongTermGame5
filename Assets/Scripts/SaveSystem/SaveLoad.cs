@@ -6,9 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using System.Linq;
+using SaveSystem;
 
 [ExecuteInEditMode]
-public class SaveSystem : MonoBehaviour
+public class SaveLoad : MonoBehaviour
 {
     /*
         A bunch of attempts to explain how game save data is stored. lmk which makes the most sense -Kain
@@ -182,7 +183,6 @@ public class SaveSystem : MonoBehaviour
         var path = GetMostRecentFile(".AGL");
         if (path != "")
         {
-            print("json: " + GetMostRecentFile(".JSON"));
             saveDisplay = LoadGameJSON(GetMostRecentFile(".JSON"));
         }
         else
@@ -211,11 +211,9 @@ public class SaveSystem : MonoBehaviour
     {
         var directory = new DirectoryInfo(Application.persistentDataPath);
         var files = directory.GetFiles("*" + extension);
-        print(files.Length);
         if(files.Length == 0)
             return "";
         string file = (files.OrderByDescending(f => f.LastWriteTime).First()).FullName;
-        print("FILE: " + file);
         return (file);
     }
     #endregion
