@@ -109,7 +109,7 @@ public class InvincibleEnemy : Entity
     {
         Co_active = true;
         yield return new WaitForSeconds(3);
-        enemyRigidBody2D.velocity = Vector3.zero;
+        enemyRigidBody2D.velocity = Vector2.zero;
         enemyRigidBody2D.AddForce(Vector2.up *250* EnemySpeed * Time.deltaTime);
         if (moveRight)
         {
