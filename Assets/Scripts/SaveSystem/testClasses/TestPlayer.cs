@@ -30,7 +30,7 @@ namespace KainsTestScripts
 
             public override string ToString()
             {
-                return (base.ToString() + '\n' + "mana: " + mana);
+                return (base.ToString() + ", mana: " + mana);
             }
         }
 

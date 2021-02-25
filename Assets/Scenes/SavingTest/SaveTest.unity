@@ -166,8 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790dd1d9a86aa054cbfa034c40fa5b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveDisplay:
-    scenes: []
 --- !u!1001 &100299115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,17 +173,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 386453963689169216, guid: 6386866178382a44490fa2977e7282af, type: 3}
+      propertyPath: health
+      value: 416416
+      objectReference: {fileID: 0}
     - target: {fileID: 386453963689169218, guid: 6386866178382a44490fa2977e7282af, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 386453963689169218, guid: 6386866178382a44490fa2977e7282af, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 386453963689169218, guid: 6386866178382a44490fa2977e7282af, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 386453963689169218, guid: 6386866178382a44490fa2977e7282af, type: 3}
       propertyPath: m_LocalPosition.z

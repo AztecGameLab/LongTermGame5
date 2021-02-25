@@ -8,7 +8,6 @@ namespace SaveSystem
 {
     //Component that is added to GameObjects that have other components (that implements ISaveable) that need to be saved
     [ExecuteInEditMode]
-    [System.Serializable]
     public class SaveableGameObject : MonoBehaviour
     {
         [ReadOnly]

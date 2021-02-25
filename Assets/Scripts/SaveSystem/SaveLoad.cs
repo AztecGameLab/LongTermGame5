@@ -29,9 +29,6 @@ public class SaveLoad : MonoBehaviour
     */
 
 
-    [SerializeField]
-    [ReadOnly]
-    static SaveDisplay saveDisplay; //json compatable class for debugging
 
     #region classes for SaveDisplay
     [System.Serializable]
@@ -167,8 +164,7 @@ public class SaveLoad : MonoBehaviour
     //save the game data in binary
     static void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs)
     {
-        saveDisplay = new SaveDisplay(Dict_SceneName_GameObjectIDs);
-        SaveGameJSON(saveDisplay);
+        SaveGameJSON(new SaveDisplay(Dict_SceneName_GameObjectIDs));
 
         var gameSavePath = Application.persistentDataPath + String.Format("/{0}.save.AGL", GetDateTimeString()); //create a save file with the current date and time
         using (var stream = File.Open(gameSavePath, FileMode.Create))
@@ -181,11 +177,7 @@ public class SaveLoad : MonoBehaviour
     static Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> LoadGameFile()
     {
         var path = GetMostRecentFile(".AGL");
-        if (path != "")
-        {
-            saveDisplay = LoadGameJSON(GetMostRecentFile(".JSON"));
-        }
-        else
+        if (path == "")
         {
             return new Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>();
         }
@@ -226,12 +218,6 @@ public class SaveLoad : MonoBehaviour
         var JsonSavePath = Application.persistentDataPath + String.Format("/{0}.save.JSON", GetDateTimeString());
         string json = JsonUtility.ToJson(saveDisplay, true);
         File.WriteAllText(JsonSavePath, json);
-    }
-    static SaveDisplay LoadGameJSON(string path)
-    {
-        if (!Directory.Exists(path))
-            return null;
-        return JsonUtility.FromJson<SaveDisplay>(path);
     }
     #endregion
 }

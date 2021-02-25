@@ -30,8 +30,7 @@ namespace KainsTestScripts
 
             public override string ToString()
             {
-                return "health: " + health + '\n' +
-                    "position: (" + x + ", " + y + ")";
+                return "health: " + health + ", position: (" + x + ", " + y + ")";
             }
         }
 
