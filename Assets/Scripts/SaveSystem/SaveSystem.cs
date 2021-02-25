@@ -30,7 +30,8 @@ public class SaveSystem : MonoBehaviour
 
     [SerializeField]
     [ReadOnly]
-    SaveDisplay saveDisplay; //json compatable class for debugging
+    static SaveDisplay saveDisplay; //json compatable class for debugging
+
     #region classes for SaveDisplay
     [System.Serializable]
     class SaveDisplay
@@ -85,7 +86,7 @@ public class SaveSystem : MonoBehaviour
     }
     #endregion
 
-    #region singleton
+    /*#region singleton
     private static SaveSystem _instance;
     public static SaveSystem instance
     {
@@ -98,49 +99,29 @@ public class SaveSystem : MonoBehaviour
             return _instance;
         }
     }
-    #endregion
-
-    #region save paths
-    // static string gameSavePath;
-    // static string SettingsSavePath;
-    // static string JsonSavePath;
-
-    //     private void OnEnable()
-    //     {
-    // #if UNITY_EDITOR
-    //         //can make multiple saves by saving with different names
-    //         gameSavePath = Application.persistentDataPath + String.Format("/{0}.save.EDITOR.AGL", GetDateTimeString());
-    //         SettingsSavePath = Application.persistentDataPath + "/settings.EDITOR.AGLs";
-    //         JsonSavePath = Application.persistentDataPath + String.Format("/{0}.save.EDITOR.json", GetDateTimeString());
-    // #else
-    //         //can make multiple saves by saving with different names
-    //         gameSavePath = Application.persistentDataPath + String.Format("/{0}.save.AGL", GetDateTimeString());
-    //         SettingsSavePath = Application.persistentDataPath + "/settings.AGLs";
-    //         JsonSavePath = Application.persistentDataPath + String.Format("/{0}.save.DEV.json", GetDateTimeString());
-    // #endif
-    //     }
-    #endregion
+    #endregion*/
 
 
-    //get the dictionary that contains all scenes and put the current scene into that dictionary
+    #region Public functions for saving and loading the current scene
+    //get the dictionary that contains all scenes and put the current scene into that dictionary and save
     [EasyButtons.Button]
-    public void SaveCurrentScene()
+    static public void SaveCurrentScene()
     {
-        var Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData = LoadGameFile();
-        Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData[SceneManager.GetActiveScene().name] = GatherGameObjectsSaveData();
-        SaveGameFile(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
+        var Dict_SceneName_GameObjectIDs = LoadGameFile();
+        Dict_SceneName_GameObjectIDs[SceneManager.GetActiveScene().name] = GatherSceneSaveData();
+        SaveGameFile(Dict_SceneName_GameObjectIDs);
 
         Debug.Log("\"" + SceneManager.GetActiveScene().name + "\" scene was saved");
     }
 
-    //get scene's save file for current scene and load that data into the current scene
+    //get save file then find the current scene and load that data into the current scene
     [EasyButtons.Button]
-    public void LoadCurrentScene()
+    static public void LoadCurrentScene()
     {
-        var Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData = LoadGameFile();
-        if (Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData.TryGetValue(SceneManager.GetActiveScene().name, out Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes_SaveData))
+        var Dict_SceneName_GameObjectIDs = LoadGameFile();
+        if (Dict_SceneName_GameObjectIDs.TryGetValue(SceneManager.GetActiveScene().name, out Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes))
         {
-            RestoreGameObjectsSaveData(Dict_GameObjectIDs_ComponentTypes_SaveData);
+            RestoreSceneSaveData(Dict_GameObjectIDs_ComponentTypes);
             if (!Application.isPlaying)
                 EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
             Debug.Log("\"" + SceneManager.GetActiveScene().name + "\" save loaded");
@@ -150,52 +131,53 @@ public class SaveSystem : MonoBehaviour
             Debug.LogWarning("\"" + SceneManager.GetActiveScene().name + "\" save not found");
         }
     }
+    #endregion
 
 
 
-
-    Dictionary<string, Dictionary<string, SaveData>> GatherGameObjectsSaveData()
+    #region Manage Scene <-> Dictionary translations
+    static Dictionary<string, Dictionary<string, SaveData>> GatherSceneSaveData()
     {
-        var Dict_GameObjectIDs_ComponentTypes_SaveData = new Dictionary<string, Dictionary<string, SaveData>>();
+        var Dict_GameObjectIDs_ComponentTypes = new Dictionary<string, Dictionary<string, SaveData>>();
 
         foreach (var saveableGameObject in FindObjectsOfType<SaveableGameObject>()) //for each saveable GameObject in the current scene
         {
-            Dict_GameObjectIDs_ComponentTypes_SaveData[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
+            Dict_GameObjectIDs_ComponentTypes[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
         }
 
-        return Dict_GameObjectIDs_ComponentTypes_SaveData;
+        return Dict_GameObjectIDs_ComponentTypes;
     }
 
-    void RestoreGameObjectsSaveData(Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes_SaveData)
+    static void RestoreSceneSaveData(Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes)
     {
         foreach (var saveableGameObject in FindObjectsOfType<SaveableGameObject>())
         {
-            if (Dict_GameObjectIDs_ComponentTypes_SaveData.TryGetValue(saveableGameObject.id, out Dictionary<string, SaveData> ComponentTypes_SaveData_Dict))
+            if (Dict_GameObjectIDs_ComponentTypes.TryGetValue(saveableGameObject.id, out Dictionary<string, SaveData> ComponentTypes_SaveData_Dict))
             {
                 saveableGameObject.RestoreComponentsSaveData(ComponentTypes_SaveData_Dict);
             }
         }
     }
+    #endregion
 
 
 
-
+    #region Manages saving/loading actual files
     //save the game data in binary
-    void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData)
+    static void SaveGameFile(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs)
     {
-        saveDisplay = new SaveDisplay(Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
+        saveDisplay = new SaveDisplay(Dict_SceneName_GameObjectIDs);
         SaveGameJSON(saveDisplay);
 
         var gameSavePath = Application.persistentDataPath + String.Format("/{0}.save.AGL", GetDateTimeString()); //create a save file with the current date and time
         using (var stream = File.Open(gameSavePath, FileMode.Create))
         {
             var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, Dict_SceneName_GameObjectIDs_ComponentTypes_SaveData);
+            formatter.Serialize(stream, Dict_SceneName_GameObjectIDs);
         }
     }
-
     //load the binary game data
-    Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> LoadGameFile()
+    static Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> LoadGameFile()
     {
         var path = GetMostRecentFile(".AGL");
         if (path != "")
@@ -214,14 +196,18 @@ public class SaveSystem : MonoBehaviour
             return (Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>)formatter.Deserialize(stream);
         }
     }
+    #endregion
 
-    string GetDateTimeString()
+
+
+    #region Helper Functions
+    static string GetDateTimeString()
     {
         DateTime localDate = DateTime.Now;
         return ($"{localDate.Month.ToString("00")}.{localDate.Day.ToString("00")}.{localDate.Year}_{localDate.Hour.ToString("00")}.{localDate.Minute.ToString("00")}.{localDate.Second.ToString("00")}");
     }
 
-    string GetMostRecentFile(string extension)
+    static string GetMostRecentFile(string extension)
     {
         var directory = new DirectoryInfo(Application.persistentDataPath);
         var files = directory.GetFiles("*" + extension);
@@ -232,19 +218,22 @@ public class SaveSystem : MonoBehaviour
         print("FILE: " + file);
         return (file);
     }
+    #endregion
 
 
-    //creates easyer to read JSON sale file debugging
-    void SaveGameJSON(SaveDisplay saveDisplay)
+
+    #region Manages easyer to read JSON save file for debugging
+    static void SaveGameJSON(SaveDisplay saveDisplay)
     {
         var JsonSavePath = Application.persistentDataPath + String.Format("/{0}.save.JSON", GetDateTimeString());
         string json = JsonUtility.ToJson(saveDisplay, true);
         File.WriteAllText(JsonSavePath, json);
     }
-    SaveDisplay LoadGameJSON(string path)
+    static SaveDisplay LoadGameJSON(string path)
     {
         if (!Directory.Exists(path))
             return null;
         return JsonUtility.FromJson<SaveDisplay>(path);
     }
+    #endregion
 }
