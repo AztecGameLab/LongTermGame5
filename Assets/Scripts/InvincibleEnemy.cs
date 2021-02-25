@@ -7,7 +7,7 @@ public class InvincibleEnemy : Entity
 {
     Rigidbody2D enemyRigidBody2D;
     Transform enemyTransform;
-    public float EnemySpeed = 7;
+    public float EnemySpeed = 70;
     public int Radius = 5;
     public bool moveRight;
     private float startPos;
@@ -56,26 +56,28 @@ public class InvincibleEnemy : Entity
             {
                 moveRight = false;
             }
-            
-
-            if (!Co_active && moveRight)
-            {
-                enemyRigidBody2D.AddForce(Vector2.right * EnemySpeed * Time.deltaTime);
-
-            }
             if (enemyRigidBody2D.position.x <= startPos * (-1 * Convert.ToInt32(aggro)) + playerPos.x * Convert.ToInt32(aggro))
                 moveRight = true;
-            if (!Co_active && !moveRight)
-            {
-                enemyRigidBody2D.AddForce(-Vector2.right * EnemySpeed * Time.deltaTime);
-            }
+            
+
+
+
             if (!Co_active)
             {
                 StartCoroutine("Jump");
             }
+            /*else
+            {
+                if (moveRight)
+                {
+                    enemyRigidBody2D.AddForce(Vector2.right * EnemySpeed * Time.deltaTime);
 
-
-
+                }
+                else
+                {
+                    enemyRigidBody2D.AddForce(-Vector2.right  * EnemySpeed * Time.deltaTime);
+                }
+            } */
 
 
 
@@ -107,7 +109,17 @@ public class InvincibleEnemy : Entity
     {
         Co_active = true;
         yield return new WaitForSeconds(3);
-        enemyRigidBody2D.AddForce(Vector2.up *75* EnemySpeed * Time.deltaTime);
+        enemyRigidBody2D.velocity = Vector3.zero;
+        enemyRigidBody2D.AddForce(Vector2.up *250* EnemySpeed * Time.deltaTime);
+        if (moveRight)
+        {
+            enemyRigidBody2D.AddForce(Vector2.right * 100 * EnemySpeed * Time.deltaTime);
+
+        }
+        else
+        {
+            enemyRigidBody2D.AddForce(-Vector2.right * 100 * EnemySpeed * Time.deltaTime);
+        }
 
         Co_active = false;
 
