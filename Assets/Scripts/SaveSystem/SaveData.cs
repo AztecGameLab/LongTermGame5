@@ -1,8 +1,7 @@
 ﻿namespace SaveSystem
 {
-    [System.Serializable]
-    public abstract class SaveData
+    public interface SaveData
     {
-        new public abstract string ToString();
+        string ToString();
     }
 }
