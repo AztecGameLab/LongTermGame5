@@ -52,11 +52,13 @@ public class InvincibleEnemy : Entity
             {
                 aggro = false;
             }
-            if (enemyRigidBody2D.position.x >= endPos* (-1* Convert.ToInt32(aggro)) + playerPos.x* Convert.ToInt32(aggro))
+            //if (enemyRigidBody2D.position.x >= endPos* (-1* Convert.ToInt32(aggro)) + playerPos.x* Convert.ToInt32(aggro))
+            if (enemyRigidBody2D.position.x >=  playerPos.x)
             {
                 moveRight = false;
             }
-            if (enemyRigidBody2D.position.x <= startPos * (-1 * Convert.ToInt32(aggro)) + playerPos.x * Convert.ToInt32(aggro))
+            //if (enemyRigidBody2D.position.x <= startPos * (-1 * Convert.ToInt32(aggro)) + playerPos.x * Convert.ToInt32(aggro))
+            if (enemyRigidBody2D.position.x <= playerPos.x)
                 moveRight = true;
             
 
@@ -110,7 +112,7 @@ public class InvincibleEnemy : Entity
         Co_active = true;
         yield return new WaitForSeconds(3);
         enemyRigidBody2D.velocity = Vector2.zero;
-        enemyRigidBody2D.AddForce(Vector2.up *250* EnemySpeed * Time.deltaTime);
+        enemyRigidBody2D.AddForce(Vector2.up *350* EnemySpeed * Time.deltaTime);
         if (moveRight)
         {
             enemyRigidBody2D.AddForce(Vector2.right * 100 * EnemySpeed * Time.deltaTime);
