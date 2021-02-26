@@ -154,7 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c93e685cf6e4e4295912a431da52b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 336833388}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -170,6 +169,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  trigger: {fileID: 336833388}
 --- !u!114 &336833388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf997ba98b59f07479ffb0d9fbc3f140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderComponent: {fileID: 336833389}
-  layersThatCanTrigger:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  showDebug: 1
   events:
     collisionEnter:
       m_PersistentCalls:
@@ -194,13 +189,11 @@ MonoBehaviour:
     collisionExit:
       m_PersistentCalls:
         m_Calls: []
-  eventsWithData:
-    collisionEnterWithData:
-      m_PersistentCalls:
-        m_Calls: []
-    collisionExitWithData:
-      m_PersistentCalls:
-        m_Calls: []
+  colliderComponent: {fileID: 336833389}
+  layersThatCanTrigger:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  showDebug: 1
 --- !u!61 &336833389
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -211,7 +204,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.86789155, y: 1.2523999}
@@ -578,7 +571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c93e685cf6e4e4295912a431da52b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 1292193724}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -594,6 +586,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  trigger: {fileID: 1292193724}
 --- !u!114 &1292193724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,11 +599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf997ba98b59f07479ffb0d9fbc3f140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderComponent: {fileID: 1292193725}
-  layersThatCanTrigger:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  showDebug: 1
   events:
     collisionEnter:
       m_PersistentCalls:
@@ -618,13 +606,11 @@ MonoBehaviour:
     collisionExit:
       m_PersistentCalls:
         m_Calls: []
-  eventsWithData:
-    collisionEnterWithData:
-      m_PersistentCalls:
-        m_Calls: []
-    collisionExitWithData:
-      m_PersistentCalls:
-        m_Calls: []
+  colliderComponent: {fileID: 1292193725}
+  layersThatCanTrigger:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  showDebug: 1
 --- !u!61 &1292193725
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -635,7 +621,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.86789155, y: 1.2523999}
@@ -764,11 +750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf997ba98b59f07479ffb0d9fbc3f140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderComponent: {fileID: 1781259812}
-  layersThatCanTrigger:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  showDebug: 1
   events:
     collisionEnter:
       m_PersistentCalls:
@@ -776,13 +757,11 @@ MonoBehaviour:
     collisionExit:
       m_PersistentCalls:
         m_Calls: []
-  eventsWithData:
-    collisionEnterWithData:
-      m_PersistentCalls:
-        m_Calls: []
-    collisionExitWithData:
-      m_PersistentCalls:
-        m_Calls: []
+  colliderComponent: {fileID: 1781259812}
+  layersThatCanTrigger:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  showDebug: 1
 --- !u!61 &1781259812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -793,7 +772,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.86789155, y: 1.2523999}
@@ -835,7 +814,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c93e685cf6e4e4295912a431da52b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 1781259811}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -851,6 +829,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  trigger: {fileID: 1781259811}
 --- !u!1 &2005246979
 GameObject:
   m_ObjectHideFlags: 0

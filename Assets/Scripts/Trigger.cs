@@ -4,35 +4,25 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
-// Events that provide information about a collision; these handled well by scripts
-public struct CollisionEventsWithData 
-{
-    public UnityEvent<GameObject> collisionEnterWithData;
-    public UnityEvent<GameObject> collisionExitWithData;
-}
-
-[Serializable]
-// Events that don't provide collision information; these are handled well by the editor
 public struct CollisionEvents 
 {
-    public UnityEvent collisionEnter;
-    public UnityEvent collisionExit;
+    public UnityEvent<GameObject> collisionEnter;
+    public UnityEvent<GameObject> collisionExit;
 }
 
-// Wraps a trigger Collider and provides UnityEvents for OnTriggerEnter / Exit / Stay
+// Wraps a Collider and exposes UnityEvents for OnTriggerEnter / Exit 
 public class Trigger : MonoBehaviour
 {
+    [Header("Trigger Events")]
+    [SerializeField] private CollisionEvents events;
+    
     [Header("Trigger Settings")]
     [SerializeField] private Collider2D colliderComponent;
     [SerializeField] private LayerMask layersThatCanTrigger;
     [SerializeField] private bool showDebug = true;
     
-    [Header("Trigger Events")]
-    [SerializeField] private CollisionEvents events;
-    [SerializeField] private CollisionEventsWithData eventsWithData;
-
-    private GameObject _collidedObject;
     private readonly List<GameObject> _objectsInTrigger = new List<GameObject>(); 
+    private GameObject _collidedObject;
 
     public bool HasObjectInTrigger(GameObject obj)
     {
@@ -41,66 +31,69 @@ public class Trigger : MonoBehaviour
     
     private void Awake()
     {
-        if (colliderComponent == null)
-            colliderComponent = gameObject.AddComponent<CircleCollider2D>();
-
-        colliderComponent.isTrigger = true;
+        if (colliderComponent == null && !TryGetComponent(out colliderComponent))
+        {
+            Debug.LogWarning($"[Trigger] { gameObject.name } is missing a collider.");
+        }
+        else
+        {
+            colliderComponent.isTrigger = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         _collidedObject = other.gameObject;
 
-        if (ObjectIsInLayerMask())
-            AddObjectAndFireEvents();    
+        if (ObjectCanTrigger())
+            AddObjectAndFireEvent();    
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
         _collidedObject = other.gameObject;
 
-        if (ObjectIsInLayerMask())
-            RemoveObjectAndFireEvents();
+        if (ObjectCanTrigger())
+            RemoveObjectAndFireEvent();
     }
 
-    private bool ObjectIsInLayerMask()
+    private bool ObjectCanTrigger()
     {
+        // Make sure the collided object falls within our layer mask.
         return (1 << _collidedObject.layer & layersThatCanTrigger) != 0;
     }
 
-    private void AddObjectAndFireEvents()
+    private void AddObjectAndFireEvent()
     {
         _objectsInTrigger.Add(_collidedObject);
-        
-        events.collisionEnter?.Invoke();
-        eventsWithData.collisionEnterWithData?.Invoke(_collidedObject);
+        events.collisionEnter?.Invoke(_collidedObject);
     }
     
-    private void RemoveObjectAndFireEvents()
+    private void RemoveObjectAndFireEvent()
     {
         _objectsInTrigger.Remove(_collidedObject);
-        
-        events.collisionExit.Invoke();
-        eventsWithData.collisionExitWithData?.Invoke(_collidedObject);
+        events.collisionExit?.Invoke(_collidedObject);
     }
 
-#if UNITY_EDITOR
+    #region DEBUG_CODE
+    #if UNITY_EDITOR
 
-    private readonly Color _red = new Color(1, 0, 0, 0.1f);
-    private readonly Color _green = new Color(0, 1, 0, 0.1f);
-    private bool HasObjectsInRange => _objectsInTrigger.Count > 0;
+        private readonly Color _red = new Color(1, 0, 0, 0.05f);
+        private readonly Color _green = new Color(0, 1, 0, 0.05f);
+        private bool HasObjectsInRange => _objectsInTrigger.Count > 0;
 
-    private void OnDrawGizmos()
-    {
-        if (!showDebug)
-            return;
+        private void OnDrawGizmos()
+        {
+            if (!showDebug)
+                return;
 
-        var bounds = colliderComponent.bounds;
-        var colliderRect = new Rect(bounds.min, bounds.size);
-        var color = HasObjectsInRange ? _green : _red;
+            var bounds = colliderComponent.bounds;
+            var colliderRect = new Rect(bounds.min, bounds.size);
+            var color = HasObjectsInRange ? _green : _red;
 
-        UnityEditor.Handles.DrawSolidRectangleWithOutline(colliderRect, color, color);
-    }
+            UnityEditor.Handles.DrawSolidRectangleWithOutline(colliderRect, color, color);
+        }
 
-#endif
+    #endif
+    #endregion
 }

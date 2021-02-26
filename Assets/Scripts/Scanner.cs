@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+// Provides helper methods for easily finding nearby MonoBehaviours
 public static class Scanner
 {
     private static readonly Collider2D[] NearbyColliderBuffer = new Collider2D[100];
