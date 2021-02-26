@@ -9,7 +9,7 @@ public class InvincibleEnemy : Entity
     Transform enemyTransform;
     public float EnemySpeed = 70;
     public int Radius = 5;
-    public bool moveRight;
+    public bool moveRight, LEFT, RIGHT, UP, DOWN;
     private float startPos;
     private float endPos;
     Vector3 playerPos;
@@ -28,7 +28,10 @@ public class InvincibleEnemy : Entity
         endPos = startPos + Radius;
         aggro = false;
     }
-
+    public void Start()
+    {
+        StartCoroutine("Jump");
+    }
     void OnBecameVisible()
     {
         enabled = true;
@@ -40,99 +43,95 @@ public class InvincibleEnemy : Entity
 
     // Update is called once per frame
     void Update()
-    {
-        if (enabled)
+    {  
+        /*if(Vector3.Distance(playerPos, enemyTransform.position) < 3)
         {
-            playerPos = PlatformerController.instance.transform.position;
-            if(Vector3.Distance(playerPos, enemyTransform.position) < 3)
+            aggro = true;
+        }
+        else
+        {
+            aggro = false;
+        }*/
+        
+            
+
+
+
+        /*else
+        {
+            if (moveRight)
             {
-                aggro = true;
+                enemyRigidBody2D.AddForce(Vector2.right * EnemySpeed * Time.deltaTime);
+
             }
             else
             {
-                aggro = false;
+                enemyRigidBody2D.AddForce(-Vector2.right  * EnemySpeed * Time.deltaTime);
             }
+        } */
+
+
+
+
+
+        
+            
+    }
+    IEnumerator Jump()
+    {
+        while (true)
+        {
+
+            playerPos = PlatformerController.instance.transform.position;
+            enemyRigidBody2D.velocity = Vector2.zero;
             //if (enemyRigidBody2D.position.x >= endPos* (-1* Convert.ToInt32(aggro)) + playerPos.x* Convert.ToInt32(aggro))
-            if (enemyRigidBody2D.position.x >=  playerPos.x)
+            if (enemyRigidBody2D.position.x >= playerPos.x)
             {
                 moveRight = false;
             }
             //if (enemyRigidBody2D.position.x <= startPos * (-1 * Convert.ToInt32(aggro)) + playerPos.x * Convert.ToInt32(aggro))
             if (enemyRigidBody2D.position.x <= playerPos.x)
+            {
                 moveRight = true;
-            
-
-
-
-            if (!Co_active)
-            {
-                StartCoroutine("Jump");
             }
-            /*else
+                
+            enemyRigidBody2D.AddForce(Vector2.up * 350 * EnemySpeed * Time.deltaTime);
+            if (moveRight)
             {
-                if (moveRight)
-                {
-                    enemyRigidBody2D.AddForce(Vector2.right * EnemySpeed * Time.deltaTime);
+                enemyRigidBody2D.AddForce(Vector2.right * 100 * EnemySpeed * Time.deltaTime);
 
-                }
-                else
-                {
-                    enemyRigidBody2D.AddForce(-Vector2.right  * EnemySpeed * Time.deltaTime);
-                }
-            } */
-
-
-
-
-
-            if (playerPos.x < enemyTransform.position.x)
-            {
-                print("ENEMY TO RIGHT");
             }
-            if (playerPos.x > enemyTransform.position.x)
+            else
             {
-                print("ENEMY TO LEFT");
+                enemyRigidBody2D.AddForce(-Vector2.right * 100 * EnemySpeed * Time.deltaTime);
             }
-            if ((playerPos.y - enemyTransform.position.y) < -1)
-            {
-                print("ENEMY ABOVE");
-            }
-            if ((playerPos.y - enemyTransform.position.y) > -1)
-            {
-                print("ENEMY BELOW");
-            }
-            
+            yield return new WaitForSeconds(3);
         }
+        yield return null;
+
         
-            
-
-    }
-    IEnumerator Jump()
-    {
-        Co_active = true;
-        yield return new WaitForSeconds(3);
-        enemyRigidBody2D.velocity = Vector2.zero;
-        enemyRigidBody2D.AddForce(Vector2.up *350* EnemySpeed * Time.deltaTime);
-        if (moveRight)
-        {
-            enemyRigidBody2D.AddForce(Vector2.right * 100 * EnemySpeed * Time.deltaTime);
-
-        }
-        else
-        {
-            enemyRigidBody2D.AddForce(-Vector2.right * 100 * EnemySpeed * Time.deltaTime);
-        }
-
-        Co_active = false;
 
     }
     public override void TakeDamage(float baseDamage)
     {
-        if(playerPos.x > enemyTransform.position.x)
+       
+        if (RIGHT && playerPos.x < enemyTransform.position.x)
         {
             base.TakeDamage(baseDamage);
         }
-            
+        if (LEFT && playerPos.x > enemyTransform.position.x)
+        {
+            base.TakeDamage(baseDamage);
+        }
+        if (UP && (playerPos.y - enemyTransform.position.y) < -4)
+        {
+            base.TakeDamage(baseDamage);
+        }
+        if (DOWN && (playerPos.y - enemyTransform.position.y) > 4)
+        {
+            base.TakeDamage(baseDamage);
+        }
+
     }
 
 }
