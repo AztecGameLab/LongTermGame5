@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Trigger))]
 public class Interactable : MonoBehaviour
 {
-    [Header("Interactable Settings")]
-    [SerializeField] private float interactRadius = 1f;
+    [Header("Interactable Dependencies")] 
+    [SerializeField] private Trigger trigger = default;
     
     [Header("Interactable Events")]
-    public UnityEvent<GameObject> onInteract;
-
+    [SerializeField] public UnityEvent<GameObject> onInteract;
+    
+    private void Awake()
+    {
+        if (trigger == null)
+            gameObject.AddComponent<Trigger>();
+    }
 
     public void Interact(GameObject caller)
     {
-        onInteract.Invoke(caller);
-    }
-
-    private void Awake()
-    {
-        var interactCollider = gameObject.AddComponent<CircleCollider2D>();
-        interactCollider.isTrigger = true;
-        interactCollider.radius = interactRadius;
+        print(trigger.HasObjectInTrigger(caller));
+        
+        if (trigger.HasObjectInTrigger(caller))
+        {
+            print("interacted " + gameObject.name);
+            onInteract.Invoke(caller);
+        }
     }
 }
