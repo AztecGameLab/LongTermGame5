@@ -5,31 +5,6 @@ public static class Scanner
 {
     private static readonly Collider2D[] NearbyColliderBuffer = new Collider2D[100];
     
-    public static T[] GetObjectsInRange<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
-    {
-        var resultSize = PopulateColliderBuffer(range, origin);
-        var result = new List<T>();
-
-        for (int i = 0; i < resultSize; i++)
-        {
-            if (NearbyColliderBuffer[i].TryGetComponent<T>(out var component))
-                result.Add(component);
-        }
-        
-        return result.ToArray();
-    }
-
-    // Returns the amount of colliders that were populated into the buffer
-    private static int PopulateColliderBuffer(float range, Vector2 origin)
-    {
-        var resultSize = Physics2D.OverlapCircleNonAlloc(origin, range, NearbyColliderBuffer);
-        
-        if (resultSize > NearbyColliderBuffer.Length)
-            Debug.LogWarning($"Scanner buffer [{ NearbyColliderBuffer.Length }] was smaller than raycast results [{ resultSize }] ");
-
-        return resultSize;
-    }
-
     public static T GetClosestObject<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
     {
         int resultSize = PopulateColliderBuffer(range, origin);
@@ -51,10 +26,22 @@ public static class Scanner
                 }
             }
         }
-        return closest.GetComponent<T>();;
+        return closest.GetComponent<T>();
     }
     
-    private static Collider2D FindFirstColliderWithComponent<T> (Collider2D[] arrayToSearch, int elementsToSearch) where T : MonoBehaviour
+    // Returns the amount of colliders that were populated into the buffer
+    private static int PopulateColliderBuffer(float range, Vector2 origin)
+    {
+        var resultSize = Physics2D.OverlapCircleNonAlloc(origin, range, NearbyColliderBuffer);
+        
+        if (resultSize > NearbyColliderBuffer.Length)
+            Debug.LogWarning($"Scanner buffer [{ NearbyColliderBuffer.Length }] was smaller than raycast results [{ resultSize }] ");
+
+        return resultSize;
+    }
+    
+    private static Collider2D FindFirstColliderWithComponent<T>
+        (Collider2D[] arrayToSearch, int elementsToSearch) where T : MonoBehaviour
     {
         for (int i = 0; i < elementsToSearch; i++)
         {
@@ -63,5 +50,19 @@ public static class Scanner
         }
 
         return null;
+    }
+    
+    public static T[] GetObjectsInRange<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
+    {
+        var resultSize = PopulateColliderBuffer(range, origin);
+        var result = new List<T>();
+
+        for (int i = 0; i < resultSize; i++)
+        {
+            if (NearbyColliderBuffer[i].TryGetComponent<T>(out var component))
+                result.Add(component);
+        }
+        
+        return result.ToArray();
     }
 }

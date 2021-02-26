@@ -17,11 +17,9 @@ public class Interactable : MonoBehaviour
 
     public void Interact(GameObject caller)
     {
-        print(trigger.HasObjectInTrigger(caller));
-        
         if (trigger.HasObjectInTrigger(caller))
         {
-            print("interacted " + gameObject.name);
+            print($"Interacted with { gameObject.name }");
             onInteract.Invoke(caller);
         }
     }

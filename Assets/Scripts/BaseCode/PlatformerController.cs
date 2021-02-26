@@ -166,10 +166,13 @@ public class PlatformerController : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        var nearestInteractable = Scanner.GetClosestObject<Interactable>(transform.position);
+        if (context.started)
+        {
+            var nearestInteractable = Scanner.GetClosestObject<Interactable>(transform.position);
         
-        if (nearestInteractable != null)
-            nearestInteractable.Interact(gameObject);
+            if (nearestInteractable != null)
+                nearestInteractable.Interact(gameObject);    
+        }
     }
 
     void OnCollisionEnter2D(Collision2D other){
