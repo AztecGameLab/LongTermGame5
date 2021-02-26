@@ -12,6 +12,7 @@ public class Destructible : Entity
     public Sprite[] Sprites; //The different textures go into this array
     private float[] HealthPercents;
     private float MaxHealth; //Constant value; an objects maximum health
+    private float prevHealth;
 
     //Private method determines the cutoffs on percent the ranges based on the number of Sprites
     private float[] CreatePercents(int numSprites)
@@ -21,7 +22,7 @@ public class Destructible : Entity
         HealthPercents[0] = 100;
         if (numSprites > 1)
         {
-            float DISTANCE = 100 / (numSprites - 1); //Constant value 
+            float DISTANCE = 100 / (numSprites - 1); //Constant value; Distance from one cutoff to another
             for (int i = 1; i < numSprites; ++i)
             {
                 HealthPercents[i] = HealthPercents[i - 1] - DISTANCE;
@@ -39,7 +40,7 @@ public class Destructible : Entity
         {
             currPercent = base.health / MaxHealth * 100;
 
-            if (currPercent < HealthPercents[i] & currPercent > HealthPercents[i + 1])
+            if (currPercent < HealthPercents[i] & currPercent >= HealthPercents[i + 1])
             {
                 gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[i + 1];
                 break;
@@ -57,6 +58,7 @@ public class Destructible : Entity
     void Start()
     {
         MaxHealth = base.health;
+        prevHealth = base.health;
         HealthPercents = CreatePercents(Sprites.Length);
         gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[0];
     }
@@ -70,6 +72,11 @@ public class Destructible : Entity
             return;
         } 
 
-        ChangeTextures();
+        if (base.health < prevHealth) //Now will only update if Object has lost health
+        {
+            ChangeTextures();
+        }
+
+        prevHealth = base.health;
     }
 }
