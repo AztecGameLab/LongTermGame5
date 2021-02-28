@@ -4,7 +4,7 @@ using SaveSystem;
 namespace KainsTestScripts
 {
     //Example of a class/component that implements ISaveable and is saved to the SaveSystem
-    public class TestEntity : MonoBehaviour, ISaveableComponent
+    public class SaveableEntityExample : MonoBehaviour, ISaveableComponent
     {
 
         public float health = 100;

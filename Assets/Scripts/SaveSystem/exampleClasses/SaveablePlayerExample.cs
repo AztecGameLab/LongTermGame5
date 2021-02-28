@@ -5,7 +5,7 @@ namespace KainsTestScripts
 {
 
     //Example of a class/component that inherits from SaveTestEntity and implements ISaveable and is saved to the SaveSystem
-    public class TestPlayer : TestEntity, ISaveableComponent
+    public class SaveablePlayerExample : SaveableEntityExample, ISaveableComponent
     {
 
         public float mana = 200;

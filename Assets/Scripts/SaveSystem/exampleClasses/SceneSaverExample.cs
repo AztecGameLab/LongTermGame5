@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using SaveSystem;
+using UnityEngine;
 
 namespace KainsTestScripts
 {
-    public class SaveTest : MonoBehaviour
+    public class SceneSaverExample : MonoBehaviour
     {
         void Start()
         {
