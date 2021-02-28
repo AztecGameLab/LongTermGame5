@@ -2,18 +2,13 @@
 
 namespace SaveSystem
 {
-    public class SavePoint : MonoBehaviour
+    public class SavePoint : Interactable
     {
-        // Start is called before the first frame update
-        void Start()
+        public override void OnInteract()
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            SaveLoad.SaveCurrentScene();
+            print("saving...");
+            base.OnInteract();
         }
     }
 }
