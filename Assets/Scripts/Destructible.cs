@@ -9,10 +9,10 @@ using UnityEngine;
  ***********************************************************/
 public class Destructible : Entity
 {
-    public Sprite[] Sprites; //The different textures go into this array
-    private float[] HealthPercents;
-    private float MaxHealth; //Constant value; an objects maximum health
-    private float prevHealth;
+    public Sprite[] sprites; //The different textures go into this array
+    private float[] healthPercents;
+    private float maxHealth; //Constant value; an objects maximum health
+    private SpriteRenderer spriteRenderer; 
 
     //Private method determines the cutoffs on percent the ranges based on the number of Sprites
     private float[] CreatePercents(int numSprites)
@@ -22,10 +22,10 @@ public class Destructible : Entity
         HealthPercents[0] = 100;
         if (numSprites > 1)
         {
-            float DISTANCE = 100 / (numSprites - 1); //Constant value; Distance from one cutoff to another
+            float distance = 100 / (numSprites - 1); //Constant value; Distance from one cutoff to another
             for (int i = 1; i < numSprites; ++i)
             {
-                HealthPercents[i] = HealthPercents[i - 1] - DISTANCE;
+                HealthPercents[i] = HealthPercents[i - 1] - distance;
             }
         }
         return HealthPercents;
@@ -36,47 +36,38 @@ public class Destructible : Entity
     {
         float currPercent;
 
-        for (int i = 0; i < HealthPercents.Length - 1; ++i)
+        for (int i = 0; i < healthPercents.Length - 1; ++i)
         {
-            currPercent = base.health / MaxHealth * 100;
+            currPercent = base.health / maxHealth * 100;
 
-            if (currPercent < HealthPercents[i] & currPercent >= HealthPercents[i + 1])
+            if (currPercent < healthPercents[i] & currPercent >= healthPercents[i + 1])
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[i + 1];
+                spriteRenderer.sprite = sprites[i + 1];
                 break;
             }
         }
     }
-
-    //Overrides the OnDeath method inherited from the Entity class
-    public override void OnDeath()
+    
+    //Overrides TakeDamage from entity class; will also prompt a change of textures when object is damaged
+    public override void TakeDamage(float baseDamage)
     {
-        GameObject.Destroy(this.gameObject, 0);
+        base.TakeDamage(baseDamage);
+        
+        if (base.health <= 0)
+        {
+            base.OnDeath();
+            return;
+        }
+        ChangeTextures();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        MaxHealth = base.health;
-        prevHealth = base.health;
-        HealthPercents = CreatePercents(Sprites.Length);
-        gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[0];
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        healthPercents = CreatePercents(sprites.Length);
+        spriteRenderer.sprite = sprites[0];
+        maxHealth = base.health;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (base.health <= 0)
-        {
-            OnDeath();
-            return;
-        } 
-
-        if (base.health < prevHealth) //Now will only update if Object has lost health
-        {
-            ChangeTextures();
-        }
-
-        prevHealth = base.health;
-    }
 }
