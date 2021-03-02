@@ -22,32 +22,27 @@ public class EntitySpawner : MonoBehaviour
 
         //Spawns a single entity
         public void Spawn()
-        {
-            //spawns this entity with position
+        { 
             Instantiate(enemy, pos);
-
-            //it has spawned again
             spawnCount += 1;
         }
 
         //Spawn a single Entity given a new position, overides the intial one temporarily
         public void Spawn(Transform tempPos)
         {
-            //spawns this entity with position
             Instantiate(enemy, tempPos);
-
-            //it has spawned again
             spawnCount += 1;
         }
 
     }
 
     //available to level designers
-    [SerializeField] List<GameObject> prefabs;     //Entities that are in the Spawn Group
+    [SerializeField] List<GameObject> prefabs;      //Entities that are in the Spawn Group
     [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
     [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
     [SerializeField] Boolean spawnOnTrigger;        //Spawn Entities on trigger
     [SerializeField] Collider2D spawnCollider;      //Collider used as trigger to spawn Entities
+    [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
 
     //made automatically with information from above
     List<Entity> entities;
@@ -56,7 +51,11 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-          
+        //create the list if Entities matching the prefabs with the corresponding positions
+        for(int x = 0; x < prefabs.Count - 1; x++)
+        {
+            entities.Add(new Entity(prefabs[x], positions[x]));
+        }
     }
 
     // Update is called once per frame
@@ -65,6 +64,7 @@ public class EntitySpawner : MonoBehaviour
         
     }
 
+    /*
     private void OnValidate()
     {
         foreach(GameObject Entity in entities)
@@ -72,4 +72,5 @@ public class EntitySpawner : MonoBehaviour
             Spawn(Entity, Entity.transform);
         }
     }
+    */
 }
