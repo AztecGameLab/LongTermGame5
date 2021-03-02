@@ -9,8 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace SaveSystem
 {
-    [ExecuteInEditMode]
-    public class SaveLoad : MonoBehaviour
+    public class SaveLoad
     {
         /*
         A bunch of attempts to explain how game save data is stored. lmk which makes the most sense -Kain
@@ -138,8 +137,8 @@ namespace SaveSystem
         static Dictionary<string, Dictionary<string, SaveData>> GatherSceneSaveData()
         {
             var Dict_GameObjectIDs_ComponentTypes = new Dictionary<string, Dictionary<string, SaveData>>();
-
-            foreach (var saveableGameObject in FindObjectsOfType<SaveableGameObject>()) //for each saveable GameObject in the current scene
+            
+            foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()) //for each saveable GameObject in the current scene
             {
                 Dict_GameObjectIDs_ComponentTypes[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
             }
@@ -149,7 +148,7 @@ namespace SaveSystem
 
         static void RestoreSceneSaveData(Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes)
         {
-            foreach (var saveableGameObject in FindObjectsOfType<SaveableGameObject>())
+            foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>())
             {
                 if (Dict_GameObjectIDs_ComponentTypes.TryGetValue(saveableGameObject.id, out Dictionary<string, SaveData> ComponentTypes_SaveData_Dict))
                 {
