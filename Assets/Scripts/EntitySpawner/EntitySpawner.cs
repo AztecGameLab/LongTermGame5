@@ -64,8 +64,19 @@ public class EntitySpawner : MonoBehaviour
     //spawns the entity SpawnGroup
     void SpawnGroup()
     {
-        foreach (Entity enemy in entities)
-            enemy.Spawn();
+        if (shufflePositions)
+        {
+            positions = Shuffle(positions);
+
+            //traverse through the list and spawn each entity with a shuffled position
+            for (int x = 0; x < entities.Count; x++)
+            {
+                entities[x].Spawn(positions[x]);
+            }
+        }
+        else
+            foreach (Entity enemy in entities)
+                enemy.Spawn();
     }
 
     private List<Transform> Shuffle(List<Transform> orderedPos)
