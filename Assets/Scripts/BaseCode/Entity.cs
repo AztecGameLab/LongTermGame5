@@ -12,6 +12,9 @@ public class Entity : MonoBehaviour
 
     public virtual void TakeDamage(float baseDamage){
         health -= baseDamage;
+        if(health <= 0){
+            onDeath();
+        }
     }
 
     public virtual void OnDeath(){
