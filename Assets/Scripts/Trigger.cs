@@ -17,7 +17,7 @@ public class Trigger : MonoBehaviour
     [SerializeField] private CollisionEvents events;
     
     [Header("Trigger Settings")]
-    [SerializeField] private Collider2D colliderComponent;
+    [SerializeField] public Collider2D colliderComponent;
     [SerializeField] private LayerMask layersThatCanTrigger;
     [SerializeField] private bool showDebug = true;
     

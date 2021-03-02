@@ -6,7 +6,7 @@ public class Interactable : MonoBehaviour
     [SerializeField] public UnityEvent<GameObject> onInteract;
     
     [Header("Interactable Settings")] 
-    [SerializeField] private Trigger trigger = default;
+    [SerializeField] public Trigger trigger = default;
     
     public void Interact(GameObject caller)
     {
