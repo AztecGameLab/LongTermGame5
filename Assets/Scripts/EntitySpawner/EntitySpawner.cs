@@ -23,7 +23,6 @@ public class EntitySpawner : MonoBehaviour
         //Spawn a single entity
         public void Spawn()
         {
-            print("hello");
             Instantiate(enemy, pos);
             spawnCount += 1;
         }
