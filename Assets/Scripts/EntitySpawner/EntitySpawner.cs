@@ -20,14 +20,15 @@ public class EntitySpawner : MonoBehaviour
             spawnCount = 0;      //intialize amount of spawns to 0
         }
 
-        //Spawns a single entity
+        //Spawn a single entity
         public void Spawn()
-        { 
+        {
+            print("hello");
             Instantiate(enemy, pos);
             spawnCount += 1;
         }
 
-        //Spawn a single Entity given a new position, overides the intial one temporarily
+        //Spawn a single entity given a new position, overides the intial one temporarily
         public void Spawn(Transform tempPos)
         {
             Instantiate(enemy, tempPos);
@@ -40,7 +41,6 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] List<GameObject> prefabs;      //Entities that are in the Spawn Group
     [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
     [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
-    [SerializeField] Boolean spawnOnTrigger;        //Spawn Entities on trigger
     [SerializeField] Collider2D spawnCollider;      //Collider used as trigger to spawn Entities
     [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
 
@@ -51,20 +51,22 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        entities = new List<Entity>();   //instantiate the entities list
+
         //create the list of Entities matching the prefabs with the corresponding positions
-        for(int x = 0; x < prefabs.Count - 1; x++)
+        for(int x = 0; x < prefabs.Count; x++)
         {
             entities.Add(new Entity(prefabs[x], positions[x]));
         }
 
-        if (spawnOnStart)
+        if (spawnOnStart)   //if designer sets this to true
             SpawnGroup();
     }
 
     //spawns the entity SpawnGroup
     void SpawnGroup()
     {
-        if (shufflePositions)
+        if (shufflePositions)    //if the deisgner chose to shuffle positions
         {
             positions = Shuffle(positions);
 
