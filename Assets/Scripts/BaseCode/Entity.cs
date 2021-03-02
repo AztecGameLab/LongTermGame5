@@ -10,13 +10,15 @@ public class Entity : MonoBehaviour
     [SerializeField]
     public float health;
 
+    [EasyButtons.Button]
     public virtual void TakeDamage(float baseDamage){
         health -= baseDamage;
         if(health <= 0){
-            onDeath();
+            OnDeath();
         }
     }
 
+    
     public virtual void OnDeath(){
         //AAAAAA I'm Dying!!! 💀
         GameObject.Destroy(this.gameObject, 0);
