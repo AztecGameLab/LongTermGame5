@@ -58,6 +58,13 @@ public class EntitySpawner : MonoBehaviour
         }
     }
 
+    //spawns the entity SpawnGroup
+    void SpawnGroup()
+    {
+        foreach (Entity enemy in entities)
+            enemy.Spawn();
+    }
+
     // Update is called once per frame
     void Update()
     {
