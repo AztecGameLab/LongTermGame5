@@ -68,6 +68,27 @@ public class EntitySpawner : MonoBehaviour
             enemy.Spawn();
     }
 
+    private List<Transform> Shuffle(List<Transform> orderedPos)
+    {
+        List<Transform> shuffPos = new List<Transform>();       //new shuffled positions
+        System.Random rand = new System.Random();
+        int x;
+
+        while (orderedPos.Count > 0)
+        {
+            //get a randome int range [0, list size)
+            x = rand.Next(orderedPos.Count);
+
+            //assign the random selected Transfor as next element in list
+            shuffPos.Add(orderedPos[x]);
+            orderedPos.RemoveAt(x);      //remove it so it isnt picked again
+            
+        }
+
+        return shuffPos;
+
+    }
+
     // Update is called once per frame
     void Update()
     {
