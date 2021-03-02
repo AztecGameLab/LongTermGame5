@@ -5,25 +5,58 @@ using UnityEngine;
 
 public class EntitySpawner : MonoBehaviour
 {
-    [SerializeField] List<GameObject> Entities;     //Entities that are in the Spawn Group
-    [SerializeField] List<Transform> Positions;     //Locations to spawn each Entity
-    [SerializeField] Boolean SpawnOnStart;          //Spawn Entities when level loads
-    [SerializeField] Boolean SpawnOnTrigger;        //Spawn Entities on trigger
-    [SerializeField] Collider2D SpawnCollider;      //Collider used as trigger to spawn Entities
-    
+    //subclass to store data about the entity
+    public class Entity
+    {
+        private GameObject enemy;        //variable to store the Enemy type
+        private Transform pos;           //varibale to store the spawn position
+        private int spawnCount;          //store how many times this Entity has been spawned
+
+        public Entity(GameObject prefab, Transform position)
+        {
+            //construct the Entity
+            enemy = prefab;
+            pos = position;
+            spawnCount = 0;      //intialize amount of spawns to 0
+        }
+
+        //Spawns a single entity
+        public void Spawn()
+        {
+            //spawns this entity with position
+            Instantiate(enemy, pos);
+
+            //it has spawned again
+            spawnCount += 1;
+        }
+
+        //Spawn a single Entity given a new position, overides the intial one temporarily
+        public void Spawn(Transform tempPos)
+        {
+            //spawns this entity with position
+            Instantiate(enemy, tempPos);
+
+            //it has spawned again
+            spawnCount += 1;
+        }
+
+    }
+
+    //available to level designers
+    [SerializeField] List<GameObject> prefabs;     //Entities that are in the Spawn Group
+    [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
+    [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
+    [SerializeField] Boolean spawnOnTrigger;        //Spawn Entities on trigger
+    [SerializeField] Collider2D spawnCollider;      //Collider used as trigger to spawn Entities
+
+    //made automatically with information from above
+    List<Entity> entities;
 
 
     // Start is called before the first frame update
     void Start()
     {
           
-    }
-
-    //Spawns an entity
-    void Spawn(GameObject Entity, Transform pos)
-    {
-        //spawns given entity at given transform(position)
-        Instantiate(Entity, pos);
     }
 
     // Update is called once per frame
@@ -34,7 +67,7 @@ public class EntitySpawner : MonoBehaviour
 
     private void OnValidate()
     {
-        foreach(GameObject Entity in Entities)
+        foreach(GameObject Entity in entities)
         {
             Spawn(Entity, Entity.transform);
         }
