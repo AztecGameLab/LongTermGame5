@@ -52,12 +52,6 @@ public class Destructible : Entity
     public override void TakeDamage(float baseDamage)
     {
         base.TakeDamage(baseDamage);
-        
-        if (base.health <= 0)
-        {
-            base.OnDeath();
-            return;
-        }
         ChangeTextures();
     }
 
