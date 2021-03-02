@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EntitySpawner : MonoBehaviour
 {
-    public class Entity
+    [SerializeField]public class Entity
     {
         public GameObject Object;
         public Transform pos;
