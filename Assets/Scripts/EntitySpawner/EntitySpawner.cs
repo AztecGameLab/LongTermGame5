@@ -51,11 +51,14 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //create the list if Entities matching the prefabs with the corresponding positions
+        //create the list of Entities matching the prefabs with the corresponding positions
         for(int x = 0; x < prefabs.Count - 1; x++)
         {
             entities.Add(new Entity(prefabs[x], positions[x]));
         }
+
+        if (spawnOnStart)
+            SpawnGroup();
     }
 
     //spawns the entity SpawnGroup
