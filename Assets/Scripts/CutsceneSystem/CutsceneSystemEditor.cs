@@ -7,12 +7,21 @@ using UnityEditor;
 public class CutsceneSystemEditor : Editor
 {
     private float gap = 10;
+
     public override void OnInspectorGUI()
     {
         //DrawDefaultInspector();
         Element element = (Element) target;
-        
+
         Element myScript = (Element) target;
+
+        GUILayout.Label("Timing");
+        GUILayout.BeginHorizontal();
+        element.elementStartTime = EditorGUILayout.FloatField("Element Start Time", element.elementStartTime);
+        element.elementDuration = EditorGUILayout.FloatField("Element Duration", element.elementDuration);
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(gap);
 
         GUILayout.Label("Transform");
         GUILayout.BeginHorizontal();
@@ -28,9 +37,9 @@ public class CutsceneSystemEditor : Editor
         if (GUILayout.Button("Set End Transform"))
             myScript.SetEndTransform();
         GUILayout.EndHorizontal();
-        
+
         GUILayout.Space(gap);
-        
+
         GUILayout.Label("Position");
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Set Start Position"))
@@ -38,7 +47,8 @@ public class CutsceneSystemEditor : Editor
         if (GUILayout.Button("Set End Position"))
             myScript.SetEndPosition();
         GUILayout.EndHorizontal();
-        element.positionAnimationCurve = EditorGUILayout.CurveField("Position Animation Curve", element.positionAnimationCurve);
+        element.positionAnimationCurve =
+            EditorGUILayout.CurveField("Position Animation Curve", element.positionAnimationCurve);
         element.startPosition = EditorGUILayout.Vector2Field("Start Position", element.startPosition);
         element.endPosition = EditorGUILayout.Vector2Field("End Position", element.endPosition);
 
@@ -51,7 +61,8 @@ public class CutsceneSystemEditor : Editor
         if (GUILayout.Button("Set End Rotation"))
             myScript.SetEndRotation();
         GUILayout.EndHorizontal();
-        element.positionAnimationCurve = EditorGUILayout.CurveField("Rotation Animation Curve", element.rotationAnimationCurve);
+        element.positionAnimationCurve =
+            EditorGUILayout.CurveField("Rotation Animation Curve", element.rotationAnimationCurve);
         element.startRotation = EditorGUILayout.FloatField("Start Rotation", element.startRotation);
         element.endRotation = EditorGUILayout.FloatField("End Rotation", element.endRotation);
 
@@ -64,9 +75,9 @@ public class CutsceneSystemEditor : Editor
         if (GUILayout.Button("Set End Scale"))
             myScript.SetEndScale();
         GUILayout.EndHorizontal();
-        element.positionAnimationCurve = EditorGUILayout.CurveField("Scale Animation Curve", element.scaleAnimationCurve);
+        element.positionAnimationCurve =
+            EditorGUILayout.CurveField("Scale Animation Curve", element.scaleAnimationCurve);
         element.startScale = EditorGUILayout.Vector2Field("Start Scale", element.startScale);
         element.endScale = EditorGUILayout.Vector2Field("End Scale", element.endScale);
-
     }
 }
