@@ -6,9 +6,8 @@ namespace CutsceneSystem
     [CustomEditor(typeof(Cutscene))]
     public class CutsceneEditor : Editor
     {
-        public override void OnInspectorGUI()
+        public override void OnInspectorGUI() //makes a dynamic slider based on how many frames there are
         {
-            //DrawDefaultInspector();
             Cutscene cutscene = (Cutscene) target;
 
             GUILayout.Label("Starting Frame");

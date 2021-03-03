@@ -10,7 +10,6 @@ namespace CutsceneSystem
 
         public override void OnInspectorGUI()
         {
-            //DrawDefaultInspector();
             Element element = (Element) target;
 
             GUILayout.Label("Timing");

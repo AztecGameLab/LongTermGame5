@@ -249,6 +249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frameDuration: 2
+  fadeInDuration: 0
+  fadeOutDuration: 3
 --- !u!114 &410080588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frameDuration: 5
+  fadeInDuration: 2
+  fadeOutDuration: 0.5
 --- !u!1 &462814638
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +497,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f41d4a68d1f01547a695ff2b55e4c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstFrame: 1
+  firstFrame: 0
+  frames: []
 --- !u!1 &544936941
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +576,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   startPosition: {x: -5.11, y: 2.72}
-  endPosition: {x: 3.22, y: 2.72}
+  endPosition: {x: 2, y: 2.72}
   rotationAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -818,6 +823,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frameDuration: 2
+  fadeInDuration: 0.5
+  fadeOutDuration: 0
 --- !u!1 &845467634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,7 +1238,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   startPosition: {x: -4.86, y: -0.86}
-  endPosition: {x: 5.58, y: -0.86}
+  endPosition: {x: 4.97, y: -0.86}
   rotationAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1691,6 +1698,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frameDuration: 5
+  fadeInDuration: 0.5
+  fadeOutDuration: 0.5
 --- !u!1 &1470676319
 GameObject:
   m_ObjectHideFlags: 0
