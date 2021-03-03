@@ -47,7 +47,8 @@ public class Driver : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject newFireBall = Instantiate(fireball, FirePoint.position, FirePoint.rotation);
+            //private FireBallStats script = new FireBallStats();
+           // script.Fire();
         }
         // Movement controls
         if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || Mathf.Abs(r2d.velocity.x) > 0.01f))
