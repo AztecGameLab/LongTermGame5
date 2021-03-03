@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBall : MonoBehaviour
+public class FireBall : ProjectileWeapon
 {
     
     public Transform FirePoint;
@@ -15,33 +15,16 @@ public class FireBall : MonoBehaviour
     public KeyCode charge;
     
    
-    void Update()
-    {
-        if (Input.GetKey(charge))
-        {
-            if(chargeTimer < 2)
-            {
-                chargeTimer += Time.deltaTime;
-                Debug.Log(chargeTimer);
-            }
-        }
-        if (Input.GetKeyUp(charge))
-        {
-            fireBallSize = fireBallSize * 2f * chargeTimer;
-            Shoot();
-        }
-    }
 
-    void ChargeFire()
+    public override void Charge()
     {
         
     }
-    void Shoot()
+    public override void Fire()
     {
         
         GameObject newFireBall = Instantiate(fireBall, FirePoint.position, FirePoint.rotation);
-        newFireBall.transform.localScale = new Vector3(fireBallSize, fireBallSize, fireBallSize);
-        newFireBall.GetComponent<Rigidbody2D>().velocity = transform.right * launchForce;
+        
         fireBallSize = 3f;
         chargeTimer = 0f;
     }
