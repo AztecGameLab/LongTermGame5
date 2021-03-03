@@ -7,14 +7,14 @@ public class JointGrapple : MonoBehaviour
 {
     
     public Vector2 grappleFire;
-    public SpringJoint2D spring;
+    public DistanceJoint2D distance;
     public LayerMask whatIsGrapplable;
+    public Camera cam;
 
 
     private void Update()
     {
-        //spring.attachedRigidbody.position.x -= 1;
-      //  spring.attachedRigidbody.position.y -= 1;
+        
         if (Input.GetMouseButtonDown(0))
         {
             StartGrapple();
@@ -25,18 +25,18 @@ public class JointGrapple : MonoBehaviour
 
     private void StartGrapple()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Input.mousePosition, whatIsGrapplable);
-        
+
+        Vector3 mousePos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, mousePos,10000, whatIsGrapplable);
+
         if (hit.collider != null)
         {
             Debug.Log("ray casted");
-            Debug.DrawRay(transform.position, Input.mousePosition, Color.green);
-            if (hit.rigidbody != null)
-            {
-                Debug.Log("rigid body hit");
-                Vector3 coll = hit.collider.ClosestPoint(hit.point);
-                spring.connectedAnchor = coll;
-            }
+            Debug.DrawRay(transform.position, mousePos, Color.green);
+            Debug.Log("rigid body hit");
+            Vector3 coll = hit.collider.ClosestPoint(hit.point);
+            distance.connectedAnchor = coll;
+            
         }
 
 
@@ -44,6 +44,6 @@ public class JointGrapple : MonoBehaviour
 
     private void StopGrapple()
     {
-        throw new NotImplementedException();
+        distance.breakForce = 0;
     }
 }
