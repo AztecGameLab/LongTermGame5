@@ -198,7 +198,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77146951}
   m_CullTransparentMesh: 0
---- !u!1 &265912064
+--- !u!1 &410080585
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,24 +206,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 265912065}
-  - component: {fileID: 265912067}
-  - component: {fileID: 265912066}
-  - component: {fileID: 265912068}
+  - component: {fileID: 410080586}
+  - component: {fileID: 410080589}
+  - component: {fileID: 410080588}
+  - component: {fileID: 410080587}
   m_Layer: 5
-  m_Name: Frame4
+  m_Name: Frame (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &265912065
+--- !u!224 &410080586
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265912064}
+  m_GameObject: {fileID: 410080585}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -236,20 +236,33 @@ RectTransform:
   m_AnchoredPosition: {x: 60, y: 0}
   m_SizeDelta: {x: 16, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &265912066
+--- !u!114 &410080587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265912064}
+  m_GameObject: {fileID: 410080585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80e0124f617e864f8919e782d1b4742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameDuration: 2
+--- !u!114 &410080588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410080585}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.28627452, g: 0.4627451, b: 0.35494295, a: 1}
+  m_Color: {r: 0.28627452, g: 0.4627451, b: 0.35519007, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -266,27 +279,14 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &265912067
+--- !u!222 &410080589
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265912064}
+  m_GameObject: {fileID: 410080585}
   m_CullTransparentMesh: 0
---- !u!114 &265912068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265912064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80e0124f617e864f8919e782d1b4742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frameDuration: 5
 --- !u!1 &431275046
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 431275048}
   - component: {fileID: 431275050}
   m_Layer: 5
-  m_Name: Frame1
+  m_Name: Frame (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,7 +472,7 @@ RectTransform:
   - {fileID: 431275047}
   - {fileID: 1432378613}
   - {fileID: 799903058}
-  - {fileID: 265912065}
+  - {fileID: 410080586}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -493,6 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f41d4a68d1f01547a695ff2b55e4c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstFrame: 1
 --- !u!1 &544936941
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +507,7 @@ GameObject:
   - component: {fileID: 544936944}
   - component: {fileID: 544936943}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -528,7 +529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.22, y: 2.72}
+  m_AnchoredPosition: {x: 2, y: 2.72}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &544936943
@@ -740,7 +741,7 @@ GameObject:
   - component: {fileID: 799903059}
   - component: {fileID: 799903061}
   m_Layer: 5
-  m_Name: Frame3
+  m_Name: Frame (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -830,7 +831,7 @@ GameObject:
   - component: {fileID: 845467637}
   - component: {fileID: 845467636}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -998,7 +999,7 @@ GameObject:
   - component: {fileID: 1213516736}
   - component: {fileID: 1213516738}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1166,7 +1167,7 @@ GameObject:
   - component: {fileID: 1259595316}
   - component: {fileID: 1259595315}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1188,7 +1189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.58, y: -0.86}
+  m_AnchoredPosition: {x: 4.97, y: -0.86}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1259595315
@@ -1433,7 +1434,7 @@ GameObject:
   - component: {fileID: 1275144391}
   - component: {fileID: 1275144390}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1478,9 +1479,9 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
+      inSlope: 1
       outSlope: 1
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1488,8 +1489,8 @@ MonoBehaviour:
       time: 1
       value: 1
       inSlope: 1
-      outSlope: 0
-      tangentMode: 0
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1530,20 +1531,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 1
+      inSlope: 6.217862
+      outSlope: 6.217862
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.046031747
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
+      time: 0.34858352
+      value: 0.0152952075
+      inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 3.4925096
+      outSlope: 3.4925096
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08571428
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1601,7 +1611,7 @@ GameObject:
   - component: {fileID: 1432378614}
   - component: {fileID: 1432378616}
   m_Layer: 5
-  m_Name: Frame2
+  m_Name: Frame (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1694,7 +1704,7 @@ GameObject:
   - component: {fileID: 1470676322}
   - component: {fileID: 1470676321}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1977,7 +1987,7 @@ GameObject:
   - component: {fileID: 2011090874}
   - component: {fileID: 2011090873}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

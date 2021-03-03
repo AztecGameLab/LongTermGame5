@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CutsceneSystem
 {
@@ -17,10 +16,9 @@ namespace CutsceneSystem
         {
             if (elements == null)
                 return;
-            
+
             foreach (Element element in elements)
             {
-                print("ele");
                 StartCoroutine(element.C_Animate());
             }
         }
