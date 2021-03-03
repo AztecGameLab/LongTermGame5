@@ -13,7 +13,8 @@ public class Driver : MonoBehaviour
     public float gravityScale = 1.5f;
     public Camera mainCamera;
 
-    public FireBall fireball;
+    public Transform FirePoint;
+    public GameObject fireball;
 
     bool facingRight = true;
     float moveDirection = 0;
@@ -46,7 +47,7 @@ public class Driver : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            fireball.GetComponent<FireBall>().Fire();
+            GameObject newFireBall = Instantiate(fireball, FirePoint.position, FirePoint.rotation);
         }
         // Movement controls
         if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || Mathf.Abs(r2d.velocity.x) > 0.01f))

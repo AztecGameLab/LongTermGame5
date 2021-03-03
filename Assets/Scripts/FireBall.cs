@@ -2,30 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBall : ProjectileWeapon
+public class FireBall : MonoBehaviour
 {
-    
-    public Transform FirePoint;
-    public GameObject fireBall;
-    
-    public float launchForce;
+    public FireBallStats fireballStats;
 
-    private float fireBallSize = 3f;
-    public float chargeTimer;
-    public KeyCode charge;
-    
-   
+    void Start()
+    {
 
-    public override void Charge()
-    {
-        
-    }
-    public override void Fire()
-    {
-        
-        GameObject newFireBall = Instantiate(fireBall, FirePoint.position, FirePoint.rotation);
-        
-        fireBallSize = 3f;
-        chargeTimer = 0f;
     }
 }
