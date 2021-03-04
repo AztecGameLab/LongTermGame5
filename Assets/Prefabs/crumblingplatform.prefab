@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 7678074085234525847}
   - component: {fileID: 7678074085234525841}
   m_Layer: 0
-  m_Name: trigger collider
+  m_Name: crumblingtrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,5 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cdb530babb34ba08c3c84120304ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crumbleDelay: 0.75
-  targetFloor: {fileID: 7678074084355561382}
+  crumbleDelay: 1.35
+  crumbleWarning: {fileID: 8300000, guid: c4abefafb6a57e347b65a722fea942d4, type: 3}
+  crumbling: {fileID: 8300000, guid: c4abefafb6a57e347b65a722fea942d4, type: 3}
