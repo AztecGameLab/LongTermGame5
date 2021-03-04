@@ -68,15 +68,20 @@ public class LevelManager : MonoBehaviour
         if (!level.IsLoaded())
             LoadLevel(level);
 
+        if (!_loadedLevels.Contains(level))
+            _loadedLevels.Add(level);
+
         foreach (var neighbor in level.neighbors)
             if (!_loadedLevels.Contains(neighbor))
+            {
                 LoadLevel(neighbor);
+                _loadedLevels.Add(neighbor);
+            }
     }
 
     private void LoadLevel(Level level)
     {
         SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive);
-        _loadedLevels.Add(level);   
     }
 
     private void PositionPlayer()
