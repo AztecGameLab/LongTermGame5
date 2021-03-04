@@ -4,6 +4,8 @@ using EasyButtons;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// TODO : Cleanup code, add option for seamless vs load screen, create better demo scene with real char
+// BUGS: occasional error when touching multiple levels? 
 public class LevelManager : MonoBehaviour
 {
     private static LevelManager _instance = null;
@@ -17,46 +19,43 @@ public class LevelManager : MonoBehaviour
     
         return _instance;
     }
-    
-    [RuntimeInitializeOnLoadMethod]
-    public static void Init()
-    {
-        _instance = new GameObject("LevelManager", typeof(LevelManager)).GetComponent<LevelManager>();
-        DontDestroyOnLoad(_instance);
-    }
 
+    // This list should contain every Level that is currently loaded.
     private readonly List<Level> _loadedLevels = new List<Level>();
-    private readonly List<Level> _activeLevels = new List<Level>();
-    private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
     
+    // This list should contain every Level that the player is currently touching, ordered from oldest to newest.
+    private readonly List<Level> _activeLevels = new List<Level>();
+    
+    // The Level that the player has been touching for the longest, if one exists.
+    private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
+
     [Button]
+    // Only call this method if the player is no longer touching the level to unload.
     public void UnloadLevelAndNeighbors(Level level)
     {
         _activeLevels.Remove(level);
-        var removedLevels = new List<Level>();
         
-        if (LevelShouldBeUnloaded(level))
-        {
-            removedLevels.Add(level);
-            SceneManager.UnloadSceneAsync(level.buildId);
-        }
+        TryToUnload(level);
 
         foreach (var levelNeighbor in level.neighbors)
-        {
-            if (LevelShouldBeUnloaded(levelNeighbor))
-            {
-                removedLevels.Add(levelNeighbor);
-                SceneManager.UnloadSceneAsync(levelNeighbor.buildId);
-            }
-        }
-
-        foreach (var removedLevel in removedLevels)
-            _loadedLevels.Remove(removedLevel);
+            TryToUnload(levelNeighbor);
     }
 
-    private bool LevelShouldBeUnloaded(Level level)
+    private void TryToUnload(Level level)
     {
-        return ActiveLevel != null && !(ActiveLevel.neighbors.Contains(level) || ActiveLevel == level);
+        if (ShouldBeUnloaded(level))
+            Unload(level);
+    }
+    
+    private bool ShouldBeUnloaded(Level level)
+    {
+        if (ActiveLevel == null)
+            return false;
+
+        if (ActiveLevel.neighbors.Contains(level))
+            return false;
+
+        return ActiveLevel != level;
     }
 
     [Button]
@@ -66,7 +65,7 @@ public class LevelManager : MonoBehaviour
             _activeLevels.Add(level);
         
         if (!level.IsLoaded())
-            LoadLevel(level);
+            Load(level);
 
         if (!_loadedLevels.Contains(level))
             _loadedLevels.Add(level);
@@ -74,19 +73,19 @@ public class LevelManager : MonoBehaviour
         foreach (var neighbor in level.neighbors)
             if (!_loadedLevels.Contains(neighbor))
             {
-                LoadLevel(neighbor);
+                Load(neighbor);
                 _loadedLevels.Add(neighbor);
             }
     }
 
-    private void LoadLevel(Level level)
+    private void Load(Level level)
     {
         SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive);
     }
-
-    private void PositionPlayer()
+    
+    private void Unload(Level level)
     {
-        // find position for player in new level
-        // move player to that position in the new level
+        _loadedLevels.Remove(level);
+        SceneManager.UnloadSceneAsync(level.buildId);
     }
 }
