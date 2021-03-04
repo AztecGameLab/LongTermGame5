@@ -26,31 +26,27 @@ public class LevelManager : MonoBehaviour
     }
 
     private readonly List<Level> _loadedLevels = new List<Level>();
-    private Level _activeLevel;
+    private readonly List<Level> _activeLevels = new List<Level>();
+    private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
     
     [Button]
-    public void TransitionTo(Level level)
+    public void UnloadLevelAndNeighbors(Level level)
     {
-        _activeLevel = level;
-        
-        // fade out
-        UnloadOldLevels();
-        LoadLevelAndNeighbors();
-        PositionPlayer();
-        // fade in
-    }
-
-    private void UnloadOldLevels()
-    {
+        _activeLevels.Remove(level);
         var removedLevels = new List<Level>();
         
-        foreach (var level in _loadedLevels)
+        if (LevelShouldBeUnloaded(level))
         {
-            if (LevelShouldBeUnloaded(level))
+            removedLevels.Add(level);
+            SceneManager.UnloadSceneAsync(level.buildId);
+        }
+
+        foreach (var levelNeighbor in level.neighbors)
+        {
+            if (LevelShouldBeUnloaded(levelNeighbor))
             {
-                SceneManager.UnloadSceneAsync(level.buildId);
-                removedLevels.Add(level);
-                Debug.Log("Unloaded " + level.name);
+                removedLevels.Add(levelNeighbor);
+                SceneManager.UnloadSceneAsync(levelNeighbor.buildId);
             }
         }
 
@@ -60,17 +56,19 @@ public class LevelManager : MonoBehaviour
 
     private bool LevelShouldBeUnloaded(Level level)
     {
-        return !(_activeLevel.neighbors.Contains(level) || level == _activeLevel);
+        return ActiveLevel != null && !(ActiveLevel.neighbors.Contains(level) || ActiveLevel == level);
     }
 
-    private void LoadLevelAndNeighbors()
+    [Button]
+    public void LoadLevelAndNeighbors(Level level)
     {
-        // if it isn't already loaded, load level sync
-        if (!_activeLevel.IsLoaded())
-            LoadLevel(_activeLevel);
+        if (!_activeLevels.Contains(level))
+            _activeLevels.Add(level);
+        
+        if (!level.IsLoaded())
+            LoadLevel(level);
 
-        // async load level's neighbors
-        foreach (var neighbor in _activeLevel.neighbors)
+        foreach (var neighbor in level.neighbors)
             if (!_loadedLevels.Contains(neighbor))
                 LoadLevel(neighbor);
     }
@@ -79,7 +77,6 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive);
         _loadedLevels.Add(level);   
-        Debug.Log("Loaded " + level.name);
     }
 
     private void PositionPlayer()

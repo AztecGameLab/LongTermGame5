@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EasyButtons;
+using UnityEngine;
 
 // Exposes static methods for use in UnityEvents.
 
@@ -18,5 +19,15 @@ public partial class StaticWrapper : ScriptableObject
     public static void LoadCurrentScene()
     {
         SaveSystem.SaveLoad.LoadCurrentScene();
+    }
+
+    public static void LoadLevel(Level level)
+    {
+        LevelManager.Instance().LoadLevelAndNeighbors(level);
+    }
+
+    public static void UnloadLevel(Level level)
+    {
+        LevelManager.Instance().UnloadLevelAndNeighbors(level);
     }
 }
