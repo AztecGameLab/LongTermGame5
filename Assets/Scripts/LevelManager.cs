@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using EasyButtons;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// TODO : Cleanup code, add option for seamless vs load screen, create better demo scene with real char
-// BUGS: occasional error when touching multiple levels? 
+// TODO : add option for seamless vs load screen, create better demo scene with real char
+// BUGS: activeLevels starts to de-sync
 public class LevelManager : MonoBehaviour
 {
     private static LevelManager _instance = null;
@@ -29,8 +28,6 @@ public class LevelManager : MonoBehaviour
     // The Level that the player has been touching for the longest, if one exists.
     private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
 
-    [Button]
-    // Only call this method if the player is no longer touching the level to unload.
     public void UnloadLevelAndNeighbors(Level level)
     {
         _activeLevels.Remove(level);
@@ -57,35 +54,45 @@ public class LevelManager : MonoBehaviour
 
         return ActiveLevel != level;
     }
+    
+    private void Unload(Level level)
+    {
+        if (level.IsLoaded())
+            SceneManager.UnloadSceneAsync(level.buildId);
+        
+        if (_loadedLevels.Contains(level))
+            _loadedLevels.Remove(level);
+    }
 
-    [Button]
     public void LoadLevelAndNeighbors(Level level)
     {
-        if (!_activeLevels.Contains(level))
-            _activeLevels.Add(level);
+        _activeLevels.Add(level);
         
-        if (!level.IsLoaded())
-            Load(level);
-
-        if (!_loadedLevels.Contains(level))
-            _loadedLevels.Add(level);
+        Load(level);
 
         foreach (var neighbor in level.neighbors)
-            if (!_loadedLevels.Contains(neighbor))
-            {
-                Load(neighbor);
-                _loadedLevels.Add(neighbor);
-            }
+            Load(neighbor);
     }
 
     private void Load(Level level)
     {
-        SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive);
+        if (!level.IsLoaded())
+            SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive);
+        
+        if (!_loadedLevels.Contains(level))
+            _loadedLevels.Add(level);
     }
-    
-    private void Unload(Level level)
+
+    private void OnGUI()
     {
-        _loadedLevels.Remove(level);
-        SceneManager.UnloadSceneAsync(level.buildId);
+        GUILayout.Label("Loaded Levels: ");
+        foreach (var level in _loadedLevels)
+            GUILayout.Label(level.name);
+        
+        GUILayout.Label("Active Levels: ");
+        foreach (var level in _activeLevels)
+            GUILayout.Label(level.name);
+        
+        GUILayout.Label("Active Level: " + ActiveLevel);
     }
 }
