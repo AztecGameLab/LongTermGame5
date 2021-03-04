@@ -42,6 +42,8 @@ public class ParallaxEffect : MonoBehaviour
 
             Vector3 backgroundTargetPos = new Vector3(backgroundTargetposX, backgroundTargetposY, backgrounds[i].position.z);
 
+            //Uses Linear Interpolation (Lerp) to move the background by from their position to the target position
+            //The smoothing is the value to interpolate between the two points or how fast it moves between the position
             backgrounds[i].position = Vector3.Lerp(backgrounds[i].position, backgroundTargetPos, smoothing * Time.deltaTime);
         }
 
