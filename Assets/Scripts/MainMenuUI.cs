@@ -1,14 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
+    public Fader transition;
+    public Level firstLevel;
+    public Level playerLevel;
+    public Level mainMenuLevel;
+    
+    private void Start()
+    {
+        LevelManager.Instance().LoadLevelAndNeighbors(mainMenuLevel);
+    }
+
     public void GoToFirstLevel()
     {
-        int firstLevelSceneIndex = 2;
-        SceneManager.LoadScene(firstLevelSceneIndex);
+        LevelManager.Instance().LoadLevelAndNeighbors(playerLevel);
+        LevelManager.Instance().TransitionTo(firstLevel, transition);
     }
 
     public void GoToCredits()

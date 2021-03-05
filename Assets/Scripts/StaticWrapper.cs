@@ -1,10 +1,9 @@
-﻿using EasyButtons;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Exposes static methods for use in UnityEvents.
 
 [CreateAssetMenu(fileName = "Static Wrapper")]
-public partial class StaticWrapper : ScriptableObject
+public class StaticWrapper : ScriptableObject
 {
     public static void Print(string message)
     {
@@ -20,7 +19,7 @@ public partial class StaticWrapper : ScriptableObject
     {
         SaveSystem.SaveLoad.LoadCurrentScene();
     }
-
+    
     public static void LoadLevel(Level level)
     {
         LevelManager.Instance().LoadLevelAndNeighbors(level);

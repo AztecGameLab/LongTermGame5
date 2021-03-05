@@ -9,18 +9,24 @@ public abstract class Fader : MonoBehaviour
 
     protected abstract float  Value { get; set; }
     private Coroutine         CurrentCoroutine { get; set; } = null;
-
+    public bool               Transitioning { get; private set; } = false;
+    
     public void Fade(FadeType type)
     {
-        if (CurrentCoroutine != null) // If this component is already fading, cancel the previous fade.
+        if (CurrentCoroutine != null && Transitioning) // If this component is already fading, cancel the previous fade.
+        {
             StopCoroutine(CurrentCoroutine);
+            OnTransitionStop(type);
+        }
 
         AnimationCurve curve = type == FadeType.In ? fadeInCurve : fadeOutCurve;
-        CurrentCoroutine = StartCoroutine(FadeCoroutine(curve));
+        CurrentCoroutine = StartCoroutine(FadeCoroutine(curve, type));
     }
 
-    private IEnumerator FadeCoroutine(AnimationCurve curve)
+    private IEnumerator FadeCoroutine(AnimationCurve curve, FadeType type)
     {
+        OnTransitionStart(type);
+        Transitioning = true;
         float endTime = AnimationCurveHelper.LastKey(curve).time;
         float elapsedTime = 0;
 
@@ -35,7 +41,12 @@ public abstract class Fader : MonoBehaviour
         }
 
         Value = AnimationCurveHelper.LastKey(curve).value;
+        Transitioning = false;
+        OnTransitionStop(type);
     }
+
+    protected virtual void OnTransitionStart(FadeType type) { }
+    protected virtual void OnTransitionStop(FadeType type) { }
 }
 
 public enum FadeType
