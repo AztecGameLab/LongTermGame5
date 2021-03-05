@@ -28,6 +28,16 @@ public class LevelManager : MonoBehaviour
     // The Level that the player has been touching for the longest, if one exists.
     private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
 
+    public void LoadLevelAndNeighbors(Level level)
+    {
+        _activeLevels.Add(level);
+        
+        Load(level);
+
+        foreach (var neighbor in level.neighbors)
+            Load(neighbor);
+    }
+    
     public void UnloadLevelAndNeighbors(Level level)
     {
         _activeLevels.Remove(level);
@@ -57,30 +67,25 @@ public class LevelManager : MonoBehaviour
     
     private void Unload(Level level)
     {
-        if (level.IsLoaded())
+        if (IsLoaded(level))
             SceneManager.UnloadSceneAsync(level.buildId);
         
         if (_loadedLevels.Contains(level))
             _loadedLevels.Remove(level);
     }
 
-    public void LoadLevelAndNeighbors(Level level)
-    {
-        _activeLevels.Add(level);
-        
-        Load(level);
-
-        foreach (var neighbor in level.neighbors)
-            Load(neighbor);
-    }
-
     private void Load(Level level)
     {
-        if (!level.IsLoaded())
+        if (!IsLoaded(level))
             SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive);
         
         if (!_loadedLevels.Contains(level))
             _loadedLevels.Add(level);
+    }
+
+    private static bool IsLoaded(Level level)
+    {
+        return SceneManager.GetSceneByBuildIndex(level.buildId).isLoaded;
     }
 
     private void OnGUI()

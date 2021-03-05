@@ -14,11 +14,11 @@ public struct CollisionEvents
 public class Trigger : MonoBehaviour
 {
     [Header("Trigger Events")]
-    [SerializeField] private CollisionEvents events;
+    [SerializeField] public CollisionEvents events;
     
     [Header("Trigger Settings")]
     [SerializeField] public Collider2D colliderComponent;
-    [SerializeField] private LayerMask layersThatCanTrigger;
+    [SerializeField] public LayerMask layersThatCanTrigger;
     [SerializeField] private bool showDebug = true;
     
     private readonly List<GameObject> _objectsInTrigger = new List<GameObject>(); 
