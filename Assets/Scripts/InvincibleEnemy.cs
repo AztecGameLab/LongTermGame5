@@ -23,8 +23,9 @@ public class InvincibleEnemy : Entity
     }
     public void Start()
     {
-        StartCoroutine("Jump");
         enabled = false;
+        StartCoroutine("Jump");
+        
     }
     void OnBecameVisible()
     {
