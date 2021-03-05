@@ -10,27 +10,21 @@ public class InvincibleEnemy : Entity
     public float EnemySpeed = 70;
     public int Radius = 5;
     public bool moveRight, LEFT, RIGHT, UP, DOWN;
-    private float startPos;
-    private float endPos;
-    Vector3 playerPos;
-    bool Co_active;
-    bool enabled;
-    bool aggro;
+    Vector2 playerPos, enemyPosition;
+    
 
     // Start is called before the first frame update
     public void Awake()
     {
         enemyRigidBody2D = GetComponent<Rigidbody2D>();
         enemyTransform = GetComponent<Transform>();
-        Co_active = false;
         moveRight = false;
-        startPos = transform.position.x - Radius;
-        endPos = startPos + Radius;
-        aggro = false;
+        
     }
     public void Start()
     {
         StartCoroutine("Jump");
+        enabled = false;
     }
     void OnBecameVisible()
     {
@@ -40,74 +34,38 @@ public class InvincibleEnemy : Entity
     {
         enabled = false;
     }
+    Vector3 calculateHop(Vector2 source, Vector2 target, float angle = 45)
+    {
+        Vector2 direction = target - source;
+        float h = direction.y;
+        direction.y = 0;
+        float distance = direction.magnitude;
+        float a = angle * Mathf.Deg2Rad;
+        direction.y = distance * Mathf.Tan(a);
+        distance += h / Mathf.Tan(a);
 
-    // Update is called once per frame
-    void Update()
-    {  
-        /*if(Vector3.Distance(playerPos, enemyTransform.position) < 3)
-        {
-            aggro = true;
-        }
-        else
-        {
-            aggro = false;
-        }*/
-        
-            
-
-
-
-        /*else
-        {
-            if (moveRight)
-            {
-                enemyRigidBody2D.AddForce(Vector2.right * EnemySpeed * Time.deltaTime);
-
-            }
-            else
-            {
-                enemyRigidBody2D.AddForce(-Vector2.right  * EnemySpeed * Time.deltaTime);
-            }
-        } */
-
-
-
-
-
-        
-            
+        // calculate velocity
+        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+        return velocity * direction.normalized;
     }
+
+
     IEnumerator Jump()
     {
         while (true)
         {
-
-            playerPos = PlatformerController.instance.transform.position;
-            enemyRigidBody2D.velocity = Vector2.zero;
-            //if (enemyRigidBody2D.position.x >= endPos* (-1* Convert.ToInt32(aggro)) + playerPos.x* Convert.ToInt32(aggro))
-            if (enemyRigidBody2D.position.x >= playerPos.x)
+            if (enabled)
             {
-                moveRight = false;
+                enemyRigidBody2D.velocity = Vector2.zero;
+                playerPos = PlatformerController.instance.transform.position;
+                enemyPosition = enemyTransform.position;
+                print(calculateHop(enemyPosition, playerPos));
+                enemyRigidBody2D.velocity = calculateHop(enemyPosition, playerPos);
             }
-            //if (enemyRigidBody2D.position.x <= startPos * (-1 * Convert.ToInt32(aggro)) + playerPos.x * Convert.ToInt32(aggro))
-            if (enemyRigidBody2D.position.x <= playerPos.x)
-            {
-                moveRight = true;
-            }
-                
-            enemyRigidBody2D.AddForce(Vector2.up * 350 * EnemySpeed * Time.deltaTime);
-            if (moveRight)
-            {
-                enemyRigidBody2D.AddForce(Vector2.right * 100 * EnemySpeed * Time.deltaTime);
-
-            }
-            else
-            {
-                enemyRigidBody2D.AddForce(-Vector2.right * 100 * EnemySpeed * Time.deltaTime);
-            }
+            
             yield return new WaitForSeconds(3);
         }
-        yield return null;
+
 
         
 

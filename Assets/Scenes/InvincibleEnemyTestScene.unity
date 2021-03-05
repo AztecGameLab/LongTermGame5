@@ -1564,9 +1564,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1060395694}
   - component: {fileID: 1060395693}
-  - component: {fileID: 1060395688}
   - component: {fileID: 1060395690}
   - component: {fileID: 1060395689}
+  - component: {fileID: 1060395688}
   m_Layer: 0
   m_Name: SpriteTemplate64_0
   m_TagString: Untagged
@@ -1574,8 +1574,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!61 &1060395688
-BoxCollider2D:
+--- !u!60 &1060395688
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1597,9 +1597,21 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.4375, y: -0.484375}
+      - {x: 0.5, y: -0.28125}
+      - {x: 0.5, y: 0.0625}
+      - {x: 0.484375, y: 0.109375}
+      - {x: 0.21875, y: 0.21875}
+      - {x: -0.28125, y: 0.21875}
+      - {x: -0.5, y: 0.015625}
+      - {x: -0.5, y: -0.34375}
+      - {x: -0.453125, y: -0.5}
+      - {x: -0.1875, y: -0.5}
+      - {x: -0.140625, y: -0.46875}
+      - {x: -0.015625, y: -0.5}
+      - {x: 0.421875, y: -0.5}
 --- !u!114 &1060395689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,11 +1713,37 @@ Transform:
   m_GameObject: {fileID: 1060395687}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.87, y: 2.08, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1181083339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1831558400415614749, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
+  m_PrefabInstance: {fileID: 612216848}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1181083344
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181083339}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!4 &1192883516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1831558400415614751, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
