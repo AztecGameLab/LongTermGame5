@@ -62,18 +62,24 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
+    public float error;
     void FixedUpdate(){
-        rigid.velocity = new Vector2(goalVelocity, rigid.velocity.y + fastFall);
+        //Going with a PID loop with only P lol
+        error = (goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier;
+        
+        #if UNITY_EDITOR
+        Debug.DrawLine(this.transform.position, (Vector2)this.transform.position + new Vector2(error, 0));
+        #endif
+
+        rigid.AddForce(new Vector2(error, 0));
     }
     
     float fastFall = 0;
-    float goalVelocity;
+    public float goalVelocity;
     public void OnMovementChanged(InputAction.CallbackContext context){
         Vector2 movement = context.ReadValue<Vector2>();
-        float horizontalVelocity = movement.x * parameters.MaxRunSpeed;
+        float horizontalVelocity = movement.x * parameters.MaxRunSpeed * rigid.mass;
         goalVelocity = horizontalVelocity;
-
-        //TODO :: ADD ACCELLERATION / DECELERATION
 
         //TODO :: Implement a fast fall function
     }
@@ -103,7 +109,7 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
-    public void Jump(){
+    private void Jump(){
         rigid.velocity = new Vector2(rigid.velocity.x, parameters.JumpSpeed);
         jumpCounter++;
         StartCoroutine(JumpTimeout());

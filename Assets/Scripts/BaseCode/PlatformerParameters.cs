@@ -12,10 +12,10 @@ public class PlatformerParameters : ScriptableObject
     public float JumpHeight = 1;
 
     [Tooltip("How long will a jump input stay in the jump buffer (seconds)")]
-    public float JumpBufferTime = 1;
+    public float JumpBufferTime = 0.1f;
 
     [Tooltip("How many jumps does our player have")]
-    public float JumpCount = 1;
+    public int JumpCount = 1;
 
     [Tooltip("How fast does a jump move us up")]
     public float JumpSpeed = 1;
@@ -30,7 +30,7 @@ public class PlatformerParameters : ScriptableObject
     public float MaxGroundAngle = 45;
 
     [Tooltip("The is the acceleration curve of our player")]
-    public AnimationCurve AccelerationProfile;
+    public float AccelerationMultiplier;
 
     [Tooltip("The is the deceleration curve of our player")]
     public AnimationCurve DecelerationProfile;

@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf7c34a0dc4e6348bea04faa70406ee, type: 3}
+  m_Name: P1_Library
+  m_EditorClassIdentifier: 
+  m_Labels:
+  - m_Name: Attack
+    m_Hash: 1080829965
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: 7504739645509096338, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: 2213648557748536213, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: 5103642151128305964, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+  - m_Name: Death
+    m_Hash: 646380074
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: 7475520276301052765, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: -2514816056761846599, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: -8440925043545910698, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 3
+      m_Hash: 1842515611
+      m_Sprite: {fileID: -2231124990764432722, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+  - m_Name: Fall
+    m_Hash: 1533177906
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: -8440925043545910698, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: -2231124990764432722, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+  - m_Name: Idle
+    m_Hash: 2081823275
+    m_CategoryList:
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: 303424848952509498, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+  - m_Name: Jump
+    m_Hash: 125937960
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: -8849384628937906621, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+  - m_Name: ThumbUp
+    m_Hash: -1967843089
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: -4316834722058831716, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: 2737251678597537553, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: -4567800641801976485, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 3
+      m_Hash: 1842515611
+      m_Sprite: {fileID: 9052884684262127268, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 4
+      m_Hash: -206169288
+      m_Sprite: {fileID: -1396056108043555041, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 5
+      m_Hash: -2068763730
+      m_Sprite: {fileID: 6434718185745502254, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 6
+      m_Hash: 498629140
+      m_Sprite: {fileID: 3016978401696528534, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 7
+      m_Hash: 1790921346
+      m_Sprite: {fileID: 4459297789289833620, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+  - m_Name: Walk
+    m_Hash: 765711723
+    m_CategoryList:
+    - m_Name: 0
+      m_Hash: -186917087
+      m_Sprite: {fileID: 5842858934399646670, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 1
+      m_Hash: -2082672713
+      m_Sprite: {fileID: -5965170617698558593, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
+    - m_Name: 2
+      m_Hash: 450215437
+      m_Sprite: {fileID: 2823017448613427974, guid: c8d3504e83f06cd9dacd7b60ec40aec9, type: 3}
