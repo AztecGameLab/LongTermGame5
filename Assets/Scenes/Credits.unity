@@ -605,6 +605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1acfb435521e94bb45e9febdba26cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstLevel: {fileID: 11400000, guid: bcc460598eae4314a9bba6eeca8b8739, type: 2}
+  playerLevel: {fileID: 11400000, guid: c536927d68b31ea4fb21ff4b112c590e, type: 2}
+  mainMenuLevel: {fileID: 11400000, guid: 3a27a3e89baf57649859f9b845348153, type: 2}
+  creditsLevel: {fileID: 11400000, guid: cc4a080e69f36254b8e4b6308e288cc9, type: 2}
   quitButton: {fileID: 0}
 --- !u!1 &1331546597
 GameObject:
@@ -967,7 +971,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 787492722}
         m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

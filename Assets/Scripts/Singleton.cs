@@ -7,16 +7,9 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     public static T Get()
     {
         if (_instance == null)
-            CreateInstance();
+            Debug.LogWarning($"{ typeof(T).Name } has not been loaded - make sure ControllerScene is working.");
         
         return _instance;
-    }
-
-    private static void CreateInstance()
-    {
-        System.Type singletonType = typeof(T);
-        GameObject singletonObject = new GameObject(singletonType.ToString(), singletonType);
-        _instance = singletonObject.GetComponent<T>();
     }
 
     protected virtual void Awake()

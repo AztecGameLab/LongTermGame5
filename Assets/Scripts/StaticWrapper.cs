@@ -27,6 +27,6 @@ public class StaticWrapper : ScriptableObject
 
     public static void UnloadLevel(Level level)
     {
-        LevelController.Get().UnloadLevelAndNeighbors(level);
+        LevelController.Get().UnloadLevel(level);
     }
 }

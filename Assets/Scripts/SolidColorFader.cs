@@ -26,13 +26,11 @@ public class SolidColorFader : Fader
     {
         base.OnTransitionStart(type);
         canvasGroup.blocksRaycasts = true;
-        print("Fade started: " + type);
     }
 
     protected override void OnTransitionStop(FadeType type)
     {
         base.OnTransitionStop(type);
         canvasGroup.blocksRaycasts = false;
-        print("Fade ended: " + type);
     }
 }

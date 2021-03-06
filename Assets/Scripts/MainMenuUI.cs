@@ -1,60 +1,71 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
     public Level firstLevel;
     public Level playerLevel;
     public Level mainMenuLevel;
+    public Level creditsLevel;
 
-    public void GoToFirstLevel()
+    public GameObject quitButton;
+
+    private TransitionController _transitionController;
+    private LevelController _levelController;
+    
+    private void Start()
+    {
+        _transitionController = TransitionController.Get();
+        _levelController = LevelController.Get();
+    }
+
+    public void EnterGame()
     {
         StartCoroutine(EnterGameCoroutine());
     }
 
     private IEnumerator EnterGameCoroutine()
     {
-        var transitionController = TransitionController.Get();
-        var levelController = LevelController.Get();
-        
-        transitionController.FadeTo(Color.black, 0.25f);
+        _transitionController.FadeTo(Color.black, 0.25f);
         yield return new WaitForSeconds(0.25f);
         
-        levelController.LoadLevel(firstLevel);
-        levelController.LoadLevel(playerLevel);
-        yield return new WaitUntil(() => !levelController.Loading);
+        _levelController.LoadLevel(playerLevel);
+        _levelController.LoadLevel(firstLevel);
+        yield return new WaitUntil(() => !_levelController.Loading);
 
-        transitionController.FadeFrom(Color.black, 0.25f);
-        levelController.UnloadLevelAndNeighbors(mainMenuLevel);
+        _transitionController.FadeFrom(Color.black, 0.25f);
+        _levelController.UnloadLevel(mainMenuLevel);
     }
 
-    public void GoToCredits()
+    public void PlayCredits()
     {
-        int CreditsSceneIndex = 1;
-        SceneManager.LoadScene(CreditsSceneIndex);
+        _levelController.LoadLevel(creditsLevel);
+        _levelController.UnloadLevel(mainMenuLevel);
     }
 
-    public void GoToMainMenu()
+    public void LoadMainMenu()
     {
-        int mainMenuSceneIndex = 0;
-        SceneManager.LoadScene(mainMenuSceneIndex);
+        _levelController.LoadLevel(mainMenuLevel);
+        _levelController.UnloadLevel(creditsLevel);
     }
 
     public void QuitProgram()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        
         UnityEditor.EditorApplication.isPlaying = false;
-#else
+        
+        #else
+        
         Application.Quit();
-#endif
+
+        #endif
     }
 
-    public GameObject quitButton;
-#if UNITY_WEBGL
+    #if UNITY_WEBGL
     private void Start()
     {
         Destroy(quitButton);
     }
-#endif
+    #endif
 }

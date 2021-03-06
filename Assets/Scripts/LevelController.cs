@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// TODO : add option for seamless vs load screen
-// BUGS: activeLevels starts to de-sync
+// TODO : fix active scene jiggle not accurate, figure out player spawning
+// BUGS: activeLevels starts to de-sync - haven't seen in a bit
 public class LevelController : Singleton<LevelController>
 {
     public event Action FinishedLoading;
@@ -36,14 +37,17 @@ public class LevelController : Singleton<LevelController>
     {
         if (level.isGameplayLevel && !_activeLevels.Contains(level))
             _activeLevels.Add(level);
-    
-        LoadAdditive(level);
 
+        StartCoroutine(LoadAdditive(level, true));
+
+        print(level == null);
+        print(level.levelsToPreload == null);
+        
         foreach (var neighbor in level.levelsToPreload)
-            LoadAdditive(neighbor);
+            StartCoroutine(LoadAdditive(neighbor));
     }
     
-    public void UnloadLevelAndNeighbors(Level level)
+    public void UnloadLevel(Level level)
     {
         _activeLevels.Remove(level);
         
@@ -61,10 +65,7 @@ public class LevelController : Singleton<LevelController>
     
     private bool ShouldBeUnloaded(Level level)
     {
-        if (ActiveLevel == null)
-            return false;
-
-        if (ActiveLevel.levelsToPreload.Contains(level))
+        if (ActiveLevel != null && ActiveLevel.levelsToPreload.Contains(level))
             return false;
 
         return ActiveLevel != level;
@@ -79,18 +80,33 @@ public class LevelController : Singleton<LevelController>
             _loadedLevels.Remove(level);
     }
 
-    private void LoadAdditive(Level level)
+    private IEnumerator LoadAdditive(Level level, bool setActive = false)
     {
+        AsyncOperation operation = null;
+
         if (!IsLoaded(level))
-            _loadingLevels.Add(SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive));
+        {
+            operation = SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive);
+            _loadingLevels.Add(operation);
+        }
         
         if (!_loadedLevels.Contains(level))
             _loadedLevels.Add(level);
+
+        if (setActive && operation != null)
+        {
+            yield return new WaitUntil(() => operation.isDone);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
+        }
+        else if (setActive)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
+        }
     }
 
     private static bool IsLoaded(Level level)
     {
-        return SceneManager.GetSceneByName(level.sceneName).isLoaded;
+        return SceneManager.GetSceneByName(level.sceneName).IsValid();
     }
 
     private void OnGUI()
