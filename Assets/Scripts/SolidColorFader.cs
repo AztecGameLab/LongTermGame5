@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CanvasGroupFader : Fader
+public class SolidColorFader : Fader
 {
     [SerializeField] private CanvasGroup canvasGroup;
-
+    [SerializeField] private Image image;
+    
     protected override float Value
     {
         get => canvasGroup.alpha;
@@ -12,7 +14,12 @@ public class CanvasGroupFader : Fader
 
     private void Awake()
     {
-        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public void SetColor(Color color)
+    {
+        image.color = color;
     }
 
     protected override void OnTransitionStart(FadeType type)

@@ -9,7 +9,8 @@ public abstract class Fader : MonoBehaviour
 
     protected abstract float  Value { get; set; }
     private Coroutine         CurrentCoroutine { get; set; } = null;
-    public bool               Transitioning { get; private set; } = false;
+    public bool               Transitioning { get; protected set; } = false;
+    public float              Duration { get; set; } = 1;
     
     public void Fade(FadeType type)
     {
@@ -27,10 +28,12 @@ public abstract class Fader : MonoBehaviour
     {
         OnTransitionStart(type);
         Transitioning = true;
-        float endTime = AnimationCurveHelper.LastKey(curve).time;
+        
+        AnimationCurveHelper.ChangeFirstKeyframeValue(curve, Value);
+        AnimationCurveHelper.ChangeLastKeyframeTime(curve, Duration);
+        
+        float endTime = Duration;
         float elapsedTime = 0;
-
-        AnimationCurveHelper.ChangeFirstKeyframe(curve, Value);
 
         while (elapsedTime <= endTime)
         {

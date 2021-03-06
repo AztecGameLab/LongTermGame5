@@ -22,11 +22,11 @@ public class StaticWrapper : ScriptableObject
     
     public static void LoadLevel(Level level)
     {
-        LevelManager.Instance().LoadLevelAndNeighbors(level);
+        LevelController.Get().LoadLevel(level);
     }
 
     public static void UnloadLevel(Level level)
     {
-        LevelManager.Instance().UnloadLevelAndNeighbors(level);
+        LevelController.Get().UnloadLevelAndNeighbors(level);
     }
 }

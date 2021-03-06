@@ -10,13 +10,12 @@ public class MainMenuUI : MonoBehaviour
     
     private void Start()
     {
-        LevelManager.Instance().LoadLevelAndNeighbors(mainMenuLevel);
+        LevelController.Get().LoadLevel(mainMenuLevel);
     }
 
     public void GoToFirstLevel()
     {
-        LevelManager.Instance().LoadLevelAndNeighbors(playerLevel);
-        LevelManager.Instance().TransitionTo(firstLevel, transition);
+        TransitionController.Get().FadeTo(Color.black, 0.25f);
     }
 
     public void GoToCredits()

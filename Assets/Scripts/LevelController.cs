@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,74 +6,37 @@ using UnityEngine.SceneManagement;
 
 // TODO : add option for seamless vs load screen
 // BUGS: activeLevels starts to de-sync
-public class LevelManager : MonoBehaviour
+public class LevelController : Singleton<LevelController>
 {
-    private static LevelManager _instance = null;
-    public static LevelManager Instance()
-    {
-        if (_instance == null)
-        {
-            _instance = new GameObject("LevelManager", typeof(LevelManager)).GetComponent<LevelManager>();
-            DontDestroyOnLoad(_instance);
-        }
+    public event Action FinishedLoading;
     
-        return _instance;
-    }
-
-    // This list should contain every Level that is currently loaded.
-    private readonly List<Level> _loadedLevels = new List<Level>();
-    
-    // This list should contain every Level that the player is currently touching, ordered from oldest to newest.
     private readonly List<Level> _activeLevels = new List<Level>();
+    private readonly List<Level> _loadedLevels = new List<Level>();
+    private readonly List<AsyncOperation> _loadingLevels = new List<AsyncOperation>();
     
-    // The Level that the player has been touching for the longest, if one exists.
+    private bool Loading => _loadingLevels.Count > 0;
     private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
-    
-    private bool _transitioning = false;
-    private List<AsyncOperation> _loadingLevels = new List<AsyncOperation>();
-    public bool Loading => _loadingLevels.Count > 0;
 
     private void Update()
     {
         var loadedLevels = new List<AsyncOperation>();
+        var previouslyLoading = Loading;
         
         foreach (var operation in _loadingLevels)
             if (operation.isDone) loadedLevels.Add(operation);
 
         foreach (var operation in loadedLevels)
             _loadingLevels.Remove(operation);
+
+        if (!Loading && previouslyLoading)
+            FinishedLoading?.Invoke();
     }
 
-    public void TransitionTo(Level level, Fader transition)
+    public void LoadLevel(Level level, bool gameplayLevel = true)
     {
-        if (!_transitioning)
-            StartCoroutine(TransitionToCoroutine(level, transition));
-    }
-
-    private IEnumerator TransitionToCoroutine(Level level, Fader transition)
-    {
-        _transitioning = true;
-        
-        transition.Fade(FadeType.In);
-        yield return new WaitUntil(() => transition.Transitioning == false);
-        
-        foreach (var activeLevel in _activeLevels)
-            UnloadAdditive(activeLevel);
-        
-        LoadAdditive(level);
-        
-        yield return new WaitUntil(() => Loading == false);
-        
-        transition.Fade(FadeType.Out);
-        yield return new WaitUntil(() => transition.Transitioning == false);
-        
-        _transitioning = false;
-    }
+        if (gameplayLevel)
+            _activeLevels.Add(level);
     
-    public void LoadLevelAndNeighbors(Level level)
-    {
-        _activeLevels.Add(level);
-        
         LoadAdditive(level);
 
         foreach (var neighbor in level.neighbors)
@@ -111,7 +73,7 @@ public class LevelManager : MonoBehaviour
     private void UnloadAdditive(Level level)
     {
         if (IsLoaded(level))
-            _loadingLevels.Add(SceneManager.UnloadSceneAsync(level.buildId));
+            _loadingLevels.Add(SceneManager.UnloadSceneAsync(level.sceneName));
         
         if (_loadedLevels.Contains(level))
             _loadedLevels.Remove(level);
@@ -120,7 +82,7 @@ public class LevelManager : MonoBehaviour
     private void LoadAdditive(Level level)
     {
         if (!IsLoaded(level))
-            _loadingLevels.Add(SceneManager.LoadSceneAsync(level.buildId, LoadSceneMode.Additive));
+            _loadingLevels.Add(SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive));
         
         if (!_loadedLevels.Contains(level))
             _loadedLevels.Add(level);
@@ -128,7 +90,7 @@ public class LevelManager : MonoBehaviour
 
     private static bool IsLoaded(Level level)
     {
-        return SceneManager.GetSceneByBuildIndex(level.buildId).isLoaded;
+        return SceneManager.GetSceneByName(level.sceneName).isLoaded;
     }
 
     private void OnGUI()
