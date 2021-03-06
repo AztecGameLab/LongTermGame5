@@ -1,25 +1,30 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// TODO : fix active scene jiggle not accurate, figure out player spawning
+// TODO : figure out player spawning, stop level from despawning on exit
 // BUGS: activeLevels starts to de-sync - haven't seen in a bit
 public class LevelController : Singleton<LevelController>
 {
     public event Action FinishedLoading;
-    
+
     private readonly List<Level> _activeLevels = new List<Level>();
     private readonly List<Level> _loadedLevels = new List<Level>();
     private readonly List<AsyncOperation> _loadingLevels = new List<AsyncOperation>();
+
+    [SerializeField] private bool showDebug = false;
     
     public bool Loading => _loadingLevels.Count > 0;
     private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
-
+    private Level PreviousActiveLevel = null;
+    
     private void Update()
     {
+        if (PreviousActiveLevel != ActiveLevel)
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(ActiveLevel.sceneName));
+        
         var loadedLevels = new List<AsyncOperation>();
         var previouslyLoading = Loading;
         
@@ -33,18 +38,26 @@ public class LevelController : Singleton<LevelController>
             FinishedLoading?.Invoke();
     }
 
+    private void LateUpdate()
+    {
+        PreviousActiveLevel = ActiveLevel;
+    }
+
     public void LoadLevel(Level level)
     {
         if (level.isGameplayLevel && !_activeLevels.Contains(level))
             _activeLevels.Add(level);
 
-        StartCoroutine(LoadAdditive(level, true));
+        LoadAdditive(level, true);
 
-        print(level == null);
-        print(level.levelsToPreload == null);
+        if (level == null)
+            print("Level is null");
+        
+        if (level.levelsToPreload == null)
+            print("Levels to preload is null");
         
         foreach (var neighbor in level.levelsToPreload)
-            StartCoroutine(LoadAdditive(neighbor));
+            LoadAdditive(neighbor);
     }
     
     public void UnloadLevel(Level level)
@@ -80,28 +93,13 @@ public class LevelController : Singleton<LevelController>
             _loadedLevels.Remove(level);
     }
 
-    private IEnumerator LoadAdditive(Level level, bool setActive = false)
+    private void LoadAdditive(Level level, bool setActive = false)
     {
-        AsyncOperation operation = null;
-
         if (!IsLoaded(level))
-        {
-            operation = SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive);
-            _loadingLevels.Add(operation);
-        }
+            _loadingLevels.Add(SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive));
         
         if (!_loadedLevels.Contains(level))
             _loadedLevels.Add(level);
-
-        if (setActive && operation != null)
-        {
-            yield return new WaitUntil(() => operation.isDone);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
-        }
-        else if (setActive)
-        {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
-        }
     }
 
     private static bool IsLoaded(Level level)
@@ -111,6 +109,9 @@ public class LevelController : Singleton<LevelController>
 
     private void OnGUI()
     {
+        if (showDebug == false)
+            return;
+        
         GUILayout.Label("Loaded Levels: ");
         foreach (var level in _loadedLevels)
             GUILayout.Label(level.name);
