@@ -14,7 +14,7 @@ public class LevelController : Singleton<LevelController>
     private readonly List<Level> _loadedLevels = new List<Level>();
     private readonly List<AsyncOperation> _loadingLevels = new List<AsyncOperation>();
     
-    private bool Loading => _loadingLevels.Count > 0;
+    public bool Loading => _loadingLevels.Count > 0;
     private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
 
     private void Update()
@@ -32,14 +32,14 @@ public class LevelController : Singleton<LevelController>
             FinishedLoading?.Invoke();
     }
 
-    public void LoadLevel(Level level, bool gameplayLevel = true)
+    public void LoadLevel(Level level)
     {
-        if (gameplayLevel)
+        if (level.isGameplayLevel && !_activeLevels.Contains(level))
             _activeLevels.Add(level);
     
         LoadAdditive(level);
 
-        foreach (var neighbor in level.neighbors)
+        foreach (var neighbor in level.levelsToPreload)
             LoadAdditive(neighbor);
     }
     
@@ -49,7 +49,7 @@ public class LevelController : Singleton<LevelController>
         
         TryToUnload(level);
 
-        foreach (var levelNeighbor in level.neighbors)
+        foreach (var levelNeighbor in level.levelsToPreload)
             TryToUnload(levelNeighbor);
     }
 
@@ -64,7 +64,7 @@ public class LevelController : Singleton<LevelController>
         if (ActiveLevel == null)
             return false;
 
-        if (ActiveLevel.neighbors.Contains(level))
+        if (ActiveLevel.levelsToPreload.Contains(level))
             return false;
 
         return ActiveLevel != level;

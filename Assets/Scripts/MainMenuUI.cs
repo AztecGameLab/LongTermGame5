@@ -1,21 +1,32 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
-    public Fader transition;
     public Level firstLevel;
     public Level playerLevel;
     public Level mainMenuLevel;
-    
-    private void Start()
-    {
-        LevelController.Get().LoadLevel(mainMenuLevel);
-    }
 
     public void GoToFirstLevel()
     {
-        TransitionController.Get().FadeTo(Color.black, 0.25f);
+        StartCoroutine(EnterGameCoroutine());
+    }
+
+    private IEnumerator EnterGameCoroutine()
+    {
+        var transitionController = TransitionController.Get();
+        var levelController = LevelController.Get();
+        
+        transitionController.FadeTo(Color.black, 0.25f);
+        yield return new WaitForSeconds(0.25f);
+        
+        levelController.LoadLevel(firstLevel);
+        levelController.LoadLevel(playerLevel);
+        yield return new WaitUntil(() => !levelController.Loading);
+
+        transitionController.FadeFrom(Color.black, 0.25f);
+        levelController.UnloadLevelAndNeighbors(mainMenuLevel);
     }
 
     public void GoToCredits()
