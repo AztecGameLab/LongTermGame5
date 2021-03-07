@@ -85,6 +85,7 @@ public class PlatformerController : Entity
             StartCoroutine(JumpQueue(parameters.JumpBufferTime));
         }
         else if(context.canceled){
+            print("stopped jumping");
             if(isJumping){
                 if(rigid.velocity.y > 0)
                     rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y / 4);
@@ -122,8 +123,8 @@ public class PlatformerController : Entity
     IEnumerator JumpTimeout(){
         //Calculate Time at apex
         //t = (Vf - Vi) / a
-        float time = -parameters.JumpSpeed / Physics2D.gravity.magnitude;
-        yield return new WaitForSeconds(time);
+        float time = - parameters.JumpSpeed / Physics2D.gravity.magnitude;
+        yield return new WaitUntil(() => rigid.velocity.y <= 0);
         isJumping = false;
     }
 
