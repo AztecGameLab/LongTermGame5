@@ -4,24 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManaBarUI : MonoBehaviour
+public class FillBarUI : MonoBehaviour
 {
-    public Image ManaBarFill;
+    public Image BarFill;
     
     public float lerpDuration;
 
+    void Start()
+    {
+        BarFill = gameObject.GetComponent(typeof(Image)) as Image;
+    }
+
     /* ChangeFillAmount() is a IEnumerator called externally whenever:
-     *      an ability is used || mana is gained
+     *      an ability is used || mana is gained || health is reduced etc.
      *      
      * This allows the fill amount to slightly adjust to the newMana the lerpDuration
      */
 
-    public IEnumerator ChangeFillAmount(float manaStartPoint, float manaEndPoint, float maxMana)
+    public IEnumerator ChangeFillAmount(float fillStartPoint, float fillEndPoint, float maxFill)
     {
         float timeElapsed = 0;
         while (timeElapsed < lerpDuration)
         {
-            ManaBarFill.fillAmount = Mathf.Lerp(manaStartPoint, manaEndPoint, timeElapsed / lerpDuration) / maxMana;
+            BarFill.fillAmount = Mathf.Lerp(fillStartPoint, fillEndPoint, timeElapsed / lerpDuration) / maxFill;
             timeElapsed += Time.deltaTime;
             yield return null;
         }
