@@ -12,6 +12,7 @@ using UnityEditor.SceneManagement;
 
 namespace SaveSystem
 {
+
     public static class SaveLoad
     {
         /*
@@ -29,7 +30,7 @@ namespace SaveSystem
         Scene Data is                       Dictionary<GameObjectIDs, Dictionary<ComponentTypes, SaveData>>
         GameObject Data is                                            Dictionary<ComponentTypes, SaveData>
         Component Data is stored in                                                              SaveData
-    */
+        */
 
 
         #region classes for SaveDisplay
@@ -39,9 +40,9 @@ namespace SaveSystem
         {
             public List<SceneSaveDisplay> scenes = new List<SceneSaveDisplay>();
 
-            public SaveDisplay(Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> save)
+            public SaveDisplay(GameData gameData)
             {
-                foreach (KeyValuePair<string, Dictionary<string, Dictionary<string, SaveData>>> item in save)
+                foreach (KeyValuePair<string, SceneData> item in gameData.dict)
                 {
                     scenes.Add(new SceneSaveDisplay(item.Key, item.Value));
                 }
@@ -54,10 +55,10 @@ namespace SaveSystem
             public string sceneName;
             public List<GameObjectSaveDisplay> gameobjects = new List<GameObjectSaveDisplay>();
 
-            public SceneSaveDisplay(string key, Dictionary<string, Dictionary<string, SaveData>> save)
+            public SceneSaveDisplay(string key, SceneData save)
             {
                 sceneName = key;
-                foreach (KeyValuePair<string, Dictionary<string, SaveData>> item in save)
+                foreach (KeyValuePair<string, GameObjectData> item in save.dict)
                 {
                     gameobjects.Add(new GameObjectSaveDisplay(item.Key, item.Value));
                 }
@@ -70,10 +71,10 @@ namespace SaveSystem
             public string gameobjectID;
             public List<ComponentSaveDisplay> components = new List<ComponentSaveDisplay>();
 
-            public GameObjectSaveDisplay(string key, Dictionary<string, SaveData> save)
+            public GameObjectSaveDisplay(string key, GameObjectData save)
             {
                 gameobjectID = key;
-                foreach (KeyValuePair<string, SaveData> item in save)
+                foreach (KeyValuePair<string, ISaveData> item in save.dict)
                 {
                     components.Add(new ComponentSaveDisplay(item.Key, item.Value.ToString()));
                 }
@@ -108,9 +109,9 @@ namespace SaveSystem
         [EasyButtons.Button]
         static public void SaveScene(string sceneName) //TODO make gather scene save data work for non-main scenes
         {
-            var Dict_SceneName_GameObjectIDs = LoadGameFile();
-            Dict_SceneName_GameObjectIDs[sceneName] = GatherSceneSaveData();
-            SaveGameFile(Dict_SceneName_GameObjectIDs);
+            GameData gameData = LoadGameFile();
+            gameData.dict[sceneName] = GatherSceneSaveData();
+            SaveGameFile(gameData);
 
             Debug.Log("\"" + sceneName + "\" scene was saved");
         }
@@ -118,11 +119,10 @@ namespace SaveSystem
         [EasyButtons.Button]
         static public void LoadScene(string sceneName) //TODO make restore scene save data work for non-main scenes
         {
-            var Dict_SceneName_GameObjectIDs = LoadGameFile();
-            if (Dict_SceneName_GameObjectIDs.TryGetValue(sceneName,
-                out Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes))
+            GameData gameData = LoadGameFile();
+            if (gameData.dict.TryGetValue(sceneName, out SceneData sceneData))
             {
-                RestoreSceneSaveData(Dict_GameObjectIDs_ComponentTypes);
+                RestoreSceneSaveData(sceneData);
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
@@ -147,30 +147,28 @@ namespace SaveSystem
 
         #region Manage Scene <-> Dictionary translations
 
-        static Dictionary<string, Dictionary<string, SaveData>> GatherSceneSaveData()
+        static SceneData GatherSceneSaveData()
         {
-            var Dict_GameObjectIDs_ComponentTypes = new Dictionary<string, Dictionary<string, SaveData>>();
+            var sceneData = new SceneData();
 
             foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()
             ) //for each saveable GameObject in the current scene
             {
-                Dict_GameObjectIDs_ComponentTypes[saveableGameObject.id] =
-                    saveableGameObject.GatherComponentsSaveData();
+                sceneData.dict[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
             }
 
-            return Dict_GameObjectIDs_ComponentTypes;
+            return sceneData;
         }
 
         static void RestoreSceneSaveData(
-            Dictionary<string, Dictionary<string, SaveData>> Dict_GameObjectIDs_ComponentTypes)
+            SceneData sceneData)
         {
             foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()
             ) //TODO needs to find objects of type in a specific async loaded scene
             {
-                if (Dict_GameObjectIDs_ComponentTypes.TryGetValue(saveableGameObject.id,
-                    out Dictionary<string, SaveData> ComponentTypes_SaveData_Dict))
+                if (sceneData.dict.TryGetValue(saveableGameObject.id, out GameObjectData gameObjectData))
                 {
-                    saveableGameObject.RestoreComponentsSaveData(ComponentTypes_SaveData_Dict);
+                    saveableGameObject.RestoreComponentsSaveData(gameObjectData);
                 }
             }
         }
@@ -181,35 +179,33 @@ namespace SaveSystem
         #region Manages saving/loading actual files
 
         //save the game data in binary
-        static void SaveGameFile(
-            Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> Dict_SceneName_GameObjectIDs)
+        static void SaveGameFile(GameData gameData)
         {
-            SaveGameJSON(new SaveDisplay(Dict_SceneName_GameObjectIDs));
+            SaveGameJSON(new SaveDisplay(gameData));
 
             var gameSavePath =
                 Application.persistentDataPath +
-                String.Format("/{0}.save.AGL", GetDateTimeString()); //create a save file with the current date and time
+                String.Format("/{0}_save.AGL", GetDateTimeString()); //create a save file with the current date and time
             using (var stream = File.Open(gameSavePath, FileMode.Create))
             {
                 var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, Dict_SceneName_GameObjectIDs);
+                formatter.Serialize(stream, gameData);
             }
         }
 
         //load the binary game data
-        static Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>> LoadGameFile()
+        static GameData LoadGameFile()
         {
             var path = GetMostRecentFile(".AGL");
             if (path == "")
             {
-                return new Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>();
+                return new GameData();
             }
 
             using (FileStream stream = File.Open(path, FileMode.Open))
             {
                 var formatter = new BinaryFormatter();
-                return (Dictionary<string, Dictionary<string, Dictionary<string, SaveData>>>) formatter.Deserialize(
-                    stream);
+                return (GameData) formatter.Deserialize(stream);
             }
         }
 
@@ -243,7 +239,7 @@ namespace SaveSystem
 
         static void SaveGameJSON(SaveDisplay saveDisplay)
         {
-            var JsonSavePath = Application.persistentDataPath + String.Format("/{0}.save.JSON", GetDateTimeString());
+            var JsonSavePath = Application.persistentDataPath + String.Format("/{0}_DEBUG_save.JSON", GetDateTimeString());
             string json = JsonUtility.ToJson(saveDisplay, true);
             File.WriteAllText(JsonSavePath, json);
         }

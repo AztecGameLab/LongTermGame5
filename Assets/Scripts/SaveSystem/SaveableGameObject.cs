@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 
@@ -14,7 +11,8 @@ namespace SaveSystem
     [ExecuteInEditMode]
     public class SaveableGameObject : MonoBehaviour
     {
-        [ReadOnly] public string id;
+        [ReadOnly]
+        public string id;
 
 #if UNITY_EDITOR
         void SetIDIfInActiveScene()
@@ -44,25 +42,24 @@ namespace SaveSystem
         }
 #endif
 
-        public Dictionary<string, SaveData> GatherComponentsSaveData()
+        public GameObjectData GatherComponentsSaveData()
         {
-            var Dict_ComponentTypes_SaveData = new Dictionary<string, SaveData>();
+            var gameObjectData = new GameObjectData();
 
             foreach (var saveableComponent in GetComponents<ISaveableComponent>())
             {
-                Dict_ComponentTypes_SaveData[saveableComponent.GetType().ToString()] =
-                    saveableComponent.GatherSaveData();
+                gameObjectData.dict[saveableComponent.GetType().ToString()] = saveableComponent.GatherSaveData();
             }
 
-            return Dict_ComponentTypes_SaveData;
+            return gameObjectData;
         }
 
-        public void RestoreComponentsSaveData(Dictionary<string, SaveData> ComponentTypes_SaveData_Dict)
+        public void RestoreComponentsSaveData(GameObjectData gameObjectData)
         {
             foreach (var saveableComponent in GetComponents<ISaveableComponent>())
             {
                 string typeName = saveableComponent.GetType().ToString();
-                if (ComponentTypes_SaveData_Dict.TryGetValue(typeName, out SaveData saveData))
+                if (gameObjectData.dict.TryGetValue(typeName, out ISaveData saveData))
                 {
                     saveableComponent.RestoreSaveData(saveData);
                 }
