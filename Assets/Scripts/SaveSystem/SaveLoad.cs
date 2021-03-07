@@ -40,12 +40,12 @@ namespace SaveSystem
 
         public static void SetPlayerCurrentScene(string sceneName)
         {
-            tempCurrentGame.PlayerCurrentScene = sceneName;
+            tempCurrentGame.playerCurrentScene = sceneName;
         }
 
         public static string GetPlayerCurrentScene()
         {
-            return tempCurrentGame.PlayerCurrentScene;
+            return tempCurrentGame.playerCurrentScene;
         }
 
         [Button]
@@ -246,10 +246,11 @@ namespace SaveSystem
         [System.Serializable]
         class SaveDisplay
         {
+            public string playerCurrentScene;
             public List<SceneSaveDisplay> scenes = new List<SceneSaveDisplay>();
-
             public SaveDisplay(GameData gameData)
             {
+                playerCurrentScene = gameData.playerCurrentScene;
                 foreach (KeyValuePair<string, SceneData> item in gameData.dict)
                 {
                     scenes.Add(new SceneSaveDisplay(item.Key, item.Value));
