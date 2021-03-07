@@ -7,7 +7,7 @@ namespace KainsTestScripts
     {
         void Start()
         {
-            print("pretend im something that changes scenes or something idk");
+            //"pretend im something that changes scenes or something idk"
         }
 
         [EasyButtons.Button]
