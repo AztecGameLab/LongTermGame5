@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1831558400415614736}
   - component: {fileID: 1831558400415614737}
   m_Layer: 0
-  m_Name: TempPlayer
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   parameters: {fileID: 11400000, guid: b1cea7653e06a2c42bbfd030f2ab6431, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
+  interactable: {fileID: 0}
 --- !u!61 &1831558400415614736
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -168,19 +169,7 @@ MonoBehaviour:
     m_ActionId: ac470387-e5cd-4ec4-af83-549149d1afe3
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1831558400415614738}
-        m_TargetAssemblyTypeName: PlatformerController, Assembly-CSharp
-        m_MethodName: Interact
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 3fc0875e-f202-4d19-b321-73e5c650cea9
     m_ActionName: Player/Interact
   - m_PersistentCalls:

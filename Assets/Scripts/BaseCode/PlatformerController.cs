@@ -11,6 +11,8 @@ public class PlatformerController : MonoBehaviour
     
     [SerializeField] private Animator anim;
     
+    public Interactable interactable;
+
     SpriteRenderer render;
 
     private static PlatformerController _instance;
@@ -164,14 +166,11 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
-    public void Interact(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            var nearestInteractable = Scanner.GetClosestObject<Interactable>(transform.position);
-        
-            if (nearestInteractable != null)
-                nearestInteractable.Interact(gameObject);    
+    public void Interact(InputAction.CallbackContext context){
+
+        //Run the interact function on the current working interacable that we are working with
+        if(interactable != null){
+            interactable.OnInteract();
         }
     }
 
@@ -186,5 +185,32 @@ public class PlatformerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D other){
         
+    }
+
+    void OnTriggerStay2D(Collider2D other){
+
+        //This is dealing with the interactables
+        //Basically we want the "Active" interactable
+        //to be the one that is the closest to the player
+        if(other.tag == "Interactable"){
+            if(interactable == null){
+                interactable = other.GetComponent<Interactable>();
+            }
+
+            float distNew = Vector3.Distance(this.transform.position, other.transform.position);
+            float distCurr = Vector3.Distance(this.transform.position, interactable.transform.position);
+
+            if(distNew > distCurr){
+                interactable = other.GetComponent<Interactable>();
+            }
+
+            interactable.OnHover();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other){
+        if(other.gameObject.Equals(interactable.gameObject)){
+            interactable = null;
+        }
     }
 }
