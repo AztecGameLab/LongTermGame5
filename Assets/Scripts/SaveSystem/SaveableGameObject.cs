@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
+using Unity.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+
+#endif
 
 namespace SaveSystem
 {
@@ -10,10 +14,9 @@ namespace SaveSystem
     [ExecuteInEditMode]
     public class SaveableGameObject : MonoBehaviour
     {
-        [ReadOnly]
-        public string id;
+        [ReadOnly] public string id;
 
-
+#if UNITY_EDITOR
         void SetIDIfInActiveScene()
         {
             if (SceneManager.GetActiveScene().name == gameObject.scene.name) //if this component is in the active scene
@@ -29,6 +32,7 @@ namespace SaveSystem
                 id = ""; //set my id to null if im not in the active scene (ex. if im an object in the prefab editor)
             }
         }
+
         void OnValidate()
         {
             SetIDIfInActiveScene();
@@ -38,6 +42,7 @@ namespace SaveSystem
         {
             SetIDIfInActiveScene();
         }
+#endif
 
         public Dictionary<string, SaveData> GatherComponentsSaveData()
         {
@@ -45,7 +50,8 @@ namespace SaveSystem
 
             foreach (var saveableComponent in GetComponents<ISaveableComponent>())
             {
-                Dict_ComponentTypes_SaveData[saveableComponent.GetType().ToString()] = saveableComponent.GatherSaveData();
+                Dict_ComponentTypes_SaveData[saveableComponent.GetType().ToString()] =
+                    saveableComponent.GatherSaveData();
             }
 
             return Dict_ComponentTypes_SaveData;
