@@ -639,6 +639,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 11400000, guid: 69d9cfa39a8cefc469f90bd47274c4a1, type: 2}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SaveActiveSceneToTempData
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SaveTempDataToFile
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: StaticWrapper, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092614826776287917, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c8b31bb4c1bfca4cbadd3aaab95c769, type: 3}
 --- !u!1001 &1308958206
