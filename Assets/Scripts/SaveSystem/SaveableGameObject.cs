@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,7 +16,7 @@ namespace SaveSystem
         public string id;
 
 #if UNITY_EDITOR
-        void SetIDIfInActiveScene()
+        void SetIDIfInActiveScene() //TODO doesn't give new id if you duplicate a saveable  in the scene
         {
             if (SceneManager.GetActiveScene().name == gameObject.scene.name) //if this component is in the active scene
             {
