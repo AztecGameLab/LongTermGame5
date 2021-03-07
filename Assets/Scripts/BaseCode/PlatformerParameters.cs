@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlatformerParameters", menuName = "2D/CharacterController/PlatformerParameters", order = 0)]
-public class PlatformerParameters : ScriptableObject
+[CreateAssetMenu(fileName = "PlatformerParameters", menuName = "2D/Entities/PlatformerParameters", order = 0)]
+public class PlatformerParameters : EntityData
 {
     [Tooltip("How much time you are still allowed to jump after leaving a ledge (seconds)")]
     public float CoyoteTime = 1;

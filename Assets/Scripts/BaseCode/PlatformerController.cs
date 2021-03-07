@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlatformerController : MonoBehaviour
+public class PlatformerController : Entity
 {
     [SerializeField] private PlatformerParameters parameters;
-    
     [SerializeField] private Rigidbody2D rigid;
-    
     [SerializeField] private Animator anim;
-    
     SpriteRenderer render;
 
+    List<ProjectileWeapon> weapons;
     private static PlatformerController _instance;
     public static PlatformerController instance{
         get{
@@ -23,15 +21,12 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
-
     void Awake(){
-        //Pretty sure there was a reason as to why I don't usually do this
-        //But I can't remember for the life of me why
-
         _instance = this;
         rigid = this.GetComponent<Rigidbody2D>();
         if(rigid == null){
             rigid = this.gameObject.AddComponent<Rigidbody2D>();
+            rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
 
         PhysicsMaterial2D material = new PhysicsMaterial2D();
@@ -56,16 +51,13 @@ public class PlatformerController : MonoBehaviour
         if(Mathf.Abs(rigid.velocity.x) > 0){
             render.flipX = rigid.velocity.x > 0;
         }
-
-        if(jumpCounter >= parameters.JumpCount){
-            canJump = false;
-        }
     }
 
-    public float error;
+    [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
         //Going with a PID loop with only P lol
-        error = (goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier;
+        float maxForce = 10;
+        error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
         #if UNITY_EDITOR
         Debug.DrawLine(this.transform.position, (Vector2)this.transform.position + new Vector2(error, 0));
@@ -84,12 +76,18 @@ public class PlatformerController : MonoBehaviour
         //TODO :: Implement a fast fall function
     }
 
+    #region Jumping
     public void OnJumpPerformed(InputAction.CallbackContext context){
-        if(context.performed)
+        if(context.performed){
+            if(jumpCounter >= parameters.JumpCount){
+                canJump = false;
+            }
             StartCoroutine(JumpQueue(parameters.JumpBufferTime));
+        }
         else if(context.canceled){
             if(isJumping){
-                rigid.velocity = new Vector2(rigid.velocity.x, 0);
+                if(rigid.velocity.y > 0)
+                    rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y / 4);
                 isJumping = false;
             }
         }
@@ -112,6 +110,7 @@ public class PlatformerController : MonoBehaviour
     private void Jump(){
         rigid.velocity = new Vector2(rigid.velocity.x, parameters.JumpSpeed);
         jumpCounter++;
+        isJumping = true;
         StartCoroutine(JumpTimeout());
     }
 
@@ -128,11 +127,12 @@ public class PlatformerController : MonoBehaviour
         isJumping = false;
     }
 
-    int jumpCounter = 0;
-    bool isJumping = false;
-    bool isGrounded = false;
-    bool canJump = false;
+    public int jumpCounter = 0;
+    public bool isJumping = false;
+    public bool isGrounded = false;
+    public bool canJump = false;
     
+    //This works just fine
     void CheckGroundedState(Collision2D other){
         isGrounded = false;
         foreach(ContactPoint2D point in other.contacts){
@@ -170,6 +170,18 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Projectiles
+
+    public void ProjectileHandler(InputAction.CallbackContext context){
+        if(context.started){
+            
+        }
+    }
+
+    #endregion
+    
     public void Interact(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -180,6 +192,12 @@ public class PlatformerController : MonoBehaviour
                 nearestInteractable.Interact(gameObject);    
         }
     }
+
+    public void KnockBack(Vector2 direction, float intensity){
+        rigid.AddForce(direction * intensity);
+    }
+
+    #region Helpers
 
     void OnCollisionEnter2D(Collision2D other){
         isJumping = false;
@@ -193,4 +211,6 @@ public class PlatformerController : MonoBehaviour
     void OnCollisionExit2D(Collision2D other){
         
     }
+
+#endregion
 }
