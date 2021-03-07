@@ -43,6 +43,11 @@ namespace SaveSystem
             tempCurrentGame.PlayerCurrentScene = sceneName;
         }
 
+        public static string GetPlayerCurrentScene()
+        {
+            return tempCurrentGame.PlayerCurrentScene;
+        }
+
         [Button]
         public static void SaveSceneToTempData(string sceneName)
         {
