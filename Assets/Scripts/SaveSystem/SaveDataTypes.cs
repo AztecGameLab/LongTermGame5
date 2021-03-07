@@ -12,6 +12,7 @@ namespace SaveSystem
     [Serializable]
     public class GameData
     {
+        [SerializeField]
         public string PlayerCurrentScene;
         [SerializeField]
         public Dictionary<string, SceneData> dict = new Dictionary<string, SceneData>();

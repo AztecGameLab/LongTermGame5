@@ -33,11 +33,15 @@ namespace SaveSystem
         */
 
 
-        private static GameData
-            tempCurrentGame = new GameData(); //temporary data of the current game that isnt saved to a file yet
+        private static GameData tempCurrentGame = new GameData(); //temporary data of the current game that isnt saved to a file yet
 
 
         #region only game system call these, not the player //TODO make these work for multiple loaded scenes. I think right now there no difference between SaveScene and SaveActiveScene because FindObjectsOfType searches all loaded scenes
+
+        public static void SetPlayerCurrentScene(string sceneName)
+        {
+            tempCurrentGame.PlayerCurrentScene = sceneName;
+        }
 
         [Button]
         public static void SaveSceneToTempData(string sceneName)
@@ -80,16 +84,14 @@ namespace SaveSystem
 
 
         [Button]
-        public static void
-            SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
+        public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
             SaveGameFile(tempCurrentGame);
             Debug.Log("tempCurrentGame was saved to file");
         }
 
         [Button]
-        public static void
-            LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
+        public static void LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame = LoadMostRecentGameFile();
         }
