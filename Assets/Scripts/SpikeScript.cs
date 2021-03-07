@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpikeScript : MonoBehaviour
 {
     [SerializeField] private Vector2 poke;
-    [SerializeField] private float damage;
+    [SerializeField] private float spikeDamage;
     [SerializeField] private float timer;
 
     private PolygonCollider2D poly;
@@ -14,7 +14,7 @@ public class SpikeScript : MonoBehaviour
         poly = GetComponent<PolygonCollider2D>();
         poly = gameObject.AddComponent<PolygonCollider2D>();
         poke = new Vector2(3f, 3f);
-        damage = 1f;
+        spikeDamage = 1f;
         timer = 0.1f;
     }
     void OnCollisionEnter2D(Collision2D other) {   
@@ -27,6 +27,11 @@ public class SpikeScript : MonoBehaviour
             direction = direction.normalized * poke;
             Debug.Log(direction);
             person.AddForce(direction, ForceMode2D.Impulse);
+
+            Entity entity = person.GetComponentInParent<Entity>();
+            Debug.Log(entity);
+            entity.TakeDamage(spikeDamage);
+
 
         }
     }
