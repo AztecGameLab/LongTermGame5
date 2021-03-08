@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 032a97f1993a4df1a1a5578f650cbd1b, type: 3}
-  m_Name: Main Menu
+  m_Name: Hub 3
   m_EditorClassIdentifier: 
-  sceneName: MainMenu
-  neighbors: []
+  sceneName: Hub 3
+  levelsToPreload:
+  - {fileID: 11400000, guid: d0208c72470495e4297793b854a7364d, type: 2}
+  shouldBecomeActive: 1

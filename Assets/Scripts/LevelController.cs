@@ -5,64 +5,138 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // TODO : figure out player spawning, stop level from despawning on exit
-// BUGS: activeLevels starts to de-sync - haven't seen in a bit
+// BUGS: activeLevels starts to de-sync - haven't seen in a bit (hopefully fixed?)
 public class LevelController : Singleton<LevelController>
 {
     public event Action FinishedLoading;
 
     private readonly List<Level> _activeLevels = new List<Level>();
     private readonly List<Level> _loadedLevels = new List<Level>();
-    private readonly List<AsyncOperation> _loadingLevels = new List<AsyncOperation>();
+    private readonly List<Scene> _loadingLevels = new List<Scene>();
 
     [SerializeField] private bool showDebug = false;
     
     public bool Loading => _loadingLevels.Count > 0;
-    private Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
-    private Level PreviousActiveLevel = null;
+    public Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
+    private Dictionary<string, Level> _sceneNamesToLevels = new Dictionary<string, Level>();
     
-    private void Update()
+    private void Start()
     {
-        if (PreviousActiveLevel != ActiveLevel)
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(ActiveLevel.sceneName));
-        
-        var loadedLevels = new List<AsyncOperation>();
-        var previouslyLoading = Loading;
-        
-        foreach (var operation in _loadingLevels)
-            if (operation.isDone) loadedLevels.Add(operation);
+        var levels = Resources.LoadAll<Level>("Levels");
+        _sceneNamesToLevels = levels.ToDictionary(level => level.sceneName);
 
-        foreach (var operation in loadedLevels)
-            _loadingLevels.Remove(operation);
+        var activeLevel = GetLevel(SceneManager.GetActiveScene().name);
+        if (!_activeLevels.Contains(activeLevel))
+            _activeLevels.Add(activeLevel);
 
-        if (!Loading && previouslyLoading)
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            var level = GetLevel(SceneManager.GetSceneAt(i).name);
+            if (LevelShouldBeLoaded(level))
+                _loadedLevels.Add(level);
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLoaded;
+        SceneManager.sceneUnloaded += OnUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLoaded;
+        SceneManager.sceneUnloaded -= OnUnloaded;
+    }
+
+    private void OnLoaded(Scene scene, LoadSceneMode mode)
+    {
+        print("loaded " + scene.name);
+        _loadingLevels.Remove(scene);
+
+        if (ActiveLevel != null && ActiveLevel.sceneName == scene.name)
+        {
+            SceneManager.SetActiveScene(scene);
+            print("set active " + scene.name);
+        }
+        
+        if (_loadingLevels.Count < 1)
             FinishedLoading?.Invoke();
     }
 
-    private void LateUpdate()
+    private void OnUnloaded(Scene scene)
     {
-        PreviousActiveLevel = ActiveLevel;
+        print("unloaded " + scene.name);
+        _loadingLevels.Remove(scene);
+
+        if (_loadingLevels.Count < 1)
+            FinishedLoading?.Invoke();
+    }
+
+    public Level GetLevel(string sceneName)
+    {
+        return _sceneNamesToLevels[sceneName];
     }
 
     public void LoadLevel(Level level)
     {
-        if (level.isGameplayLevel && !_activeLevels.Contains(level))
+        if (level.shouldBecomeActive && !_activeLevels.Contains(level))
+        {
             _activeLevels.Add(level);
-
-        LoadAdditive(level, true);
-
-        if (level == null)
-            print("Level is null");
+            
+            if (ActiveLevel == level && SceneManager.GetSceneByName(ActiveLevel.sceneName).isLoaded)
+            {
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
+                print("set active " + level.sceneName);
+            }
+        }
         
-        if (level.levelsToPreload == null)
-            print("Levels to preload is null");
-        
+        LoadAdditive(level);
+
         foreach (var neighbor in level.levelsToPreload)
             LoadAdditive(neighbor);
+    }
+
+    private bool LevelShouldBeLoaded(Level level)
+    {
+        if (_activeLevels.Count < 1)
+            return true;
+        
+        if (level.isPersistent)
+            return true;
+        
+        foreach (var activeLevel in _activeLevels)
+        {
+            if (level == activeLevel)
+                return true;
+
+            if (activeLevel.levelsToPreload.Any(neighborLevel => level == neighborLevel))
+                return true;
+        }
+        
+        return false;
+    }
+
+    public void LoadLevel(string sceneName)
+    {
+        LoadLevel(GetLevel(sceneName));
+    }
+    
+    public void UnloadLevel(string sceneName)
+    {
+        UnloadLevel(GetLevel(sceneName));
     }
     
     public void UnloadLevel(Level level)
     {
+        var oldActive = ActiveLevel;
         _activeLevels.Remove(level);
+
+        if (ActiveLevel != null && oldActive != ActiveLevel && SceneManager.GetSceneByName(ActiveLevel.sceneName).isLoaded)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(ActiveLevel.sceneName));
+            print("set active " + level.sceneName);
+        }
         
         TryToUnload(level);
 
@@ -70,33 +144,40 @@ public class LevelController : Singleton<LevelController>
             TryToUnload(levelNeighbor);
     }
 
+    public void UnloadActiveScenes()
+    {
+        var test = _loadedLevels.ToArray();
+        foreach (var activeLevel in test)
+            UnloadAdditive(activeLevel);
+    }
+
     private void TryToUnload(Level level)
     {
-        if (ShouldBeUnloaded(level))
+        if (!LevelShouldBeLoaded(level))
+        {
             UnloadAdditive(level);
-    }
-    
-    private bool ShouldBeUnloaded(Level level)
-    {
-        if (ActiveLevel != null && ActiveLevel.levelsToPreload.Contains(level))
-            return false;
-
-        return ActiveLevel != level;
+        }
     }
     
     private void UnloadAdditive(Level level)
     {
         if (IsLoaded(level))
-            _loadingLevels.Add(SceneManager.UnloadSceneAsync(level.sceneName));
+        {
+            SceneManager.UnloadSceneAsync(level.sceneName);
+            _loadingLevels.Add(SceneManager.GetSceneByName(level.sceneName));
+        }
         
         if (_loadedLevels.Contains(level))
             _loadedLevels.Remove(level);
     }
 
-    private void LoadAdditive(Level level, bool setActive = false)
+    private void LoadAdditive(Level level)
     {
         if (!IsLoaded(level))
-            _loadingLevels.Add(SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive));
+        {
+            SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive);
+            _loadingLevels.Add(SceneManager.GetSceneByName(level.sceneName));
+        }
         
         if (!_loadedLevels.Contains(level))
             _loadedLevels.Add(level);
@@ -111,7 +192,13 @@ public class LevelController : Singleton<LevelController>
     {
         if (showDebug == false)
             return;
-        
+
+        if (GUILayout.Button("Load Credits"))
+        {
+            UnloadActiveScenes();            
+            LoadLevel("Credits");
+        }
+            
         GUILayout.Label("Loaded Levels: ");
         foreach (var level in _loadedLevels)
             GUILayout.Label(level.name);
@@ -122,7 +209,7 @@ public class LevelController : Singleton<LevelController>
         
         GUILayout.Label("Loading Levels");
         foreach (var level in _loadingLevels)
-            GUILayout.Label("" + level.progress);
+            GUILayout.Label(level.name);
         
         GUILayout.Label("Active Level: " + ActiveLevel);
     }

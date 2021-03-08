@@ -1,14 +1,21 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EditorSceneConfigurer
+namespace Editor
 {
-    [RuntimeInitializeOnLoadMethod]
-    private static void LoadDependentScenes()
+    public static class EditorSceneConfigurer
     {
-        if (!SceneManager.GetSceneByName("Controllers").IsValid())
+        [RuntimeInitializeOnLoadMethod]
+        private static async void LoadDependentScenes()
         {
-            SceneManager.LoadScene("Controllers", LoadSceneMode.Additive);
+            if (!SceneManager.GetSceneByName("Controllers").IsValid())
+                SceneManager.LoadScene("Controllers", LoadSceneMode.Additive);
+
+            await Task.Delay(1000);
+            
+            
+            // LevelController.Get().RefreshLoadedScenes();
         }
     }
 }
