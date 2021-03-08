@@ -27,6 +27,10 @@ public class PlatformerController : Entity
         if(rigid == null){
             rigid = this.gameObject.AddComponent<Rigidbody2D>();
             rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rigid.sharedMaterial = new PhysicsMaterial2D();
+            rigid.sharedMaterial.friction = 0;
+            rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            rigid.interpolation = RigidbodyInterpolation2D.Extrapolate;
         }
 
         PhysicsMaterial2D material = new PhysicsMaterial2D();
