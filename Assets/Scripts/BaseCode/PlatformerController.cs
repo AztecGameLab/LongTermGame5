@@ -11,7 +11,7 @@ public class PlatformerController : Entity
     SpriteRenderer render;
 
     public int currWeapon;
-    List<ProjectileWeapon> weapons;
+    public List<ProjectileWeapon> weapons;
     private static PlatformerController _instance;
     public static PlatformerController instance{
         get{
