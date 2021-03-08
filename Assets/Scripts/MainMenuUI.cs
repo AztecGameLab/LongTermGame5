@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using SaveSystem;
 using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
@@ -29,7 +30,6 @@ public class MainMenuUI : MonoBehaviour
         _transitionController.FadeTo(Color.black, 0.25f);
         yield return new WaitForSeconds(0.25f);
         
-        _levelController.LoadLevel(playerLevel);
         _levelController.LoadLevel(firstLevel);
         yield return new WaitUntil(() => !_levelController.Loading);
 

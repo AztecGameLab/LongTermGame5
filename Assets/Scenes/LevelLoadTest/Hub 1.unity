@@ -128,6 +128,33 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1831558400415614749, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
   m_PrefabInstance: {fileID: 1290284220}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &562406717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562406716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3992fae8dc0899b429ce9b57a6d82ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: ed89c5d2-e730-49a1-b3e5-40f7cf3e0c42
+--- !u!114 &562406718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562406716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07cb7177d4147fa42ab731cab6efcd98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  mana: 200
 --- !u!50 &562406721
 Rigidbody2D:
   serializedVersion: 4

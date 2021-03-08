@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class LevelController : Singleton<LevelController>
 {
     public event Action FinishedLoading;
+    public event Action<Level> ActiveLevelChanged;
 
     private readonly List<Level> _activeLevels = new List<Level>();
     private readonly List<Level> _loadedLevels = new List<Level>();
@@ -26,8 +28,7 @@ public class LevelController : Singleton<LevelController>
         _sceneNamesToLevels = levels.ToDictionary(level => level.sceneName);
 
         var activeLevel = GetLevel(SceneManager.GetActiveScene().name);
-        if (!_activeLevels.Contains(activeLevel))
-            _activeLevels.Add(activeLevel);
+        AddActiveLevel(activeLevel);
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
@@ -37,23 +38,47 @@ public class LevelController : Singleton<LevelController>
         }
     }
 
+    private void AddActiveLevel(Level level)
+    {
+        if (_activeLevels.Contains(level)) return;
+        
+        _activeLevels.Add(level);
+
+        if (ActiveLevel == level)
+            ActiveLevelChanged?.Invoke(ActiveLevel);
+    }
+
+    private void RemoveActiveLevel(Level level)
+    {
+        if (!_activeLevels.Contains(level)) return;
+
+        var oldActiveLevel = ActiveLevel;
+        _activeLevels.Remove(level);
+        
+        if (oldActiveLevel != ActiveLevel)
+            ActiveLevelChanged?.Invoke(ActiveLevel);
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLoaded;
         SceneManager.sceneUnloaded += OnUnloaded;
+        ActiveLevelChanged += OnActiveChanged;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLoaded;
         SceneManager.sceneUnloaded -= OnUnloaded;
+        ActiveLevelChanged -= OnActiveChanged;
     }
 
     private void OnLoaded(Scene scene, LoadSceneMode mode)
     {
-        print("loaded " + scene.name);
         _loadingLevels.Remove(scene);
 
+        SaveLoad.LoadSceneFromTempData(scene.name);
+        
         if (ActiveLevel != null && ActiveLevel.sceneName == scene.name)
         {
             SceneManager.SetActiveScene(scene);
@@ -66,11 +91,21 @@ public class LevelController : Singleton<LevelController>
 
     private void OnUnloaded(Scene scene)
     {
-        print("unloaded " + scene.name);
         _loadingLevels.Remove(scene);
 
         if (_loadingLevels.Count < 1)
             FinishedLoading?.Invoke();
+    }
+
+    private void OnActiveChanged(Level level)
+    {
+        print("active level changed to " + level);
+        
+        if (SceneManager.GetSceneByName(ActiveLevel.sceneName).isLoaded)
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
+
+        if (level.isGameplayLevel)
+            SaveLoad.SetPlayerCurrentScene(level.sceneName);
     }
 
     public Level GetLevel(string sceneName)
@@ -80,16 +115,8 @@ public class LevelController : Singleton<LevelController>
 
     public void LoadLevel(Level level)
     {
-        if (level.shouldBecomeActive && !_activeLevels.Contains(level))
-        {
-            _activeLevels.Add(level);
-            
-            if (ActiveLevel == level && SceneManager.GetSceneByName(ActiveLevel.sceneName).isLoaded)
-            {
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
-                print("set active " + level.sceneName);
-            }
-        }
+        if (!level.isPersistent && !_activeLevels.Contains(level))
+            AddActiveLevel(level);
         
         LoadAdditive(level);
 
@@ -129,14 +156,7 @@ public class LevelController : Singleton<LevelController>
     
     public void UnloadLevel(Level level)
     {
-        var oldActive = ActiveLevel;
-        _activeLevels.Remove(level);
-
-        if (ActiveLevel != null && oldActive != ActiveLevel && SceneManager.GetSceneByName(ActiveLevel.sceneName).isLoaded)
-        {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(ActiveLevel.sceneName));
-            print("set active " + level.sceneName);
-        }
+        RemoveActiveLevel(level);
         
         TryToUnload(level);
 
@@ -163,6 +183,9 @@ public class LevelController : Singleton<LevelController>
     {
         if (IsLoaded(level))
         {
+            if (level.isGameplayLevel)
+                SaveLoad.SaveSceneToTempData(level.sceneName);
+            
             SceneManager.UnloadSceneAsync(level.sceneName);
             _loadingLevels.Add(SceneManager.GetSceneByName(level.sceneName));
         }
@@ -193,6 +216,8 @@ public class LevelController : Singleton<LevelController>
         if (showDebug == false)
             return;
 
+        GUILayout.Label(SaveLoad.GetPlayerCurrentScene());
+        
         if (GUILayout.Button("Load Credits"))
         {
             UnloadActiveScenes();            

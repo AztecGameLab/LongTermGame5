@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SaveSystem;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Exposes static methods for use in UnityEvents.
@@ -38,7 +39,9 @@ public class StaticWrapper : ScriptableObject
 
     public static void UnloadLevel(Level level)
     {
+
         LevelController.Get().UnloadLevel(level);
+        
         SceneManager.MoveGameObjectToScene(PlatformerController.instance.gameObject,
             SceneManager.GetSceneByName(LevelController.Get().ActiveLevel.sceneName));
     }
