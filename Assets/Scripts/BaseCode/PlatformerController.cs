@@ -89,7 +89,6 @@ public class PlatformerController : Entity
             StartCoroutine(JumpQueue(parameters.JumpBufferTime));
         }
         else if(context.canceled){
-            print("stopped jumping");
             if(isJumping){
                 if(rigid.velocity.y > 0)
                     rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y / 4);
