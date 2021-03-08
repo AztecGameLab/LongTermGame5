@@ -11,14 +11,24 @@ public class StaticWrapper : ScriptableObject
         Debug.Log(message);
     }
     
-    public static void SaveCurrentScene()
+    public static void SaveActiveSceneToTempData() //for game systems
     {
-        SaveSystem.SaveLoad.SaveCurrentScene();
+        SaveSystem.SaveLoad.SaveActiveSceneToTempData(); //currently saves all loaded scenes
     }
 
-    public static void LoadCurrentScene()
+    public static void LoadActiveSceneFromTempData() //for game systems
     {
-        SaveSystem.SaveLoad.LoadCurrentScene();
+        SaveSystem.SaveLoad.LoadActiveSceneFromTempData(); //currently loads all loaded scenes
+    }
+    
+    public static void SaveTempDataToFile() //for when the player saves
+    {
+        SaveSystem.SaveLoad.SaveTempDataToFile(); //currently saves all loaded scenes
+    }
+
+    public static void LoadFromFileToTempData() //for when the player loads
+    {
+        SaveSystem.SaveLoad.LoadFromFileToTempData(); //currently loads all loaded scenes
     }
     
     public static void LoadLevel(Level level)

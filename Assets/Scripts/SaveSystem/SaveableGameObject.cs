@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+
+#endif
 
 namespace SaveSystem
 {
@@ -13,8 +15,8 @@ namespace SaveSystem
         [ReadOnly]
         public string id;
 
-
-        void SetIDIfInActiveScene()
+#if UNITY_EDITOR
+        void SetIDIfInActiveScene() //TODO doesn't give new id if you duplicate a saveable  in the scene
         {
             if (SceneManager.GetActiveScene().name == gameObject.scene.name) //if this component is in the active scene
             {
@@ -29,6 +31,7 @@ namespace SaveSystem
                 id = ""; //set my id to null if im not in the active scene (ex. if im an object in the prefab editor)
             }
         }
+
         void OnValidate()
         {
             SetIDIfInActiveScene();
@@ -38,25 +41,26 @@ namespace SaveSystem
         {
             SetIDIfInActiveScene();
         }
+#endif
 
-        public Dictionary<string, SaveData> GatherComponentsSaveData()
+        public GameObjectData GatherComponentsSaveData()
         {
-            var Dict_ComponentTypes_SaveData = new Dictionary<string, SaveData>();
+            var gameObjectData = new GameObjectData();
 
             foreach (var saveableComponent in GetComponents<ISaveableComponent>())
             {
-                Dict_ComponentTypes_SaveData[saveableComponent.GetType().ToString()] = saveableComponent.GatherSaveData();
+                gameObjectData.dict[saveableComponent.GetType().ToString()] = saveableComponent.GatherSaveData();
             }
 
-            return Dict_ComponentTypes_SaveData;
+            return gameObjectData;
         }
 
-        public void RestoreComponentsSaveData(Dictionary<string, SaveData> ComponentTypes_SaveData_Dict)
+        public void RestoreComponentsSaveData(GameObjectData gameObjectData)
         {
             foreach (var saveableComponent in GetComponents<ISaveableComponent>())
             {
                 string typeName = saveableComponent.GetType().ToString();
-                if (ComponentTypes_SaveData_Dict.TryGetValue(typeName, out SaveData saveData))
+                if (gameObjectData.dict.TryGetValue(typeName, out ISaveData saveData))
                 {
                     saveableComponent.RestoreSaveData(saveData);
                 }
