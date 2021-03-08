@@ -165,13 +165,9 @@ public class PlatformerController : Entity
 
     //Almost the same as CheckGroundedState Except this need to be ran in Exit
     public void CheckStartCoyoteTime(Collision2D other){
-        foreach(ContactPoint2D point in other.contacts){
-            Vector2 direction =  point.point - (Vector2)this.transform.position;
-            if(Vector3.Angle(-this.transform.up, direction) < parameters.MaxGroundAngle){
-                StopCoroutine("CoyoteTime");
-                StartCoroutine(CoyoteTime(parameters.CoyoteTime));
-                break; //if we know we are grounded, no need to continue checking the loop
-            }
+        if(!isJumping && !isGrounded){
+            StopCoroutine("CoyoteTime");
+            StartCoroutine(CoyoteTime(parameters.CoyoteTime));
         }
     }
 
@@ -217,6 +213,7 @@ public class PlatformerController : Entity
     }
 
     void OnCollisionExit2D(Collision2D other){
+        CheckGroundedState(other);
         CheckStartCoyoteTime(other);
     }
 
