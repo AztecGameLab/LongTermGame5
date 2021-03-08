@@ -14,7 +14,7 @@ public class FillSystem : MonoBehaviour
      */
     void Start()
     {
-        FillBarUI = gameObject.GetComponent(typeof(FillBarUI)) as FillBarUI;
+        FillBarUI = gameObject.GetComponent<FillBarUI>();
         currentFill = maxFill;
     }
 
@@ -43,8 +43,8 @@ public class FillSystem : MonoBehaviour
     {
         if (valueGained < 0)
         {
-            Debug.LogError("The Gain() function expects a positive valueGained not a negative one");
-            Debug.LogError("Did you intend to use the Consume() function?");
+            Debug.LogError("The Gain() function expects a positive \"valueGained\" not a negative one. \n " +
+                           "Did you intend to use the Consume() function?");
         }
         else
         {
@@ -97,7 +97,7 @@ public class FillSystem : MonoBehaviour
             Debug.LogError("Did you intend to use the Gain() function?");
             return false;
         }
-        else if (currentFill > cost)
+        else if (currentFill >= cost)
         {
             currentFill -= cost;
             StartCoroutine(FillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
