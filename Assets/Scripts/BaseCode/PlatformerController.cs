@@ -10,6 +10,7 @@ public class PlatformerController : Entity
     [SerializeField] private Animator anim;
     SpriteRenderer render;
 
+    public int currWeapon;
     List<ProjectileWeapon> weapons;
     private static PlatformerController _instance;
     public static PlatformerController instance{
@@ -60,7 +61,7 @@ public class PlatformerController : Entity
     [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
         //Going with a PID loop with only P lol
-        float maxForce = 10;
+        float maxForce = parameters.AccelerationMultiplier * 2.5f;
         error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
         #if UNITY_EDITOR
@@ -179,8 +180,11 @@ public class PlatformerController : Entity
     #region Projectiles
 
     public void ProjectileHandler(InputAction.CallbackContext context){
+        int activeWeapon = currWeapon;
         if(context.started){
-            
+            weapons[activeWeapon].Charge();
+        }else if(context.canceled){
+            weapons[activeWeapon].Fire();
         }
     }
 
