@@ -217,7 +217,7 @@ public class PlatformerController : Entity
     }
 
     void OnCollisionExit2D(Collision2D other){
-        
+        CheckStartCoyoteTime(other);
     }
 
 #endregion
