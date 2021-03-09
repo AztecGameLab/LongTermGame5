@@ -16,16 +16,6 @@ public class Initialization : MonoBehaviour
         var levelController = LevelController.Get();
 
         levelController.LoadLevel(firstLevel);
-        levelController.FinishedLoading += UnloadSelf;
-    }
-
-    private static void UnloadSelf()
-    {
-        SceneManager.UnloadSceneAsync(0);
-    }
-    
-    private void OnDestroy()
-    {
-        LevelController.Get().FinishedLoading -= UnloadSelf;
+        levelController.UnloadLevel("Init");
     }
 }
