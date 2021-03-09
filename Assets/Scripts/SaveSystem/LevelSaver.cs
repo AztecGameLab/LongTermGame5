@@ -25,32 +25,44 @@ namespace SaveSystem
 
         private void AfterLevelLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (_levelController.GetLevel(scene.name).isGameplayLevel)
+            var level = _levelController.GetLevel(scene.name);
+            
+            if (level.isGameplayLevel)
                 SaveLoad.LoadSceneFromTempData(scene.name);
         }
 
         private void BeforeLevelUnloaded(Level level)
         {
             if (ShouldSave(level))
-                return;
-            
-            SaveLoad.SaveSceneToTempData(level.sceneName);
-            
-            if (_levelController.ActiveLevel != null)
-                SceneManager.MoveGameObjectToScene(PlatformerController.instance.gameObject, SceneManager.GetSceneByName(_levelController.ActiveLevel.sceneName));
+            {
+                SaveLoad.SaveSceneToTempData(level.sceneName);
+                MovePlayerToActiveLevel();
+            }
+        }
+        
+        private static bool ShouldSave(Level level)
+        {
+            return level != null && level.isGameplayLevel;
         }
 
+        private void MovePlayerToActiveLevel()
+        {
+            if (_levelController.ActiveLevel != null)
+            {
+                var player = PlatformerController.instance.gameObject;
+                var activeLevel = _levelController.ActiveLevel.sceneName;
+                var activeScene = SceneManager.GetSceneByName(activeLevel);
+                
+                SceneManager.MoveGameObjectToScene(player, activeScene);
+            }
+        }
+        
         private static void OnActiveLevelChanged(Level level)
         {
             if (ShouldSave(level))
-                return;
-            
-            SaveLoad.SetPlayerCurrentScene(level.sceneName);
-        }
-
-        private static bool ShouldSave(Level level)
-        {
-            return level == null || !level.isGameplayLevel;
+            {
+                SaveLoad.SetPlayerCurrentScene(level.sceneName);
+            }
         }
     }    
 }
