@@ -224,7 +224,7 @@ namespace SaveSystem
         {
             DateTime localDate = DateTime.Now;
             return (
-                $"{localDate.Month.ToString("00")}.{localDate.Day.ToString("00")}.{localDate.Year}_{localDate.Hour.ToString("00")}.{localDate.Minute.ToString("00")}.{localDate.Second.ToString("00")}"
+                $"{localDate.Month.ToString("00")}-{localDate.Day.ToString("00")}-{localDate.Year}_{localDate.Hour.ToString("00")}.{localDate.Minute.ToString("00")}.{localDate.Second.ToString("00")}"
             );
         }
 
