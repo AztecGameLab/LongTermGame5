@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class JointGrapple : MonoBehaviour
 {
-    
-    public Vector2 grappleFire;
-    public DistanceJoint2D distance;
     public LayerMask whatIsGrapplable;
     public Camera cam;
+    SpringJoint2D joint;
+    public Transform player;
+    public float grappleRange = 100, grappleTightness = 2, dampingRatio = 1, grappleSpeed = 0;
+   
 
 
     private void Update()
     {
-        
         if (Input.GetMouseButtonDown(0))
         {
             StartGrapple();
@@ -27,15 +27,23 @@ public class JointGrapple : MonoBehaviour
     {
 
         Vector3 mousePos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, mousePos,10000, whatIsGrapplable);
-
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, mousePos, grappleRange, whatIsGrapplable);                               //Raycast to mouse position using the camera
+        
         if (hit.collider != null)
         {
-            Debug.Log("ray casted");
-            Debug.DrawRay(transform.position, mousePos, Color.green);
-            Debug.Log("rigid body hit");
-            Vector3 coll = hit.collider.ClosestPoint(hit.point);
-            distance.connectedAnchor = coll;
+            joint = player.gameObject.AddComponent<SpringJoint2D>();
+
+            Vector2 grapplePoint = hit.collider.ClosestPoint(hit.point);
+
+            joint.enableCollision = true;
+            joint.autoConfigureConnectedAnchor = false;                         //grapple settings
+            joint.connectedAnchor = grapplePoint;
+
+            float distanceFromPoint = Vector2.Distance(player.position, grapplePoint);
+
+            joint.frequency = grappleSpeed;
+            joint.distance = grappleTightness;
+            joint.dampingRatio = dampingRatio;
             
         }
 
@@ -44,6 +52,6 @@ public class JointGrapple : MonoBehaviour
 
     private void StopGrapple()
     {
-        distance.breakForce = 0;
+        Destroy(joint);
     }
 }
