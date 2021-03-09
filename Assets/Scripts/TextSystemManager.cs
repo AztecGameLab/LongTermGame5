@@ -8,6 +8,10 @@ public class TextSystemManager : MonoBehaviour
 {
     public enum DialogAesthetic {Default, Oracle, WindGod, FireGod, NatureGod, WaterGod};
 
+    public float textRevealSpeed = .002f;
+    public float textRevealWaitTime = .01f;
+    public float doubleTapHesitation = 1f;
+
     public GameObject BackgroundDefault;
     public GameObject BackgroundOracle;
     public GameObject BackgroundWindGod;
@@ -26,6 +30,8 @@ public class TextSystemManager : MonoBehaviour
     public Image[] textHiderNatureGodRow = new Image[4];
 
     public Image[] textHiderWaterGodRow = new Image[4];
+
+    public bool textFullyRevealed;
 
     public TextMeshProUGUI textMeshProDefault;
     public TextMeshProUGUI textMeshProOracle;
@@ -88,23 +94,94 @@ public class TextSystemManager : MonoBehaviour
         BackgroundNatureGod.SetActive(false);
         BackgroundWaterGod.SetActive(false);
 
-        DialogAesthetic DefaultAestetic = DialogAesthetic.Default;
-        DialogAesthetic OracleAestetic = DialogAesthetic.Oracle;
-        DialogAesthetic WindGodAestetic = DialogAesthetic.WindGod;
-        DialogAesthetic FireGodAestetic = DialogAesthetic.FireGod;
-        DialogAesthetic NatureGodAestetic = DialogAesthetic.NatureGod;
-        DialogAesthetic WaterGodAestetic = DialogAesthetic.WaterGod;
         string dialog = "AAAAAAAAAAAAggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgggggggggggggggggggggggggggggggggggggggggggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggggggggggAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGGggggggggggggggggggggggggggggggggggg";
 
-        //WriteDialog(DefaultAestetic, dialog);
-        //WriteDialog(OracleAestetic, dialog);
-        //WriteDialog(WindGodAestetic, dialog);
-        //WriteDialog(FireGodAestetic, dialog);
-        //WriteDialog(NatureGodAestetic, dialog);
-        WriteDialog(WaterGodAestetic, dialog);
-
+        WriteDialog(DialogAesthetic.Default, dialog);
+        //WriteDialog(DialogAesthetic.Oracle, dialog);
+        //WriteDialog(DialogAesthetic.WindGod, dialog);
+        //WriteDialog(DialogAesthetic.FireGod, dialog);
+        //WriteDialog(DialogAesthetic.NatureGod, dialog);
+        //WriteDialog(DialogAesthetic.WaterGod, dialog);
     }
 
+    /* The Update function is used to allow the player to fullyReveal the text by pushing any button while text is 
+     * on the screen
+     * 
+     * If the text has already been fully revealed, any button will instead reset the textboxes and close them
+     * 
+     */
+    void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            if (!textFullyRevealed)
+            {
+                foreach (Image rowToReveal in textHiderDefaultRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(rowToReveal.rectTransform.anchorMax.x, 0);
+                }
+                foreach (Image rowToReveal in textHiderOracleRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(rowToReveal.rectTransform.anchorMax.x, 0);
+                }
+                foreach (Image rowToReveal in textHiderWindGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(rowToReveal.rectTransform.anchorMax.x, 0);
+                }
+                foreach (Image rowToReveal in textHiderFireGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(rowToReveal.rectTransform.anchorMax.x, 0);
+                }
+                foreach (Image rowToReveal in textHiderNatureGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(rowToReveal.rectTransform.anchorMax.x, 0);
+                }
+                foreach (Image rowToReveal in textHiderWaterGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(rowToReveal.rectTransform.anchorMax.x, 0);
+                }
+            }
+            else
+            {
+                foreach (Image rowToReveal in textHiderDefaultRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(0, 0);
+                }
+                foreach (Image rowToReveal in textHiderOracleRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(0, 0);
+                }
+                foreach (Image rowToReveal in textHiderWindGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(0, 0);
+                }
+                foreach (Image rowToReveal in textHiderFireGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(0, 0);
+                }
+                foreach (Image rowToReveal in textHiderNatureGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(0, 0);
+                }
+                foreach (Image rowToReveal in textHiderWaterGodRow)
+                {
+                    rowToReveal.rectTransform.anchorMin = new Vector2(0, 0);
+                }
+                BackgroundDefault.SetActive(false);
+                BackgroundOracle.SetActive(false);
+                BackgroundWindGod.SetActive(false);
+                BackgroundFireGod.SetActive(false);
+                BackgroundNatureGod.SetActive(false);
+                BackgroundWaterGod.SetActive(false);
+            }
+        }
+    }
+
+    /* The write dialog method allows the user to write "dialog" they provide to the screen
+     * The dialogAesthetic parameter controls how the text will look when written to the screen
+     * 
+     * Lastly the RevealText coroutine is called so the text is slowly revealed rather than immediate.
+     */
     public void WriteDialog(DialogAesthetic dialogAesthetic, string dialog)
     {
         if (dialogAesthetic == DialogAesthetic.Default)
@@ -151,15 +228,31 @@ public class TextSystemManager : MonoBehaviour
         }
     }
 
+    /* This IEnumerator is called whenever text is to be revealed on the screen by WriteDialog()
+     * 
+     * textFullyRevealed is immediately set to false to prevent the player from closing dialog to early
+     * 
+     * Then, the "text" is slowly revealed by increasing the position of the hiderImage's anchorMin.x
+     * It does this until the anchorMin.x is greater than the the anchorMax.x
+     * At which point the next line is revealed
+     * This is done for all four potential lines of dialog
+     * 
+     * Lastly WaitForSeconds is called to prevent the player from accedently skipping a line of dialog
+     * Following this hesitation textFullyRevealed is set to true so the player can close the text dialog
+     * 
+     */
     private IEnumerator RevealText(Image[] hiderImages)
     {
+        textFullyRevealed = false;
         for (int i = 0; i < hiderImages.Length; i++)
         {
             while (hiderImages[i].rectTransform.anchorMin.x < hiderImages[i].rectTransform.anchorMax.x)
             {
-                hiderImages[i].rectTransform.anchorMin = new Vector2(hiderImages[i].rectTransform.anchorMin.x + .002f, 0);
-                yield return new WaitForSeconds(.01f);
+                hiderImages[i].rectTransform.anchorMin = new Vector2(hiderImages[i].rectTransform.anchorMin.x + textRevealSpeed, 0);
+                yield return new WaitForSeconds(textRevealWaitTime);
             }
         }
+        yield return new WaitForSeconds(doubleTapHesitation);
+        textFullyRevealed = true;
     }
 }
