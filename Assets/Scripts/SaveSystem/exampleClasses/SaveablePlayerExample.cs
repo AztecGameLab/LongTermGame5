@@ -34,11 +34,11 @@ namespace KainsTestScripts
             }
         }
 
-        new public SaveData GatherSaveData() //store current state into the SaveData class
+        new public ISaveData GatherSaveData() //store current state into the SaveData class
         {
             return new TestPlayerSaveData { health = health, x = transform.position.x, y = transform.position.y, mana = mana };
         }
-        new public void RestoreSaveData(SaveData state) //receive SaveData class and set variables
+        new public void RestoreSaveData(ISaveData state) //receive SaveData class and set variables
         {
             var saveData = (TestPlayerSaveData)state;
 
