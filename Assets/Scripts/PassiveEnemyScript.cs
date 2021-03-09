@@ -33,8 +33,7 @@ public class PassiveEnemyScript : MonoBehaviour
         }
         else
         {
-            //TODO: (maybe) wander()
-            //Wander();
+            Look(); //looks at player from a stationary POV
         }
     }
 
@@ -90,6 +89,18 @@ public class PassiveEnemyScript : MonoBehaviour
         if (totalDistance > -rushDistance) //rushes player when close enough (if on right)
         {
             moveSpeed = 3;
+        }
+    }
+
+    private void Look()
+    {
+        if(transform.position.x < player.position.x) //faces right if player is on left side
+        {
+            transform.localScale = new Vector2(1, 1);
+        }
+        else                                        //faces left if player is on right side
+        {
+            transform.localScale = new Vector2(-1, 1);
         }
     }
 
