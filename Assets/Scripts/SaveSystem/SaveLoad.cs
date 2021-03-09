@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using EasyButtons;
+//using EasyButtons;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
@@ -48,20 +48,20 @@ namespace SaveSystem
             return tempCurrentGame.playerCurrentScene;
         }
 
-        [Button]
+        //[Button]
         public static void SaveSceneToTempData(string sceneName)
         {
             tempCurrentGame.dict[sceneName] = GatherSceneSaveData();
             Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
         }
 
-        [Button]
+        //[Button]
         public static void SaveActiveSceneToTempData()
         {
             SaveSceneToTempData(SceneManager.GetActiveScene().name);
         }
 
-        [Button]
+        //[Button]
         public static void LoadSceneFromTempData(string sceneName)
         {
             if (tempCurrentGame.dict.TryGetValue(sceneName, out SceneData sceneData))
@@ -79,7 +79,7 @@ namespace SaveSystem
             }
         }
 
-        [Button]
+        //[Button]
         public static void LoadActiveSceneFromTempData()
         {
             LoadSceneFromTempData(SceneManager.GetActiveScene().name);
@@ -88,14 +88,14 @@ namespace SaveSystem
         #endregion
 
 
-        [Button]
+        //[Button]
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
             SaveGameFile(tempCurrentGame);
             Debug.Log("tempCurrentGame was saved to file");
         }
 
-        [Button]
+        //[Button]
         public static void LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame = LoadMostRecentGameFile();

@@ -10,7 +10,7 @@ public class Entity : MonoBehaviour
     [SerializeField]
     public float health;
 
-    [EasyButtons.Button]
+    //[EasyButtons.Button]
     public virtual void TakeDamage(float baseDamage){
         health -= baseDamage;
         if(health <= 0){

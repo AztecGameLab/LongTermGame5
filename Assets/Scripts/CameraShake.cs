@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using EasyButtons;
+//using EasyButtons;
 
 /****************************************
  *  Camera will simulate a shaking motion. 
@@ -56,7 +56,7 @@ public class CameraShake : MonoBehaviour{
     }
 
     // Other varibles like frequency could be add to this StartShake function later. 
-    [Button]
+    //[Button]
     public void StartShake(float time){
         shakeTimeRemaining = time;
     }
