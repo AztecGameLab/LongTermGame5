@@ -4,13 +4,82 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class TextSystemManager : MonoBehaviour
 {
-    public enum DialogAesthetic {Default, Oracle, WindGod, FireGod, NatureGod, WaterGod};
+    public Sprite normal, oracle, waves, sky, nature, ember, mortal;
 
-    public float textRevealSpeed = .002f;
-    public float textRevealWaitTime = .01f;
-    public float doubleTapHesitation = 1f;
+    public Image dialogBackground;
+
+    [TextArea(3, 10)] public string[] textsToShow;
+
+    public int charactersPerSecond = 1;
+    public int revealedCharacters;
+    public int maxCharacterCount;
+
+    public TextMeshPro dialogText;
+
+    [SerializeField] DialogLook dialogLook;
+
+    enum DialogLook
+    {
+        Normal,
+        Oracle,
+        Waves,
+        Sky,
+        Nature,
+        Ember,
+        Mortal
+    };
+
+    public void SetDialogLook()
+    {
+        if(dialogLook == DialogLook.Normal)
+        {
+            dialogBackground.sprite = normal;
+        }
+        else if (dialogLook == DialogLook.Oracle)
+        {
+            dialogBackground.sprite = oracle;
+        }
+        else if (dialogLook == DialogLook.Waves)
+        {
+            dialogBackground.sprite = waves;
+        }
+        else if (dialogLook == DialogLook.Sky)
+        {
+            dialogBackground.sprite = sky;
+        }
+        else if (dialogLook == DialogLook.Nature)
+        {
+            dialogBackground.sprite = nature;
+        }
+        else if (dialogLook == DialogLook.Ember)
+        {
+            dialogBackground.sprite = ember;
+        }
+        else if (dialogLook == DialogLook.Mortal)
+        {
+            dialogBackground.sprite = mortal;
+        }
+        else 
+        {
+            Debug.LogError("dialogBackground.sprite has an unexpected 'dialogLook.' \n" +
+                           "This should never print");
+        }
+    }
+
+    IEnumerator scrollText()
+    {
+        float timePerCharacter = 1 / charactersPerSecond;
+        while (revealedCharacters < maxCharacterCount)
+        {
+            dialogText.maxVisibleCharacters = revealedCharacters;
+            yield return new WaitForSeconds(timePerCharacter);
+            revealedCharacters++;
+        }
+    }
 
     public GameObject BackgroundDefault;
     public GameObject BackgroundOracle;
@@ -18,18 +87,6 @@ public class TextSystemManager : MonoBehaviour
     public GameObject BackgroundFireGod;
     public GameObject BackgroundNatureGod;
     public GameObject BackgroundWaterGod;
-
-    public Image[] textHiderDefaultRow = new Image[4];
-
-    public Image[] textHiderOracleRow = new Image[4];
-
-    public Image[] textHiderWindGodRow = new Image[4];
-
-    public Image[] textHiderFireGodRow = new Image[4];
-
-    public Image[] textHiderNatureGodRow = new Image[4];
-
-    public Image[] textHiderWaterGodRow = new Image[4];
 
     public bool textFullyRevealed;
 
@@ -43,42 +100,13 @@ public class TextSystemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        normal = GameObject.Find("BackgroundDefault").GetComponent<Sprite>();
         BackgroundDefault = GameObject.Find("BackgroundDefault");
         BackgroundOracle = GameObject.Find("BackgroundOracle");
         BackgroundWindGod = GameObject.Find("BackgroundWindGod");
         BackgroundFireGod = GameObject.Find("BackgroundFireGod");
         BackgroundNatureGod = GameObject.Find("BackgroundNatureGod");
         BackgroundWaterGod = GameObject.Find("BackgroundWaterGod");
-
-        textHiderDefaultRow[0] = GameObject.Find("DefaultTextCoverRow1").GetComponent<Image>();
-        textHiderDefaultRow[1] = GameObject.Find("DefaultTextCoverRow2").GetComponent<Image>();
-        textHiderDefaultRow[2] = GameObject.Find("DefaultTextCoverRow3").GetComponent<Image>();
-        textHiderDefaultRow[3] = GameObject.Find("DefaultTextCoverRow4").GetComponent<Image>();
-        
-        textHiderOracleRow[0] = GameObject.Find("OracleTextCoverRow1").GetComponent<Image>();
-        textHiderOracleRow[1] = GameObject.Find("OracleTextCoverRow2").GetComponent<Image>();
-        textHiderOracleRow[2] = GameObject.Find("OracleTextCoverRow3").GetComponent<Image>();
-        textHiderOracleRow[3] = GameObject.Find("OracleTextCoverRow4").GetComponent<Image>();
-        
-        textHiderWindGodRow[0] = GameObject.Find("WindGodTextCoverRow1").GetComponent<Image>();
-        textHiderWindGodRow[1] = GameObject.Find("WindGodTextCoverRow2").GetComponent<Image>();
-        textHiderWindGodRow[2] = GameObject.Find("WindGodTextCoverRow3").GetComponent<Image>();
-        textHiderWindGodRow[3] = GameObject.Find("WindGodTextCoverRow4").GetComponent<Image>();
-        
-        textHiderFireGodRow[0] = GameObject.Find("FireGodTextCoverRow1").GetComponent<Image>();
-        textHiderFireGodRow[1] = GameObject.Find("FireGodTextCoverRow2").GetComponent<Image>();
-        textHiderFireGodRow[2] = GameObject.Find("FireGodTextCoverRow3").GetComponent<Image>();
-        textHiderFireGodRow[3] = GameObject.Find("FireGodTextCoverRow4").GetComponent<Image>();
-        
-        textHiderNatureGodRow[0] = GameObject.Find("NatureGodTextCoverRow1").GetComponent<Image>();
-        textHiderNatureGodRow[1] = GameObject.Find("NatureGodTextCoverRow2").GetComponent<Image>();
-        textHiderNatureGodRow[2] = GameObject.Find("NatureGodTextCoverRow3").GetComponent<Image>();
-        textHiderNatureGodRow[3] = GameObject.Find("NatureGodTextCoverRow4").GetComponent<Image>();
-
-        textHiderWaterGodRow[0] = GameObject.Find("WaterGodTextCoverRow1").GetComponent<Image>();
-        textHiderWaterGodRow[1] = GameObject.Find("WaterGodTextCoverRow2").GetComponent<Image>();
-        textHiderWaterGodRow[2] = GameObject.Find("WaterGodTextCoverRow3").GetComponent<Image>();
-        textHiderWaterGodRow[3] = GameObject.Find("WaterGodTextCoverRow4").GetComponent<Image>();
 
         textMeshProDefault = GameObject.Find("TextDefault").GetComponent<TextMeshProUGUI>();
         textMeshProOracle = GameObject.Find("TextOracle").GetComponent<TextMeshProUGUI>();
@@ -96,7 +124,7 @@ public class TextSystemManager : MonoBehaviour
 
         string dialog = "AAAAAAAAAAAAggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgggggggggggggggggggggggggggggggggggggggggggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggggggggggAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGGggggggggggggggggggggggggggggggggggg";
 
-        WriteDialog(DialogAesthetic.Default, dialog);
+        //WriteDialog(DialogLook.Normal, dialog);
         //WriteDialog(DialogAesthetic.Oracle, dialog);
         //WriteDialog(DialogAesthetic.WindGod, dialog);
         //WriteDialog(DialogAesthetic.FireGod, dialog);
@@ -109,7 +137,7 @@ public class TextSystemManager : MonoBehaviour
      * 
      * If the text has already been fully revealed, any button will instead reset the textboxes and close them
      * 
-     */
+     *
     void Update()
     {
         if (Input.anyKeyDown)
@@ -181,45 +209,45 @@ public class TextSystemManager : MonoBehaviour
      * The dialogAesthetic parameter controls how the text will look when written to the screen
      * 
      * Lastly the RevealText coroutine is called so the text is slowly revealed rather than immediate.
-     */
-    public void WriteDialog(DialogAesthetic dialogAesthetic, string dialog)
+     *
+    public void WriteDialog(DialogLook dialogAesthetic, string dialog)
     {
-        if (dialogAesthetic == DialogAesthetic.Default)
+        if (dialogAesthetic == DialogLook.Normal)
         {
             BackgroundDefault.SetActive(true);
             textMeshProDefault.text = dialog;
 
             StartCoroutine(RevealText(textHiderDefaultRow));
         }
-        else if (dialogAesthetic == DialogAesthetic.Oracle)
+        else if (dialogAesthetic == DialogLook.Oracle)
         {
             BackgroundOracle.SetActive(true);
             textMeshProOracle.text = dialog;
 
             StartCoroutine(RevealText(textHiderOracleRow));
         }
-        else if (dialogAesthetic == DialogAesthetic.WindGod)
+        else if (dialogAesthetic == DialogLook.WindGod)
         {
             BackgroundWindGod.SetActive(true);
             textMeshProWindGod.text = dialog;
 
             StartCoroutine(RevealText(textHiderWindGodRow));
         }
-        else if (dialogAesthetic == DialogAesthetic.FireGod)
+        else if (dialogAesthetic == DialogLook.FireGod)
         {
             BackgroundFireGod.SetActive(true);
             textMeshProFireGod.text = dialog;
 
             StartCoroutine(RevealText(textHiderFireGodRow));
         }
-        else if (dialogAesthetic == DialogAesthetic.NatureGod)
+        else if (dialogAesthetic == DialogLook.NatureGod)
         {
             BackgroundNatureGod.SetActive(true);
             textMeshProNatureGod.text = dialog;
 
             StartCoroutine(RevealText(textHiderNatureGodRow));
         }
-        else if (dialogAesthetic == DialogAesthetic.WaterGod)
+        else if (dialogAesthetic == DialogLook.WaterGod)
         {
             BackgroundWaterGod.SetActive(true);
             textMeshProWaterGod.text = dialog;
@@ -240,7 +268,7 @@ public class TextSystemManager : MonoBehaviour
      * Lastly WaitForSeconds is called to prevent the player from accedently skipping a line of dialog
      * Following this hesitation textFullyRevealed is set to true so the player can close the text dialog
      * 
-     */
+     *
     private IEnumerator RevealText(Image[] hiderImages)
     {
         textFullyRevealed = false;
@@ -255,4 +283,5 @@ public class TextSystemManager : MonoBehaviour
         yield return new WaitForSeconds(doubleTapHesitation);
         textFullyRevealed = true;
     }
+    */
 }
