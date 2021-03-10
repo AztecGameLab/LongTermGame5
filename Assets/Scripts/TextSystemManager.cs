@@ -8,6 +8,56 @@ using UnityEngine.UI;
 
 public class TextSystemManager : MonoBehaviour
 {
+    public GameObject BackgroundDefault;
+    public GameObject BackgroundOracle;
+    public GameObject BackgroundWindGod;
+    public GameObject BackgroundFireGod;
+    public GameObject BackgroundNatureGod;
+    public GameObject BackgroundWaterGod;
+
+    public bool textFullyRevealed;
+
+    public TextMeshProUGUI textMeshProDefault;
+    public TextMeshProUGUI textMeshProOracle;
+    public TextMeshProUGUI textMeshProWindGod;
+    public TextMeshProUGUI textMeshProFireGod;
+    public TextMeshProUGUI textMeshProNatureGod;
+    public TextMeshProUGUI textMeshProWaterGod;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        BackgroundDefault = GameObject.Find("BackgroundDefault");
+        BackgroundOracle = GameObject.Find("BackgroundOracle");
+        BackgroundWindGod = GameObject.Find("BackgroundWindGod");
+        BackgroundFireGod = GameObject.Find("BackgroundFireGod");
+        BackgroundNatureGod = GameObject.Find("BackgroundNatureGod");
+        BackgroundWaterGod = GameObject.Find("BackgroundWaterGod");
+
+        textMeshProDefault = GameObject.Find("TextDefault").GetComponent<TextMeshProUGUI>();
+        textMeshProOracle = GameObject.Find("TextOracle").GetComponent<TextMeshProUGUI>();
+        textMeshProWindGod = GameObject.Find("TextWindGod").GetComponent<TextMeshProUGUI>();
+        textMeshProFireGod = GameObject.Find("TextFireGod").GetComponent<TextMeshProUGUI>();
+        textMeshProNatureGod = GameObject.Find("TextNatureGod").GetComponent<TextMeshProUGUI>();
+        textMeshProWaterGod = GameObject.Find("TextWaterGod").GetComponent<TextMeshProUGUI>();
+
+        BackgroundDefault.SetActive(false);
+        BackgroundOracle.SetActive(false);
+        BackgroundWindGod.SetActive(false);
+        BackgroundFireGod.SetActive(false);
+        BackgroundNatureGod.SetActive(false);
+        BackgroundWaterGod.SetActive(false);
+
+        string dialog = "AAAAAAAAAAAAggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgggggggggggggggggggggggggggggggggggggggggggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggggggggggAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGGggggggggggggggggggggggggggggggggggg";
+
+        //WriteDialog(DialogLook.Normal, dialog);
+        //WriteDialog(DialogAesthetic.Oracle, dialog);
+        //WriteDialog(DialogAesthetic.WindGod, dialog);
+        //WriteDialog(DialogAesthetic.FireGod, dialog);
+        //WriteDialog(DialogAesthetic.NatureGod, dialog);
+        //WriteDialog(DialogAesthetic.WaterGod, dialog);
+    }
+
     public Sprite normal, oracle, waves, sky, nature, ember, mortal;
 
     public Image dialogBackground;
@@ -70,7 +120,22 @@ public class TextSystemManager : MonoBehaviour
         }
     }
 
-    IEnumerator scrollText()
+    public void InitiateDialog(int dialogSet = 0)
+    {
+
+    }
+
+    public void ContinueDialog()
+    {
+
+    }
+
+    public void CloseDialog()
+    {
+
+    }
+
+    IEnumerator ScrollText()
     {
         float timePerCharacter = 1 / charactersPerSecond;
         while (revealedCharacters < maxCharacterCount)
@@ -81,56 +146,7 @@ public class TextSystemManager : MonoBehaviour
         }
     }
 
-    public GameObject BackgroundDefault;
-    public GameObject BackgroundOracle;
-    public GameObject BackgroundWindGod;
-    public GameObject BackgroundFireGod;
-    public GameObject BackgroundNatureGod;
-    public GameObject BackgroundWaterGod;
-
-    public bool textFullyRevealed;
-
-    public TextMeshProUGUI textMeshProDefault;
-    public TextMeshProUGUI textMeshProOracle;
-    public TextMeshProUGUI textMeshProWindGod;
-    public TextMeshProUGUI textMeshProFireGod;
-    public TextMeshProUGUI textMeshProNatureGod;
-    public TextMeshProUGUI textMeshProWaterGod;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        normal = GameObject.Find("BackgroundDefault").GetComponent<Sprite>();
-        BackgroundDefault = GameObject.Find("BackgroundDefault");
-        BackgroundOracle = GameObject.Find("BackgroundOracle");
-        BackgroundWindGod = GameObject.Find("BackgroundWindGod");
-        BackgroundFireGod = GameObject.Find("BackgroundFireGod");
-        BackgroundNatureGod = GameObject.Find("BackgroundNatureGod");
-        BackgroundWaterGod = GameObject.Find("BackgroundWaterGod");
-
-        textMeshProDefault = GameObject.Find("TextDefault").GetComponent<TextMeshProUGUI>();
-        textMeshProOracle = GameObject.Find("TextOracle").GetComponent<TextMeshProUGUI>();
-        textMeshProWindGod = GameObject.Find("TextWindGod").GetComponent<TextMeshProUGUI>();
-        textMeshProFireGod = GameObject.Find("TextFireGod").GetComponent<TextMeshProUGUI>();
-        textMeshProNatureGod = GameObject.Find("TextNatureGod").GetComponent<TextMeshProUGUI>();
-        textMeshProWaterGod = GameObject.Find("TextWaterGod").GetComponent<TextMeshProUGUI>();
-
-        BackgroundDefault.SetActive(false);
-        BackgroundOracle.SetActive(false);
-        BackgroundWindGod.SetActive(false);
-        BackgroundFireGod.SetActive(false);
-        BackgroundNatureGod.SetActive(false);
-        BackgroundWaterGod.SetActive(false);
-
-        string dialog = "AAAAAAAAAAAAggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgggggggggggggggggggggggggggggggggggggggggggggggggggggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggggggggggAAAAAAAAAAAAAAGGGGGGGGGGGGGGGGGggggggggggggggggggggggggggggggggggg";
-
-        //WriteDialog(DialogLook.Normal, dialog);
-        //WriteDialog(DialogAesthetic.Oracle, dialog);
-        //WriteDialog(DialogAesthetic.WindGod, dialog);
-        //WriteDialog(DialogAesthetic.FireGod, dialog);
-        //WriteDialog(DialogAesthetic.NatureGod, dialog);
-        //WriteDialog(DialogAesthetic.WaterGod, dialog);
-    }
+    
 
     /* The Update function is used to allow the player to fullyReveal the text by pushing any button while text is 
      * on the screen
