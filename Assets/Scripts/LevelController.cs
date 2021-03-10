@@ -10,14 +10,14 @@ public class LevelController : Singleton<LevelController>
     public event Action<Level> BeforeStartLoad;
     public event Action<Level> BeforeStartUnload;
     
-    private readonly List<Level> _activeLevels = new List<Level>();
+    private LinkedList<Level> _activeLevels = new LinkedList<Level>();
     private readonly List<Level> _loadedLevels = new List<Level>();
     private readonly List<Scene> _loadingScenes = new List<Scene>();
 
     [SerializeField] private bool showDebug = false;
     
     public bool Loading => _loadingScenes.Count > 0;
-    public Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels[0] : null;
+    public Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels.First.Value : null;
     private Dictionary<string, Level> _sceneNamesToLevels = new Dictionary<string, Level>();
     
     private void OnEnable()
@@ -57,16 +57,23 @@ public class LevelController : Singleton<LevelController>
     private void SetupActiveLevel()
     {
         var activeLevel = GetLevel(SceneManager.GetActiveScene().name);
-        AddActiveLevel(activeLevel);
+        AddActiveLevel(activeLevel, true);
     }
-    
-    private void AddActiveLevel(Level level)
+
+    private void AddActiveLevel(Level level, bool forceActive)
     {
         if (_activeLevels.Contains(level) || level.isPersistent) 
             return;
-        
-        _activeLevels.Add(level);
 
+        if (forceActive)
+        {
+            _activeLevels.AddFirst(level);
+        }
+        else
+        {
+            _activeLevels.AddLast(level);
+        }
+        
         if (ActiveLevel == level)
             ActiveLevelChanged?.Invoke(ActiveLevel);
     }
@@ -118,8 +125,6 @@ public class LevelController : Singleton<LevelController>
 
     private void OnLoaded(Scene scene, LoadSceneMode mode)
     {
-        
-        
         if (ActiveLevel != null && ActiveLevel.sceneName == scene.name)
             SceneManager.SetActiveScene(scene);
         
@@ -140,9 +145,9 @@ public class LevelController : Singleton<LevelController>
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
     }
 
-    public void LoadLevel(string sceneName)
+    public void LoadLevel(string sceneName, bool forceActive = false)
     {
-        LoadLevel(GetLevel(sceneName));
+        LoadLevel(GetLevel(sceneName), forceActive);
     }
     
     public void UnloadLevel(string sceneName)
@@ -150,9 +155,9 @@ public class LevelController : Singleton<LevelController>
         UnloadLevel(GetLevel(sceneName));
     }
     
-    public void LoadLevel(Level level)
+    public void LoadLevel(Level level, bool forceActive = false)
     {
-        AddActiveLevel(level);
+        AddActiveLevel(level, forceActive);
         
         LoadAdditive(level);
 

@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using SaveSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
     public Level firstLevel;
-    public Level playerLevel;
+    public GameObject playerPrefab;
     public Level mainMenuLevel;
     public Level creditsLevel;
 
+    public float fadeTime = 0.25f;
     public GameObject quitButton;
 
     private TransitionController _transitionController;
@@ -22,18 +24,35 @@ public class MainMenuUI : MonoBehaviour
 
     public void EnterGame()
     {
-        StartCoroutine(EnterGameCoroutine());
+        Level level;
+        var currentPlayerScene = SaveLoad.GetPlayerCurrentScene();
+
+        if (currentPlayerScene == null)
+        {
+            // No save has been made yet, load cutscene / starting scene
+            level = firstLevel;
+            print("No save found: Loading " + level.sceneName);
+        }
+        else
+        {
+            level = _levelController.GetLevel(currentPlayerScene);
+            print("Save found! Loading " + level.sceneName);
+        }
+
+        StartCoroutine(LoadLevelCoroutine(level));
     }
 
-    private IEnumerator EnterGameCoroutine()
+    private IEnumerator LoadLevelCoroutine(Level level)
     {
-        _transitionController.FadeTo(Color.black, 0.25f);
-        yield return new WaitForSeconds(0.25f);
+        _transitionController.FadeTo(Color.black, fadeTime);
+        yield return new WaitForSeconds(fadeTime);
         
-        _levelController.LoadLevel(firstLevel);
+        _levelController.LoadLevel(level, true);
         yield return new WaitUntil(() => !_levelController.Loading);
-
-        _transitionController.FadeFrom(Color.black, 0.25f);
+        
+        Instantiate(playerPrefab);
+        
+        _transitionController.FadeFrom(Color.black, fadeTime);
         _levelController.UnloadLevel(mainMenuLevel);
     }
 
