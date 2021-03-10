@@ -32,7 +32,8 @@ public class JointGrapple : MonoBehaviour
 
         
         Vector2 mousePos = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, mousePos, grappleRange, whatIsGrapplable);                               //Raycast to mouse position using the camera
+        Vector2 direction = mousePos - (Vector2)transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, grappleRange, whatIsGrapplable);                               //Raycast to mouse position using the camera
 
         Debug.DrawRay(transform.position, mousePos, Color.red, 10);
         if (hit.collider != null)
