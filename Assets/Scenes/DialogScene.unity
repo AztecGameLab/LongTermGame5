@@ -401,45 +401,12 @@ MonoBehaviour:
   maxCharacterCount: 0
   dialogText: {fileID: 0}
   dialogLook: 0
-  textRevealSpeed: 0.002
-  textRevealWaitTime: 0.01
-  doubleTapHesitation: 1
   BackgroundDefault: {fileID: 0}
   BackgroundOracle: {fileID: 0}
   BackgroundWindGod: {fileID: 0}
   BackgroundFireGod: {fileID: 0}
   BackgroundNatureGod: {fileID: 0}
   BackgroundWaterGod: {fileID: 0}
-  textHiderDefaultRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  textHiderOracleRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  textHiderWindGodRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  textHiderFireGodRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  textHiderNatureGodRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  textHiderWaterGodRow:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   textFullyRevealed: 0
   textMeshProDefault: {fileID: 0}
   textMeshProOracle: {fileID: 0}
@@ -1626,7 +1593,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
