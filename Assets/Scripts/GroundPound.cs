@@ -5,7 +5,7 @@ using UnityEngine;
 public class GroundPound : MonoBehaviour
 {
 
-    public float dropForce = 5f;
+    public float dropForce =10f;
     public float stopTime = 0.5f;
     public float gravityScale = 1f;
     private PlatformerController player;
@@ -38,7 +38,6 @@ public class GroundPound : MonoBehaviour
         if (doGroundPound)
         {
             GroundPoundAttack();
-            Debug.Log("this is working!");
         }
 
         doGroundPound = false;
