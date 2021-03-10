@@ -11,7 +11,6 @@ public class GroundPound : MonoBehaviour
     private PlatformerController player;
     private Rigidbody2D body;
     private bool doGroundPound = false;
-    private bool isGroundPounding = false;
     //get animator later
 
     private void Awake()
@@ -20,17 +19,10 @@ public class GroundPound : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetButtonDown("Fire1"))
+        //works
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (!player.isGrounded)
             {
@@ -43,14 +35,16 @@ public class GroundPound : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (doGroundPound && isGroundPounding)
+        if (doGroundPound)
         {
             GroundPoundAttack();
+            Debug.Log("this is working!");
         }
 
         doGroundPound = false;
     }
 
+    //if the player collides with something, then the ground pound stops
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.contacts[0].normal.y >= 0.5)
@@ -61,12 +55,12 @@ public class GroundPound : MonoBehaviour
 
     public void GroundPoundAttack()
     {
-        isGroundPounding = true;
         player.enabled = false;
         StopAndSpin();
         StartCoroutine("DropAndSmash");
     }
 
+    //stop in the air and play animation
     public void StopAndSpin()
     {
         ClearForces();
@@ -87,7 +81,6 @@ public class GroundPound : MonoBehaviour
     {
         body.gravityScale = gravityScale;
         player.enabled = true;
-        isGroundPounding = false;
         //animation line here to stop the drop animation
     }
 
