@@ -10,8 +10,10 @@ public class SpikeScript : MonoBehaviour
 
     void Awake() {
         this.gameObject.AddComponent<PolygonCollider2D>();
-        x = 4f;
-        y = 3f;
+        //x = 4f;
+        //y = 3f;
+        x = 20f;
+        y = 5f;
         spikeDamage = 1f;
     }
     void OnCollisionEnter2D(Collision2D other) {   
@@ -23,8 +25,9 @@ public class SpikeScript : MonoBehaviour
             direction = direction.normalized * new Vector2(x, y);
 
             Rigidbody2D player = other.rigidbody;
-            player.AddForce(direction, ForceMode2D.Impulse);
+            //player.AddForce(direction, ForceMode2D.Impulse);
 
+            player.velocity = direction;
             Entity entity = player.GetComponentInParent<Entity>();
             entity.TakeDamage(spikeDamage);
         }
