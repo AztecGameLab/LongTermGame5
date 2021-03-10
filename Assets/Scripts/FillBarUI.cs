@@ -12,7 +12,7 @@ public class FillBarUI : MonoBehaviour
 
     void Start()
     {
-        BarFill = gameObject.GetComponent(typeof(Image)) as Image;
+        BarFill = gameObject.GetComponent<Image>();
     }
 
     /* ChangeFillAmount() is a IEnumerator called externally whenever:

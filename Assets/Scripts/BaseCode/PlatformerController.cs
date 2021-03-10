@@ -198,7 +198,7 @@ public class PlatformerController : Entity
     }
 
     public void KnockBack(Vector2 direction, float intensity){
-        rigid.AddForce(direction * intensity);
+        rigid.AddForce(rigid.mass * direction * intensity);
     }
 
     #region Helpers
@@ -217,5 +217,23 @@ public class PlatformerController : Entity
         CheckStartCoyoteTime(other);
     }
 
-#endregion
+    #endregion
+
+
+    #region EntityStuff
+
+    public override void TakeDamage(float baseDamage, Vector2 direction){
+        //TODO :: APPLY KNOCKBACK
+
+        //NOTE :: NOT NORMALIZED
+        base.TakeDamage(baseDamage);
+    }
+
+    public override void OnDeath()
+    {
+        //We don't want to destroy ourselves on death lmao
+        return;
+    }
+
+    #endregion
 }
