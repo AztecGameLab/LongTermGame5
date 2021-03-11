@@ -14,12 +14,13 @@ public class SpikeScript : MonoBehaviour
 {
     [SerializeField] private float intensity;
     [SerializeField] private float spikeDamage;
-    private BoxCollider2D box;
+    private PolygonCollider2D poly;
 
     void Awake() {
-        box = this.gameObject.AddComponent<BoxCollider2D>();
-        box.offset = new Vector2(0f,-.08f);
-        box.size = new Vector2(0.32f, 0.16f);
+        poly = gameObject.AddComponent<PolygonCollider2D>();
+        poly.autoTiling = true;
+        //box.offset = new Vector2(0f,-.08f);
+        //box.size = new Vector2(0.32f, 0.16f);
         intensity = 5f;
         spikeDamage = 1f;   //TODO :: spikeDamage will probably be greater than 1
     }
@@ -30,7 +31,7 @@ public class SpikeScript : MonoBehaviour
             ContactPoint2D contacted = other.GetContact(0);  
             Vector2 direction =  playerPos - contacted.point;
             direction = new Vector2(Mathf.Sign(direction.x), Mathf.Sign(direction.y));  // 45 degree 
-            
+            Debug.Log(other.relativeVelocity);
             //Debug.DrawLine(playerPos,playerPos+direction);
             var player = PlatformerController.instance;
             player.TakeDamage(spikeDamage);
