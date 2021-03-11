@@ -8,7 +8,7 @@ public class SpikeScript : MonoBehaviour
     [SerializeField] private float spikeDamage;
 
     void Awake() {
-        this.gameObject.AddComponent<PolygonCollider2D>();
+        this.gameObject.AddComponent<BoxCollider2D>();
         intensity = 5f;
         spikeDamage = 1f;
     }
