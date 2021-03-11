@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviour
 {
-    [SerializeField] private float x;
-    [SerializeField] private float y;
+    [SerializeField] private float intensity;
     [SerializeField] private float spikeDamage;
 
     void Awake() {
         this.gameObject.AddComponent<PolygonCollider2D>();
-        //x = 4f;
-        //y = 3f;
-        x = 20f;
-        y = 5f;
+        intensity = 5f;
         spikeDamage = 1f;
     }
-    void OnCollisionEnter2D(Collision2D other) {   
+    void OnCollisionEnter2D(Collision2D other) {
+
         if (other.gameObject.CompareTag("Player")) {
 
             Vector2 playerPos = other.transform.position;
             ContactPoint2D contacted = other.GetContact(0);
+            
             Vector2 direction =  playerPos - contacted.point;
-            direction = direction.normalized * new Vector2(x, y);
+            direction = new Vector2(Mathf.Sign(direction.x), Mathf.Sign(direction.y));  //always push target at a 45 degree angle
+            
+            Debug.DrawLine(playerPos,playerPos+direction);
 
-            Rigidbody2D player = other.rigidbody;
-            //player.AddForce(direction, ForceMode2D.Impulse);
 
-            player.velocity = direction;
-            Entity entity = player.GetComponentInParent<Entity>();
-            entity.TakeDamage(spikeDamage);
+            var player = PlatformerController.instance;
+            player.KnockBack(direction, intensity);
+            player.TakeDamage(spikeDamage);
+            
+            Debug.Log(direction); 
         }
     }
 }
