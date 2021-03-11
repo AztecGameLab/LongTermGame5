@@ -198,7 +198,7 @@ public class PlatformerController : Entity
     }
 
     public void KnockBack(Vector2 direction, float intensity){
-        rigid.AddForce(rigid.mass * direction * intensity,ForceMode2D.Impulse);
+        rigid.AddForce(rigid.mass * direction * intensity, ForceMode2D.Impulse);
     }
 
     #region Helpers
