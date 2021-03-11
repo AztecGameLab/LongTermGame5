@@ -38,14 +38,14 @@ namespace SaveSystem
 
         #region only game system call these, not the player //TODO make these work for multiple loaded scenes. I think right now there no difference between SaveScene and SaveActiveScene because FindObjectsOfType searches all loaded scenes
 
-        public static void SetPlayerCurrentScene(string sceneName)
+        public static void SetPlayerData(PlayerData data)
         {
-            tempCurrentGame.playerCurrentScene = sceneName;
+            tempCurrentGame.playerData = data;
         }
 
-        public static string GetPlayerCurrentScene()
+        public static PlayerData GetPlayerData()
         {
-            return tempCurrentGame.playerCurrentScene;
+            return tempCurrentGame.playerData;
         }
 
         [Button]
@@ -274,11 +274,11 @@ namespace SaveSystem
         [System.Serializable]
         class SaveDisplay
         {
-            public string playerCurrentScene;
+            public PlayerData playerData;
             public List<SceneSaveDisplay> scenes = new List<SceneSaveDisplay>();
             public SaveDisplay(GameData gameData)
             {
-                playerCurrentScene = gameData.playerCurrentScene;
+                playerData = gameData.playerData;
                 foreach (KeyValuePair<string, SceneData> item in gameData.dict)
                 {
                     scenes.Add(new SceneSaveDisplay(item.Key, item.Value));

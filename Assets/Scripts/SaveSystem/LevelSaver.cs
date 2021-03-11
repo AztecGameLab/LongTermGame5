@@ -59,9 +59,17 @@ namespace SaveSystem
         
         private static void OnActiveLevelChanged(Level level)
         {
-            if (ShouldSave(level))
+            var player = PlatformerController.instance;
+            
+            if (ShouldSave(level) && player != null)
             {
-                SaveLoad.SetPlayerCurrentScene(level.sceneName);
+                var playerData = new PlayerData
+                {
+                    currentScene = level.sceneName, 
+                    position = player.transform.position
+                };
+
+                SaveLoad.SetPlayerData(playerData);
             }
         }
     }    

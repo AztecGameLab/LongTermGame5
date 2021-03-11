@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -165,6 +166,7 @@ public class LevelController : Singleton<LevelController>
             LoadAdditive(neighbor);
     }
 
+    // During gameplay, ensure that one level is always active in case the player escapes the trigger.
     public void UnloadLevel(Level level, bool needsOneActive = false)
     {
         RemoveActiveLevel(level);
@@ -232,10 +234,27 @@ public class LevelController : Singleton<LevelController>
         if (showDebug == false)
             return;
 
-        if (GUILayout.Button("Load Credits"))
+        if (GUILayout.Button("Return to menu"))
         {
             UnloadActiveScenes();            
-            LoadLevel("Credits");
+            LoadLevel("MainMenu");
+        }
+
+        if (GUILayout.Button("Save Game"))
+        {
+            foreach (var activeLevel in _activeLevels)
+                SaveLoad.SaveSceneToTempData(activeLevel.sceneName);    
+            
+            var playerData = new PlayerData
+            {
+                currentScene = ActiveLevel.sceneName, 
+                position = PlatformerController.instance.transform.position
+            };
+
+            SaveLoad.SetPlayerData(playerData);
+            
+            
+            SaveLoad.SaveTempDataToFile();
         }
             
         GUILayout.Label("Loaded Levels: ");

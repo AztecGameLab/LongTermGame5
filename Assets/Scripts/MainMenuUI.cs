@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using SaveSystem;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -25,24 +24,29 @@ public class MainMenuUI : MonoBehaviour
     public void EnterGame()
     {
         Level level;
-        var currentPlayerScene = SaveLoad.GetPlayerCurrentScene();
+        Vector3 playerPosition;
+        
+        SaveLoad.LoadFromFileToTempData();
+        var playerData = SaveLoad.GetPlayerData();
 
-        if (currentPlayerScene == null)
+        if (playerData == null)
         {
             // No save has been made yet, load cutscene / starting scene
             level = firstLevel;
+            playerPosition = Vector3.zero;
             print("No save found: Loading " + level.sceneName);
         }
         else
         {
-            level = _levelController.GetLevel(currentPlayerScene);
+            level = _levelController.GetLevel(playerData.currentScene);
+            playerPosition = playerData.position;
             print("Save found! Loading " + level.sceneName);
         }
 
-        StartCoroutine(LoadLevelCoroutine(level));
+        StartCoroutine(LoadLevelCoroutine(level, playerPosition));
     }
 
-    private IEnumerator LoadLevelCoroutine(Level level)
+    private IEnumerator LoadLevelCoroutine(Level level, Vector3 playerPosition)
     {
         _transitionController.FadeTo(Color.black, fadeTime);
         yield return new WaitForSeconds(fadeTime);
@@ -50,7 +54,16 @@ public class MainMenuUI : MonoBehaviour
         _levelController.LoadLevel(level, true);
         yield return new WaitUntil(() => !_levelController.Loading);
         
-        Instantiate(playerPrefab);
+        var player = Instantiate(playerPrefab);
+        player.transform.position = playerPosition;
+        
+        var playerData = new PlayerData
+        {
+            currentScene = level.sceneName, 
+            position = player.transform.position
+        };
+
+        SaveLoad.SetPlayerData(playerData);
         
         _transitionController.FadeFrom(Color.black, fadeTime);
         _levelController.UnloadLevel(mainMenuLevel);
