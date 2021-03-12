@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlatformerController : MonoBehaviour
+public class PlatformerController : Entity
 {
     [SerializeField] private PlatformerParameters parameters;
-    
     [SerializeField] private Rigidbody2D rigid;
-    
     [SerializeField] private Animator anim;
-    
-    public Interactable interactable;
-
     SpriteRenderer render;
 
+    public int currWeapon;
+    public List<ProjectileWeapon> weapons;
     private static PlatformerController _instance;
     public static PlatformerController instance{
         get{
@@ -25,15 +22,17 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
-
     void Awake(){
-        //Pretty sure there was a reason as to why I don't usually do this
-        //But I can't remember for the life of me why
-
         _instance = this;
         rigid = this.GetComponent<Rigidbody2D>();
         if(rigid == null){
             rigid = this.gameObject.AddComponent<Rigidbody2D>();
+            rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rigid.sharedMaterial = new PhysicsMaterial2D();
+            rigid.sharedMaterial.friction = 0;
+            rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            rigid.interpolation = RigidbodyInterpolation2D.Extrapolate;
+            rigid.freezeRotation = true;
         }
 
         PhysicsMaterial2D material = new PhysicsMaterial2D();
@@ -58,34 +57,43 @@ public class PlatformerController : MonoBehaviour
         if(Mathf.Abs(rigid.velocity.x) > 0){
             render.flipX = rigid.velocity.x > 0;
         }
-
-        if(jumpCounter >= parameters.JumpCount){
-            canJump = false;
-        }
     }
 
+    [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
-        rigid.velocity = new Vector2(goalVelocity, rigid.velocity.y + fastFall);
+        //Going with a PID loop with only P lol
+        float maxForce = parameters.AccelerationMultiplier * 2.5f;
+        error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
+        
+        #if UNITY_EDITOR
+        Debug.DrawLine(this.transform.position, (Vector2)this.transform.position + new Vector2(error, 0));
+        #endif
+
+        rigid.AddForce(new Vector2(error, 0));
     }
     
     float fastFall = 0;
-    float goalVelocity;
+    public float goalVelocity;
     public void OnMovementChanged(InputAction.CallbackContext context){
         Vector2 movement = context.ReadValue<Vector2>();
-        float horizontalVelocity = movement.x * parameters.MaxRunSpeed;
+        float horizontalVelocity = movement.x * parameters.MaxRunSpeed * rigid.mass;
         goalVelocity = horizontalVelocity;
-
-        //TODO :: ADD ACCELLERATION / DECELERATION
 
         //TODO :: Implement a fast fall function
     }
 
+    #region Jumping
     public void OnJumpPerformed(InputAction.CallbackContext context){
-        if(context.performed)
+        if(context.performed){
+            if(jumpCounter >= parameters.JumpCount){
+                canJump = false;
+            }
             StartCoroutine(JumpQueue(parameters.JumpBufferTime));
+        }
         else if(context.canceled){
             if(isJumping){
-                rigid.velocity = new Vector2(rigid.velocity.x, 0);
+                if(rigid.velocity.y > 0)
+                    rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y / 4);
                 isJumping = false;
             }
         }
@@ -105,9 +113,10 @@ public class PlatformerController : MonoBehaviour
         }
     }
 
-    public void Jump(){
+    private void Jump(){
         rigid.velocity = new Vector2(rigid.velocity.x, parameters.JumpSpeed);
         jumpCounter++;
+        isJumping = true;
         StartCoroutine(JumpTimeout());
     }
 
@@ -119,16 +128,17 @@ public class PlatformerController : MonoBehaviour
     IEnumerator JumpTimeout(){
         //Calculate Time at apex
         //t = (Vf - Vi) / a
-        float time = -parameters.JumpSpeed / Physics2D.gravity.magnitude;
-        yield return new WaitForSeconds(time);
+        float time = - parameters.JumpSpeed / Physics2D.gravity.magnitude;
+        yield return new WaitUntil(() => rigid.velocity.y <= 0);
         isJumping = false;
     }
 
-    int jumpCounter = 0;
-    bool isJumping = false;
-    bool isGrounded = false;
-    bool canJump = false;
+    public int jumpCounter = 0;
+    public bool isJumping = false;
+    public bool isGrounded = false;
+    public bool canJump = false;
     
+    //This works just fine
     void CheckGroundedState(Collision2D other){
         isGrounded = false;
         foreach(ContactPoint2D point in other.contacts){
@@ -156,23 +166,43 @@ public class PlatformerController : MonoBehaviour
 
     //Almost the same as CheckGroundedState Except this need to be ran in Exit
     public void CheckStartCoyoteTime(Collision2D other){
-        foreach(ContactPoint2D point in other.contacts){
-            Vector2 direction =  point.point - (Vector2)this.transform.position;
-            if(Vector3.Angle(-this.transform.up, direction) < parameters.MaxGroundAngle){
-                StopCoroutine("CoyoteTime");
-                StartCoroutine(CoyoteTime(parameters.CoyoteTime));
-                break; //if we know we are grounded, no need to continue checking the loop
-            }
+        if(!isJumping && !isGrounded){
+            StopCoroutine("CoyoteTime");
+            StartCoroutine(CoyoteTime(parameters.CoyoteTime));
         }
     }
 
-    public void Interact(InputAction.CallbackContext context){
+    #endregion
 
-        //Run the interact function on the current working interacable that we are working with
-        if(interactable != null){
-            interactable.OnInteract();
+    #region Projectiles
+
+    public void ProjectileHandler(InputAction.CallbackContext context){
+        int activeWeapon = currWeapon;
+        if(context.started){
+            weapons[activeWeapon].Charge();
+        }else if(context.canceled){
+            weapons[activeWeapon].Fire();
         }
     }
+
+    #endregion
+    
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            var nearestInteractable = Scanner.GetClosestObject<Interactable>(transform.position);
+        
+            if (nearestInteractable != null)
+                nearestInteractable.Interact(gameObject);    
+        }
+    }
+
+    public void KnockBack(Vector2 direction, float intensity){
+        rigid.AddForce(rigid.mass * direction * intensity);
+    }
+
+    #region Helpers
 
     void OnCollisionEnter2D(Collision2D other){
         isJumping = false;
@@ -184,33 +214,27 @@ public class PlatformerController : MonoBehaviour
     }
 
     void OnCollisionExit2D(Collision2D other){
-        
+        CheckGroundedState(other);
+        CheckStartCoyoteTime(other);
     }
 
-    void OnTriggerStay2D(Collider2D other){
+    #endregion
 
-        //This is dealing with the interactables
-        //Basically we want the "Active" interactable
-        //to be the one that is the closest to the player
-        if(other.tag == "Interactable"){
-            if(interactable == null){
-                interactable = other.GetComponent<Interactable>();
-            }
 
-            float distNew = Vector3.Distance(this.transform.position, other.transform.position);
-            float distCurr = Vector3.Distance(this.transform.position, interactable.transform.position);
+    #region EntityStuff
 
-            if(distNew > distCurr){
-                interactable = other.GetComponent<Interactable>();
-            }
+    public override void TakeDamage(float baseDamage, Vector2 direction){
+        //TODO :: APPLY KNOCKBACK
 
-            interactable.OnHover();
-        }
+        //NOTE :: NOT NORMALIZED
+        base.TakeDamage(baseDamage);
     }
 
-    private void OnTriggerExit2D(Collider2D other){
-        if(other.gameObject.Equals(interactable.gameObject)){
-            interactable = null;
-        }
+    public override void OnDeath()
+    {
+        //We don't want to destroy ourselves on death lmao
+        return;
     }
+
+    #endregion
 }
