@@ -95,8 +95,10 @@ public class LevelController : Singleton<LevelController>
         }
     }
     
-    private bool LevelShouldBeLoaded(Level level, bool needsOneActive = false)
+    private bool LevelShouldBeLoaded(Level level)
     {
+        var needsOneActive = ActiveLevel != null && ActiveLevel.isGameplayLevel;
+        
         // Ensure that there is always one scene loaded
         if (needsOneActive && _activeLevels.Count < 1)
             return true;
@@ -160,14 +162,14 @@ public class LevelController : Singleton<LevelController>
     }
 
     // During gameplay, ensure that one level is always active in case the player escapes the trigger.
-    public void UnloadLevel(Level level, bool needsOneActive = false)
+    public void UnloadLevel(Level level)
     {
         RemoveActiveLevel(level);
-        
-        TryToUnload(level, needsOneActive);
+
+        TryToUnload(level);
 
         foreach (var levelNeighbor in level.levelsToPreload)
-            TryToUnload(levelNeighbor, needsOneActive);
+            TryToUnload(levelNeighbor);
     }
     
     private void LoadAdditive(Level level)
@@ -192,9 +194,9 @@ public class LevelController : Singleton<LevelController>
         return SceneManager.GetSceneByName(level.sceneName).IsValid();
     }
     
-    private void TryToUnload(Level level, bool needsOneActive)
+    private void TryToUnload(Level level)
     {
-        if (!LevelShouldBeLoaded(level, needsOneActive))
+        if (!LevelShouldBeLoaded(level))
             UnloadAdditive(level);
     }
     

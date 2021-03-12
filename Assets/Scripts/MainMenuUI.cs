@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using SaveSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class MainMenuUI : MonoBehaviour
         yield return new WaitForSeconds(fadeTime);
         
         _levelController.LoadLevel(level);
-        yield return new WaitUntil(() => !_levelController.Loading);
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == level.sceneName);
         
         var player = Instantiate(playerPrefab);
         player.transform.position = playerPosition;
