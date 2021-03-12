@@ -16,6 +16,7 @@ public class FireBallStats : ProjectileWeapon
 
     private float damage;
     private float FireBallSize = 3f;
+    
 
     public override void Fire()
     {
@@ -39,5 +40,4 @@ public class FireBallStats : ProjectileWeapon
 
         }
     }
-    
 }
