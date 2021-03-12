@@ -175,12 +175,19 @@ public class PlatformerController : Entity
 
     #region Projectiles
 
+    Vector2 aimDirection = Vector2.zero;
     public void ProjectileHandler(InputAction.CallbackContext context){
+        //if(weapons == null){ return; }
+        //if(weapons.Count <= 0){ return; }
+        
         int activeWeapon = currWeapon;
-        if(context.started){
-            weapons[activeWeapon].Charge();
+        if(context.performed){
+            Time.timeScale = parameters.BulletTimeSlowDown;
+            print("AAAAAAAHHHHHHHhh Running");
+            //weapons[activeWeapon].Charge();
         }else if(context.canceled){
-            weapons[activeWeapon].Fire();
+            Time.timeScale = 1; //Return to regular timescale
+            //weapons[activeWeapon].Fire();
         }
     }
 
@@ -216,6 +223,21 @@ public class PlatformerController : Entity
         CheckGroundedState(other);
         CheckStartCoyoteTime(other);
     }
+
+    #endregion
+
+    #region BasicPunch
+
+    public Collider2D attackTrigger;
+    bool attacking = false;
+    public void AttackHandler(InputAction.CallbackContext context){
+        if(context.started){
+            attacking = true;
+        } else if(context.canceled){
+            attacking = false;
+        }
+    }
+
 
     #endregion
 
