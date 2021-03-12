@@ -9,7 +9,7 @@ public class FireBallCollider : MonoBehaviour
     void Start()
     {
         Entity[] entities = FindObjectsOfType<Entity>();
-        Destroy(entities);
+        
     }
     void OnCollisionEnter2D(Collision2D col)
     {

@@ -16,17 +16,22 @@ public class FireBallStats : ProjectileWeapon
 
     private float damage;
     private float FireBallSize = 3f;
+    public GameObject player;
     
 
     public override void Fire()
     {
+        firePoint = transform.Find("FirePoint");
+        player = GameObject.Find("TempPlayer");
         newFireBall = Instantiate(fireBall, firePoint.position, firePoint.rotation);
         FireBallSize += chargeTimer;
-
+        
         newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
         newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.right * launchForce) + (newFireBall.transform.up * upForce);
         chargeTimer = 0f;
         FireBallSize = 3f;
+        
+        
         
     }
 
