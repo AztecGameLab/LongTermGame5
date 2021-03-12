@@ -13,7 +13,7 @@ public class GroundPound : MonoBehaviour
     private bool doGroundPound = false;
     //get animator later
 
-    private void Awake()
+    private void Start()
     {
         player = GetComponent<PlatformerController>();
         body = GetComponent<Rigidbody2D>();
