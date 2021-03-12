@@ -6,27 +6,22 @@ public class TriggeredTorch : MonoBehaviour
 {
  
    [SerializeField]
-    private GameObject Torch;
-    private Collider2D fireBall;
-    private Collider2D onTorchCol;
-    public Sprite onTorch; 
-
-     void Start()
-    {
-        fireBall = GameObject.Find("Fireball").GetComponent<Collider2D>();
-        onTorchCol = GameObject.Find("Torch").GetComponent<Collider2D>();
-    }
+    private GameObject Light;
+    public Sprite onTorch;
+    [SerializeField]
+    private bool lightSwitch;
     void Awake()
     {
-        Torch.SetActive(false);   // ensuring the torch is off by default
+        Light.SetActive(lightSwitch);   // level designers can choose the state of the torch
+      
     }
-    void OnCollisionEnter2D(Collision2D collision)
-    {     
+    void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.gameObject.tag == "Fireball")      //checking that the game object that collides is the Fireball
         {
-            Torch.SetActive(true);
-            Physics2D.IgnoreCollision(onTorchCol, fireBall, true); //turning off collision in order for the fireball to travel through the torch
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = onTorch;
+            Light.SetActive(true); // turning on the torch when the fireball hits it
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = onTorch;   //switching the sprite 
         }
+
     }
 }
