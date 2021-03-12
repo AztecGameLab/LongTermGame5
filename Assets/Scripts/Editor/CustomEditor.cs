@@ -40,66 +40,103 @@ namespace Editor
             _activeScene = SceneManager.GetActiveScene();
             
             DisplayHeaderInformation();
-
+            
             if (IsValidLevel)
                 DisplayValidLevelScreen();
-            
-            if (!IsValidLevel)
-                DisplayInvalidLevelScreen();
         }
 
         private static void DisplayHeaderInformation()
         {
             GUILayout.Space(30f);
-            GUILayout.Label($"Current Scene: { _activeScene.name } [{ (IsValidLevel ? "VALID" : "NO LEVEL") }]");
+            GUILayout.Label($"Current Scene: { _activeScene.name } [{ (IsValidLevel ? "VALID" : "INVALID") }]");
+            
+            GenerateLevelButton();
         }
         
         private static void DisplayValidLevelScreen()
         {
-            //     - provide option to load neighbors
-            //     - if the level doesn't have a playerStart, add option to auto-generate one
-            //     - if the level doesn't have a level trigger yet, add option to auto-generate one
-            
-            if (EditorSceneSetupController.HasPlayerSpawn(out var playerSpawn))
-            {
-                GUILayout.Label($"Player spawn found at { playerSpawn.transform.position }");
-            }
-            else
-            {
-                if (GUILayout.Button("Generate PlayerSpawn"))
-                {
-                    Debug.Log("Generate playerspawn!");
-                }
-            }
+            GeneratePlayerSpawnInformation();
+            GeneratePreloadInformation();
+            GenerateLevelTriggerInformation();
+        }
 
+        private static void GenerateLevelTriggerInformation()
+        {
+            // check if level has a level trigger
+            // if it doesnt, loop through all renderers in the scene and create bounds that encapsulate it all
+            // add a new collider with the calculated bounds, add appropriate trigger info (maybe load prefab from resources?)
+        }
+
+        private static void GeneratePreloadInformation()
+        {
+            GUILayout.Space(15f);
+            
             if (ActiveLevel.levelsToPreload.Length > 0)
             {
                 GUILayout.Label("Levels to preload: ");
 
                 foreach (var level in ActiveLevel.levelsToPreload)
                 {
+                    GUILayout.BeginHorizontal();
                     GUILayout.Label(level.sceneName);
+
+                    if (GUILayout.Button("Load"))
+                        EditorSceneSetupController.EnsureSceneIsLoaded(level.sceneName);
+                    
+                    if (GUILayout.Button("Unload"))
+                        EditorSceneSetupController.EnsureSceneIsUnloaded(level.sceneName);
+                    
+                    GUILayout.EndHorizontal();
+                }
+            }
+        }
+        
+        private static void GeneratePlayerSpawnInformation()
+        {
+            GUILayout.Space(15f);
+
+            if (EditorSceneSetupController.HasPlayerSpawn(out var playerSpawn))
+            {
+                GUILayout.Label($"Player Spawn: { playerSpawn.transform.position }");
+            }
+            else
+            {
+                GUILayout.Label("Player Spawn: None");
+                
+                if (GUILayout.Button("Generate Player Spawn"))
+                {
+                    var gameObject = new GameObject { tag = "PlayerSpawn", name = "Player Spawn"};
+                    Selection.activeGameObject = gameObject;
+                    Undo.RegisterCreatedObjectUndo(gameObject, "Generate Player Spawn");
                 }
             }
         }
 
-        private static void DisplayInvalidLevelScreen()
-        {
-            GenerateLevelButton();
-        }
-
         private static void GenerateLevelButton()
         {
-            if (GUILayout.Button("Generate Level"))
+            if (IsValidLevel)
             {
-                var level = CreateInstance<Level>();
-                level.sceneName = _activeScene.name;
+                if (GUILayout.Button("View Level In Inspector"))
+                {
+                    EditorUtility.FocusProjectWindow();
+                    Selection.activeObject = ActiveLevel;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("Generate Level"))
+                {
+                    var level = CreateInstance<Level>();
+                    level.sceneName = _activeScene.name;
                 
-                AssetDatabase.CreateAsset(level, $"Assets/Resources/Levels/{ level.sceneName }.asset");
-                AssetDatabase.SaveAssets();
+                    AssetDatabase.CreateAsset(level, $"Assets/Resources/Levels/{ level.sceneName }.asset");
+                    AssetDatabase.SaveAssets();
                 
-                EditorUtility.FocusProjectWindow();
-                Selection.activeObject = level;
+                    EditorUtility.FocusProjectWindow();
+                    Selection.activeObject = level;
+                    
+                    Undo.RegisterCreatedObjectUndo(level, "Generate Level " + level.sceneName);
+                }
             }
         }
     }
