@@ -51,7 +51,7 @@ public class MainMenuUI : MonoBehaviour
         _transitionController.FadeTo(Color.black, fadeTime);
         yield return new WaitForSeconds(fadeTime);
         
-        _levelController.LoadLevel(level, true);
+        _levelController.LoadLevel(level);
         yield return new WaitUntil(() => !_levelController.Loading);
         
         var player = Instantiate(playerPrefab);

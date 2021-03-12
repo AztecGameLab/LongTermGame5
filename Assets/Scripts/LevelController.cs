@@ -58,22 +58,15 @@ public class LevelController : Singleton<LevelController>
     private void SetupActiveLevel()
     {
         var activeLevel = GetLevel(SceneManager.GetActiveScene().name);
-        AddActiveLevel(activeLevel, true);
+        AddActiveLevel(activeLevel);
     }
 
-    private void AddActiveLevel(Level level, bool forceActive)
+    private void AddActiveLevel(Level level)
     {
         if (_activeLevels.Contains(level) || level.isPersistent) 
             return;
 
-        if (forceActive)
-        {
-            _activeLevels.AddFirst(level);
-        }
-        else
-        {
-            _activeLevels.AddLast(level);
-        }
+        _activeLevels.AddFirst(level);
         
         if (ActiveLevel == level)
             ActiveLevelChanged?.Invoke(ActiveLevel);
@@ -146,9 +139,9 @@ public class LevelController : Singleton<LevelController>
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
     }
 
-    public void LoadLevel(string sceneName, bool forceActive = false)
+    public void LoadLevel(string sceneName)
     {
-        LoadLevel(GetLevel(sceneName), forceActive);
+        LoadLevel(GetLevel(sceneName));
     }
     
     public void UnloadLevel(string sceneName)
@@ -156,9 +149,9 @@ public class LevelController : Singleton<LevelController>
         UnloadLevel(GetLevel(sceneName));
     }
     
-    public void LoadLevel(Level level, bool forceActive = false)
+    public void LoadLevel(Level level)
     {
-        AddActiveLevel(level, forceActive);
+        AddActiveLevel(level);
         
         LoadAdditive(level);
 
@@ -222,10 +215,11 @@ public class LevelController : Singleton<LevelController>
             _loadedLevels.Remove(level);
     }
     
-    public void UnloadActiveScenes()
+    public void UnloadAll()
     {
-        var test = _activeLevels.ToArray();
-        foreach (var activeLevel in test)
+        var activeLevels = _activeLevels.ToArray();
+        
+        foreach (var activeLevel in activeLevels)
             UnloadLevel(activeLevel);
     }
 
@@ -236,7 +230,7 @@ public class LevelController : Singleton<LevelController>
 
         if (GUILayout.Button("Return to menu"))
         {
-            UnloadActiveScenes();            
+            UnloadAll();            
             LoadLevel("MainMenu");
         }
 
@@ -252,7 +246,6 @@ public class LevelController : Singleton<LevelController>
             };
 
             SaveLoad.SetPlayerData(playerData);
-            
             
             SaveLoad.SaveTempDataToFile();
         }
