@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,8 +15,8 @@ public class LevelController : Singleton<LevelController>
     private readonly List<Scene> _loadingScenes = new List<Scene>();
 
     [SerializeField] private bool showDebug = false;
-    
-    public bool Loading => _loadingScenes.Count > 0;
+
+    public IEnumerable<Level> ActiveLevels => _activeLevels;
     public Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels.First.Value : null;
     private Dictionary<string, Level> _sceneNamesToLevels = new Dictionary<string, Level>();
     
@@ -97,10 +96,8 @@ public class LevelController : Singleton<LevelController>
     
     private bool LevelShouldBeLoaded(Level level)
     {
-        var needsOneActive = ActiveLevel != null && ActiveLevel.isGameplayLevel;
-        
         // Ensure that there is always one scene loaded
-        if (needsOneActive && _activeLevels.Count < 1)
+        if (_activeLevels.Count < 1)
             return true;
         
         if (level.isPersistent)
@@ -161,7 +158,6 @@ public class LevelController : Singleton<LevelController>
             LoadAdditive(neighbor);
     }
 
-    // During gameplay, ensure that one level is always active in case the player escapes the trigger.
     public void UnloadLevel(Level level)
     {
         RemoveActiveLevel(level);
@@ -219,10 +215,15 @@ public class LevelController : Singleton<LevelController>
     
     public void UnloadAll()
     {
-        var activeLevels = _activeLevels.ToArray();
+        _activeLevels.Clear();
+
+        var levels = _loadedLevels.ToArray();
         
-        foreach (var activeLevel in activeLevels)
-            UnloadLevel(activeLevel);
+        foreach (var loadedLevel in levels)
+        {
+            if (!loadedLevel.isPersistent)
+                UnloadAdditive(loadedLevel);
+        }
     }
 
     private void OnGUI()
@@ -232,26 +233,14 @@ public class LevelController : Singleton<LevelController>
 
         if (GUILayout.Button("Return to menu"))
         {
-            UnloadAll();            
-            LoadLevel("MainMenu");
+            LevelUtil.Get().TransitionTo(GetLevel("MainMenu"));
         }
 
         if (GUILayout.Button("Save Game"))
         {
-            foreach (var activeLevel in _activeLevels)
-                SaveLoad.SaveSceneToTempData(activeLevel.sceneName);    
-            
-            var playerData = new PlayerData
-            {
-                currentScene = ActiveLevel.sceneName, 
-                position = PlatformerController.instance.transform.position
-            };
-
-            SaveLoad.SetPlayerData(playerData);
-            
-            SaveLoad.SaveTempDataToFile();
+            LevelUtil.Get().SaveGame();
         }
-            
+
         GUILayout.Label("Loaded Levels: ");
         foreach (var level in _loadedLevels)
             GUILayout.Label(level.name);

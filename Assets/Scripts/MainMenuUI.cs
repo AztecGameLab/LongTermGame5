@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using SaveSystem;
+﻿using SaveSystem;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -10,15 +8,12 @@ public class MainMenuUI : MonoBehaviour
     public Level mainMenuLevel;
     public Level creditsLevel;
 
-    public float fadeTime = 0.25f;
     public GameObject quitButton;
 
-    private TransitionController _transitionController;
     private LevelController _levelController;
     
     private void Start()
     {
-        _transitionController = TransitionController.Get();
         _levelController = LevelController.Get();
     }
 
@@ -44,42 +39,21 @@ public class MainMenuUI : MonoBehaviour
             print("Save found! Loading " + level.sceneName);
         }
 
-        StartCoroutine(LoadLevelCoroutine(level, playerPosition));
-    }
-
-    private IEnumerator LoadLevelCoroutine(Level level, Vector3 playerPosition)
-    {
-        _transitionController.FadeTo(Color.black, fadeTime);
-        yield return new WaitForSeconds(fadeTime);
-        
-        _levelController.LoadLevel(level);
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().name == level.sceneName);
-        
-        var player = Instantiate(playerPrefab);
-        player.transform.position = playerPosition;
-        
-        var playerData = new PlayerData
+        LevelUtil.Get().TransitionTo(level, () =>
         {
-            currentScene = level.sceneName, 
-            position = player.transform.position
-        };
-
-        SaveLoad.SetPlayerData(playerData);
-        
-        _transitionController.FadeFrom(Color.black, fadeTime);
-        _levelController.UnloadLevel(mainMenuLevel);
+            var player = Instantiate(playerPrefab);
+            player.transform.position = playerPosition;
+        });
     }
 
     public void PlayCredits()
     {
-        _levelController.LoadLevel(creditsLevel);
-        _levelController.UnloadLevel(mainMenuLevel);
+        LevelUtil.Get().TransitionTo(creditsLevel);
     }
 
     public void LoadMainMenu()
     {
-        _levelController.LoadLevel(mainMenuLevel);
-        _levelController.UnloadLevel(creditsLevel);
+        LevelUtil.Get().TransitionTo(mainMenuLevel);
     }
 
     public void QuitProgram()

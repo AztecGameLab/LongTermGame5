@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace SaveSystem
 {
-    public class LevelSaver : MonoBehaviour
+    public class SaveListener : MonoBehaviour
     {
         private LevelController _levelController;
 
@@ -31,13 +31,10 @@ namespace SaveSystem
                 SaveLoad.LoadSceneFromTempData(scene.name);
         }
 
-        private void BeforeLevelUnloaded(Level level)
+        private static void BeforeLevelUnloaded(Level level)
         {
             if (ShouldSave(level))
-            {
                 SaveLoad.SaveSceneToTempData(level.sceneName);
-                MovePlayerToActiveLevel();
-            }
         }
         
         private static bool ShouldSave(Level level)
@@ -45,24 +42,25 @@ namespace SaveSystem
             return level != null && level.isGameplayLevel;
         }
 
-        private void MovePlayerToActiveLevel()
+        private void MoveToActiveLevel(GameObject objectToMove)
         {
             if (_levelController.ActiveLevel != null)
             {
-                var player = PlatformerController.instance.gameObject;
                 var activeLevel = _levelController.ActiveLevel.sceneName;
                 var activeScene = SceneManager.GetSceneByName(activeLevel);
                 
-                SceneManager.MoveGameObjectToScene(player, activeScene);
+                SceneManager.MoveGameObjectToScene(objectToMove, activeScene);
             }
         }
         
-        private static void OnActiveLevelChanged(Level level)
+        private void OnActiveLevelChanged(Level level)
         {
             var player = PlatformerController.instance;
             
             if (ShouldSave(level) && player != null)
             {
+                MoveToActiveLevel(player.gameObject);
+                
                 var playerData = new PlayerData
                 {
                     currentScene = level.sceneName, 
