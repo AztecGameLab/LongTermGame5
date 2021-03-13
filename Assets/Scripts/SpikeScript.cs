@@ -17,15 +17,12 @@ public class SpikeScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other) {
 
         if (other.gameObject.GetComponent<PlatformerController>()) {
-            Vector2 playerPos = other.transform.position;
-            ContactPoint2D contacted = other.GetContact(0);  
-            Vector2 direction =  playerPos - contacted.point;
+            Vector2 direction = (Vector2)other.transform.position - (Vector2)transform.position;
             direction = new Vector2(Mathf.Sign(direction.x), Mathf.Sign(direction.y));  // 45 degree 
     
             var player = PlatformerController.instance;
             player.TakeDamage(spikeDamage);
             player.KnockBack(direction, intensity);
-            //Debug.Log(player.health);
         }
     }
 }
