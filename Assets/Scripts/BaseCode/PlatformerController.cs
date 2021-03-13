@@ -10,6 +10,8 @@ public class PlatformerController : Entity
     [SerializeField] private Animator anim;
     SpriteRenderer render;
 
+    public bool lockControls = false;
+
     public int currWeapon;
     public List<ProjectileWeapon> weapons;
     private static PlatformerController _instance;
@@ -62,6 +64,7 @@ public class PlatformerController : Entity
     [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
         //Going with a PID loop with only P lol
+        if(lockControls){ return; }
         float maxForce = parameters.AccelerationMultiplier * 2.5f;
         error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
@@ -71,12 +74,12 @@ public class PlatformerController : Entity
 
         rigid.AddForce(new Vector2(error, 0));
     }
-    
+    public Vector2 primaryStick;
     float fastFall = 0;
     public float goalVelocity;
     public void OnMovementChanged(InputAction.CallbackContext context){
-        Vector2 movement = context.ReadValue<Vector2>();
-        float horizontalVelocity = movement.x * parameters.MaxRunSpeed * rigid.mass;
+        primaryStick = context.ReadValue<Vector2>();
+        float horizontalVelocity = primaryStick.x * parameters.MaxRunSpeed * rigid.mass;
         goalVelocity = horizontalVelocity;
 
         //TODO :: Implement a fast fall function
