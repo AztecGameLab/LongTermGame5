@@ -52,7 +52,7 @@ namespace SaveSystem
         public static void SaveSceneToTempData(string sceneName)
         {
             tempCurrentGame.dict[sceneName] = GatherSceneSaveData(sceneName);
-            Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
+            // Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
         }
 
         [Button]
@@ -70,12 +70,12 @@ namespace SaveSystem
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-                Debug.Log("\"" + sceneName + "\" save loaded");
+                // Debug.Log("\"" + sceneName + "\" save loaded");
 #endif
             }
             else
             {
-                Debug.LogWarning("\"" + sceneName + "\" save not found in tempCurrentGame");
+                // Debug.LogWarning("\"" + sceneName + "\" save not found in tempCurrentGame");
             }
         }
 
@@ -92,7 +92,7 @@ namespace SaveSystem
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
             SaveGameFile(tempCurrentGame);
-            Debug.Log("tempCurrentGame was saved to file");
+            // Debug.Log("tempCurrentGame was saved to file");
         }
 
         [Button]
@@ -168,7 +168,7 @@ namespace SaveSystem
         static void RestoreSceneSaveData(
             SceneData sceneData, string sceneName)
         {
-            Debug.Log("restoring data for " + sceneName);
+            // Debug.Log("restoring data for " + sceneName);
             
             if (Scanner.HasObjectsInScene<SaveableGameObject>(sceneName, out var saveableGameObjects))
             {

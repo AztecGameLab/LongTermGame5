@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -122,6 +123,7 @@ namespace Editor
             levelTrigger.currentLevel = ActiveLevel;
             Selection.activeGameObject = levelTrigger.gameObject;
             EditorUtility.FocusProjectWindow();
+            EditorSceneManager.MarkSceneDirty(_activeScene);
         }
 
         private static void PreloadInformation()

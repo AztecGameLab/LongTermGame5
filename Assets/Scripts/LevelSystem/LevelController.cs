@@ -14,8 +14,9 @@ public class LevelController : Singleton<LevelController>
     private readonly List<Level> _loadedLevels = new List<Level>();
     private readonly List<Scene> _loadingScenes = new List<Scene>();
 
-    [SerializeField] private bool showDebug = false;
-
+    [SerializeField] private bool showDebugState = false;
+    [SerializeField] private bool showDebugButtons = false;
+    
     public IEnumerable<Level> ActiveLevels => _activeLevels;
     public Level ActiveLevel => _activeLevels.Count > 0 ? _activeLevels.First.Value : null;
     private Dictionary<string, Level> _sceneNamesToLevels = new Dictionary<string, Level>();
@@ -228,31 +229,30 @@ public class LevelController : Singleton<LevelController>
 
     private void OnGUI()
     {
-        if (showDebug == false)
-            return;
-
-        if (GUILayout.Button("Return to menu"))
+        if (showDebugButtons)
         {
-            LevelUtil.Get().TransitionTo(GetLevel("MainMenu"));
+            if (GUILayout.Button("Return to menu"))
+                LevelUtil.Get().TransitionTo(GetLevel("MainMenu"));
+
+            if (GUILayout.Button("Save Game"))
+                LevelUtil.Get().SaveGame();    
         }
 
-        if (GUILayout.Button("Save Game"))
+        if (showDebugState)
         {
-            LevelUtil.Get().SaveGame();
+            GUILayout.Label("Loaded Levels: ");
+            foreach (var level in _loadedLevels)
+                GUILayout.Label(level.name);
+        
+            GUILayout.Label("Active Levels: ");
+            foreach (var level in _activeLevels)
+                GUILayout.Label(level.name);
+        
+            GUILayout.Label("Loading Levels");
+            foreach (var level in _loadingScenes)
+                GUILayout.Label(level.name);
+        
+            GUILayout.Label("Active Level: " + ActiveLevel);    
         }
-
-        GUILayout.Label("Loaded Levels: ");
-        foreach (var level in _loadedLevels)
-            GUILayout.Label(level.name);
-        
-        GUILayout.Label("Active Levels: ");
-        foreach (var level in _activeLevels)
-            GUILayout.Label(level.name);
-        
-        GUILayout.Label("Loading Levels");
-        foreach (var level in _loadingScenes)
-            GUILayout.Label(level.name);
-        
-        GUILayout.Label("Active Level: " + ActiveLevel);
     }
 }

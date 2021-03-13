@@ -550,7 +550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ea3b2701d924df2b3ba2fb414c56b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showDebug: 1
+  showDebugState: 0
+  showDebugButtons: 1
 --- !u!4 &1626364697
 Transform:
   m_ObjectHideFlags: 0
@@ -577,6 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec2b28e20004565bab08c78cc1951db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeTime: 0.25
 --- !u!1 &1746217393
 GameObject:
   m_ObjectHideFlags: 0
