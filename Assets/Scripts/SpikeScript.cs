@@ -12,13 +12,9 @@ using UnityEngine;
  **************************************************************************************************/
 public class SpikeScript : MonoBehaviour
 {
-    [SerializeField] private float intensity;
-    [SerializeField] private float spikeDamage;
+    [SerializeField] private float intensity = 5;
+    [SerializeField] private float spikeDamage = 1;     //TODO :: spikeDamage will probably be greater than 1
 
-    void Awake() {
-        intensity = 5f;
-        spikeDamage = 1f;   //TODO :: spikeDamage will probably be greater than 1
-    }
     void OnCollisionEnter2D(Collision2D other) {
 
         if (other.gameObject.CompareTag("Player")) {
