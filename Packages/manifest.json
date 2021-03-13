@@ -1,9 +1,19 @@
 {
-  "dependencies": {
-    "com.madsbangh.easybuttons": "https://github.com/madsbangh/EasyButtons.git#upm",
-    "com.unity.2d.animation": "4.2.8",
+"scopedRegistries": [
+  {
+    "name": "package.openupm.com",
+    "url": "https://package.openupm.com",
+    "scopes": [
+      "com.madsbangh.easybuttons",
+      "com.openupm"
+    ]
+  }
+],
+"dependencies": {
+  "com.madsbangh.easybuttons": "1.2.0",
+    "com.unity.2d.animation": "4.2.6",
     "com.unity.2d.pixel-perfect": "3.0.2",
-    "com.unity.2d.psdimporter": "3.1.7",
+    "com.unity.2d.psdimporter": "3.1.6",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.spriteshape": "4.1.4",
     "com.unity.2d.tilemap": "1.0.0",
