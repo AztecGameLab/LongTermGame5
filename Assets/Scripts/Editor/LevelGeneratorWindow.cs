@@ -3,15 +3,17 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Editor.EditorUtil;
 
 namespace Editor
 {
-    public class CustomEditor : EditorWindow
+    public class LevelGeneratorWindow : EditorWindow
     {
         private static Scene _activeScene;
         private static Dictionary<string, Level> _levels = new Dictionary<string, Level>();
         
         private static bool IsValidLevel => _levels.ContainsKey(_activeScene.name);
+        private static bool HasNeighbors => ActiveLevel.levelsToPreload.Length > 0;
         private static Level ActiveLevel => IsValidLevel ? _levels[_activeScene.name] : null;
         
         private void OnInspectorUpdate()
@@ -24,7 +26,7 @@ namespace Editor
         {
             UpdateLevelDictionary();
             
-            var window = GetWindow<CustomEditor>();
+            var window = GetWindow<LevelGeneratorWindow>();
             window.titleContent = new GUIContent("Level Generator");
             window.Show();
         }
@@ -42,28 +44,48 @@ namespace Editor
             DisplayHeaderInformation();
             
             if (IsValidLevel)
-                DisplayValidLevelScreen();
+                DisplayValidLevelInformation();
         }
 
         private static void DisplayHeaderInformation()
         {
             GUILayout.Space(30f);
             GUILayout.Label($"Current Scene: { _activeScene.name } [{ (IsValidLevel ? "VALID" : "INVALID") }]");
-            
             GenerateLevelButton();
         }
         
-        private static void DisplayValidLevelScreen()
+        private static void DisplayValidLevelInformation()
         {
             GeneratePlayerSpawnInformation();
             GeneratePreloadInformation();
             GenerateLevelTriggerInformation();
         }
 
+        private static void GeneratePlayerSpawnInformation()
+        {
+            GUILayout.Space(15f);
+
+            if (TryGetPlayerSpawn(out var playerSpawn))
+            {
+                GUILayout.Label($"Player Spawn: { playerSpawn.transform.position }");
+            }
+            else
+            {
+                GUILayout.Label("Player Spawn: None");
+                
+                if (GUILayout.Button("Generate Player Spawn"))
+                {
+                    var gameObject = new GameObject { tag = "PlayerSpawn", name = "Player Spawn"};
+                    Selection.activeGameObject = gameObject;
+                    Undo.RegisterCreatedObjectUndo(gameObject, "Generate Player Spawn");
+                }
+            }
+        }
+        
         private static void GenerateLevelTriggerInformation()
         {
-            GUILayout.Space(30f);
-            
+            GUILayout.Space(15f);
+
             if (GUILayout.Button("Generate Level Trigger"))
             {
                 var gameObjects = _activeScene.GetRootGameObjects();
@@ -88,7 +110,7 @@ namespace Editor
                 levelTrigger.currentLevel = ActiveLevel;
 
                 Selection.activeGameObject = levelTrigger.gameObject;
-                Undo.RegisterCreatedObjectUndo(levelTrigger, "Generate Player Spawn");
+                Undo.RegisterCreatedObjectUndo(levelTrigger.gameObject, "Generate Level Trigger");
                 EditorUtility.FocusProjectWindow();
             }
         }
@@ -96,53 +118,31 @@ namespace Editor
         private static void GeneratePreloadInformation()
         {
             GUILayout.Space(15f);
-            
-            if (ActiveLevel.levelsToPreload.Length > 0)
-            {
-                GUILayout.Label("Levels to preload: ");
 
+            GUILayout.Label("Neighbors: " + (HasNeighbors ? ActiveLevel.levelsToPreload.Length.ToString() : "None"));
+
+            if (HasNeighbors)
+            {
                 foreach (var level in ActiveLevel.levelsToPreload)
                 {
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(level.sceneName);
 
                     if (GUILayout.Button("Load"))
-                    {
-                        EditorSceneSetupController.EnsureSceneIsLoaded(level.sceneName);
-                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
-                    }
+                        EnsureSceneIsLoaded(level.sceneName);
                     
                     if (GUILayout.Button("Unload"))
-                        EditorSceneSetupController.EnsureSceneIsUnloaded(level.sceneName);
+                        EnsureSceneIsUnloaded(level.sceneName);
 
                     GUILayout.EndHorizontal();
-                }
-            }
-        }
-        
-        private static void GeneratePlayerSpawnInformation()
-        {
-            GUILayout.Space(15f);
-
-            if (EditorSceneSetupController.HasPlayerSpawn(out var playerSpawn))
-            {
-                GUILayout.Label($"Player Spawn: { playerSpawn.transform.position }");
-            }
-            else
-            {
-                GUILayout.Label("Player Spawn: None");
-                
-                if (GUILayout.Button("Generate Player Spawn"))
-                {
-                    var gameObject = new GameObject { tag = "PlayerSpawn", name = "Player Spawn"};
-                    Selection.activeGameObject = gameObject;
-                    Undo.RegisterCreatedObjectUndo(gameObject, "Generate Player Spawn");
                 }
             }
         }
 
         private static void GenerateLevelButton()
         {
+            GUILayout.BeginHorizontal();
+            
             if (IsValidLevel)
             {
                 if (GUILayout.Button("View Level In Inspector"))
@@ -167,6 +167,18 @@ namespace Editor
                     Undo.RegisterCreatedObjectUndo(level, "Generate Level " + level.sceneName);
                 }
             }
+
+            if (GUILayout.Button("Open Scenes Folder"))
+            {
+                EditorUtility.FocusProjectWindow();
+                var results = AssetDatabase.FindAssets("t:Object", new [] { "Assets/Scenes"});
+                var scenePath = AssetDatabase.GUIDToAssetPath(results[0]);
+                var scene = AssetDatabase.LoadAssetAtPath<Object>(scenePath);
+
+                Selection.activeObject = scene;
+            }
+            
+            GUILayout.EndHorizontal();
         }
     }
 }
