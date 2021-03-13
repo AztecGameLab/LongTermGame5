@@ -14,11 +14,8 @@ public class SpikeScript : MonoBehaviour
 {
     [SerializeField] private float intensity;
     [SerializeField] private float spikeDamage;
-    private PolygonCollider2D poly;
 
     void Awake() {
-        poly = gameObject.AddComponent<PolygonCollider2D>();
-        poly.autoTiling = true;
         intensity = 5f;
         spikeDamage = 1f;   //TODO :: spikeDamage will probably be greater than 1
     }

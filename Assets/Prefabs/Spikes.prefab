@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7992725854385217159}
   - component: {fileID: 753992878032468073}
   - component: {fileID: 3096765308991609434}
+  - component: {fileID: -2819625084607802323}
   m_Layer: 0
   m_Name: Spikes
   m_TagString: Untagged
@@ -97,3 +98,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intensity: 0
   spikeDamage: 0
+--- !u!60 &-2819625084607802323
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3485911888153703307}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 0.32, y: 0.32}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 2
+    adaptiveTiling: 1
+  m_AutoTiling: 1
+  m_Points:
+    m_Paths:
+    - - {x: -0.03, y: 0.16}
+      - {x: -0.16, y: -0.099999994}
+      - {x: -0.16, y: -0.16}
+      - {x: 0.16, y: -0.16}
+      - {x: 0.16, y: -0.099999994}
+      - {x: 0.03, y: 0.16}
