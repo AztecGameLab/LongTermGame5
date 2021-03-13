@@ -186,11 +186,11 @@ public class PlatformerController : Entity
         
         int activeWeapon = currWeapon;
         if(context.performed){
-            Time.timeScale = parameters.BulletTimeSlowDown;
+            //Time.timeScale = parameters.BulletTimeSlowDown;
             //print("AAAAAAAHHHHHHHhh Running");
             //weapons[activeWeapon].Charge();
         }else if(context.canceled){
-            Time.timeScale = 1; //Return to regular timescale
+            //Time.timeScale = 1; //Return to regular timescale
             //weapons[activeWeapon].Fire();
         }
     }
