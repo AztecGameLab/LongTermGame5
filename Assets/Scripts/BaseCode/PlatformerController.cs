@@ -32,6 +32,7 @@ public class PlatformerController : Entity
             rigid.sharedMaterial.friction = 0;
             rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rigid.interpolation = RigidbodyInterpolation2D.Extrapolate;
+            rigid.freezeRotation = true;
         }
 
         PhysicsMaterial2D material = new PhysicsMaterial2D();
