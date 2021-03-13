@@ -102,14 +102,22 @@ namespace Editor
 
         private static void GenerateLevelTrigger()
         {
-            if (!EditorUtil.HasObjectInScene<LevelLoadTrigger>(out var levelTrigger))
+            LevelLoadTrigger levelTrigger;
+            
+            if (!Scanner.HasObjectsInScene<LevelLoadTrigger>(out var results))
             {
-                var newLevelTrigger = new GameObject("Level Trigger");
-                newLevelTrigger.AddComponent<PolygonCollider2D>();
-                levelTrigger = newLevelTrigger.AddComponent<LevelLoadTrigger>();
-                Undo.RegisterCreatedObjectUndo(levelTrigger.gameObject, "Generate Level Trigger");
+                var temp = new GameObject("Level Trigger");
+                temp.AddComponent<PolygonCollider2D>();
+                temp.AddComponent<LevelLoadTrigger>();
+
+                levelTrigger = temp.GetComponent<LevelLoadTrigger>();
+                Undo.RegisterCreatedObjectUndo(temp, "Generate Level Trigger");
             }
-                
+            else
+            {
+                levelTrigger = results[0];
+            }
+            
             levelTrigger.GenerateCollider();
             levelTrigger.currentLevel = ActiveLevel;
             Selection.activeGameObject = levelTrigger.gameObject;

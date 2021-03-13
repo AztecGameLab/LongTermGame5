@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -35,37 +34,11 @@ namespace Editor
             }
         }
         
-        public static bool HasObjectInScene<T>(string sceneName, out T result, Predicate<GameObject> shouldSelect = null) 
-            where T : Component
-        {
-            Scene scene = SceneManager.GetSceneByName(sceneName);
-            var rootGameObjects = scene.GetRootGameObjects();
-            result = null;
-            
-            foreach (var rootObject in rootGameObjects)
-            {
-                foreach (var gameObjectChild in rootObject.GetComponentsInChildren<T>())
-                {
-                    if (shouldSelect == null || shouldSelect(gameObjectChild.gameObject))
-                        result = gameObjectChild;
-                }
-            }
-            
-            return result != null;
-        }
-
-        public static bool HasObjectInScene<T>(out T result, Predicate<GameObject> shouldSelect = null)
-            where T : Component
-        {
-            var sceneName = SceneManager.GetActiveScene().name;
-            return HasObjectInScene(sceneName, out result, shouldSelect);
-        }
-        
         public static bool HasPlayerSpawn(out GameObject playerSpawn)
         {
-            if (HasObjectInScene(out Transform playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
+            if (Scanner.HasObjectsInScene(out Transform[] playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
             {
-                playerSpawn = playerSpawnTransform.gameObject;
+                playerSpawn = playerSpawnTransform[0].gameObject;
                 return true;
             }
 

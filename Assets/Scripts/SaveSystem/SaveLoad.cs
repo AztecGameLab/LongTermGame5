@@ -155,56 +155,29 @@ namespace SaveSystem
 
         static SceneData GatherSceneSaveData(string sceneName)
         {
-            Scene scene = SceneManager.GetSceneByName(sceneName);
-            var gameObjects = scene.GetRootGameObjects();
-
             var sceneData = new SceneData();
 
-            foreach (var gameObject in gameObjects)
+            if (Scanner.HasObjectsInScene<SaveableGameObject>(sceneName, out var saveableGameObjects))
             {
-                if (gameObject.TryGetComponent<SaveableGameObject>(out var saveableGameObject))
-                {
+                foreach (var saveableGameObject in saveableGameObjects)
                     sceneData.dict[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
-                }
             }
-            //
-            //
-            // foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()
-            // ) //for each saveable GameObject in the current scene
-            // {
-            //     sceneData.dict[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
-            // }
-
             return sceneData;
         }
 
         static void RestoreSceneSaveData(
             SceneData sceneData, string sceneName)
         {
-            Scene scene = SceneManager.GetSceneByName(sceneName);
-            var gameObjects = scene.GetRootGameObjects();
-            
             Debug.Log("restoring data for " + sceneName);
             
-            foreach (var gameObject in gameObjects)
+            if (Scanner.HasObjectsInScene<SaveableGameObject>(sceneName, out var saveableGameObjects))
             {
-                if (gameObject.TryGetComponent<SaveableGameObject>(out var saveableGameObject))
+                foreach (var saveableGameObject in saveableGameObjects)
                 {
                     if (sceneData.dict.TryGetValue(saveableGameObject.id, out GameObjectData gameObjectData))
-                    {
                         saveableGameObject.RestoreComponentsSaveData(gameObjectData);
-                    }
                 }
             }
-            //
-            // foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()
-            // ) //TODO needs to find objects of type in a specific async loaded scene
-            // {
-            //     if (sceneData.dict.TryGetValue(saveableGameObject.id, out GameObjectData gameObjectData))
-            //     {
-            //         saveableGameObject.RestoreComponentsSaveData(gameObjectData);
-            //     }
-            // }
         }
 
         #endregion
