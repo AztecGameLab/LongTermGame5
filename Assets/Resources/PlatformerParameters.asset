@@ -13,38 +13,16 @@ MonoBehaviour:
   m_Name: PlatformerParameters
   m_EditorClassIdentifier: 
   element: 0
-  MaxHealth: 0
+  MaxHealth: 20
   manaDropAmount: 0
   CoyoteTime: 0.2
   JumpHeight: 1
   JumpBufferTime: 0.2
-  JumpCount: 2
+  JumpCount: 1
   JumpSpeed: 5
   MaxFallSpeed: 2
-  MaxRunSpeed: 10
+  MaxRunSpeed: 4
   MaxGroundAngle: 45
-  AccelerationMultiplier: 40
-  DecelerationProfile:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -2
-      outSlope: -2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0
-      inSlope: -2
-      outSlope: -2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  AccelerationMultiplier: 8
+  BulletTimeSlowDown: 0.1
+  BasicAttackCooldown: 0.25

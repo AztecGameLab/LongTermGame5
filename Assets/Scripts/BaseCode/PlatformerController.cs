@@ -10,6 +10,8 @@ public class PlatformerController : Entity
     [SerializeField] private Animator anim;
     SpriteRenderer render;
 
+    public bool lockControls = false;
+
     public int currWeapon;
     public List<ProjectileWeapon> weapons;
     private static PlatformerController _instance;
@@ -62,6 +64,7 @@ public class PlatformerController : Entity
     [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
         //Going with a PID loop with only P lol
+        if(lockControls){ return; }
         float maxForce = parameters.AccelerationMultiplier * 2.5f;
         error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
@@ -71,12 +74,12 @@ public class PlatformerController : Entity
 
         rigid.AddForce(new Vector2(error, 0));
     }
-    
+    public Vector2 primaryStick;
     float fastFall = 0;
     public float goalVelocity;
     public void OnMovementChanged(InputAction.CallbackContext context){
-        Vector2 movement = context.ReadValue<Vector2>();
-        float horizontalVelocity = movement.x * parameters.MaxRunSpeed * rigid.mass;
+        primaryStick = context.ReadValue<Vector2>();
+        float horizontalVelocity = primaryStick.x * parameters.MaxRunSpeed * rigid.mass;
         goalVelocity = horizontalVelocity;
 
         //TODO :: Implement a fast fall function
@@ -176,12 +179,19 @@ public class PlatformerController : Entity
 
     #region Projectiles
 
+    Vector2 aimDirection = Vector2.zero;
     public void ProjectileHandler(InputAction.CallbackContext context){
+        //if(weapons == null){ return; }
+        //if(weapons.Count <= 0){ return; }
+        
         int activeWeapon = currWeapon;
-        if(context.started){
-            weapons[activeWeapon].Charge();
+        if(context.performed){
+            //Time.timeScale = parameters.BulletTimeSlowDown;
+            //print("AAAAAAAHHHHHHHhh Running");
+            //weapons[activeWeapon].Charge();
         }else if(context.canceled){
-            weapons[activeWeapon].Fire();
+            //Time.timeScale = 1; //Return to regular timescale
+            //weapons[activeWeapon].Fire();
         }
     }
 
@@ -217,6 +227,21 @@ public class PlatformerController : Entity
         CheckGroundedState(other);
         CheckStartCoyoteTime(other);
     }
+
+    #endregion
+
+    #region BasicPunch
+
+    public Collider2D attackTrigger;
+    bool attacking = false;
+    public void AttackHandler(InputAction.CallbackContext context){
+        if(context.started){
+            attacking = true;
+        } else if(context.canceled){
+            attacking = false;
+        }
+    }
+
 
     #endregion
 
