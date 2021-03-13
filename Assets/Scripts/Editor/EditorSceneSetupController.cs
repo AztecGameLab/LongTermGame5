@@ -10,7 +10,7 @@ namespace Editor
         {
             EnsureSceneIsLoaded("Persistent");
 
-            if (TryGetPlayerSpawn(out var playerSpawn))
+            if (HasPlayerSpawn(out var playerSpawn))
                 CreatePlayerAt(playerSpawn.transform.position);
         }
 

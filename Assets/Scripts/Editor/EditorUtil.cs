@@ -35,7 +35,7 @@ namespace Editor
             }
         }
         
-        public static bool FindObjectInScene<T>(string sceneName, out T result, Predicate<GameObject> shouldSelect = null) 
+        public static bool HasObjectInScene<T>(string sceneName, out T result, Predicate<GameObject> shouldSelect = null) 
             where T : Component
         {
             Scene scene = SceneManager.GetSceneByName(sceneName);
@@ -46,7 +46,7 @@ namespace Editor
             {
                 foreach (var gameObjectChild in rootObject.GetComponentsInChildren<T>())
                 {
-                    if (shouldSelect != null && shouldSelect(gameObjectChild.gameObject))
+                    if (shouldSelect == null || shouldSelect(gameObjectChild.gameObject))
                         result = gameObjectChild;
                 }
             }
@@ -54,18 +54,23 @@ namespace Editor
             return result != null;
         }
 
-        public static bool FindObjectInScene<T>(out T result, Predicate<GameObject> shouldSelect = null)
+        public static bool HasObjectInScene<T>(out T result, Predicate<GameObject> shouldSelect = null)
             where T : Component
         {
             var sceneName = SceneManager.GetActiveScene().name;
-            return FindObjectInScene(sceneName, out result, shouldSelect);
+            return HasObjectInScene(sceneName, out result, shouldSelect);
         }
         
-        public static bool TryGetPlayerSpawn(out GameObject playerSpawn)
+        public static bool HasPlayerSpawn(out GameObject playerSpawn)
         {
-            var result = FindObjectInScene(out Transform playerSpawnTransform, o => o.CompareTag("PlayerSpawn"));
-            playerSpawn = playerSpawnTransform.gameObject;
-            return result;
+            if (HasObjectInScene(out Transform playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
+            {
+                playerSpawn = playerSpawnTransform.gameObject;
+                return true;
+            }
+
+            playerSpawn = null;
+            return false;
         }
     }
 }

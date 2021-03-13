@@ -3,11 +3,10 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static Editor.EditorUtil;
 
 namespace Editor
 {
-    public class LevelGeneratorWindow : EditorWindow
+    public class LevelToolkitWindow : EditorWindow
     {
         private static Scene _activeScene;
         private static Dictionary<string, Level> _levels = new Dictionary<string, Level>();
@@ -21,13 +20,13 @@ namespace Editor
             UpdateLevelDictionary();
         }
 
-        [MenuItem("LTG/Level Generator")]
+        [MenuItem("LTG/Level Design Toolkit")]
         private static void ShowWindow()
         {
             UpdateLevelDictionary();
             
-            var window = GetWindow<LevelGeneratorWindow>();
-            window.titleContent = new GUIContent("Level Generator");
+            var window = GetWindow<LevelToolkitWindow>();
+            window.titleContent = new GUIContent("Level Design Toolkit");
             window.Show();
         }
         
@@ -44,78 +43,80 @@ namespace Editor
             DisplayHeaderInformation();
             
             if (IsValidLevel)
-                DisplayValidLevelInformation();
+                LevelInformation();
         }
 
         private static void DisplayHeaderInformation()
         {
             GUILayout.Space(30f);
             GUILayout.Label($"Current Scene: { _activeScene.name } [{ (IsValidLevel ? "VALID" : "INVALID") }]");
+            
+            GUILayout.BeginHorizontal();
+            
             GenerateLevelButton();
+            OpenScenesButton();
+            
+            GUILayout.EndHorizontal();
         }
         
-        private static void DisplayValidLevelInformation()
+        private static void LevelInformation()
         {
-            GeneratePlayerSpawnInformation();
-            GeneratePreloadInformation();
-            GenerateLevelTriggerInformation();
+            PlayerSpawnInformation();
+            PreloadInformation();
+            LevelTriggerInformation();
         }
 
-        private static void GeneratePlayerSpawnInformation()
+        private static void PlayerSpawnInformation()
         {
             GUILayout.Space(15f);
 
-            if (TryGetPlayerSpawn(out var playerSpawn))
+            if (EditorUtil.HasPlayerSpawn(out var playerSpawn))
             {
                 GUILayout.Label($"Player Spawn: { playerSpawn.transform.position }");
             }
             else
             {
-                GUILayout.Label("Player Spawn: None");
+                PlayerSpawnButton();
+            }
+        }
+
+        private static void PlayerSpawnButton()
+        {
+            GUILayout.Label("Player Spawn: None");
                 
-                if (GUILayout.Button("Generate Player Spawn"))
-                {
-                    var gameObject = new GameObject { tag = "PlayerSpawn", name = "Player Spawn"};
-                    Selection.activeGameObject = gameObject;
-                    Undo.RegisterCreatedObjectUndo(gameObject, "Generate Player Spawn");
-                }
+            if (GUILayout.Button("Generate Player Spawn"))
+            {
+                var gameObject = new GameObject { tag = "PlayerSpawn", name = "Player Spawn"};
+                Selection.activeGameObject = gameObject;
+                Undo.RegisterCreatedObjectUndo(gameObject, "Generate Player Spawn");
             }
         }
         
-        private static void GenerateLevelTriggerInformation()
+        private static void LevelTriggerInformation()
         {
             GUILayout.Space(15f);
 
             if (GUILayout.Button("Generate Level Trigger"))
-            {
-                var gameObjects = _activeScene.GetRootGameObjects();
-                LevelLoadTrigger levelTrigger = null;
-                
-                foreach (var rootObj in gameObjects)
-                {
-                    levelTrigger = rootObj.GetComponentInChildren<LevelLoadTrigger>();
-                    
-                    if (levelTrigger != null)
-                        break;
-                }
-
-                if (levelTrigger == null)
-                {
-                    var newLevelTrigger = new GameObject("Level Trigger");
-                    newLevelTrigger.AddComponent<PolygonCollider2D>();
-                    levelTrigger = newLevelTrigger.AddComponent<LevelLoadTrigger>();
-                }
-                
-                levelTrigger.GenerateCollider();
-                levelTrigger.currentLevel = ActiveLevel;
-
-                Selection.activeGameObject = levelTrigger.gameObject;
-                Undo.RegisterCreatedObjectUndo(levelTrigger.gameObject, "Generate Level Trigger");
-                EditorUtility.FocusProjectWindow();
-            }
+                GenerateLevelTrigger();
         }
 
-        private static void GeneratePreloadInformation()
+        private static void GenerateLevelTrigger()
+        {
+            if (!EditorUtil.HasObjectInScene<LevelLoadTrigger>(out var levelTrigger))
+            {
+                var newLevelTrigger = new GameObject("Level Trigger");
+                newLevelTrigger.AddComponent<PolygonCollider2D>();
+                levelTrigger = newLevelTrigger.AddComponent<LevelLoadTrigger>();
+                Undo.RegisterCreatedObjectUndo(levelTrigger.gameObject, "Generate Level Trigger");
+            }
+                
+            levelTrigger.GenerateCollider();
+            levelTrigger.currentLevel = ActiveLevel;
+            Selection.activeGameObject = levelTrigger.gameObject;
+            EditorUtility.FocusProjectWindow();
+        }
+
+        private static void PreloadInformation()
         {
             GUILayout.Space(15f);
 
@@ -123,26 +124,27 @@ namespace Editor
 
             if (HasNeighbors)
             {
-                foreach (var level in ActiveLevel.levelsToPreload)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label(level.sceneName);
-
-                    if (GUILayout.Button("Load"))
-                        EnsureSceneIsLoaded(level.sceneName);
-                    
-                    if (GUILayout.Button("Unload"))
-                        EnsureSceneIsUnloaded(level.sceneName);
-
-                    GUILayout.EndHorizontal();
-                }
+                foreach (var neighbor in ActiveLevel.levelsToPreload)
+                    NeighborInformation(neighbor);
             }
+        }
+
+        private static void NeighborInformation(Level neighbor)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(neighbor.sceneName);
+
+            if (GUILayout.Button("Load"))
+                EditorUtil.EnsureSceneIsLoaded(neighbor.sceneName);
+                    
+            if (GUILayout.Button("Unload"))
+                EditorUtil.EnsureSceneIsUnloaded(neighbor.sceneName);
+
+            GUILayout.EndHorizontal();
         }
 
         private static void GenerateLevelButton()
         {
-            GUILayout.BeginHorizontal();
-            
             if (IsValidLevel)
             {
                 if (GUILayout.Button("View Level In Inspector"))
@@ -167,7 +169,10 @@ namespace Editor
                     Undo.RegisterCreatedObjectUndo(level, "Generate Level " + level.sceneName);
                 }
             }
+        }
 
+        private static void OpenScenesButton()
+        {
             if (GUILayout.Button("Open Scenes Folder"))
             {
                 EditorUtility.FocusProjectWindow();
@@ -177,8 +182,6 @@ namespace Editor
 
                 Selection.activeObject = scene;
             }
-            
-            GUILayout.EndHorizontal();
         }
     }
 }
