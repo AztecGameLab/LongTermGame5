@@ -45,14 +45,29 @@ namespace Editor
 
         public static bool HasPlayerSpawn(out GameObject playerSpawn)
         {
-            playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+            playerSpawn = null;
+            Scene scene = SceneManager.GetActiveScene();
+            var gameObjects = scene.GetRootGameObjects();
+
+            foreach (var gameObject in gameObjects)
+            {
+                if (gameObject.CompareTag("PlayerSpawn"))
+                    playerSpawn = gameObject;
+                
+                foreach (var gameObjectChild in gameObject.GetComponentsInChildren<Transform>())
+                {
+                    if (gameObjectChild.CompareTag("PlayerSpawn"))
+                        playerSpawn = gameObjectChild.gameObject;
+                }
+            }
+
             return playerSpawn != null;
         }
 
         private static void CreatePlayerAt(Vector3 position)
         {
             var player = Resources.Load<Transform>("TempPlayer");
-            Object.Instantiate(player);
+            player = Object.Instantiate(player);
             player.position = position;
         }
     }

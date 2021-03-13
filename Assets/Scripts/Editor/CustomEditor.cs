@@ -62,9 +62,35 @@ namespace Editor
 
         private static void GenerateLevelTriggerInformation()
         {
-            // check if level has a level trigger
-            // if it doesnt, loop through all renderers in the scene and create bounds that encapsulate it all
-            // add a new collider with the calculated bounds, add appropriate trigger info (maybe load prefab from resources?)
+            GUILayout.Space(30f);
+            
+            if (GUILayout.Button("Generate Level Trigger"))
+            {
+                var gameObjects = _activeScene.GetRootGameObjects();
+                LevelLoadTrigger levelTrigger = null;
+                
+                foreach (var rootObj in gameObjects)
+                {
+                    levelTrigger = rootObj.GetComponentInChildren<LevelLoadTrigger>();
+                    
+                    if (levelTrigger != null)
+                        break;
+                }
+
+                if (levelTrigger == null)
+                {
+                    var newLevelTrigger = new GameObject("Level Trigger");
+                    newLevelTrigger.AddComponent<PolygonCollider2D>();
+                    levelTrigger = newLevelTrigger.AddComponent<LevelLoadTrigger>();
+                }
+                
+                levelTrigger.GenerateCollider();
+                levelTrigger.currentLevel = ActiveLevel;
+
+                Selection.activeGameObject = levelTrigger.gameObject;
+                Undo.RegisterCreatedObjectUndo(levelTrigger, "Generate Player Spawn");
+                EditorUtility.FocusProjectWindow();
+            }
         }
 
         private static void GeneratePreloadInformation()
@@ -81,11 +107,14 @@ namespace Editor
                     GUILayout.Label(level.sceneName);
 
                     if (GUILayout.Button("Load"))
+                    {
                         EditorSceneSetupController.EnsureSceneIsLoaded(level.sceneName);
+                        SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
+                    }
                     
                     if (GUILayout.Button("Unload"))
                         EditorSceneSetupController.EnsureSceneIsUnloaded(level.sceneName);
-                    
+
                     GUILayout.EndHorizontal();
                 }
             }

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6271194830031379753}
-  - component: {fileID: -7983344398029409793}
-  - component: {fileID: 7277618609562447789}
+  - component: {fileID: 498391008316702531}
+  - component: {fileID: 452428380165252367}
   m_Layer: 0
   m_Name: Level Trigger
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &-7983344398029409793
-BoxCollider2D:
+--- !u!60 &498391008316702531
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -42,7 +42,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -55,10 +55,13 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &7277618609562447789
+  m_Points:
+    m_Paths:
+    - - {x: 1, y: 1}
+      - {x: 0, y: 1}
+      - {x: 0, y: 0}
+      - {x: 1, y: 0}
+--- !u!114 &452428380165252367
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,42 +70,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6623812269237219092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf997ba98b59f07479ffb0d9fbc3f140, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cc34d30e03942eeb3b18ac769e3de9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   events:
     collisionEnter:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: 69d9cfa39a8cefc469f90bd47274c4a1, type: 2}
-          m_TargetAssemblyTypeName: StaticWrapper, Assembly-CSharp
-          m_MethodName: LoadLevel
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: Level, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     collisionExit:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: 69d9cfa39a8cefc469f90bd47274c4a1, type: 2}
-          m_TargetAssemblyTypeName: StaticWrapper, Assembly-CSharp
-          m_MethodName: UnloadLevel
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: Level, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  colliderComponent: {fileID: -7983344398029409793}
+        m_Calls: []
+  colliderComponent: {fileID: 498391008316702531}
   layersThatCanTrigger:
     serializedVersion: 2
     m_Bits: 4294967295
   showDebug: 1
+  currentLevel: {fileID: 0}
