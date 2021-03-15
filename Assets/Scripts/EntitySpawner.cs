@@ -45,7 +45,7 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] float timeBtwnEachSpawn;       //time in between each enemy spawn within each spawnGroup
     [SerializeField] float spawnGroupCooldown;      //time in between each spawnGroup
 
-    float nextSpawn;
+    float nextSpawn;//variable to keep track of when cooldown is up and spawngroup can be spawned again
 
     //made automatically with prefabs and positions
     List<Enemy> entities;
