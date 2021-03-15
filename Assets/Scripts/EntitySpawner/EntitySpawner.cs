@@ -40,7 +40,9 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] List<GameObject> prefabs;      //Entities that are in the Spawn Group
     [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
     [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
+    [SerializeField] Boolean spawnnTrigger;         //Spawn Entities when player enters collider trigger
     [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
+
 
     Collider2D colliderTrigger;
 
@@ -104,10 +106,12 @@ public class EntitySpawner : MonoBehaviour
 
     }
 
-
+    //
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        SpawnGroup();
+        if(collision.tag == "Player")
+            if (spawnnTrigger)
+                SpawnGroup();
     }
 
 
@@ -119,13 +123,4 @@ public class EntitySpawner : MonoBehaviour
         
     }
 
-    /*
-    private void OnValidate()
-    {
-        foreach(GameObject Entity in entities)
-        {
-            Spawn(Entity, Entity.transform);
-        }
-    }
-    */
 }
