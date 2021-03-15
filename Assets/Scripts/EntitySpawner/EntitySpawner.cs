@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class EntitySpawner : MonoBehaviour
 {
-    //subclass to store data about the entity
-    public class Entity
+    //subclass to store data about the enemy
+    public class Enemy
     {
         private GameObject enemy;        //variable to store the Enemy type
         private Transform pos;           //varibale to store the spawn position
         private int spawnCount;          //store how many times this Entity has been spawned
 
-        public Entity(GameObject prefab, Transform position)
+        public Enemy(GameObject prefab, Transform position)
         {
             //construct the Entity
             enemy = prefab;
@@ -39,23 +39,26 @@ public class EntitySpawner : MonoBehaviour
     //available to level designers
     [SerializeField] List<GameObject> prefabs;      //Entities that are in the Spawn Group
     [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
+    [SerializeField] Collider2D colliderTrigger;
     [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
-    [SerializeField] Collider2D spawnCollider;      //Collider used as trigger to spawn Entities
     [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
 
-    //made automatically with information from above
-    List<Entity> entities;
+
+    //made automatically with prefabs and positions
+    List<Enemy> entities;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        entities = new List<Entity>();   //instantiate the entities list
+        colliderTrigger = colliderTrigger.GetComponent<Collider2D>();
+
+        entities = new List<Enemy>();   //instantiate the entities list
 
         //create the list of Entities matching the prefabs with the corresponding positions
         for(int x = 0; x < prefabs.Count; x++)
         {
-            entities.Add(new Entity(prefabs[x], positions[x]));
+            entities.Add(new Enemy(prefabs[x], positions[x]));
         }
 
         if (spawnOnStart)   //if designer sets this to true
@@ -76,10 +79,11 @@ public class EntitySpawner : MonoBehaviour
             }
         }
         else
-            foreach (Entity enemy in entities)
+            foreach (Enemy enemy in entities)
                 enemy.Spawn();
     }
 
+    //shuffles 
     private List<Transform> Shuffle(List<Transform> orderedPos)
     {
         List<Transform> shuffPos = new List<Transform>();       //new shuffled positions
@@ -100,6 +104,19 @@ public class EntitySpawner : MonoBehaviour
         return shuffPos;
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        SpawnGroup();
+    }
+
+    public void OnTriggerEnter2D(Collider2D colliderTrigger)
+    {
+        SpawnGroup();
+    }
+
+
+
 
     // Update is called once per frame
     void Update()
