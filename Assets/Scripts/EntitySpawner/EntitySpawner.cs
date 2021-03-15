@@ -23,14 +23,14 @@ public class EntitySpawner : MonoBehaviour
         //Spawn a single entity
         public void Spawn()
         {
-            Instantiate(enemy, pos);
+            Instantiate(enemy, pos.position, pos.rotation);
             spawnCount += 1;
         }
 
         //Spawn a single entity given a new position, overides the intial one temporarily
         public void Spawn(Transform tempPos)
         {
-            Instantiate(enemy, tempPos);
+            Instantiate(enemy, tempPos.position, tempPos.rotation);
             spawnCount += 1;
         }
 
@@ -40,8 +40,10 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] List<GameObject> prefabs;      //Entities that are in the Spawn Group
     [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
     [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
-    [SerializeField] Boolean spawnnTrigger;         //Spawn Entities when player enters collider trigger
+    [SerializeField] Boolean spawnOnTrigger;         //Spawn Entities when player enters collider trigger
     [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
+    [SerializeField] float timeBtwnEachSpawn;       //time in between each enemy spawn within each spawnGroup
+    [SerializeField] int spawnGroupCooldown;      //time in between each spawnGroup
 
 
     Collider2D colliderTrigger;
@@ -63,11 +65,11 @@ public class EntitySpawner : MonoBehaviour
         }
 
         if (spawnOnStart)   //if designer sets this to true
-            SpawnGroup();
+            StartCoroutine(SpawnGroup());
     }
 
     //spawns the entity SpawnGroup
-    void SpawnGroup()
+    IEnumerator SpawnGroup()
     {
         if (shufflePositions)    //if the deisgner chose to shuffle positions
         {
@@ -76,15 +78,20 @@ public class EntitySpawner : MonoBehaviour
             //traverse through the list and spawn each entity with a shuffled position
             for (int x = 0; x < entities.Count; x++)
             {
+                yield return new WaitForSeconds(timeBtwnEachSpawn);
                 entities[x].Spawn(positions[x]);
             }
         }
         else
             foreach (Enemy enemy in entities)
+            {
                 enemy.Spawn();
+                yield return new WaitForSeconds(timeBtwnEachSpawn);
+            }
+                
     }
 
-    //shuffles 
+    //shuffles the list of positions
     private List<Transform> Shuffle(List<Transform> orderedPos)
     {
         List<Transform> shuffPos = new List<Transform>();       //new shuffled positions
@@ -106,11 +113,11 @@ public class EntitySpawner : MonoBehaviour
 
     }
 
-    //
+    
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
-            if (spawnnTrigger)
+        if(collision.GetComponent<PlatformerController>())
+            if (spawnOnTrigger)
                 SpawnGroup();
     }
 
