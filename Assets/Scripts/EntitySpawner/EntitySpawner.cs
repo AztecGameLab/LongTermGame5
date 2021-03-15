@@ -91,7 +91,7 @@ public class EntitySpawner : MonoBehaviour
                 
     }
 
-    //shuffles the list of positions
+    //shuffles the list of posi
     private List<Transform> Shuffle(List<Transform> orderedPos)
     {
         List<Transform> shuffPos = new List<Transform>();       //new shuffled positions
@@ -118,7 +118,7 @@ public class EntitySpawner : MonoBehaviour
     {
         if(collision.GetComponent<PlatformerController>())
             if (spawnOnTrigger)
-                SpawnGroup();
+                StartCoroutine(SpawnGroup());
     }
 
 
