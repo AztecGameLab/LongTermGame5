@@ -54,7 +54,7 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nextSpawn = Time.time - 1;
+        nextSpawn = Time.time;
 
         entities = new List<Enemy>();   //instantiate the entities list
 
@@ -64,15 +64,17 @@ public class EntitySpawner : MonoBehaviour
             entities.Add(new Enemy(prefabs[x], positions[x]));
         }
 
-        if (spawnOnStart)   //if designer sets this to true
+        if (spawnOnStart)   //if designer sets this to true 
             StartCoroutine(SpawnGroup());
 
-        nextSpawn = Time.time + spawnGroupCooldown; //start the cooldown
+        
     }
 
     //spawns the entity SpawnGroup
     IEnumerator SpawnGroup()
     {
+        nextSpawn += spawnGroupCooldown; //reset the cooldown
+
         if (shufflePositions)    //if the deisgner chose to shuffle positions
         {
             positions = Shuffle(positions);
@@ -90,8 +92,6 @@ public class EntitySpawner : MonoBehaviour
                 enemy.Spawn();
                 yield return new WaitForSeconds(timeBtwnEachSpawn);
             }
-
-        nextSpawn += spawnGroupCooldown; //reset the cooldown
     }
 
     //shuffles the list of posi
