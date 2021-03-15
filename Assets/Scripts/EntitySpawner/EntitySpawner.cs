@@ -39,10 +39,10 @@ public class EntitySpawner : MonoBehaviour
     //available to level designers
     [SerializeField] List<GameObject> prefabs;      //Entities that are in the Spawn Group
     [SerializeField] List<Transform> positions;     //Locations to spawn each Entity
-    [SerializeField] Collider2D colliderTrigger;
     [SerializeField] Boolean spawnOnStart;          //Spawn Entities when level loads
     [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
 
+    Collider2D colliderTrigger;
 
     //made automatically with prefabs and positions
     List<Enemy> entities;
@@ -51,8 +51,7 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        colliderTrigger = colliderTrigger.GetComponent<Collider2D>();
-
+        
         entities = new List<Enemy>();   //instantiate the entities list
 
         //create the list of Entities matching the prefabs with the corresponding positions
@@ -105,12 +104,8 @@ public class EntitySpawner : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        SpawnGroup();
-    }
 
-    public void OnTriggerEnter2D(Collider2D colliderTrigger)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         SpawnGroup();
     }
