@@ -43,10 +43,9 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] Boolean spawnOnTrigger;         //Spawn Entities when player enters collider trigger
     [SerializeField] Boolean shufflePositions;      //shuffle the positions each time an Entity is spawned
     [SerializeField] float timeBtwnEachSpawn;       //time in between each enemy spawn within each spawnGroup
-    [SerializeField] int spawnGroupCooldown;      //time in between each spawnGroup
+    [SerializeField] float spawnGroupCooldown;      //time in between each spawnGroup
 
-
-    Collider2D colliderTrigger;
+    float nextSpawn;
 
     //made automatically with prefabs and positions
     List<Enemy> entities;
@@ -55,7 +54,8 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        nextSpawn = Time.time - 1;
+
         entities = new List<Enemy>();   //instantiate the entities list
 
         //create the list of Entities matching the prefabs with the corresponding positions
@@ -66,6 +66,8 @@ public class EntitySpawner : MonoBehaviour
 
         if (spawnOnStart)   //if designer sets this to true
             StartCoroutine(SpawnGroup());
+
+        nextSpawn = Time.time + spawnGroupCooldown; //start the cooldown
     }
 
     //spawns the entity SpawnGroup
@@ -88,7 +90,8 @@ public class EntitySpawner : MonoBehaviour
                 enemy.Spawn();
                 yield return new WaitForSeconds(timeBtwnEachSpawn);
             }
-                
+
+        nextSpawn += spawnGroupCooldown; //reset the cooldown
     }
 
     //shuffles the list of posi
@@ -117,17 +120,8 @@ public class EntitySpawner : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.GetComponent<PlatformerController>())
-            if (spawnOnTrigger)
+            if (spawnOnTrigger && Time.time > nextSpawn)    //ensure spawn on trigger is enabled and the cooldown is over
                 StartCoroutine(SpawnGroup());
-    }
-
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 }
