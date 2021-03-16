@@ -234,9 +234,10 @@ MonoBehaviour:
   FireRate: 2
   ProjectileSpawnPoint: {fileID: 4579136357587012172}
   Projectile: {fileID: 6501929313506144651, guid: bbc3e6b24b0fb6548b9be4471bf0dc20, type: 3}
-  playerDistanceBeforeDashing: 0.3
-  dashSpeed: 10
-  dashtime: 0.1
+  playerDistanceBeforeDashing: 3
+  dashSpeed: 250
+  dashtime: 0.4
+  dashCoolDown: 3
 --- !u!114 &4579136359184050221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +271,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &6219843043830767705
 CircleCollider2D:
   m_ObjectHideFlags: 0
