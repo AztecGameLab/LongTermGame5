@@ -435,7 +435,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179804069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.77, y: 0.85, z: -0.34229526}
+  m_LocalPosition: {x: -0.03, y: 0.85, z: -0.34229526}
   m_LocalScale: {x: 3.0862813, y: 2.804351, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -495,6 +495,22 @@ PrefabInstance:
     - target: {fileID: 548996845891493136, guid: 8d6f00e3a2ba8b349a7950c4630eb171, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548996845891493138, guid: 8d6f00e3a2ba8b349a7950c4630eb171, type: 3}
+      propertyPath: offTorch
+      value: 
+      objectReference: {fileID: 21300000, guid: 7379573e63ce3b140b928568e3fd7f8d, type: 3}
+    - target: {fileID: 548996845891493138, guid: 8d6f00e3a2ba8b349a7950c4630eb171, type: 3}
+      propertyPath: lightSwitch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 548996845891493139, guid: 8d6f00e3a2ba8b349a7950c4630eb171, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 548996845891493139, guid: 8d6f00e3a2ba8b349a7950c4630eb171, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d6f00e3a2ba8b349a7950c4630eb171, type: 3}
