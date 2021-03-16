@@ -170,8 +170,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Light: {fileID: 548996844768848816}
-  onTorch: {fileID: 21300000, guid: 5e3425e899bcf6846929aa45157620ce, type: 3}
   lightSwitch: 0
+  onTorch: {fileID: 21300000, guid: 5e3425e899bcf6846929aa45157620ce, type: 3}
+  offTorch: {fileID: 21300000, guid: 7379573e63ce3b140b928568e3fd7f8d, type: 3}
 --- !u!58 &548996845891493133
 CircleCollider2D:
   m_ObjectHideFlags: 0
