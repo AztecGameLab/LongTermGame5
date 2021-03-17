@@ -6,7 +6,7 @@ namespace Editor
     public class CustomMenuItems : MonoBehaviour
     {
         [MenuItem("GameObject/LTG5/Trigger", false, 10)]
-        private static GameObject CreateTrigger(MenuCommand menuCommand)
+        public static GameObject CreateTrigger(MenuCommand menuCommand)
         {
             var newObject = CreateNewGameObject(menuCommand);
 
@@ -14,12 +14,13 @@ namespace Editor
             var colliderComponent = newObject.AddComponent<BoxCollider2D>();
             var triggerComponent = newObject.AddComponent<Trigger>();
             triggerComponent.colliderComponent = colliderComponent;
-
+            triggerComponent.layersThatCanTrigger = ~0;
+            
             return newObject;
         }
         
         [MenuItem("GameObject/LTG5/Interactable", false, 10)]
-        private static GameObject CreateInteractable(MenuCommand menuCommand)
+        public static GameObject CreateInteractable(MenuCommand menuCommand)
         {
             var newObject = CreateTrigger(menuCommand);
 
@@ -30,10 +31,13 @@ namespace Editor
             return newObject;
         }
 
-        private static GameObject CreateNewGameObject(MenuCommand menuCommand)
+        public static GameObject CreateNewGameObject(MenuCommand menuCommand)
         {
             var newObject = new GameObject();
-            GameObjectUtility.SetParentAndAlign(newObject, menuCommand.context as GameObject);
+            
+            if (menuCommand != null)
+                GameObjectUtility.SetParentAndAlign(newObject, menuCommand.context as GameObject);
+            
             Undo.RegisterCreatedObjectUndo(newObject, "Create " + newObject.name);
             Selection.activeObject = newObject;
 
