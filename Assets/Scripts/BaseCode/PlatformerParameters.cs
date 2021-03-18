@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlatformerParameters", menuName = "2D/Entities/PlatformerParameters", order = 0)]
 public class PlatformerParameters : EntityData
 {
+
+    #region JumpingParameters
+
+    [Header("Jump Parameters")]
+
     [Tooltip("How much time you are still allowed to jump after leaving a ledge (seconds)")]
     public float CoyoteTime = 1;
     
@@ -20,6 +25,15 @@ public class PlatformerParameters : EntityData
     [Tooltip("How fast does a jump move us up")]
     public float JumpSpeed = 1;
 
+    #endregion
+
+    
+
+
+    #region StickMovement
+    [Space]
+    [Header("Stick Inputs")]
+
     [Tooltip("Maximum fall velocity for the player")]
     public float MaxFallSpeed = 2;
 
@@ -32,6 +46,17 @@ public class PlatformerParameters : EntityData
     [Tooltip("The is the acceleration curve of our player")]
     public float AccelerationMultiplier;
 
-    [Tooltip("The is the deceleration curve of our player")]
-    public AnimationCurve DecelerationProfile;
+    #endregion
+
+    #region attacking
+    [Space]
+    [Header("Attacking Parameters")]
+
+    [Tooltip("How fast should time move while you are aiming your weapon")]
+    public float BulletTimeSlowDown = 0.1f;
+
+    [Tooltip("How long until we can use our basic attack again (sec)")]
+    public float BasicAttackCooldown = .25f;
+
+    #endregion
 }
