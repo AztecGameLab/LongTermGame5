@@ -11,10 +11,16 @@ public class FlyingEnemyMovement : MonoBehaviour
     [SerializeField] private float FireRate = 1f;
     [SerializeField] private Transform ProjectileSpawnPoint;
     [SerializeField] private GameObject Projectile;
-
+    [SerializeField] float playerDistanceBeforeDashing = .3f;
+    [SerializeField] float dashSpeed = 1f;
+    [SerializeField] float dashtime = .1f;
+    [SerializeField] float dashCoolDown;
+    float tempdashCoolDown;
+    bool hasDashed = false;
     bool IsAttacking = false;
     bool CanMove = true;
     float rotate = 180;
+    
     Rigidbody2D rb;
     
     
@@ -22,15 +28,27 @@ public class FlyingEnemyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlatformerController>();
+
+        player = PlatformerController.instance;
         rb = GetComponent<Rigidbody2D>();
         PeacefulPattern();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
+        if (IsAttacking)
+        {
+            Vector3 lookDirection = player.transform.position - transform.position;
+            LookatPlayer();
+            if (lookDirection.x > -playerDistanceBeforeDashing && lookDirection.x < playerDistanceBeforeDashing)
+            {
+                StartCoroutine(Dash(lookDirection));
+            }
+            
+        }
     }
 
     private void PeacefulPattern()
@@ -50,14 +68,52 @@ public class FlyingEnemyMovement : MonoBehaviour
         LookatPlayer();
         StartCoroutine(Shoot());
 
+        
+    }
+    IEnumerator Dash(Vector2 dir)
+    {
+        if (!hasDashed)
+        {
+
+            if (dashCoolDown != tempdashCoolDown)
+            {
+                
+                hasDashed = true;
+                // only dash 10% higher
+                dir.y *= .1f;
+                rb.AddForce(-dir.normalized * dashSpeed);
+                yield return new WaitForSeconds(dashtime);
+                rb.velocity = new Vector2(0, 0);
+                hasDashed = false;
+                tempdashCoolDown = dashCoolDown;
+
+            }
+            else
+            {
+                hasDashed = true;
+                yield return new WaitForSeconds(dashCoolDown);
+                tempdashCoolDown = 0;
+                hasDashed = false;
+
+            }
+        }
+
+
+
     }
 
     private void LookatPlayer()
     {
-        Vector3 rotation = Quaternion.LookRotation(player.transform.position).eulerAngles;
-        rotation.y = 0;
-        rotation.x = 0;
-        transform.rotation = Quaternion.Euler(rotation);
+        float rotate = 180;
+        if (transform.position.x > player.transform.position.x)
+        {
+            rotate = 0;
+        }
+        else if (transform.position.x < player.transform.position.x)
+        {
+            rotate = 180;
+        }
+        transform.localRotation = Quaternion.Euler(0, rotate, 0);
     }
 
     IEnumerator RLMovment()
@@ -91,6 +147,7 @@ public class FlyingEnemyMovement : MonoBehaviour
         {
             IsAttacking = true;
             AttackPattern();
+            GetComponent<CircleCollider2D>().radius *= 2f;
         }
 
     }
@@ -100,6 +157,7 @@ public class FlyingEnemyMovement : MonoBehaviour
         {
             IsAttacking = false;
             PeacefulPattern();
+            GetComponent<CircleCollider2D>().radius /= 2f;
         }
     }
 

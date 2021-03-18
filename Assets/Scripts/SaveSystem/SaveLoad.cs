@@ -38,21 +38,21 @@ namespace SaveSystem
 
         #region only game system call these, not the player //TODO make these work for multiple loaded scenes. I think right now there no difference between SaveScene and SaveActiveScene because FindObjectsOfType searches all loaded scenes
 
-        public static void SetPlayerCurrentScene(string sceneName)
+        public static void SetPlayerData(PlayerData data)
         {
-            tempCurrentGame.playerCurrentScene = sceneName;
+            tempCurrentGame.playerData = data;
         }
 
-        public static string GetPlayerCurrentScene()
+        public static PlayerData GetPlayerData()
         {
-            return tempCurrentGame.playerCurrentScene;
+            return tempCurrentGame.playerData;
         }
 
         [Button]
         public static void SaveSceneToTempData(string sceneName)
         {
-            tempCurrentGame.dict[sceneName] = GatherSceneSaveData();
-            Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
+            tempCurrentGame.dict[sceneName] = GatherSceneSaveData(sceneName);
+            // Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
         }
 
         [Button]
@@ -66,16 +66,16 @@ namespace SaveSystem
         {
             if (tempCurrentGame.dict.TryGetValue(sceneName, out SceneData sceneData))
             {
-                RestoreSceneSaveData(sceneData);
+                RestoreSceneSaveData(sceneData, sceneName);
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-                Debug.Log("\"" + sceneName + "\" save loaded");
+                // Debug.Log("\"" + sceneName + "\" save loaded");
 #endif
             }
             else
             {
-                Debug.LogWarning("\"" + sceneName + "\" save not found in tempCurrentGame");
+                // Debug.LogWarning("\"" + sceneName + "\" save not found in tempCurrentGame");
             }
         }
 
@@ -92,7 +92,7 @@ namespace SaveSystem
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
             SaveGameFile(tempCurrentGame);
-            Debug.Log("tempCurrentGame was saved to file");
+            // Debug.Log("tempCurrentGame was saved to file");
         }
 
         [Button]
@@ -153,28 +153,29 @@ namespace SaveSystem
 
         #region Current Scenes <-> Dictionary
 
-        static SceneData GatherSceneSaveData()
+        static SceneData GatherSceneSaveData(string sceneName)
         {
             var sceneData = new SceneData();
 
-            foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()
-            ) //for each saveable GameObject in the current scene
+            if (Scanner.HasObjectsInScene<SaveableGameObject>(sceneName, out var saveableGameObjects))
             {
-                sceneData.dict[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
+                foreach (var saveableGameObject in saveableGameObjects)
+                    sceneData.dict[saveableGameObject.id] = saveableGameObject.GatherComponentsSaveData();
             }
-
             return sceneData;
         }
 
         static void RestoreSceneSaveData(
-            SceneData sceneData)
+            SceneData sceneData, string sceneName)
         {
-            foreach (var saveableGameObject in UnityEngine.Object.FindObjectsOfType<SaveableGameObject>()
-            ) //TODO needs to find objects of type in a specific async loaded scene
+            // Debug.Log("restoring data for " + sceneName);
+            
+            if (Scanner.HasObjectsInScene<SaveableGameObject>(sceneName, out var saveableGameObjects))
             {
-                if (sceneData.dict.TryGetValue(saveableGameObject.id, out GameObjectData gameObjectData))
+                foreach (var saveableGameObject in saveableGameObjects)
                 {
-                    saveableGameObject.RestoreComponentsSaveData(gameObjectData);
+                    if (sceneData.dict.TryGetValue(saveableGameObject.id, out GameObjectData gameObjectData))
+                        saveableGameObject.RestoreComponentsSaveData(gameObjectData);
                 }
             }
         }
@@ -246,11 +247,11 @@ namespace SaveSystem
         [System.Serializable]
         class SaveDisplay
         {
-            public string playerCurrentScene;
+            public PlayerData playerData;
             public List<SceneSaveDisplay> scenes = new List<SceneSaveDisplay>();
             public SaveDisplay(GameData gameData)
             {
-                playerCurrentScene = gameData.playerCurrentScene;
+                playerData = gameData.playerData;
                 foreach (KeyValuePair<string, SceneData> item in gameData.dict)
                 {
                     scenes.Add(new SceneSaveDisplay(item.Key, item.Value));
