@@ -13,7 +13,7 @@ public class CrumblingFloorEvent : MonoBehaviour
         Debug.Log("there was a collision!");
         if (collision.CompareTag("Player"))
         {
-            AudioSource.PlayClipAtPoint(crumbling,gameObject.transform.position);
+            AudioSource.PlayClipAtPoint(crumbling, gameObject.transform.position);
             Debug.Log("destroying object after one second");
             Destroy(gameObject.transform.parent.gameObject, crumbleDelay);
         }

@@ -22,7 +22,7 @@ namespace KainsTestScripts
 
         #region SAVE SYSTEM
         [System.Serializable]
-        protected class TestEntitySaveData : SaveData //class that is a container for data that will be saved
+        protected class TestEntitySaveData : ISaveData //class that is a container for data that will be saved
         {
             public float health;
             public float x;
@@ -34,11 +34,11 @@ namespace KainsTestScripts
             }
         }
 
-        public SaveData GatherSaveData() //store current state into the SaveData class
+        public ISaveData GatherSaveData() //store current state into the SaveData class
         {
             return new TestEntitySaveData { health = health, x = transform.position.x, y = transform.position.y };
         }
-        public void RestoreSaveData(SaveData state) //receive SaveData class and set variables
+        public void RestoreSaveData(ISaveData state) //receive SaveData class and set variables
         {
             var saveData = (TestEntitySaveData)state;
 
