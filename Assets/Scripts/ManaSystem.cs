@@ -5,9 +5,18 @@ using UnityEngine;
 
 public class ManaSystem : FillSystem
 {
-    public static ManaSystem instance;
-    private void Awake()
+    private static ManaSystem _instance;
+
+    public static ManaSystem instance
     {
-        instance = this;
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<ManaSystem>();
+            }
+
+            return _instance;
+        }
     }
 }
