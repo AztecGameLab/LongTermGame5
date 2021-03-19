@@ -6,7 +6,7 @@ public static class Scanner
 {
     private static readonly Collider2D[] NearbyColliderBuffer = new Collider2D[100];
     
-    public static T GetClosestObject<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
+    public static T GetClosestObject<T>(Vector2 origin, float range = 10)
     {
         int resultSize = PopulateColliderBuffer(range, origin);
         
@@ -42,7 +42,7 @@ public static class Scanner
     }
     
     private static Collider2D FindFirstColliderWithComponent<T>
-        (Collider2D[] arrayToSearch, int elementsToSearch) where T : MonoBehaviour
+        (Collider2D[] arrayToSearch, int elementsToSearch)
     {
         for (int i = 0; i < elementsToSearch; i++)
         {
@@ -53,7 +53,7 @@ public static class Scanner
         return null;
     }
     
-    public static T[] GetObjectsInRange<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
+    public static T[] GetObjectsInRange<T>(Vector2 origin, float range = 10)
     {
         var resultSize = PopulateColliderBuffer(range, origin);
         var result = new List<T>();
