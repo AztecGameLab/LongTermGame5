@@ -10,9 +10,12 @@ public class CrumblingFloorEvent : MonoBehaviour
 
     public AudioClip crumblingWarning;
 
-    public float timerCountDown = 1;
+    private float timerCountDown = 1;
 
     bool isColliding = false;
+
+    bool hasCrumblingAudioPlayed = false;
+
 
     private void Update()
     {
@@ -42,7 +45,11 @@ public class CrumblingFloorEvent : MonoBehaviour
         {
             if(timerCountDown <= 0)
             {
-                AudioSource.PlayClipAtPoint(crumbling, gameObject.transform.position);
+                if (hasCrumblingAudioPlayed == false)
+                {
+                    AudioSource.PlayClipAtPoint(crumbling, gameObject.transform.position);
+                    hasCrumblingAudioPlayed = true;
+                }
                 Debug.Log("destroying object after one second");
                 Destroy(gameObject.transform.parent.gameObject, crumbleDelay);
             }
@@ -55,7 +62,6 @@ public class CrumblingFloorEvent : MonoBehaviour
         {
             Debug.Log("Player has left platform before colllapse");
             isColliding = false;
-            timerCountDown = 1;
         }
     }
 }
