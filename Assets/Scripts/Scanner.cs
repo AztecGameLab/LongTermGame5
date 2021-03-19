@@ -36,6 +36,10 @@ public static class Scanner
         int resultSize = PopulateColliderBuffer(range, origin);
         
         Collider2D closest = FindFirstColliderWithComponent<T>(NearbyColliderBuffer, resultSize);
+
+        if (closest == null)
+            return default;
+        
         float closestDistance = (origin - (Vector2) closest.bounds.center).sqrMagnitude;
         
         for (int i = 0; i < resultSize; i++)
