@@ -1,4 +1,4 @@
 public interface IBashable
 {
-    void Bash();
+    void Bash(PlatformerController controller);
 }

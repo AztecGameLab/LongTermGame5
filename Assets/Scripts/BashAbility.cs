@@ -1,14 +1,10 @@
-﻿using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BashAbility : MonoBehaviour
 {
     private PlatformerController _platformerController;
     private GameInputs _inputs;
-
-    public float shakeTime = 0.5f;
-    public float speedBoost = 10f;
     
     private void Start()
     {
@@ -20,19 +16,10 @@ public class BashAbility : MonoBehaviour
 
     private void PlayerBashStart(InputAction.CallbackContext context)
     {
-        var nearestBashable = Scanner.GetClosestObject<IBashable>(_platformerController.transform.position);
-
-        if (nearestBashable != null)
-        {
-            nearestBashable.Bash();
-
-            var bashDirection = _platformerController.primaryStick;
-
-            _platformerController.rigid.velocity = Vector2.zero;
-            _platformerController.KnockBack(bashDirection, speedBoost);
+        if (_platformerController.primaryStick == Vector2.zero)
+            return;
         
-            CameraShake.instance.StartShake(shakeTime);
-            Thread.Sleep(20);   
-        }
+        var nearestBashable = Scanner.GetClosestObject<IBashable>(_platformerController.transform.position);
+        nearestBashable?.Bash(_platformerController);
     }
 }

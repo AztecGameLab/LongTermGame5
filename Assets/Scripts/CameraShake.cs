@@ -20,8 +20,10 @@ public class CameraShake : MonoBehaviour{
     private void Start()
     {
         instance = this;
+        originPos = transform.position;
     }
-    
+
+    private Vector3 originPos;
     private void LateUpdate(){
         if (shakeTimeRemaining > 0){
             shakeTimeRemaining -= Time.deltaTime;
@@ -29,7 +31,7 @@ public class CameraShake : MonoBehaviour{
             Vector3 offset = new Vector3(GetPerlinNoise(1) * maxOffset, GetPerlinNoise(2) * maxOffset, 0f);
 
             // moves the camera around the assumed cameras position. 
-            transform.position = offset + AssumedCamPos();
+            transform.position = offset + originPos;
 
             // rotates the camera
             transform.localRotation = Quaternion.Euler(0f, 0f, GetPerlinNoise(3) * 2 * rotationMultiplier);
@@ -37,7 +39,7 @@ public class CameraShake : MonoBehaviour{
             // Resets the cameras position and rotation to assumed values before the shake.
             // When shakeTimeRemaining has reached 0, this will run once.
             if (shakeTimeRemaining <= 0){
-                transform.position = AssumedCamPos();
+                transform.position = originPos;
                 transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             }
         }
