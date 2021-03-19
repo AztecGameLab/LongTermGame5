@@ -92,9 +92,9 @@ public class BulkyEnemy : Entity
     {
         if (enabled)
         {
-            if (lowHealth /*&& health < healthTrigger*/)  //Player is unable to attck currently, so I can't quite test this fully
+            if (!lowHealth && health < healthTrigger)  //Player is unable to attck currently, so I can't quite test this fully
             {
-                lowHealth = false;
+                lowHealth = true;
                 EnemySpeed *= 2;
             }
             playerPos = PlatformerController.instance.transform.position;
@@ -108,7 +108,7 @@ public class BulkyEnemy : Entity
                 BulkyAttack(PlayerIsLeft);
                 print("Attack"); //Not quite sure how we will be implementing attack?
             }
-            else
+            else if (!isAttacking)
             {
                 if (PlayerIsLeft)
                 {
