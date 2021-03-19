@@ -679,6 +679,7 @@ GameObject:
   - component: {fileID: 1830643998}
   - component: {fileID: 1830643999}
   - component: {fileID: 1830644000}
+  - component: {fileID: 1830644001}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -811,15 +812,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whatIsGrapplable:
-    serializedVersion: 2
     m_Bits: 512
   cam: {fileID: 149704481}
+  joint: {fileID: 0}
   player: {fileID: 1830643994}
   grappleRange: 1000
   grappleTightness: 1
   dampingRatio: 1
   grappleSpeed: 1
   lr: {fileID: 1830643999}
+  grapplePoint: {x: 0, y: 0}
 --- !u!120 &1830643999
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -932,6 +934,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grapp: {fileID: 11400000, guid: 24d1a99c21e1a7c47915bc41707628fd, type: 2}
   cam: {fileID: 149704481}
+--- !u!114 &1830644001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830643993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20036a77c63e0b847a885ba07bf97bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  parameters: {fileID: 0}
+  rigid: {fileID: 1830643995}
+  anim: {fileID: 0}
+  lockControls: 0
+  currWeapon: 0
+  weapons: []
+  error: 0
+  primaryStick: {x: 0, y: 0}
+  goalVelocity: 0
+  jumpCounter: 0
+  isJumping: 0
+  isGrounded: 0
+  canJump: 0
+  attackTrigger: {fileID: 0}
 --- !u!1 &1846678334
 GameObject:
   m_ObjectHideFlags: 0
