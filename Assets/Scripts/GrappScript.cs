@@ -15,7 +15,7 @@ public class GrappScript : ProjectileWeapon
     {
         lr = GameObject.FindGameObjectWithTag("Player").GetComponent<LineRenderer>();
 
-        PlatformerController.instance.StartCoroutine(DrawRope());       
+            
         StartGrapple(direction);
         
     }
@@ -51,6 +51,8 @@ public class GrappScript : ProjectileWeapon
             joint.dampingRatio = 1;
 
             lr.positionCount = 2;
+
+            PlatformerController.instance.StartCoroutine(DrawRope());
         }
 
     }
