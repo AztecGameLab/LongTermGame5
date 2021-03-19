@@ -11,7 +11,8 @@ public class InvincibleEnemy : Entity
     public int Radius = 5;
     public bool moveRight, LEFT, RIGHT, UP, DOWN;
     Vector2 playerPos, enemyPosition;
-    
+    public Animator animator;
+
 
     // Start is called before the first frame update
     public void Awake()
@@ -49,7 +50,14 @@ public class InvincibleEnemy : Entity
         float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
         return velocity * direction.normalized;
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+            enemyRigidBody2D.velocity = Vector2.zero;
+            animator.SetFloat("VelocityX", enemyRigidBody2D.velocity.x);
+            animator.SetFloat("VelocityY", enemyRigidBody2D.velocity.y);
+        
+    }
 
     IEnumerator Jump()
     {
@@ -62,9 +70,12 @@ public class InvincibleEnemy : Entity
                 enemyPosition = enemyTransform.position;
                 print(calculateHop(enemyPosition, playerPos));
                 enemyRigidBody2D.velocity = calculateHop(enemyPosition, playerPos);
+                animator.SetFloat("VelocityX", enemyRigidBody2D.velocity.x);
+                animator.SetFloat("VelocityY", enemyRigidBody2D.velocity.y);
             }
-            
+           
             yield return new WaitForSeconds(3);
+            
         }
 
 

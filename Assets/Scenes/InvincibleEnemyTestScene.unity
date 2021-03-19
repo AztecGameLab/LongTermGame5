@@ -1567,8 +1567,9 @@ GameObject:
   - component: {fileID: 1060395690}
   - component: {fileID: 1060395689}
   - component: {fileID: 1060395688}
+  - component: {fileID: 1060395691}
   m_Layer: 0
-  m_Name: SpriteTemplate64_0
+  m_Name: InvincibleEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1632,6 +1633,7 @@ MonoBehaviour:
   RIGHT: 0
   UP: 0
   DOWN: 0
+  animator: {fileID: 1060395691}
 --- !u!50 &1060395690
 Rigidbody2D:
   serializedVersion: 4
@@ -1653,6 +1655,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &1060395691
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060395687}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22a96091ddf1b0f45b9936d020649a7e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &1060395693
 SpriteRenderer:
   m_ObjectHideFlags: 0
