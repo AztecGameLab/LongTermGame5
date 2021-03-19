@@ -3,7 +3,6 @@
 public class BashAbility : MonoBehaviour
 {
     private PlatformerController _platformerController;
-    private GameInputs _inputs; 
     
     private void Start()
     {
@@ -12,5 +11,4 @@ public class BashAbility : MonoBehaviour
         
         
     }
-
 }

@@ -1,10 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-// Provides helper methods for easily finding nearby MonoBehaviours
+// Provides helper methods for easily finding MonoBehaviours in a Scene
 public static class Scanner
 {
     private static readonly Collider2D[] NearbyColliderBuffer = new Collider2D[100];
+    
+    public static bool HasObjectsInScene<T>
+        (string sceneName, out T[] result, Predicate<T> shouldSelect = null)
+    {
+        Scene scene = SceneManager.GetSceneByName(sceneName);
+        var rootGameObjects = scene.GetRootGameObjects();
+        var resultList = 
+            from rootObject in rootGameObjects 
+            from gameObjectChild in rootObject.GetComponentsInChildren<T>() 
+            where shouldSelect == null || shouldSelect(gameObjectChild) 
+            select gameObjectChild;
+
+        result = resultList.ToArray();
+        
+        return result.Length > 0;
+    }
+
+    public static bool HasObjectsInScene<T>(out T[] result, Predicate<T> shouldSelect = null)
+    {
+        var sceneName = SceneManager.GetActiveScene().name;
+        return HasObjectsInScene(sceneName, out result, shouldSelect);
+    }
     
     public static T GetClosestObject<T>(Vector2 origin, float range = 10)
     {
