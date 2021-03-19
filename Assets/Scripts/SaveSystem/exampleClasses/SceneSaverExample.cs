@@ -1,5 +1,6 @@
 ﻿using SaveSystem;
 using UnityEngine;
+using EasyButtons;
 
 namespace KainsTestScripts
 {
@@ -7,19 +8,31 @@ namespace KainsTestScripts
     {
         void Start()
         {
-            print("pretend im something that changes scenes or something idk");
+            //"pretend im something that changes scenes or something idk"
         }
 
-        [EasyButtons.Button]
-        public void save()
+        [Button]
+        public void saveToTemp()
         {
-            SaveLoad.SaveCurrentScene();
+            SaveLoad.SaveActiveSceneToTempData();
+        }
+        
+        [Button]
+        public void loadFromTemp()
+        {
+            SaveLoad.LoadActiveSceneFromTempData();
         }
 
-        [EasyButtons.Button]
-        public void load()
+        [Button]
+        public void saveTempToFile()
         {
-            SaveLoad.LoadCurrentScene();
+            SaveLoad.SaveTempDataToFile();
+        }
+        
+        [Button]
+        public void loadFromFile()
+        {
+            SaveLoad.LoadFromFileToTempData();
         }
     }
 }
