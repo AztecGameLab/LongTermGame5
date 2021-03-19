@@ -13,7 +13,7 @@ public class GrappScript : ProjectileWeapon
     override
     public void Fire(Vector2 direction)
     {
-        lr = GameObject.FindGameObjectWithTag("Player").GetComponent<LineRenderer>();
+        lr = GameObject.FindGameObjectWithTag("Player").AddComponent<LineRenderer>();
 
             
         StartGrapple(direction);
@@ -22,7 +22,9 @@ public class GrappScript : ProjectileWeapon
 
     public void EndGrapple()            
     {
-        lr.positionCount = 0;
+
+        //lr.positionCount = 0;
+        Destroy(lr);
         Destroy(joint);
     }
 
@@ -38,14 +40,14 @@ public class GrappScript : ProjectileWeapon
   
 
             joint = PlatformerController.instance.gameObject.AddComponent<SpringJoint2D>();
-            Debug.Log("hit something");
+            //Debug.Log("hit something");
             //joint = GameObject.FindGameObjectWithTag("Player").AddComponent<SpringJoint2D>();    for testing while i didnt have PlatformerController on
 
-            grapplePoint = hit.collider.ClosestPoint(hit.point);
+            
 
             joint.enableCollision = true;
             joint.autoConfigureConnectedAnchor = false;                         //grapple settings
-            joint.connectedAnchor = grapplePoint;
+            joint.connectedAnchor = hit.collider.ClosestPoint(hit.point);
             joint.frequency = 1;
             joint.distance = 1;
             joint.dampingRatio = 1;
@@ -59,10 +61,11 @@ public class GrappScript : ProjectileWeapon
 
     IEnumerator DrawRope()
     {
+        lr.SetWidth(0, 1f);
         while (joint)
         {
-            lr.SetPosition(0, GameObject.FindGameObjectWithTag("Player").transform.position);
-            lr.SetPosition(1, grapplePoint);
+            lr.SetPosition(0, PlatformerController.instance.transform.position);
+            lr.SetPosition(1, joint.connectedAnchor);
             yield return null;
         }
     }
