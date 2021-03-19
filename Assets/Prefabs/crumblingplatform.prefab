@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 545735349201823016}
   - component: {fileID: 7260739239257004709}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: crumblingplatformcollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,6 +72,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crumbleDelay: 1.35
   crumbling: {fileID: 8300000, guid: c4abefafb6a57e347b65a722fea942d4, type: 3}
+  crumblingWarning: {fileID: 8300000, guid: aec9162fe25743240adf9714493ce400, type: 3}
+  timerCountDown: 1
 --- !u!1 &7678074084355561382
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +85,7 @@ GameObject:
   - component: {fileID: 7678074084355561376}
   - component: {fileID: 7678074084355561377}
   - component: {fileID: 7678074084355561378}
-  - component: {fileID: 7678074084355561379}
+  - component: {fileID: 496680527709616599}
   m_Layer: 0
   m_Name: crumblingplatform
   m_TagString: Untagged
@@ -178,7 +180,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &7678074084355561379
+--- !u!61 &496680527709616599
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,7 +193,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.000049710274, y: -0.0033168793}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -202,5 +204,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.04, y: 0.3}
+  m_Size: {x: 2.0500004, y: 0.29930416}
   m_EdgeRadius: 0
