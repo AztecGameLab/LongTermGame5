@@ -10,15 +10,16 @@ public struct CollisionEvents
     public UnityEvent<GameObject> collisionExit;
 }
 
+[RequireComponent(typeof(Collider2D))]
 // Wraps a Collider and exposes UnityEvents for OnTriggerEnter / Exit 
 public class Trigger : MonoBehaviour
 {
     [Header("Trigger Events")]
-    [SerializeField] private CollisionEvents events;
+    [SerializeField] public CollisionEvents events;
     
     [Header("Trigger Settings")]
     [SerializeField] public Collider2D colliderComponent;
-    [SerializeField] private LayerMask layersThatCanTrigger;
+    [SerializeField] public LayerMask layersThatCanTrigger = ~0;
     [SerializeField] private bool showDebug = true;
     
     private readonly List<GameObject> _objectsInTrigger = new List<GameObject>(); 
@@ -29,16 +30,12 @@ public class Trigger : MonoBehaviour
         return _objectsInTrigger.Contains(obj);
     }
     
-    private void Awake()
+    protected virtual void Awake()
     {
-        if (colliderComponent == null && !TryGetComponent(out colliderComponent))
-        {
-            Debug.LogWarning($"[Trigger] { gameObject.name } is missing a collider.");
-        }
-        else
-        {
-            colliderComponent.isTrigger = true;
-        }
+        if (colliderComponent == null)
+            colliderComponent = GetComponent<Collider2D>();
+
+        colliderComponent.isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

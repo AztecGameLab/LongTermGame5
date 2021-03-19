@@ -1,42 +1,78 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SaveSystem;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
-    public void GoToFirstLevel()
+    public Level firstLevel;
+    public GameObject playerPrefab;
+    public Level mainMenuLevel;
+    public Level creditsLevel;
+
+    public GameObject quitButton;
+
+    private LevelController _levelController;
+    
+    private void Start()
     {
-        int firstLevelSceneIndex = 2;
-        SceneManager.LoadScene(firstLevelSceneIndex);
+        _levelController = LevelController.Get();
     }
 
-    public void GoToCredits()
+    public void EnterGame()
     {
-        int CreditsSceneIndex = 1;
-        SceneManager.LoadScene(CreditsSceneIndex);
+        Level level;
+        Vector3 playerPosition;
+        
+        SaveLoad.LoadFromFileToTempData();
+        var playerData = SaveLoad.GetPlayerData();
+
+        if (playerData == null)
+        {
+            // No save has been made yet, load cutscene / starting scene
+            level = firstLevel;
+            playerPosition = Vector3.zero;
+            print("No save found: Loading " + level.sceneName);
+        }
+        else
+        {
+            level = _levelController.GetLevel(playerData.currentScene);
+            playerPosition = playerData.position;
+            print("Save found! Loading " + level.sceneName);
+        }
+
+        LevelUtil.Get().TransitionTo(level, () =>
+        {
+            var player = Instantiate(playerPrefab);
+            player.transform.position = playerPosition;
+        });
     }
 
-    public void GoToMainMenu()
+    public void PlayCredits()
     {
-        int mainMenuSceneIndex = 0;
-        SceneManager.LoadScene(mainMenuSceneIndex);
+        LevelUtil.Get().TransitionTo(creditsLevel);
+    }
+
+    public void LoadMainMenu()
+    {
+        LevelUtil.Get().TransitionTo(mainMenuLevel);
     }
 
     public void QuitProgram()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        
         UnityEditor.EditorApplication.isPlaying = false;
-#else
+        
+        #else
+        
         Application.Quit();
-#endif
+
+        #endif
     }
 
-    public GameObject quitButton;
-#if UNITY_WEBGL
+    #if UNITY_WEBGL
     private void Start()
     {
         Destroy(quitButton);
     }
-#endif
+    #endif
 }
