@@ -25,7 +25,6 @@ public class SimpleBashable : MonoBehaviour, IBashable
         var bashOrigin = transform.position;
         var bashDirection = controller.primaryStick;
 
-        transform.position -= (Vector3) bashDirection;
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = -bashDirection * speedBoost;
 
