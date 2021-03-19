@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlatformerController : Entity
 {
     [SerializeField] private PlatformerParameters parameters;
-    [SerializeField] private Rigidbody2D rigid;
+    [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
     SpriteRenderer render;
 
@@ -76,7 +76,8 @@ public class PlatformerController : Entity
         Debug.DrawLine(this.transform.position, (Vector2)this.transform.position + new Vector2(error, 0));
         #endif
 
-        rigid.AddForce(new Vector2(error, 0));
+        if (isGrounded)
+            rigid.AddForce(new Vector2(error, 0));
     }
     public Vector2 primaryStick;
     float fastFall = 0;

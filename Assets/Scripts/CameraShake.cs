@@ -12,18 +12,16 @@ public class CameraShake : MonoBehaviour{
     public static CameraShake instance;
     public Transform player;
 
-    [SerializeField]
-    private float maxOffset, // Controls the range of GetPerlinNoise()
-                    frequency, // Controls the speed of the camera movement
-                    shakeTimeRemaining,
-                    rotationMultiplier; // Controls the rotations range.
-
-    void Start(){
+    [SerializeField] private float maxOffset = 0.1f;
+    [SerializeField] private float frequency = 8.0f;
+    [SerializeField] private float shakeTimeRemaining = 0f;
+    [SerializeField] private float rotationMultiplier = 7.0f;
+    
+    private void Start()
+    {
         instance = this;
-        maxOffset = 0.1f;
-        frequency = 8.0f;
-        rotationMultiplier = 7.0f;
     }
+    
     private void LateUpdate(){
         if (shakeTimeRemaining > 0){
             shakeTimeRemaining -= Time.deltaTime;

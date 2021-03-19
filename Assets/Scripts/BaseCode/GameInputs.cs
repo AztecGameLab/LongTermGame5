@@ -230,7 +230,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""f1c13601-2f60-4cd9-9051-d06e1afbf437"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
