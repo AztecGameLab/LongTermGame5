@@ -52,17 +52,17 @@ public class LevelLoadTrigger : Trigger
         if (!TryGetComponent(out PolygonCollider2D edgeCollider2D))
             edgeCollider2D = gameObject.AddComponent<PolygonCollider2D>();
 
-        var colliderSizeX = bounds.max.x - bounds.min.x; // 20
-        var colliderSizeY = bounds.max.y - bounds.min.y; // 1
+        var colliderSizeX = bounds.max.x - bounds.min.x;
+        var colliderSizeY = bounds.max.y - bounds.min.y;
 
         var colliderPoints = new Vector2[4];
-        colliderPoints[0] = new Vector2(-colliderSizeX / 2, colliderSizeY / 2);
-        colliderPoints[1] = new Vector2(colliderSizeX / 2, colliderSizeY / 2);
-        colliderPoints[2] = new Vector2(colliderSizeX / 2, -colliderSizeY / 2);
-        colliderPoints[3] = new Vector2(-colliderSizeX / 2, -colliderSizeY / 2);
+        colliderPoints[0] = new Vector2(-colliderSizeX / 2, colliderSizeY / 2) + (Vector2) bounds.center;
+        colliderPoints[1] = new Vector2(colliderSizeX / 2, colliderSizeY / 2) + (Vector2) bounds.center;
+        colliderPoints[2] = new Vector2(colliderSizeX / 2, -colliderSizeY / 2) + (Vector2) bounds.center;
+        colliderPoints[3] = new Vector2(-colliderSizeX / 2, -colliderSizeY / 2) + (Vector2) bounds.center;
         
         edgeCollider2D.points = colliderPoints;
-        edgeCollider2D.offset = bounds.center;
+        // edgeCollider2D.offset = bounds.center;
         
         return edgeCollider2D;
     }
