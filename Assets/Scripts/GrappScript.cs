@@ -7,15 +7,16 @@ using UnityEngine;
 public class GrappScript : ProjectileWeapon
 {
     SpringJoint2D joint;
-    Vector2 grapplePoint;
     public LineRenderer lr;
-    
+    private float _rope;
+
     override
     public void Fire(Vector2 direction)
     {
-        lr = GameObject.FindGameObjectWithTag("Player").AddComponent<LineRenderer>();
+        lr = PlatformerController.instance.gameObject.AddComponent<LineRenderer>();
 
-            
+
+
         StartGrapple(direction);
         
     }
@@ -40,16 +41,16 @@ public class GrappScript : ProjectileWeapon
   
 
             joint = PlatformerController.instance.gameObject.AddComponent<SpringJoint2D>();
-            //Debug.Log("hit something");
-            //joint = GameObject.FindGameObjectWithTag("Player").AddComponent<SpringJoint2D>();    for testing while i didnt have PlatformerController on
+  
 
-            
+             ;
 
             joint.enableCollision = true;
             joint.autoConfigureConnectedAnchor = false;                         //grapple settings
             joint.connectedAnchor = hit.collider.ClosestPoint(hit.point);
+            _rope = (Vector2.Distance(PlatformerController.instance.gameObject.transform.position, joint.connectedAnchor));
             joint.frequency = 1;
-            joint.distance = 1;
+            joint.distance = _rope / 1.3f;    //divided by float so it can start swinging even if it on the ground by pulling the player up slightly
             joint.dampingRatio = 1;
 
             lr.positionCount = 2;
@@ -61,7 +62,9 @@ public class GrappScript : ProjectileWeapon
 
     IEnumerator DrawRope()
     {
-        lr.SetWidth(0, 1f);
+        lr.material.color = Color.red;
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
         while (joint)
         {
             lr.SetPosition(0, PlatformerController.instance.transform.position);
