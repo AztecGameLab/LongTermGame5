@@ -4,64 +4,71 @@ using UnityEngine;
 [RequireComponent(typeof(CinemachineVirtualCamera))]
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField] private float lookAheadDistance = 3f;
-    [SerializeField] private float lookAheadTime = 5f;
-    
-    [SerializeField] private float lookUpDistance = 3f;
-    [SerializeField] private float lookUpTime = 0.1f;
-    
-    [SerializeField] private float timeHeldBeforeLookVertical = 1f;
+    [Header("Horizontal Settings")]
+    [SerializeField] private float horizontalDistance = 1.75f;
+    [SerializeField] private float horizontalTime = 1f;
+
+    [Header("Vertical Settings")]
+    [SerializeField] private float verticalDistance = 3f;
+    [SerializeField] private float verticalTime = 0.1f;
+    [SerializeField] private float verticalHoldTime = 0.5f;
     
     private CinemachineFramingTransposer _transposer;
-    private CinemachineVirtualCamera _camera;
     private PlatformerController _player;
-    private Vector2 _dampVelocity = Vector2.zero;
+
     private Vector2 Input => _player.primaryStick;
+    private Vector2 _dampVelocity = Vector2.zero;
     private Vector3 _offset = Vector3.zero;
-    private float _lookTime = 0;
+    private float VerticalDirection => Input.y > 0 ? 1 : -1;
+    private float HorizontalDirection => Input.x > 0 ? 1 : -1; 
+    private float _holdTime = 0;
     
     private void Awake()
     {
-        _camera = GetComponent<CinemachineVirtualCamera>();
-        _transposer = _camera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        var virtualCamera = GetComponent<CinemachineVirtualCamera>();
+        
+        _transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         _player = PlatformerController.instance;
     }
 
     private void Update()
     {
-        if (Input.x != 0)
-            LookHorizontal();
-
-        if (Input.y != 0)
-            LookVertical();
-        else
-        {
-            _lookTime = 0;
-            
-            var current = _transposer.m_TrackedObjectOffset.y;
-            _offset.y = Mathf.SmoothDamp(current, 0, ref _dampVelocity.y, lookUpTime);
-        }
+        LookHorizontal();
+        LookVertical();
 
         _transposer.m_TrackedObjectOffset = _offset;
     }
 
     private void LookHorizontal()
     {
+        if (Input.x == 0)
+            return;
+        
         var current = _transposer.m_TrackedObjectOffset.x;
-        var target = (Input.x > 0 ? 1 : -1) * lookAheadDistance;
-        _offset.x = Mathf.SmoothDamp(current, target, ref _dampVelocity.x, lookAheadTime);
+        var target = HorizontalDirection * horizontalDistance;
+        
+        _offset.x = Mathf.SmoothDamp(current, target, ref _dampVelocity.x, horizontalTime);
     }
-
     
     private void LookVertical()
     {
-        _lookTime += Time.deltaTime;
+        CalculateHoldTime();
 
-        if (_lookTime > timeHeldBeforeLookVertical)
+        float current = _transposer.m_TrackedObjectOffset.y;
+        float target = 0f;
+        
+        if (_holdTime > verticalHoldTime)
+            target = VerticalDirection * verticalDistance;
+        
+        _offset.y = Mathf.SmoothDamp(current, target, ref _dampVelocity.y, verticalTime);
+    }
+
+    private void CalculateHoldTime()
+    {
+        if (Input.y == 0)
         {
-            var current = _transposer.m_TrackedObjectOffset.y;
-            var target = (Input.y > 0 ? 1 : -1) * lookUpDistance;
-            _offset.y = Mathf.SmoothDamp(current, target, ref _dampVelocity.y, lookUpTime);
-        }
+            _holdTime = 0;
+        } 
+        else _holdTime += Time.deltaTime;
     }
 }
