@@ -70,14 +70,14 @@ public class PlatformerController : Entity
         //Going with a PID loop with only P lol
         if(lockControls){ return; }
         float maxForce = parameters.AccelerationMultiplier * 2.5f;
-        error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
+        var acceleration = parameters.AccelerationMultiplier; 
+        error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * acceleration, -maxForce, maxForce);
         
         #if UNITY_EDITOR
         Debug.DrawLine(this.transform.position, (Vector2)this.transform.position + new Vector2(error, 0));
         #endif
 
-        if (isGrounded)
-            rigid.AddForce(new Vector2(error, 0));
+        rigid.AddForce(new Vector2(error, 0));
     }
     public Vector2 primaryStick;
     float fastFall = 0;

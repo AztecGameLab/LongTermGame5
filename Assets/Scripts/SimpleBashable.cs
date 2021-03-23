@@ -33,8 +33,8 @@ public class SimpleBashable : MonoBehaviour, IBashable
         controller.rigid.velocity = Vector2.zero;
         controller.KnockBack(bashDirection, speedBoost);
         
-        CameraShake.instance.StartShake(shakeTime);
-        Thread.Sleep(20); 
+        // CameraShake.instance.StartShake(shakeTime);
+        // Thread.Sleep(20);
     }
 
 #if UNITY_EDITOR
