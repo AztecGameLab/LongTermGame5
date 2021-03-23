@@ -31,6 +31,9 @@ namespace SaveSystem
             
             if (level.isGameplayLevel)
                 SaveLoad.LoadSceneFromTempData(scene.name);
+            
+            if (Scanner.HasObjectsInScene<PlayerCamera>(level.sceneName, out var result))
+                result[0].SetActive(false);
         }
 
         private static void BeforeLevelUnloaded(Level level)
@@ -44,24 +47,27 @@ namespace SaveSystem
             return level != null && level.isGameplayLevel;
         }
         
-        private void OnActiveLevelChanged(Level level)
+        private void OnActiveLevelChanged(Level oldLevel, Level newLevel)
         {
             var player = PlatformerController.instance;
             
-            if (ShouldSave(level) && player != null)
+            if (ShouldSave(oldLevel) && player != null)
             {
                 MoveToActiveLevel(player.gameObject);
                 
                 var playerData = new PlayerData
                 {
-                    currentScene = level.sceneName, 
+                    currentScene = oldLevel.sceneName, 
                     position = player.transform.position
                 };
 
                 SaveLoad.SetPlayerData(playerData);
 
-                // if (Scanner.HasObjectsInScene<LevelLoadTrigger>(level.sceneName, out var result))
-                //     _cameraController.SetCameraCollider(result[0].colliderComponent);
+                if (oldLevel != null && Scanner.HasObjectsInScene<PlayerCamera>(oldLevel.sceneName, out var oldLevelCamera))
+                    oldLevelCamera[0].SetActive(false);
+                
+                if (newLevel != null && Scanner.HasObjectsInScene<PlayerCamera>(newLevel.sceneName, out var newLevelCamera))
+                    newLevelCamera[0].SetActive(true);
             }
         }
         

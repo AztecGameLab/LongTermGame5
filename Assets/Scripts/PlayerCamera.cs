@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 
@@ -14,8 +15,10 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float verticalHoldTime = 0.5f;
     
     private CinemachineFramingTransposer _transposer;
+    private CinemachineVirtualCamera _camera;
     private PlatformerController _player;
-
+    private AudioListener _audioListener;
+    
     private Vector2 Input => _player.primaryStick;
     private Vector2 _dampVelocity = Vector2.zero;
     private Vector3 _offset = Vector3.zero;
@@ -25,10 +28,21 @@ public class PlayerCamera : MonoBehaviour
     
     private void Awake()
     {
-        var virtualCamera = GetComponent<CinemachineVirtualCamera>();
-        
-        _transposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        _camera = GetComponent<CinemachineVirtualCamera>();
+        _transposer = _camera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        _audioListener = GetComponent<AudioListener>();
+    }
+
+    private void Start()
+    {
         _player = PlatformerController.instance;
+        _camera.Follow = _player.transform;
+    }
+
+    public void SetActive(bool active)
+    {
+        _camera.Priority = active ? 1 : 10;
+        _audioListener.gameObject.SetActive(active);
     }
 
     private void Update()
@@ -57,7 +71,7 @@ public class PlayerCamera : MonoBehaviour
         float current = _transposer.m_TrackedObjectOffset.y;
         float target = 0f;
         
-        if (_holdTime > verticalHoldTime)
+        if (_player.isGrounded && _holdTime > verticalHoldTime)
             target = VerticalDirection * verticalDistance;
         
         _offset.y = Mathf.SmoothDamp(current, target, ref _dampVelocity.y, verticalTime);
