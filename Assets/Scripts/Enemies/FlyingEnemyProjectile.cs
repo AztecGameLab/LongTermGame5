@@ -12,7 +12,7 @@ public class FlyingEnemyProjectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlatformerController>();
+        player = PlatformerController.instance;
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce((player.transform.position - transform.position).normalized * speed);
         //destroy itself after 5 seconds
