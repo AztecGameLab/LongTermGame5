@@ -60,8 +60,8 @@ namespace SaveSystem
 
                 SaveLoad.SetPlayerData(playerData);
 
-                if (Scanner.HasObjectsInScene<LevelLoadTrigger>(level.sceneName, out var result))
-                    _cameraController.SetCameraCollider(result[0].colliderComponent);
+                // if (Scanner.HasObjectsInScene<LevelLoadTrigger>(level.sceneName, out var result))
+                //     _cameraController.SetCameraCollider(result[0].colliderComponent);
             }
         }
         
