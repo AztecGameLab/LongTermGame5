@@ -10,30 +10,25 @@ public class EntitySpawner : MonoBehaviour
     {
         private GameObject enemy;        //variable to store the Enemy type
         private Transform pos;           //varibale to store the spawn position
-        private int spawnCount;          //store how many times this Entity has been spawned
 
         public Enemy(GameObject prefab, Transform position)
         {
             //construct the Entity
             enemy = prefab;
             pos = position;
-            spawnCount = 0;      //intialize amount of spawns to 0
         }
 
         //Spawn a single entity
         public void Spawn()
         {
             Instantiate(enemy, pos.position, pos.rotation);
-            spawnCount += 1;
         }
 
-        //Spawn a single entity given a new position, overides the intial one temporarily
-        public void Spawn(Transform tempPos)
+        //sets the enemy pos to a new pos
+        public void SetPostition(Transform newPos)
         {
-            Instantiate(enemy, tempPos.position, tempPos.rotation);
-            spawnCount += 1;
+            pos = newPos;
         }
-
     }
 
     //available to level designers
@@ -45,7 +40,7 @@ public class EntitySpawner : MonoBehaviour
     [SerializeField] float timeBtwnEachSpawn;       //time in between each enemy spawn within each spawnGroup
     [SerializeField] float spawnGroupCooldown;      //time in between each spawnGroup
 
-    float nextSpawn;//variable to keep track of when cooldown is up and spawngroup can be spawned again
+    float timeSinceLastSpawn;//variable to keep track of when cooldown is up and spawngroup can be spawned again
 
     //made automatically with prefabs and positions
     List<Enemy> entities;
@@ -54,15 +49,13 @@ public class EntitySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nextSpawn = Time.time;
+        timeSinceLastSpawn = Mathf.Infinity;
 
         entities = new List<Enemy>();   //instantiate the entities list
 
         //create the list of Entities matching the prefabs with the corresponding positions
         for(int x = 0; x < prefabs.Count; x++)
-        {
             entities.Add(new Enemy(prefabs[x], positions[x]));
-        }
 
         if (spawnOnStart)   //if designer sets this to true 
             StartCoroutine(SpawnGroup());
@@ -70,49 +63,53 @@ public class EntitySpawner : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        timeSinceLastSpawn += Time.deltaTime;
+    }
+
     //spawns the entity SpawnGroup
     IEnumerator SpawnGroup()
     {
-        nextSpawn += spawnGroupCooldown; //reset the cooldown
-
-        if (shufflePositions)    //if the deisgner chose to shuffle positions
+        if (timeSinceLastSpawn > spawnGroupCooldown)
         {
-            positions = Shuffle(positions);
-
-            //traverse through the list and spawn each entity with a shuffled position
-            for (int x = 0; x < entities.Count; x++)
-            {
-                yield return new WaitForSeconds(timeBtwnEachSpawn);
-                entities[x].Spawn(positions[x]);
-            }
-        }
-        else
+            timeSinceLastSpawn = 0;
+            if (shufflePositions)    //if the deisgner chose to shuffle positions
+                Shuffle();
             foreach (Enemy enemy in entities)
             {
                 enemy.Spawn();
                 yield return new WaitForSeconds(timeBtwnEachSpawn);
             }
+               
+        }
     }
 
-    //shuffles the list of posi
-    private List<Transform> Shuffle(List<Transform> orderedPos)
+    //assign each enemy with a new position
+    private void Shuffle()
     {
         List<Transform> shuffPos = new List<Transform>();       //new shuffled positions
         System.Random rand = new System.Random();
         int x;
 
-        while (orderedPos.Count > 0)
+        while (positions.Count > 0)
         {
             //get a randome int range [0, list size)
-            x = rand.Next(orderedPos.Count);
+            x = rand.Next(positions.Count);
 
             //assign the random selected Transfor as next element in list
-            shuffPos.Add(orderedPos[x]);
-            orderedPos.RemoveAt(x);      //remove it so it isnt picked again
+            shuffPos.Add(positions[x]);
+            positions.RemoveAt(x);      //remove it so it isnt picked again
             
         }
 
-        return shuffPos;
+        positions = shuffPos;
+
+        //reassign each enemy with a different position
+        for (x = 0; x < entities.Count; x++)
+        {
+            entities[x].SetPostition(positions[x]);
+        }
 
     }
 
@@ -120,7 +117,7 @@ public class EntitySpawner : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.GetComponent<PlatformerController>())
-            if (spawnOnTrigger && Time.time > nextSpawn)    //ensure spawn on trigger is enabled and the cooldown is over
+            if (spawnOnTrigger)    //ensure spawn on trigger is enabled and the cooldown is over
                 StartCoroutine(SpawnGroup());
     }
 

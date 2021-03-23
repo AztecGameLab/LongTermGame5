@@ -179,11 +179,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1831558400415614751, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.68
+      value: -3.06
       objectReference: {fileID: 0}
     - target: {fileID: 1831558400415614751, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -0.58
       objectReference: {fileID: 0}
     - target: {fileID: 1831558400415614751, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -550,11 +550,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961553922555115984, guid: 27ba98194b91e4b53891da9dcf8cdb9d, type: 3}
       propertyPath: shufflePositions
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1961553922555115984, guid: 27ba98194b91e4b53891da9dcf8cdb9d, type: 3}
       propertyPath: prefabs.Array.size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961553922555115984, guid: 27ba98194b91e4b53891da9dcf8cdb9d, type: 3}
+      propertyPath: spawnGroupCooldown
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1961553922555115984, guid: 27ba98194b91e4b53891da9dcf8cdb9d, type: 3}
       propertyPath: positions.Array.size
