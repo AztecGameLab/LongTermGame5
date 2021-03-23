@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 506775014149633602, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
+      propertyPath: orthographicSize
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3654648204269142249, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: m_Name
       value: Player Camera (2)
@@ -201,7 +205,7 @@ MonoBehaviour:
   m_BoundingVolume: {fileID: 0}
   m_BoundingShape2D: {fileID: 1378619726}
   m_ConfineScreenEdges: 1
-  m_Damping: 1
+  m_Damping: 0
 --- !u!1 &936211681
 GameObject:
   m_ObjectHideFlags: 0

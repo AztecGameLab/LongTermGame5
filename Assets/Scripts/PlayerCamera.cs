@@ -1,10 +1,12 @@
-using System;
 using Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(CinemachineVirtualCamera))]
 public class PlayerCamera : MonoBehaviour
 {
+    [Header("Camera Settings")] 
+    [SerializeField] private float orthographicSize = 6f;
+    
     [Header("Horizontal Settings")]
     [SerializeField] private float horizontalDistance = 1.75f;
     [SerializeField] private float horizontalTime = 1f;
@@ -31,6 +33,8 @@ public class PlayerCamera : MonoBehaviour
         _camera = GetComponent<CinemachineVirtualCamera>();
         _transposer = _camera.GetCinemachineComponent<CinemachineFramingTransposer>();
         _audioListener = GetComponent<AudioListener>();
+
+        _camera.m_Lens.OrthographicSize = orthographicSize;
     }
 
     private void Start()

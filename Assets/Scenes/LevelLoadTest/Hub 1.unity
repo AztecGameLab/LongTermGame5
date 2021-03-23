@@ -247,9 +247,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 506775014149633602, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
+      propertyPath: orthographicSize
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3654648204269142249, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: m_Name
       value: Player Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467780097007298644, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 8393226358768357276, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: m_RootOrder
