@@ -15,24 +15,17 @@ public class Door : Entity
     public override void TakeDamage(float baseDamage, Vector2 direction)
     {
 
-        if ((TheLeft && direction.x < 0)|| (TheRight && direction.x > 0))
+        if ((TheLeft && direction.x < 0)|| (TheRight && direction.x > 0) || (Down && direction.y < 0) || (Up && direction.y > 0))
         {
-            base.TakeDamage(baseDamage, direction);
-        }
-        if ((Down && direction.y < 0) || (Up && direction.y > 0))
-        {
-            base.TakeDamage(baseDamage, direction);
+            Destroy(gameObject);
         }
 
-       
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void TakeDamage(float baseDamage)
     {
         
     }
 
-    
 
 }
