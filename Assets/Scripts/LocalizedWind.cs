@@ -5,7 +5,7 @@ using UnityEngine;
 public class LocalizedWind : MonoBehaviour
 {
     List<Rigidbody2D> RigidbodiesinWindZoneList = new List<Rigidbody2D>();
-    public Vector3 windDirection = Vector3.right;
+    public Vector2 windDirection = Vector2.right;
     public float windStrength = 5;
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -25,12 +25,10 @@ public class LocalizedWind : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (RigidbodiesinWindZoneList.Count > 0)
-        {
             foreach (Rigidbody2D rigid in RigidbodiesinWindZoneList)
             {
+            windDirection.Normalize();
                 rigid.AddForce(windDirection * windStrength);
-            }
-        }
+            }   
     }
 }
