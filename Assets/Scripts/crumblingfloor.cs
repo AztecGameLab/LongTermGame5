@@ -13,7 +13,7 @@ public class crumblingfloor : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("player has come in contact with the platform");
+            //Debug.Log("player has come in contact with the platform");
             AudioSource.PlayClipAtPoint(crumblingWarning, gameObject.transform.position);
             crumbleTriggered();
         }
