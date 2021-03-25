@@ -6,7 +6,7 @@ using UnityEngine;
 public class Minimap : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
-    private Vector2 center = new Vector2(0,0);
+    private Vector2 center = new Vector2(150, 150);
 
     private static List<Room> rooms;
     private static Texture2D backgroundTexture;
@@ -35,7 +35,7 @@ public class Minimap : MonoBehaviour
         {
             if (r.getDiscovered() >= 0)
             {
-                DrawRect(r.getRect(), (r.getDiscovered() == 1 ? Color.white : Color.yellow));
+                DrawRect(r.getRect(center), (r.getDiscovered() == 1 ? Color.white : Color.yellow));
             }
             
         }
@@ -57,6 +57,7 @@ public class Minimap : MonoBehaviour
     }
 }
 
+//rect wrapper object to hold rectangles of all the rooms that can be shifed by a center value
 class Room
 {
     Rect roomRect;
@@ -70,6 +71,11 @@ class Room
     public Rect getRect()
     {
         return roomRect;
+    }
+
+    public Rect getRect(Vector2 center)
+    {
+        return new Rect(roomRect.x+center.x, roomRect.y+center.y, roomRect.width,roomRect.height);
     }
 
     public int getDiscovered()
