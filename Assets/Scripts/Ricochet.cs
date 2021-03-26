@@ -2,47 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Ricochet", menuName = "Ricochet")]
+[CreateAssetMenu(fileName = "RicochetWeapon", menuName = "RicochetWeapon")]
 public class Ricochet : ProjectileWeapon
 {
-    public GameObject ricochet;
-    GameObject newRicochet;
-    public Transform firePosition;
-    private float speed = 10.0f; 
-    private Rigidbody2D projectileHitbox;
-    private int maxReflectionCount = 5; //i dont know how many reflections you want
-    private int damage;
-    Vector2 newDirection;
+    public float speed = 20.0f;
+    public float damage = 1;
+    public int numReflections = 5;
+    public GameObject bullet;
+    public RicochetBullet curBullet;
+    public Transform firePoint;
 
-
-    public override void Fire()
+    public override void Fire(Vector2 direction)
     {
-        newRicochet = Instantiate(ricochet, firePosition.position, firePosition.rotation);
-        projectileHitbox = GetComponent<Rigidbody2D>();
-        projectileHitbox.velocity = transform.right * speed;
+        GameObject bulletGo = Instantiate(bullet, firePoint.position, Quaternion.identity);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    public override void Charge(Vector2 direction)
     {
-        if(other.gameObject.GetComponent<Entity>())
-        {
-            GameObject.Destroy(this.gameObject, 0);
-        }
-        else
-        {
-            if (maxReflectionCount != 0)
-            {
-                Vector2 normalForce = other.contacts[0].normal;
-                newDirection = Vector2.Reflect(projectileHitbox.velocity, normalForce).normalized;
-
-                projectileHitbox.velocity = newDirection * speed;
-                maxReflectionCount = maxReflectionCount - 1;
-            }
-            else
-            {
-                GameObject.Destroy(this.gameObject, 0);
-            }
-        }
+        GameObject bulletGo = Instantiate(bullet, firePoint.position, Quaternion.identity);
     }
-    
+
+    public override void OnAimChange(Vector2 direction)
+    {
+        GameObject bulletGo = Instantiate(bullet, firePoint.position, Quaternion.identity);
+    }
+
 }
