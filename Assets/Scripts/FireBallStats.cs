@@ -21,7 +21,7 @@ public class FireBallStats : ProjectileWeapon
 
     public override void Fire()
     {
-        firePoint = transform.Find("FirePoint");
+        
         player = GameObject.Find("TempPlayer");
         newFireBall = Instantiate(fireBall, firePoint.position, firePoint.rotation);
         FireBallSize += chargeTimer;
