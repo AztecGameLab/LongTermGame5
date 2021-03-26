@@ -6,7 +6,6 @@ public class FireBallCollider : MonoBehaviour
 {
     public GameObject fireball;
     public GameObject player;
-    //private Vector3 spawn;
     
     void Start()
     {

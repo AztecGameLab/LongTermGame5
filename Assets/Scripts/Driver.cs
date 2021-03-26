@@ -47,11 +47,12 @@ public class Driver : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+            spawnPoint = new Vector2(0, -1);
             fireball.Charge();
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            spawnPoint = new Vector2(1, 1);
+           
             fireball.Fire(spawnPoint);
         }
         // Movement controls
