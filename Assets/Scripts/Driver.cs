@@ -14,7 +14,7 @@ public class Driver : MonoBehaviour
     public Camera mainCamera;
 
     public FireBallStats fireball;
-
+    Vector2 spawnPoint;
     bool facingRight = true;
     float moveDirection = 0;
     bool isGrounded = false;
@@ -34,6 +34,7 @@ public class Driver : MonoBehaviour
         r2d.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         r2d.gravityScale = gravityScale;
         facingRight = t.localScale.x > 0;
+        
 
         if (mainCamera)
         {
@@ -50,7 +51,8 @@ public class Driver : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            fireball.Fire();
+            spawnPoint = new Vector2(1, 1);
+            fireball.Fire(spawnPoint);
         }
         // Movement controls
         if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || Mathf.Abs(r2d.velocity.x) > 0.01f))
