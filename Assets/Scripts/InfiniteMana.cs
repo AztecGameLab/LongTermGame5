@@ -40,7 +40,7 @@ public class InfiniteMana : Entity
 
     void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("z"))
         {
             TakeDamage(100);
         }
