@@ -24,13 +24,14 @@ public class FireBallStats : ProjectileWeapon
 
     public override void Fire(Vector2 direction)
     {
-        rocket = false;
+        
         if (direction.x > 0)
             posNeg = 1;
         if (direction.x < 0)
             posNeg = -1;
         if (direction.y < 0)
             rocket = true;
+        Debug.Log(rocket);
         player = GameObject.Find("TempPlayer");
         spawn = player.GetComponent<Transform>().position;
         spawn.x += posNeg;
@@ -42,20 +43,23 @@ public class FireBallStats : ProjectileWeapon
         fireBall.GetComponent<Transform>().position = spawn;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, fireBall.transform.rotation);
         FireBallSize += chargeTimer;
+        
+        newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
         if (rocket)
         {
+            Debug.Log("Rocket");
             newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.up * -1 * launchForce);
-            return;
+            player.GetComponent<Rigidbody2D>().AddForce(player.transform.up * 10);
+            
         }
-        newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
+        else
+        {
+            newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.right * posNeg * launchForce) + (newFireBall.transform.up * upForce);
+        }
         
-        newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.right * posNeg * launchForce) + (newFireBall.transform.up * upForce);
         chargeTimer = 0f;
         
         FireBallSize = 3f;
-        
-        
-        
     }
 
     public override void Charge(Vector2 direction)
