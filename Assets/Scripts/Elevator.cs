@@ -14,7 +14,6 @@ public class Elevator : MonoBehaviour
 
     PlatformerController playerController;
     GameObject player;
-    Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +22,11 @@ public class Elevator : MonoBehaviour
         playerController = PlatformerController.instance;
         player = playerController.gameObject;
 
-        rb = GetComponent<Rigidbody2D>();
         if (startAtTop)
         {
             transform.position = top.position;
-        } else if (startAtButtom)
+        } 
+        else if (startAtButtom)
         {
             transform.position = bottom.position;
         }
@@ -51,13 +50,12 @@ public class Elevator : MonoBehaviour
     IEnumerator MoveTowrds(Vector2 targetPos)
     {
         Vector2 currentPos = transform.position;
-        //Vector2 movingPos;
+       
         while (currentPos != targetPos)
         {
-            currentPos = transform.position;
-            //temp fix by moving the position 
-            transform.position = Vector2.MoveTowards(currentPos, targetPos, speed * Time.deltaTime);
-            //rb.MovePosition(movingPos);
+            currentPos = transform.position;    
+            transform.position = Vector2.MoveTowards(currentPos, targetPos, speed * Time.deltaTime);   
+            
             yield return 0;
         }    
 
@@ -66,17 +64,16 @@ public class Elevator : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlatformerController>() == playerController)
+        if (collision.GetComponent<PlatformerController>())
         {
             player.transform.SetParent(transform);
-
         }
 
         
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.GetComponent<PlatformerController>() == playerController)
+        if (collision.GetComponent<PlatformerController>())
         {
             player.transform.SetParent(null);
         }
