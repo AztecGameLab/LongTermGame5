@@ -8,21 +8,28 @@ public class Elevator : MonoBehaviour
     [SerializeField] bool startAtTop;
     [SerializeField] bool startAtButtom;
 
-    [SerializeField] GameObject elevatorPlatform;
     [SerializeField] Transform top;
     [SerializeField] Transform bottom;
     [SerializeField] float speed;
 
+    PlatformerController playerController;
+    GameObject player;
+    Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        playerController = PlatformerController.instance;
+        player = playerController.gameObject;
+
+        rb = GetComponent<Rigidbody2D>();
         if (startAtTop)
         {
-            elevatorPlatform.transform.position = top.position;
+            transform.position = top.position;
         } else if (startAtButtom)
         {
-            elevatorPlatform.transform.position = bottom.position;
+            transform.position = bottom.position;
         }
     }
 
@@ -43,14 +50,37 @@ public class Elevator : MonoBehaviour
 
     IEnumerator MoveTowrds(Vector2 targetPos)
     {
-        Vector2 currentPos = elevatorPlatform.transform.position;
+        Vector2 currentPos = transform.position;
+        //Vector2 movingPos;
         while (currentPos != targetPos)
         {
-            currentPos = elevatorPlatform.transform.position;
-            elevatorPlatform.transform.position = Vector2.MoveTowards(currentPos, targetPos, speed * Time.deltaTime);
+            currentPos = transform.position;
+            //temp fix by moving the position 
+            transform.position = Vector2.MoveTowards(currentPos, targetPos, speed * Time.deltaTime);
+            //rb.MovePosition(movingPos);
             yield return 0;
-        }
-        
+        }    
 
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<PlatformerController>() == playerController)
+        {
+            player.transform.SetParent(transform);
+
+        }
+
+        
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.GetComponent<PlatformerController>() == playerController)
+        {
+            player.transform.SetParent(null);
+        }
+
+    }
+    
 }
