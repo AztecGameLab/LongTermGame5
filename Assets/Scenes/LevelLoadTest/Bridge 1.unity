@@ -676,7 +676,7 @@ MonoBehaviour:
   colliderComponent: {fileID: 783938896}
   layersThatCanTrigger:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 512
   showDebug: 1
   currentLevel: {fileID: 11400000, guid: f99f3bab0cd164043b28d9eb23f143bd, type: 2}
 --- !u!60 &783938896
@@ -731,7 +731,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 506775014149633602, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: orthographicSize
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3654648204269142249, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: m_Name

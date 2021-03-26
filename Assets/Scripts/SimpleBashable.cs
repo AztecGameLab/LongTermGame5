@@ -1,4 +1,3 @@
-using System.Threading;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -17,13 +16,10 @@ public class SimpleBashable : MonoBehaviour, IBashable
 
     public void Bash(PlatformerController controller)
     {
-        if (Vector2.Distance(controller.transform.position, transform.position) > bashRange)
-            return;
-        
         print($"Bash! { gameObject.name } : { gameObject.transform.position }");
 
         var bashOrigin = transform.position;
-        var bashDirection = controller.primaryStick;
+        var bashDirection = controller.primaryStick.normalized;
 
         _rigidbody.gravityScale = 0;
         _rigidbody.velocity = -bashDirection * speedBoost;
@@ -35,6 +31,11 @@ public class SimpleBashable : MonoBehaviour, IBashable
         
         // CameraShake.instance.StartShake(shakeTime);
         // Thread.Sleep(20);
+    }
+
+    public bool CanBash(PlatformerController controller)
+    {
+        return Vector2.Distance(controller.transform.position, transform.position) > bashRange;
     }
 
 #if UNITY_EDITOR

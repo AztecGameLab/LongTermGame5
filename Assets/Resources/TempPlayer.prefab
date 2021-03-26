@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1733015407}
   - component: {fileID: -2959006145567405707}
   - component: {fileID: -8198480107596496849}
+  - component: {fileID: 3385735100615052619}
   m_Layer: 9
   m_Name: TempPlayer
   m_TagString: Untagged
@@ -271,3 +272,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af2c74a65adcc04397b578f07a2d9ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3385735100615052619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831558400415614749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 18db076142a307547b258d6921545cb0, type: 2}
+    m_AmplitudeGain: 2
+    m_FrequencyGain: 10
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.1
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343

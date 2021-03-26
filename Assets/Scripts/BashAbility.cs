@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class BashAbility : MonoBehaviour
@@ -16,10 +17,22 @@ public class BashAbility : MonoBehaviour
 
     private void PlayerBashStart(InputAction.CallbackContext context)
     {
-        if (_platformerController.primaryStick == Vector2.zero)
-            return;
-        
+        print("Started");
         var nearestBashable = Scanner.GetClosestObject<IBashable>(_platformerController.transform.position);
-        nearestBashable?.Bash(_platformerController);
+
+        if (CanBash(nearestBashable))
+        {
+            nearestBashable.Bash(_platformerController);
+            
+            if (_platformerController.TryGetComponent<CinemachineImpulseSource>(out var impulseSource))
+                impulseSource.GenerateImpulse();
+        }
+    }
+
+    private bool CanBash(IBashable bashable)
+    {
+        return _platformerController.primaryStick.normalized != Vector2.zero || 
+               bashable == null ||
+               !bashable.CanBash(_platformerController);
     }
 }

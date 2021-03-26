@@ -14,7 +14,7 @@ namespace Editor
             var colliderComponent = newObject.AddComponent<BoxCollider2D>();
             var triggerComponent = newObject.AddComponent<Trigger>();
             triggerComponent.colliderComponent = colliderComponent;
-            triggerComponent.layersThatCanTrigger = ~0;
+            triggerComponent.layersThatCanTrigger = 1 << LayerMask.NameToLayer("Player");
             
             return newObject;
         }

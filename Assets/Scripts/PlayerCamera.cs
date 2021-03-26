@@ -1,4 +1,5 @@
 using Cinemachine;
+using EasyButtons;
 using UnityEngine;
 
 [RequireComponent(typeof(CinemachineVirtualCamera))]
@@ -47,6 +48,12 @@ public class PlayerCamera : MonoBehaviour
     {
         _camera.Priority = active ? 1 : 10;
         _audioListener.gameObject.SetActive(active);
+    }
+
+    public void Shake()
+    {
+        var test = GetComponent<CinemachineImpulseSource>();
+        test.GenerateImpulse();
     }
 
     private void Update()

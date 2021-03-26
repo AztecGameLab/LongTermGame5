@@ -16,4 +16,13 @@ public class CameraController : Singleton<CameraController>
             confinerComponent.m_ConfineScreenEdges = true;
         }
     }
+
+    public void Shake()
+    {
+        var activeCamera = cinemachineBrain.ActiveVirtualCamera;
+        var shakeComponent = activeCamera?.VirtualCameraGameObject.GetComponent<CinemachineImpulseSource>();
+
+        if (shakeComponent != null)
+            shakeComponent.GenerateImpulse();
+    }
 }

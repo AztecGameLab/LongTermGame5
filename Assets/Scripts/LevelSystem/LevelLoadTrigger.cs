@@ -62,7 +62,6 @@ public class LevelLoadTrigger : Trigger
         colliderPoints[3] = new Vector2(-colliderSizeX / 2, -colliderSizeY / 2) + (Vector2) bounds.center;
         
         edgeCollider2D.points = colliderPoints;
-        // edgeCollider2D.offset = bounds.center;
         
         return edgeCollider2D;
     }
