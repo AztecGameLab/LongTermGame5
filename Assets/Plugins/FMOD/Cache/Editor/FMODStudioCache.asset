@@ -51,7 +51,7 @@ MonoBehaviour:
   Path: event:/Temp/Temp Music Overworld
   guid: 943224a2000d8243bbf116b7b72138bb
   Banks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
   Path: event:/UI/Menu Exit
   guid: ff54bc73cd8ec14d8a293fb86e3a6342
   Banks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -137,7 +137,7 @@ MonoBehaviour:
   Path: event:/UI/Menu Slider Click
   guid: 7c1a881cadd9b3429402a33c5b2de675
   Banks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 5924955894275519200}
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   EditorEvents:
   - {fileID: -3704066628108067821}
   - {fileID: 8961867379891685567}
@@ -191,10 +191,10 @@ MonoBehaviour:
   - {fileID: 5954966824711838940}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   StringsBanks:
   - {fileID: 5924955894275519200}
-  stringsBankWriteTime: 637525042643236415
+  stringsBankWriteTime: 637525078125735544
   cacheVersion: 3
 --- !u!114 &47780205000815
 MonoBehaviour:
@@ -229,7 +229,7 @@ MonoBehaviour:
   Path: event:/UI/Menu Enter
   guid: a20121b0d3305c40b6ede7c6b6ef25c6
   Banks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -291,11 +291,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: Assets/FMOD Banks/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637525042643236415
+  lastModified: 637525078125735544
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 990
+    Value: 1038
   Exists: 1
 --- !u!114 &5954966824711838940
 MonoBehaviour:
@@ -312,7 +312,7 @@ MonoBehaviour:
   Path: event:/Temp/Temp Music Menu
   guid: d8249fed36e2f848a1e55e6059ae7298
   Banks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -362,6 +362,24 @@ MonoBehaviour:
   - Name: Desktop
     Value: 688
   Exists: 0
+--- !u!114 &8804590027219520757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Banks/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637525078125665693
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &8961867379891685567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,7 +395,7 @@ MonoBehaviour:
   Path: event:/UI/Menu Hover
   guid: 8c9281ff34b00141a1d7ae78d48e5cbd
   Banks:
-  - {fileID: 3062213336955731724}
+  - {fileID: 8804590027219520757}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
