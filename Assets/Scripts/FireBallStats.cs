@@ -13,9 +13,10 @@ public class FireBallStats : ProjectileWeapon
     public float launchForce;
     public float recoil;
     public float upForce;
-    public float chargeTimer;
+    private float chargeTimer;
     private float posNeg;
     private bool rocket;
+    private Transform spawnPoint;
 
     private float damage;
     private float FireBallSize = 3f;
@@ -25,15 +26,14 @@ public class FireBallStats : ProjectileWeapon
     public override void Fire(Vector2 direction)
     {
         
+        player = GameObject.Find("TempPlayer");
+        spawn = player.GetComponent<Transform>().position;
         if (direction.x > 0)
             posNeg = 1;
         if (direction.x < 0)
             posNeg = -1;
         if (direction.y < 0)
             rocket = true;
-        Debug.Log(rocket);
-        player = GameObject.Find("TempPlayer");
-        spawn = player.GetComponent<Transform>().position;
         spawn.x += posNeg;
         if (rocket)
         {
@@ -43,20 +43,14 @@ public class FireBallStats : ProjectileWeapon
         fireBall.GetComponent<Transform>().position = spawn;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, fireBall.transform.rotation);
         FireBallSize += chargeTimer;
-        
-        newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
-        if (rocket)
-        {
-            Debug.Log("Rocket");
-            newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.up * -1 * launchForce);
-            player.GetComponent<Rigidbody2D>().AddForce(player.transform.up * 10);
-            
+        if(rocket) {
+            newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.up * -1 * launchForce); 
         }
         else
         {
             newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.right * posNeg * launchForce) + (newFireBall.transform.up * upForce);
         }
-        
+        newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
         chargeTimer = 0f;
         
         FireBallSize = 3f;

@@ -35,7 +35,6 @@ public class Driver : MonoBehaviour
         r2d.gravityScale = gravityScale;
         facingRight = t.localScale.x > 0;
         
-
         if (mainCamera)
         {
             cameraPos = mainCamera.transform.position;
@@ -47,12 +46,12 @@ public class Driver : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-           
-            fireball.Charge();
+            spawnPoint = new Vector2(1, -1);
+            fireball.Charge(spawnPoint);
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            spawnPoint = new Vector2(0, -1);
+            spawnPoint = new Vector2(1, -1);
             fireball.Fire(spawnPoint);
         }
         // Movement controls
@@ -88,9 +87,10 @@ public class Driver : MonoBehaviour
         {
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
-        if (Input.GetMouseButtonDown(0))
+        
+        if (Input.GetMouseButtonUp(0) && isGrounded)
         {
-
+            r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
 
         // Camera follow
