@@ -11,6 +11,7 @@ public class PlatformerController : Entity
     SpriteRenderer render;
 
     public bool lockControls = false;
+    public GameInputs Inputs;
 
     public int currWeapon;
     public List<ProjectileWeapon> weapons;
@@ -50,6 +51,9 @@ public class PlatformerController : Entity
         if(render == null){
             render = this.gameObject.AddComponent<SpriteRenderer>();
         }
+
+        Inputs = new GameInputs();
+        Inputs.Enable();
     }
 
     void Update(){
