@@ -1,4 +1,5 @@
-﻿using SaveSystem;
+﻿using FMODUnity;
+using SaveSystem;
 using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
@@ -11,14 +12,25 @@ public class MainMenuUI : MonoBehaviour
     public GameObject quitButton;
 
     private LevelController _levelController;
+
+    [SerializeField, EventRef] private string menuEnterSound;
+    [SerializeField, EventRef] private string menuExitSound;
+    [SerializeField, EventRef] private string menuHoverSound;
     
     private void Start()
     {
         _levelController = LevelController.Get();
     }
 
+    public void OnButtonHover()
+    {
+        RuntimeManager.PlayOneShot(menuHoverSound);
+    }
+    
     public void EnterGame()
     {
+        RuntimeManager.PlayOneShot(menuEnterSound);
+        
         Level level;
         Vector3 playerPosition;
         
@@ -49,11 +61,13 @@ public class MainMenuUI : MonoBehaviour
     public void PlayCredits()
     {
         LevelUtil.Get().TransitionTo(creditsLevel);
+        RuntimeManager.PlayOneShot(menuEnterSound);
     }
 
     public void LoadMainMenu()
     {
         LevelUtil.Get().TransitionTo(mainMenuLevel);
+        RuntimeManager.PlayOneShot(menuExitSound);
     }
 
     public void QuitProgram()
