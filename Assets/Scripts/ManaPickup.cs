@@ -14,7 +14,7 @@ public class ManaPickup : MonoBehaviour
     // Update is called once per frame
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "TempPlayer") //If an orb collides with whatever the object of the player's name is
+        if (collision.gameObject.GetComponent<PlatformerController>()) //If an orb collides with whatever the object of the player's name is
         {
             ManaSystem.instance.Gain(mana); //Calls Gain from FillSystem
             GameObject.Destroy(this.gameObject, 0);

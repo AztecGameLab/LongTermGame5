@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*********************************************************************************************
  * Script is meant to be applied to a Infinite Mana Spawner
@@ -12,38 +13,15 @@ using UnityEngine;
 public class InfiniteMana : Entity
 {
     public GameObject manaOrb; //Set this to the Mana Orb prefab
-    private float maxHealth; 
-    private float spawnerCordsX; 
-    private float spawnerCordsY;
-    private static System.Random rand = new System.Random();
-
     public override void TakeDamage(float baseDamage)
     {
-        base.TakeDamage(baseDamage);
-
-        Vector2 orbPosition;
-        for (int i = 0; i < rand.Next(1, 4); ++i) //Generate 1 - 3 mana orbs
+        for (int i = 0; i < Random.Range(1, 4); ++i) //Generate 1 - 3 mana orbs; Random.Range max is exclusive 
         {
-            orbPosition = new Vector2(spawnerCordsX + i + 3, spawnerCordsY); //Makes it so that orbs are separated from each other; Testing purposes
+            Vector2 orbPosition = Random.insideUnitCircle;
+            orbPosition.x += transform.position.x; //These must be added to the orb position in order to spawn around spawner
+            orbPosition.y += transform.position.y;
             Instantiate(manaOrb, orbPosition, Quaternion.identity); //Creates a new Mana Orb prefab on the scene
-        }
-        base.health = maxHealth; //Health resets back to full 
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        spawnerCordsX = gameObject.GetComponent<Transform>().position.x;
-        spawnerCordsY = gameObject.GetComponent<Transform>().position.y;
-        maxHealth = base.health;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown("z"))
-        {
-            TakeDamage(100);
-        }
+        } 
     }
 
 }
