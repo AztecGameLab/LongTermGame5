@@ -46,18 +46,18 @@ public class Driver : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            spawnPoint = new Vector2(1, -1);
             fireball.Charge(spawnPoint);
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            spawnPoint = new Vector2(1, -1);
             fireball.Fire(spawnPoint);
         }
         // Movement controls
         if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || Mathf.Abs(r2d.velocity.x) > 0.01f))
         {
             moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+            spawnPoint = new Vector2(moveDirection, 0);
+            fireball.OnAimChange(spawnPoint);
         }
         else
         {
@@ -88,9 +88,10 @@ public class Driver : MonoBehaviour
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
         
-        if (Input.GetMouseButtonUp(0) && isGrounded)
+        if (Input.GetMouseButtonUp(1) && isGrounded)
         {
-            r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
+            spawnPoint = new Vector2(0, -1);
+            fireball.OnAimChange(spawnPoint);
         }
 
         // Camera follow
