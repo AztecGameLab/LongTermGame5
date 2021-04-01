@@ -17,7 +17,6 @@ public class FireBallStats : ProjectileWeapon
     private float posNeg;
     private bool rocket;
 
-    private float damage;
     private float FireBallSize = 3f;
     public GameObject player;
     
@@ -32,13 +31,14 @@ public class FireBallStats : ProjectileWeapon
         {
             spawn.y -= 2;
             spawn.x = player.GetComponent<Transform>().position.x;
+            
         }
         fireBall.GetComponent<Transform>().position = spawn;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, fireBall.transform.rotation);
         FireBallSize += chargeTimer;
         if(rocket) {
             newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.up * -1 * launchForce);
-            player.GetComponent<Rigidbody2D>().AddForce(player.transform.up * launchForce);
+            player.GetComponent<Rigidbody2D>().velocity = (player.transform.up * 10);
         }
         else
         {

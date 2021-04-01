@@ -10,7 +10,6 @@ public class FireBallCollider : MonoBehaviour
     void Start()
     {
         
-        
     }
     void OnCollisionEnter2D(Collision2D col)
     {
