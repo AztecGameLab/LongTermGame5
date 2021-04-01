@@ -8,6 +8,7 @@ public class InvincibleEnemy : Entity
     Rigidbody2D enemyRigidBody2D;
     Transform enemyTransform;
     public float EnemySpeed = 70;
+    public float Strength = 5;
     public int Radius = 5;
     public bool moveRight, LEFT, RIGHT, UP, DOWN;
     Vector2 playerPos, enemyPosition;
@@ -56,6 +57,12 @@ public class InvincibleEnemy : Entity
             enemyRigidBody2D.velocity = Vector2.zero;
             animator.SetFloat("VelocityX", enemyRigidBody2D.velocity.x);
             animator.SetFloat("VelocityY", enemyRigidBody2D.velocity.y);
+        if(collision.rigidbody == PlatformerController.instance.GetComponent<Rigidbody2D>())
+        {
+            PlatformerController.instance.TakeDamage(Strength);
+            print("Success!!!");
+        }
+        
         
     }
 
