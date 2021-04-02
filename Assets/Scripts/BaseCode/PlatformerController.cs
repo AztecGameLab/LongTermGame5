@@ -299,10 +299,10 @@ public class PlatformerController : Entity
             
             //I'm gonna be honest, I have no idea if this will work
             //But I guess lets find out
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, parameters.BasicAttackSize, Vector2.left * facingDirection * parameters.BasicAttackRange);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, parameters.BasicAttackSize, Vector2.right * facingDirection, parameters.BasicAttackRange);
             HashSet<RaycastHit2D> currentHits = new HashSet<RaycastHit2D>();
             currentHits.UnionWith(hits);
-            currentHits.IntersectWith(alreadyHits);
+            currentHits.ExceptWith(alreadyHits);
             alreadyHits.UnionWith(hits);
             
             #if UNITY_EDITOR
@@ -312,6 +312,9 @@ public class PlatformerController : Entity
 
             foreach(RaycastHit2D hit in currentHits){
                 if(hit.transform.CompareTag("Player")) //Just in case don't let us hit ourselves lol
+                    continue;
+
+                if(hit.collider.isTrigger)
                     continue;
 
                 Entity e = hit.transform.GetComponent<Entity>();
