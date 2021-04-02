@@ -216,11 +216,11 @@ public class PlatformerController : Entity
         if(context.performed){
             Time.timeScale = parameters.BulletTimeSlowDown;
             isAiming = true;
-            weapons[currWeapon].Charge(primaryStick);
+            weapons[currWeapon].Charge(primaryStick.normalized);
         }else if(context.canceled){
             Time.timeScale = 1; //Return to regular timescale
             isAiming = false;
-            weapons[currWeapon].Fire(primaryStick);
+            weapons[currWeapon].Fire(primaryStick.normalized);
         }
     }
 
