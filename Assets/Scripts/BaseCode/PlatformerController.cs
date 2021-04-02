@@ -209,18 +209,18 @@ public class PlatformerController : Entity
     public bool isAiming = false;
     public void ProjectileHandler(InputAction.CallbackContext context){
         if(lockControls) return; //dont allow projectiles when locked
-        //if(weapons == null){ return; }
-        //if(weapons.Count <= 0){ return; }
+        if(weapons == null){ return; }
+        if(weapons.Count <= 0){ return; }
 
 
         if(context.performed){
             Time.timeScale = parameters.BulletTimeSlowDown;
             isAiming = true;
-            //weapons[currWeapon].Charge(primaryStick);
+            weapons[currWeapon].Charge(primaryStick);
         }else if(context.canceled){
             Time.timeScale = 1; //Return to regular timescale
             isAiming = false;
-            //weapons[currWeapon].Fire(primaryStick);
+            weapons[currWeapon].Fire(primaryStick);
         }
     }
 
