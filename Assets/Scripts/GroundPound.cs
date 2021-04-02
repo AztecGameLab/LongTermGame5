@@ -1,45 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class GroundPound : MonoBehaviour
+public class GroundPound : Ability
 {
 
     public float dropForce =10f;
     public float stopTime = 0.5f;
     public float gravityScale = 1f;
-    private PlatformerController player;
     private Rigidbody2D body;
     private bool doGroundPound = false;
     //get animator later
 
+    protected override string InputName => "down";
+
+    
+
     private void Start()
     {
-        player = GetComponent<PlatformerController>();
         body = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        //works
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (!player.isGrounded)
-            {
-                doGroundPound = true;
-            }
-        }
-
-
-    }
 
     private void FixedUpdate()
     {
-        if (doGroundPound)
-        {
-            GroundPoundAttack();
-        }
-
         doGroundPound = false;
     }
 
@@ -52,9 +37,13 @@ public class GroundPound : MonoBehaviour
         }
     }
 
-    public void GroundPoundAttack()
+    protected override void Started(InputAction.CallbackContext context)
     {
-        player.enabled = false;
+        if (!Player.isGrounded)
+        {
+            doGroundPound = true;
+        }
+        Player.enabled = false;
         StopAndSpin();
         StartCoroutine("DropAndSmash");
     }
@@ -79,7 +68,7 @@ public class GroundPound : MonoBehaviour
     public void CompleteGroundPound()
     {
         body.gravityScale = gravityScale;
-        player.enabled = true;
+        Player.enabled = true;
         //animation line here to stop the drop animation
     }
 
