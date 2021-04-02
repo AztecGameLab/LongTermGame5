@@ -11,8 +11,10 @@ public class PassiveEnemyScript : Entity
     [SerializeField] float rushDistance;
     //public static bool passive = false; //use this when making all enemies aggressive
     [SerializeField] bool passive; //used for testing
-    private bool shouldAttack = false;
-    //[SerializeField] bool shouldAttack; //use for testing knockback
+    private bool shouldAttack = false; //should be default set to true and changed by the method
+    //[SerializeField] bool shouldAttack; //use for testing attack function
+    private float cooldownTimer = .10f;
+    bool onCooldown = false;
     Rigidbody2D rb2d;
     
 
@@ -39,6 +41,11 @@ public class PassiveEnemyScript : Entity
         {
             Look(); //looks at player from a stationary POV
         }
+    }
+
+    public void changePasive() //change the passive based on the player's skill unlocks
+    {
+        //if([skill unlocked]){ passive = false;}
     }
 
     public float getDistance()
@@ -83,7 +90,7 @@ public class PassiveEnemyScript : Entity
         float totalDistance = Math.Abs(getDistance());
         if (totalDistance < rushDistance) //rushes player when close enough (if on left)
         {
-            moveSpeed = 2;
+            moveSpeed = 1.2f;
         }
     }
 
@@ -92,7 +99,7 @@ public class PassiveEnemyScript : Entity
         float totalDistance = Math.Abs(getDistance());
         if (totalDistance > -rushDistance) //rushes player when close enough (if on right)
         {
-            moveSpeed = 2;
+            moveSpeed = 1.2f;
         }
     }
 
@@ -114,25 +121,51 @@ public class PassiveEnemyScript : Entity
         if (shouldAttack == true)
         {
             //player.TakeDamage(damage, direction); //TODO: not right, figure out how to make it take damage
+            onCooldown = true;
         }
         
     }
 
-    void OnTriggerEnter2D(Collider2D col) //todo: broken, always triggers for some reason
+    void OnTriggerEnter2D(Collider2D col) 
     {
-        Debug.Log("Trigger");
-        if (col.gameObject.tag == "TempPlayer")
+        
+        if (col.GetComponent<PlatformerController>())
         {
             shouldAttack = true;
+            freezePlayer();
+            Debug.Log("Trigger"); //tester code for circle collider
+            Debug.Log(cooldownTimer);
+            Debug.Log(onCooldown);
         }
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
-        Debug.Log("Outside Trigger");
-        if (col.gameObject.tag == "TempPlayer")
+        
+        if (col.GetComponent<PlatformerController>())
         {
             shouldAttack = false;
+            Debug.Log("Outside Trigger"); //tester code for circle collider
+        }
+    }
+
+    //freezes player for (x) seconds when within range //temporarily launches player upwards
+    private void freezePlayer()
+    {
+        if (!onCooldown)
+        {
+            onCooldown = true;
+            cooldownTimer = .1f;
+            Vector2 downForce = new Vector2(0, 500); //temporarily launches player upward for testing
+            player.GetComponent<Rigidbody2D>().AddForce(downForce); //force player downwards
+        }
+        else
+        {
+            cooldownTimer -= Time.deltaTime;
+            if(cooldownTimer <= 0)
+            {
+                onCooldown = false;
+            }
         }
     }
 
