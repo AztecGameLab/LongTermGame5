@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="ParameterPreset" id="{ab5d605a-d0e7-44ec-838d-40f362641d2c}">
+		<property name="name">
+			<value>Grapple</value>
+		</property>
+		<relationship name="folder">
+			<destination>{b15d2ee8-06db-4a56-ad46-2e28156e5002}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{bbd7bde7-c943-4ab2-b819-b3979fa5e426}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{bbd7bde7-c943-4ab2-b819-b3979fa5e426}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Loop</value>
+			<value>Hit</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
