@@ -16,6 +16,7 @@ public class FireBallStats : ProjectileWeapon
     private float chargeTimer;
     private float posNeg;
     private bool rocket;
+    public int damage;
 
     private float FireBallSize = 3f;
     public GameObject player;
@@ -23,6 +24,7 @@ public class FireBallStats : ProjectileWeapon
 
     public override void Fire(Vector2 direction)
     {
+        damage = damage / 10;
         player = GameObject.Find("TempPlayer");
         spawn = player.GetComponent<Transform>().position;
      
@@ -49,6 +51,7 @@ public class FireBallStats : ProjectileWeapon
         chargeTimer = 0f;
         recoil = 100;
         FireBallSize = 3f;
+        damage += 10;
         rocket = false;
     }
 
@@ -59,6 +62,7 @@ public class FireBallStats : ProjectileWeapon
             chargeTimer += Time.deltaTime;
 
             recoil += 1;
+            damage += 1;
 
         }
     }

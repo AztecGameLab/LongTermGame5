@@ -5,8 +5,7 @@ using UnityEngine;
 public class FireBallCollider : MonoBehaviour
 {
     public GameObject fireball;
-    public GameObject player;
-    
+    public FireBallStats stats;
     
     void Start()
     {
@@ -17,7 +16,7 @@ public class FireBallCollider : MonoBehaviour
     {
         if(col.gameObject.GetComponent<Entity>() != null)
         {
-            col.gameObject.GetComponent<Entity>().TakeDamage(10);
+            col.gameObject.GetComponent<Entity>().TakeDamage(this.stats.damage);
         }
         Destroy(fireball);
     }
