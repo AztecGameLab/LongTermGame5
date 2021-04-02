@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlatformerController : Entity
 {
-    [SerializeField] private PlatformerParameters parameters;
+    [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
-    private Collider2D coll;
+    public Collider2D coll;
     SpriteRenderer render;
 
     public bool lockControls = false;
