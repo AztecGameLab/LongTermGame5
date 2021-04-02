@@ -54,7 +54,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Roll",
+                    "name": "Slide",
                     "type": "Button",
                     "id": "1984b00e-a79e-4022-9bbc-897777f07a33",
                     "expectedControlType": "Button",
@@ -65,6 +65,14 @@
                     "name": "ManaHeal",
                     "type": "Button",
                     "id": "5f8313d5-ad2d-4789-b5f4-71e804d4966e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "GroudPound",
+                    "type": "Button",
+                    "id": "103fc6e5-1af3-4ba4-b304-aa6d939c768a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -127,17 +135,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "15a3d9a6-d323-43a0-b90c-cc5197c20af1",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "DPAD",
                     "id": "99f33eff-69a0-49aa-bec4-99844c760635",
                     "path": "2DVector",
@@ -188,6 +185,72 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0380b2c8-6dc7-4410-b671-f7367fdfaa4a",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Arrow Keys",
+                    "id": "fe4f43c2-d6f3-4df0-b923-8448981f93b7",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "1cf00bb0-d092-40d9-9316-45c2019163bb",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "df73394a-6a32-4d35-b15c-619e3ba7c26b",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "21b98940-52f0-474f-871b-49db589c82d2",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "0768f38d-96d2-498f-9285-99326a4033fe",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -276,7 +339,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Roll",
+                    "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -290,6 +353,39 @@
                     "action": "ManaHeal",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Down Attack",
+                    "id": "bdb44f70-6712-42c7-ac7c-9653cd92aab4",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GroudPound",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "fbfea8ea-403b-443c-a3d5-862204593738",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GroudPound",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "a41575ab-cb4e-4cbe-abfa-721336493a17",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GroudPound",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
