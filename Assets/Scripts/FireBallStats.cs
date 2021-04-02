@@ -43,11 +43,11 @@ public class FireBallStats : ProjectileWeapon
         else
         {
             newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.right * posNeg * launchForce) + (newFireBall.transform.up * upForce);
-            player.GetComponent<Rigidbody2D>().AddForce(player.transform.right * recoil * posNeg * -1);
+            player.GetComponent<Rigidbody2D>().AddForce(player.transform.right * recoil * posNeg * -5);
         }
         newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
         chargeTimer = 0f;
-        
+        recoil = 100;
         FireBallSize = 3f;
         rocket = false;
     }
@@ -58,15 +58,15 @@ public class FireBallStats : ProjectileWeapon
         {
             chargeTimer += Time.deltaTime;
 
-            recoil += (float)0.1;
+            recoil += 1;
 
         }
     }
     public override void OnAimChange(Vector2 direction) {
         if (direction.x > 0)
-            posNeg = 1;
+            posNeg = 2;
         if (direction.x < 0)
-            posNeg = -1;
+            posNeg = -2;
         if (direction.y < 0)
             rocket = true;
     }
