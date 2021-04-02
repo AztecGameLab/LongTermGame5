@@ -88,7 +88,7 @@ public class Driver : MonoBehaviour
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
         
-        if (Input.GetMouseButtonUp(1) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.S) && isGrounded)
         {
             spawnPoint = new Vector2(0, -1);
             fireball.OnAimChange(spawnPoint);
