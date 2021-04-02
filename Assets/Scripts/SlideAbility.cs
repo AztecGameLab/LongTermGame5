@@ -17,7 +17,7 @@ public class SlideAbility : Ability
     [Tooltip("How big does the collider shirink when sliding (%)")]
     public float shrinkValue = .25f;
 
-    protected virtual void Awake(){
+    protected override void Awake(){
         base.Awake();
     }
 
