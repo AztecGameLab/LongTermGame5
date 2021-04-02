@@ -13,7 +13,7 @@ public class GroundPound : Ability
     private bool doGroundPound = false;
     //get animator later
 
-    protected override string InputName => "down";
+    protected override string InputName => "GroundPound";
 
     
 
@@ -43,7 +43,7 @@ public class GroundPound : Ability
         {
             doGroundPound = true;
         }
-        Player.enabled = false;
+        Player.lockControls = false;
         StopAndSpin();
         StartCoroutine("DropAndSmash");
     }
@@ -68,7 +68,7 @@ public class GroundPound : Ability
     public void CompleteGroundPound()
     {
         body.gravityScale = gravityScale;
-        Player.enabled = true;
+        Player.lockControls = true;
         //animation line here to stop the drop animation
     }
 
