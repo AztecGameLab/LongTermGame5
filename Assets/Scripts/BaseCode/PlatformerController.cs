@@ -8,7 +8,7 @@ public class PlatformerController : Entity
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
-    public Collider2D coll;
+    public CapsuleCollider2D coll;
     SpriteRenderer render;
 
     public bool lockControls = false;
@@ -43,7 +43,7 @@ public class PlatformerController : Entity
 
         PhysicsMaterial2D material = new PhysicsMaterial2D();
         material.friction = 0;
-        coll = this.GetComponent<Collider2D>();
+        coll = this.GetComponent<CapsuleCollider2D>();
         coll.sharedMaterial = material;
 
         anim = this.GetComponent<Animator>();
