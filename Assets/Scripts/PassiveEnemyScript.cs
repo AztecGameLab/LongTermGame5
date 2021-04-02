@@ -4,19 +4,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassiveEnemyScript : MonoBehaviour
+public class PassiveEnemyScript : Entity
 {
     [SerializeField] Transform player;
     [SerializeField] float moveSpeed;
     [SerializeField] float rushDistance;
-    public static bool passive = false;
+    //public static bool passive = false; //use this when making all enemies aggressive
+    [SerializeField] bool passive; //used for testing
+    private bool shouldAttack = false;
+    //[SerializeField] bool shouldAttack; //use for testing knockback
     Rigidbody2D rb2d;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        
+        Look(); //looks at player from a stationary POV
     }
 
     // Update is called once per frame
@@ -29,7 +33,7 @@ public class PassiveEnemyScript : MonoBehaviour
         if (passive == false)
         {
             ChasePlayer();
-
+            Attack();
         }
         else
         {
@@ -79,7 +83,7 @@ public class PassiveEnemyScript : MonoBehaviour
         float totalDistance = Math.Abs(getDistance());
         if (totalDistance < rushDistance) //rushes player when close enough (if on left)
         {
-            moveSpeed = 3;
+            moveSpeed = 2;
         }
     }
 
@@ -88,7 +92,7 @@ public class PassiveEnemyScript : MonoBehaviour
         float totalDistance = Math.Abs(getDistance());
         if (totalDistance > -rushDistance) //rushes player when close enough (if on right)
         {
-            moveSpeed = 3;
+            moveSpeed = 2;
         }
     }
 
@@ -101,6 +105,34 @@ public class PassiveEnemyScript : MonoBehaviour
         else                                        //faces left if player is on right side
         {
             transform.localScale = new Vector2(-1, 1);
+        }
+    }
+
+    private void Attack()//implement player's take damage function
+    {
+        //invoke player take damage function
+        if (shouldAttack == true)
+        {
+            //player.TakeDamage(damage, direction); //TODO: not right, figure out how to make it take damage
+        }
+        
+    }
+
+    void OnTriggerEnter2D(Collider2D col) //todo: broken, always triggers for some reason
+    {
+        Debug.Log("Trigger");
+        if (col.gameObject.tag == "TempPlayer")
+        {
+            shouldAttack = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        Debug.Log("Outside Trigger");
+        if (col.gameObject.tag == "TempPlayer")
+        {
+            shouldAttack = false;
         }
     }
 
