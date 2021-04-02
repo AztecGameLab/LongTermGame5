@@ -43,6 +43,7 @@ public class FireBallStats : ProjectileWeapon
         else
         {
             newFireBall.GetComponent<Rigidbody2D>().velocity = (newFireBall.transform.right * posNeg * launchForce) + (newFireBall.transform.up * upForce);
+            player.GetComponent<Rigidbody2D>().AddForce(player.transform.right * recoil * posNeg * -1);
         }
         newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
         chargeTimer = 0f;
@@ -57,7 +58,7 @@ public class FireBallStats : ProjectileWeapon
         {
             chargeTimer += Time.deltaTime;
 
-            recoil += 1;
+            recoil += (float)0.1;
 
         }
     }
