@@ -340,22 +340,20 @@ public class PlatformerController : Entity
     public override void TakeDamage(float baseDamage, Vector2 direction){
         if(!canTakeDamage)
             return;
-        //TODO :: APPLY KNOCKBACK
         StartCoroutine(KnockBack(direction));
-        StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
-        //NOTE :: NOT NORMALIZED
-        base.TakeDamage(baseDamage);
+        TakeDamage(baseDamage);
     }
 
     //Huh, we have no direction to figure out knockback
     //Lets just use a random direction
     public override void TakeDamage(float baseDamage){
-        TakeDamage(baseDamage, Random.insideUnitCircle);
+        StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
+        base.TakeDamage(baseDamage);
     }
 
     public IEnumerator KnockBack(Vector2 direction){
         lockControls = true;
-        rigid.velocity = (direction) * parameters.KnockBackIntensity;
+        KnockBack(direction, parameters.KnockBackIntensity);
         yield return new WaitForSeconds(parameters.KnockBackTime);
         lockControls = false;
     }
