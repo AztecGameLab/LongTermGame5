@@ -2,29 +2,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BashAbility : MonoBehaviour
+public class BashAbility : Ability
 {
-    private PlatformerController _platformerController;
-    private GameInputs _inputs;
-    
-    private void Start()
-    {
-        _platformerController = GetComponentInParent<PlatformerController>();
-        _inputs = _platformerController.Inputs;
-        
-        _inputs.Player.Bash.started += PlayerBashStart;
-    }
+    protected override string InputName => "Bash";
 
-    private void PlayerBashStart(InputAction.CallbackContext context)
+    protected override void Started(InputAction.CallbackContext context)
     {
-        var nearestBashable = Scanner.GetClosestObject<IBashable>(_platformerController.transform.position);
+        var nearestBashable = Scanner.GetClosestObject<IBashable>(Player.transform.position);
 
         if (CanBash(nearestBashable))
         {
-            nearestBashable.Bash(_platformerController);
+            nearestBashable.Bash(Player);
             
             // make better way to shake camera
-            if (_platformerController.TryGetComponent<CinemachineImpulseSource>(out var impulseSource))
+            if (Player.TryGetComponent<CinemachineImpulseSource>(out var impulseSource))
                 impulseSource.GenerateImpulse();
         }
     }
@@ -32,7 +23,7 @@ public class BashAbility : MonoBehaviour
     private bool CanBash(IBashable bashable)
     {
         return bashable != null  
-               && _platformerController.primaryStick.normalized != Vector2.zero  
-               && bashable.CanBash(_platformerController);
+               && Player.primaryStick.normalized != Vector2.zero  
+               && bashable.CanBash(Player);
     }
 }
