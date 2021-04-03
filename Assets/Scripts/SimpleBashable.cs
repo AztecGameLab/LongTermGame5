@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class SimpleBashable : MonoBehaviour, IBashable
 {
-    public float shakeTime = 0.2f;
+    public float shakeIntensity = 1f;
     public float speedBoost = 10f;
     public float bashRange = 1;
     
@@ -27,8 +27,7 @@ public class SimpleBashable : MonoBehaviour, IBashable
         controller.rigid.velocity = Vector2.zero;
         controller.KnockBack(bashDirection, speedBoost);
         
-        // CameraShake.instance.StartShake(shakeTime);
-        // Thread.Sleep(20);
+        controller.playerImpulseSource.GenerateImpulse(shakeIntensity);
     }
 
     public bool CanBash(PlatformerController controller)

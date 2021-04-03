@@ -105,6 +105,7 @@ MonoBehaviour:
   parameters: {fileID: 11400000, guid: cc6f81fe9bb3e5d49946833842900560, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
+  playerImpulseSource: {fileID: 3385735100615052619}
   coll: {fileID: 0}
   lockControls: 0
   currWeapon: 0
@@ -227,6 +228,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4fc1ace0-1078-4e22-88c9-574e83487202
     m_ActionName: UI/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 103fc6e5-1af3-4ba4-b304-aa6d939c768a
+    m_ActionName: Player/GroudPound
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -290,10 +295,10 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 18db076142a307547b258d6921545cb0, type: 2}
-    m_AmplitudeGain: 2
-    m_FrequencyGain: 10
+    m_AmplitudeGain: 10
+    m_FrequencyGain: 2
     m_RepeatMode: 0
-    m_Randomize: 1
+    m_Randomize: 0
     m_TimeEnvelope:
       m_AttackShape:
         serializedVersion: 2
@@ -312,9 +317,9 @@ MonoBehaviour:
       m_DecayTime: 0.7
       m_ScaleWithImpact: 1
       m_HoldForever: 0
-    m_ImpactRadius: 100
+    m_ImpactRadius: 1000
     m_DirectionMode: 0
-    m_DissipationMode: 2
+    m_DissipationMode: 0
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
 --- !u!114 &-2541871695126759934

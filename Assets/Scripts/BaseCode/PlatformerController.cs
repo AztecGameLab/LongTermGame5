@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ public class PlatformerController : Entity
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
+
+    public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
     SpriteRenderer render;
 
