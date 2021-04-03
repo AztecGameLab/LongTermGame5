@@ -7,7 +7,8 @@ public class PlayerCamera : MonoBehaviour
 {
     [Header("Camera Settings")] 
     [SerializeField] private float orthographicSize = 6f;
-    
+    [SerializeField] private Trigger activeZone;
+
     [Header("Horizontal Settings")]
     [SerializeField] private float horizontalDistance = 1.75f;
     [SerializeField] private float horizontalTime = 1f;
@@ -20,7 +21,6 @@ public class PlayerCamera : MonoBehaviour
     private CinemachineFramingTransposer _transposer;
     private CinemachineVirtualCamera _camera;
     private PlatformerController _player;
-    private AudioListener _audioListener;
     
     private Vector2 Input => _player.primaryStick;
     private Vector2 _dampVelocity = Vector2.zero;
@@ -33,9 +33,12 @@ public class PlayerCamera : MonoBehaviour
     {
         _camera = GetComponent<CinemachineVirtualCamera>();
         _transposer = _camera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        _audioListener = GetComponent<AudioListener>();
 
+        activeZone.events.collisionEnter.AddListener(TriggerEnter);
+        activeZone.events.collisionExit.AddListener(TriggerExit);
+        
         _camera.m_Lens.OrthographicSize = orthographicSize;
+        _camera.enabled = false;
     }
 
     private void Start()
@@ -43,19 +46,7 @@ public class PlayerCamera : MonoBehaviour
         _player = PlatformerController.instance;
         _camera.Follow = _player.transform;
     }
-
-    public void SetActive(bool active)
-    {
-        _camera.Priority = active ? 1 : 10;
-        _audioListener.gameObject.SetActive(active);
-    }
-
-    public void Shake()
-    {
-        var test = GetComponent<CinemachineImpulseSource>();
-        test.GenerateImpulse();
-    }
-
+    
     private void Update()
     {
         LookHorizontal();
@@ -95,5 +86,15 @@ public class PlayerCamera : MonoBehaviour
             _holdTime = 0;
         } 
         else _holdTime += Time.deltaTime;
+    }
+    
+    private void TriggerEnter(GameObject obj)
+    {
+        _camera.enabled = true;
+    }
+
+    private void TriggerExit(GameObject obj)
+    {
+        _camera.enabled = false;
     }
 }

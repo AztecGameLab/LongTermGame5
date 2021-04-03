@@ -17,13 +17,13 @@ public class BashAbility : MonoBehaviour
 
     private void PlayerBashStart(InputAction.CallbackContext context)
     {
-        print("Started");
         var nearestBashable = Scanner.GetClosestObject<IBashable>(_platformerController.transform.position);
 
         if (CanBash(nearestBashable))
         {
             nearestBashable.Bash(_platformerController);
             
+            // make better way to shake camera
             if (_platformerController.TryGetComponent<CinemachineImpulseSource>(out var impulseSource))
                 impulseSource.GenerateImpulse();
         }
@@ -31,8 +31,8 @@ public class BashAbility : MonoBehaviour
 
     private bool CanBash(IBashable bashable)
     {
-        return _platformerController.primaryStick.normalized != Vector2.zero || 
-               bashable == null ||
-               !bashable.CanBash(_platformerController);
+        return bashable != null  
+               && _platformerController.primaryStick.normalized != Vector2.zero  
+               && bashable.CanBash(_platformerController);
     }
 }

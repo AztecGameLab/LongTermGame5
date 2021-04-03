@@ -31,9 +31,6 @@ namespace SaveSystem
             
             if (level.isGameplayLevel)
                 SaveLoad.LoadSceneFromTempData(scene.name);
-            
-            if (Scanner.HasObjectsInScene<PlayerCamera>(level.sceneName, out var result))
-                result[0].SetActive(false);
         }
 
         private static void BeforeLevelUnloaded(Level level)
@@ -62,12 +59,6 @@ namespace SaveSystem
                 };
 
                 SaveLoad.SetPlayerData(playerData);
-
-                if (oldLevel != null && Scanner.HasObjectsInScene<PlayerCamera>(oldLevel.sceneName, out var oldLevelCamera))
-                    oldLevelCamera[0].SetActive(false);
-                
-                if (newLevel != null && Scanner.HasObjectsInScene<PlayerCamera>(newLevel.sceneName, out var newLevelCamera))
-                    newLevelCamera[0].SetActive(true);
             }
         }
         

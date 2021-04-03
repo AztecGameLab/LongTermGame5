@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: -2959006145567405707}
   - component: {fileID: -8198480107596496849}
   - component: {fileID: 3385735100615052619}
-  m_Layer: 9
+  - component: {fileID: -2541871695126759934}
+  m_Layer: 10
   m_Name: TempPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,9 +105,11 @@ MonoBehaviour:
   parameters: {fileID: 11400000, guid: cc6f81fe9bb3e5d49946833842900560, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
+  coll: {fileID: 0}
   lockControls: 0
   currWeapon: 0
   weapons: []
+  facingDirection: 1
   error: 0
   primaryStick: {x: 0, y: 0}
   goalVelocity: 0
@@ -114,7 +117,7 @@ MonoBehaviour:
   isJumping: 0
   isGrounded: 0
   canJump: 0
-  attackTrigger: {fileID: 0}
+  isAiming: 0
 --- !u!114 &1831558400415614737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,3 +317,17 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
+--- !u!114 &-2541871695126759934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831558400415614749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1

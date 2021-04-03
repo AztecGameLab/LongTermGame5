@@ -27,6 +27,7 @@ namespace Editor
             newObject.name = "Interactable";
             var interactableComponent = newObject.AddComponent<Interactable>();
             interactableComponent.trigger = newObject.GetComponent<Trigger>(); 
+            interactableComponent.trigger.layersThatCanTrigger = 1 << LayerMask.NameToLayer("Player");
 
             return newObject;
         }

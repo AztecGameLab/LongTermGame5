@@ -16,8 +16,6 @@ public class SimpleBashable : MonoBehaviour, IBashable
 
     public void Bash(PlatformerController controller)
     {
-        print($"Bash! { gameObject.name } : { gameObject.transform.position }");
-
         var bashOrigin = transform.position;
         var bashDirection = controller.primaryStick.normalized;
 
@@ -35,7 +33,8 @@ public class SimpleBashable : MonoBehaviour, IBashable
 
     public bool CanBash(PlatformerController controller)
     {
-        return Vector2.Distance(controller.transform.position, transform.position) > bashRange;
+        var playerDistance = Vector2.Distance(controller.transform.position, transform.position);
+        return playerDistance <= bashRange;
     }
 
 #if UNITY_EDITOR
