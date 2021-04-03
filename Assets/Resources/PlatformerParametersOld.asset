@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8714dea5dd8605f4dac94d57b029f0cd, type: 3}
-  m_Name: PlatformerParameters
+  m_Name: PlatformerParametersOld
   m_EditorClassIdentifier: 
   element: 0
   MaxHealth: 20
@@ -19,12 +19,12 @@ MonoBehaviour:
   KnockBackIntensity: 5
   KnockBackTime: 1
   CoyoteTime: 0.2
-  JumpHeight: 100
+  JumpHeight: 1
   JumpBufferTime: 0.2
   JumpCount: 1
-  JumpSpeed: 9
+  JumpSpeed: 5
   MaxFallSpeed: 2
-  MaxRunSpeed: 8
+  MaxRunSpeed: 4
   MaxGroundAngle: 45
   AccelerationMultiplier: 8
   BasicBaseDamage: 1
