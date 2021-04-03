@@ -9,7 +9,7 @@ public abstract class Ability : MonoBehaviour
 
     protected abstract string InputName { get; }
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         Player = GetComponent<PlatformerController>();
         _inputs = Player.Inputs;
