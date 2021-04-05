@@ -81,7 +81,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -103,14 +103,19 @@ MonoBehaviour:
   parameters: {fileID: 11400000, guid: b1cea7653e06a2c42bbfd030f2ab6431, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
+  coll: {fileID: 0}
+  lockControls: 0
   currWeapon: 0
   weapons: []
+  facingDirection: 1
   error: 0
+  primaryStick: {x: 0, y: 0}
   goalVelocity: 0
   jumpCounter: 0
   isJumping: 0
   isGrounded: 0
   canJump: 0
+  isAiming: 0
 --- !u!114 &1831558400415614737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +225,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4fc1ace0-1078-4e22-88c9-574e83487202
     m_ActionName: UI/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 103fc6e5-1af3-4ba4-b304-aa6d939c768a
+    m_ActionName: Player/GroudPound
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -239,7 +248,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 1.5}
   m_Direction: 0
 --- !u!114 &-2959006145567405707
 MonoBehaviour:
