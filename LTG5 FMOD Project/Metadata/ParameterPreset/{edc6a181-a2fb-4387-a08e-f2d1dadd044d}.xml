@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="ParameterPreset" id="{edc6a181-a2fb-4387-a08e-f2d1dadd044d}">
+		<property name="name">
+			<value>Nature Enemy </value>
+		</property>
+		<relationship name="folder">
+			<destination>{b15d2ee8-06db-4a56-ad46-2e28156e5002}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{de454cd3-30bc-4254-bddb-35c98c0b91a1}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{de454cd3-30bc-4254-bddb-35c98c0b91a1}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>4</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Air Raise</value>
+			<value>Swipe</value>
+			<value>Earthquake Loop</value>
+			<value>Spike Hit</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
