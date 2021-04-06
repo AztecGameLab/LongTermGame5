@@ -10,7 +10,7 @@ public class GroundPound : Ability
     public float stopTime = 0.5f;
     public float gravityScale = 1f;
     private Rigidbody2D body;
-    private bool doGroundPound = false;
+    private bool doingGroundPound = false;
     //get animator later
 
     protected override string InputName => "GroundPound";
@@ -25,13 +25,13 @@ public class GroundPound : Ability
 
     private void FixedUpdate()
     {
-        doGroundPound = false;
+        doingGroundPound = false;
     }
 
     //if the player collides with something, then the ground pound stops
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.contacts[0].normal.y >= 0.5)
+        if (other.contacts[0].normal.y >= 0.5 && doingGroundPound)
         {
             CompleteGroundPound();
         }
@@ -39,11 +39,8 @@ public class GroundPound : Ability
 
     protected override void Started(InputAction.CallbackContext context)
     {
-        if (!Player.isGrounded)
-        {
-            doGroundPound = true;
-        }
-        Player.lockControls = false;
+        doingGroundPound = true;
+        Player.lockControls = true;
         StopAndSpin();
         StartCoroutine("DropAndSmash");
     }
@@ -68,7 +65,8 @@ public class GroundPound : Ability
     public void CompleteGroundPound()
     {
         body.gravityScale = gravityScale;
-        Player.lockControls = true;
+        Player.lockControls = false;
+        doingGroundPound = false;
         //animation line here to stop the drop animation
     }
 
