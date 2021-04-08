@@ -516,8 +516,9 @@ MonoBehaviour:
   iceBall: {fileID: 2679426629057502800, guid: 9bd67937c0aa7f640ae36221a0c24a03, type: 3}
   shootingPosition: {fileID: 1956066935}
   iceBallSpeed: 10
-  chargeTimer: 0
+  chargeTimer: 5
   IceBallSize: 5
+  upForce: 0
 --- !u!50 &792761748
 Rigidbody2D:
   serializedVersion: 4
