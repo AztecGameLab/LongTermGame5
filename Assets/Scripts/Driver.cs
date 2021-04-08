@@ -44,8 +44,9 @@ public class Driver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
+            spawnPoint = new Vector2(1, 1);
             fireball.Charge(spawnPoint);
         }
         else if (Input.GetMouseButtonUp(0))
@@ -83,16 +84,7 @@ public class Driver : MonoBehaviour
         }
 
         // Jumping
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
-        {
-            r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
-        }
         
-        if (Input.GetKeyDown(KeyCode.S) && isGrounded)
-        {
-            spawnPoint = new Vector2(0, -1);
-            fireball.OnAimChange(spawnPoint);
-        }
 
         // Camera follow
         if (mainCamera)
