@@ -23,9 +23,8 @@ public class Minimap : MonoBehaviour
 
     private void getRooms()
     {
-        rooms.Add(new Room(new Rect(100, 100, 50, 50), -1));
-        rooms.Add(new Room(new Rect(150, 150, 50, 50), 0));
-        rooms.Add(new Room(new Rect(200, 200, 50, 50), 1));
+        GameObject[] boundingBoxes = GameObject.FindGameObjectsWithTag("BoundingBox");
+        
         //TODO: Get rooms from bounding boxes
     }
 
