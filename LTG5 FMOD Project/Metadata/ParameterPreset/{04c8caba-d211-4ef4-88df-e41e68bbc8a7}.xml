@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="ParameterPreset" id="{04c8caba-d211-4ef4-88df-e41e68bbc8a7}">
+		<property name="name">
+			<value>Fireball</value>
+		</property>
+		<relationship name="folder">
+			<destination>{b15d2ee8-06db-4a56-ad46-2e28156e5002}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{ea3b00b8-fd87-42d3-bd95-9ebd27165e85}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{ea3b00b8-fd87-42d3-bd95-9ebd27165e85}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>3</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Charge Loop</value>
+			<value>Throw Loop</value>
+			<value>Hit</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

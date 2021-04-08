@@ -67,7 +67,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Roll"",
+                    ""name"": ""Slide"",
                     ""type"": ""Button"",
                     ""id"": ""1984b00e-a79e-4022-9bbc-897777f07a33"",
                     ""expectedControlType"": ""Button"",
@@ -78,6 +78,14 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""name"": ""ManaHeal"",
                     ""type"": ""Button"",
                     ""id"": ""5f8313d5-ad2d-4789-b5f4-71e804d4966e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GroudPound"",
+                    ""type"": ""Button"",
+                    ""id"": ""103fc6e5-1af3-4ba4-b304-aa6d939c768a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -140,15 +148,59 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""15a3d9a6-d323-43a0-b90c-cc5197c20af1"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""name"": ""ArrowKeys"",
+                    ""id"": ""761bb952-ddc5-4309-9f11-fb1d5398fb13"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""ca706e83-a689-44c4-8577-1bcc978f4d1d"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""ee10603a-e5a7-4d5c-abc3-6aef546794cf"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""6198bb05-c743-40b9-8cbe-a6229118eeb2"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""418039e9-cc35-4aeb-aa02-c64095a44843"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""DPAD"",
@@ -207,6 +259,72 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""0380b2c8-6dc7-4410-b671-f7367fdfaa4a"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrow Keys"",
+                    ""id"": ""fe4f43c2-d6f3-4df0-b923-8448981f93b7"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""1cf00bb0-d092-40d9-9316-45c2019163bb"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""df73394a-6a32-4d35-b15c-619e3ba7c26b"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""21b98940-52f0-474f-871b-49db589c82d2"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""0768f38d-96d2-498f-9285-99326a4033fe"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fb115f3a-e047-4a38-8d7d-d97f41715c0f"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -240,11 +358,55 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8595d997-9b9f-4e75-9f10-c50162313288"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""RangedAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89ced33d-1255-4d6f-bc24-a51908cb711a"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""RangedAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""170cbbe5-5fd4-474c-b451-3cf04cf5d409"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd7ead60-e9b7-4595-af75-1dd0827e01c1"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2157006c-0952-4a62-980d-a11acc83e1a4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -289,7 +451,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Roll"",
+                    ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -303,6 +465,39 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""action"": ""ManaHeal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Down Attack"",
+                    ""id"": ""bdb44f70-6712-42c7-ac7c-9653cd92aab4"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GroudPound"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""fbfea8ea-403b-443c-a3d5-862204593738"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GroudPound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""a41575ab-cb4e-4cbe-abfa-721336493a17"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GroudPound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -367,8 +562,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Bash = m_Player.FindAction("Bash", throwIfNotFound: true);
-        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
+        m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_ManaHeal = m_Player.FindAction("ManaHeal", throwIfNotFound: true);
+        m_Player_GroudPound = m_Player.FindAction("GroudPound", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -427,8 +623,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Bash;
-    private readonly InputAction m_Player_Roll;
+    private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_ManaHeal;
+    private readonly InputAction m_Player_GroudPound;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -439,8 +636,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Bash => m_Wrapper.m_Player_Bash;
-        public InputAction @Roll => m_Wrapper.m_Player_Roll;
+        public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @ManaHeal => m_Wrapper.m_Player_ManaHeal;
+        public InputAction @GroudPound => m_Wrapper.m_Player_GroudPound;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,12 +666,15 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @Bash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBash;
                 @Bash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBash;
                 @Bash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBash;
-                @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
-                @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
-                @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Slide.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlide;
                 @ManaHeal.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnManaHeal;
                 @ManaHeal.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnManaHeal;
                 @ManaHeal.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnManaHeal;
+                @GroudPound.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroudPound;
+                @GroudPound.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroudPound;
+                @GroudPound.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroudPound;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -496,12 +697,15 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @Bash.started += instance.OnBash;
                 @Bash.performed += instance.OnBash;
                 @Bash.canceled += instance.OnBash;
-                @Roll.started += instance.OnRoll;
-                @Roll.performed += instance.OnRoll;
-                @Roll.canceled += instance.OnRoll;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
                 @ManaHeal.started += instance.OnManaHeal;
                 @ManaHeal.performed += instance.OnManaHeal;
                 @ManaHeal.canceled += instance.OnManaHeal;
+                @GroudPound.started += instance.OnGroudPound;
+                @GroudPound.performed += instance.OnGroudPound;
+                @GroudPound.canceled += instance.OnGroudPound;
             }
         }
     }
@@ -565,8 +769,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnBash(InputAction.CallbackContext context);
-        void OnRoll(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
         void OnManaHeal(InputAction.CallbackContext context);
+        void OnGroudPound(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

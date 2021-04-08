@@ -5,12 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlatformerController : Entity
 {
-    [SerializeField] private PlatformerParameters parameters;
-    [SerializeField] private Rigidbody2D rigid;
+    [SerializeField] public PlatformerParameters parameters;
+    [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
+    public CapsuleCollider2D coll;
     SpriteRenderer render;
 
     public bool lockControls = false;
+    public GameInputs Inputs;
 
     public int currWeapon;
     public List<ProjectileWeapon> weapons;
@@ -37,9 +39,12 @@ public class PlatformerController : Entity
             rigid.freezeRotation = true;
         }
 
+        this.transform.tag = "Player";
+
         PhysicsMaterial2D material = new PhysicsMaterial2D();
         material.friction = 0;
-        this.GetComponent<Collider2D>().sharedMaterial = material;
+        coll = this.GetComponent<CapsuleCollider2D>();
+        coll.sharedMaterial = material;
 
         anim = this.GetComponent<Animator>();
         if(anim == null){
@@ -50,21 +55,37 @@ public class PlatformerController : Entity
         if(render == null){
             render = this.gameObject.AddComponent<SpriteRenderer>();
         }
+
+        Inputs = new GameInputs();
+        Inputs.Enable();
+
+        if(parameters == null){
+            Debug.Log("Error!!, no platformer parameter!!");
+            parameters = Resources.Load<PlatformerParameters>("PlatformerParameters"); //If we dont have one try and load it
+        }
     }
 
+    public int facingDirection = 1;
     void Update(){
         //anim.SetFloat("HorizontalSpeed", rigid.velocity.x);
         //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
         if(Mathf.Abs(rigid.velocity.x) > 0){
-            render.flipX = rigid.velocity.x > 0;
+            render.flipX = !(rigid.velocity.x > 0);
+            facingDirection = render.flipX ? -1 : 1;
         }
     }
 
     [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
         //Going with a PID loop with only P lol
-        if(lockControls){ return; }
+        if(lockControls || isAiming){ 
+            rigid.drag = 2;
+            return; 
+        } else{
+            rigid.drag = 0;
+        }
+
         float maxForce = parameters.AccelerationMultiplier * 2.5f;
         error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
@@ -83,10 +104,15 @@ public class PlatformerController : Entity
         goalVelocity = horizontalVelocity;
 
         //TODO :: Implement a fast fall function
+
+        //handle the projectile aiming
+        ProjectileAimHandle(primaryStick);
     }
 
     #region Jumping
     public void OnJumpPerformed(InputAction.CallbackContext context){
+        if(lockControls) return; //Dont allow jumps when locked
+
         if(context.performed){
             if(jumpCounter >= parameters.JumpCount){
                 canJump = false;
@@ -180,31 +206,45 @@ public class PlatformerController : Entity
     #region Projectiles
 
     Vector2 aimDirection = Vector2.zero;
+    public bool isAiming = false;
     public void ProjectileHandler(InputAction.CallbackContext context){
-        //if(weapons == null){ return; }
-        //if(weapons.Count <= 0){ return; }
-        
-        int activeWeapon = currWeapon;
+        if(lockControls) return; //dont allow projectiles when locked
+        if(weapons == null){ return; }
+        if(weapons.Count <= 0){ return; }
+
+
         if(context.performed){
-            //Time.timeScale = parameters.BulletTimeSlowDown;
-            //print("AAAAAAAHHHHHHHhh Running");
-            //weapons[activeWeapon].Charge();
+            Time.timeScale = parameters.BulletTimeSlowDown;
+            isAiming = true;
+            weapons[currWeapon].Charge(primaryStick.normalized);
         }else if(context.canceled){
-            //Time.timeScale = 1; //Return to regular timescale
-            //weapons[activeWeapon].Fire();
+            Time.timeScale = 1; //Return to regular timescale
+            isAiming = false;
+            weapons[currWeapon].Fire(primaryStick.normalized);
         }
+    }
+
+    public void ProjectileAimHandle(Vector2 direction){
+        if(!isAiming) //if we aren't aiming, just ignore
+            return;
+        if(weapons == null){ return; }
+        if(weapons.Count <= 0){ return; }
+        weapons[currWeapon].OnAimChange(primaryStick);
     }
 
     #endregion
     
     public void Interact(InputAction.CallbackContext context)
     {
+        if(lockControls) return; //Dont allow interacting when locked
+            
+
         if (context.started)
         {
             var nearestInteractable = Scanner.GetClosestObject<Interactable>(transform.position);
         
             if (nearestInteractable != null)
-                nearestInteractable.Interact(gameObject);    
+                nearestInteractable.Interact(gameObject);
         }
     }
 
@@ -232,32 +272,108 @@ public class PlatformerController : Entity
 
     #region BasicPunch
 
-    public Collider2D attackTrigger;
     bool attacking = false;
+    bool canAttack = true;
     public void AttackHandler(InputAction.CallbackContext context){
+        if(lockControls) return; //Dont allow attacking while locked
+            
+        
+        if(canAttack == false) //just ignore the input if we are already attacking
+            return;
+        
         if(context.started){
-            attacking = true;
-        } else if(context.canceled){
-            attacking = false;
+            StartCoroutine(AttackTimeout(parameters.BasicAttackDelay, parameters.BasicAttackForgiveness, parameters.BasicAttackCooldown));
         }
     }
 
+    //Fun with booleans lol
+    public IEnumerator AttackTimeout(float attackDelay, float attackForgiveness, float attackCooldown){
+        float cooldown = attackCooldown - (attackDelay + attackForgiveness);
+        canAttack = false;
+        yield return new WaitForSeconds(attackDelay);
+        attacking = true; //Completly useless boolean
+
+        HashSet<RaycastHit2D> alreadyHits = new HashSet<RaycastHit2D>();
+
+        while((attackForgiveness -= Time.deltaTime) > 0){
+            
+            //I'm gonna be honest, I have no idea if this will work
+            //But I guess lets find out
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, parameters.BasicAttackSize, Vector2.right * facingDirection, parameters.BasicAttackRange);
+            HashSet<RaycastHit2D> currentHits = new HashSet<RaycastHit2D>();
+            currentHits.UnionWith(hits);
+            currentHits.ExceptWith(alreadyHits);
+            alreadyHits.UnionWith(hits);
+            
+            #if UNITY_EDITOR
+            Debug.DrawRay(this.transform.position + transform.up * parameters.BasicAttackSize/2, Vector2.right * facingDirection * parameters.BasicAttackRange, Color.red, parameters.BasicAttackForgiveness);
+            Debug.DrawRay(this.transform.position - transform.up * parameters.BasicAttackSize/2, Vector2.right * facingDirection * parameters.BasicAttackRange, Color.red, parameters.BasicAttackForgiveness);
+            #endif
+
+            foreach(RaycastHit2D hit in currentHits){
+                if(hit.transform.CompareTag("Player")) //Just in case don't let us hit ourselves lol
+                    continue;
+
+                if(hit.collider.isTrigger)
+                    continue;
+
+                Entity e = hit.transform.GetComponent<Entity>();
+
+                if(e == null){
+                    //Not an entity
+                    continue;
+                }
+
+                e.TakeDamage(parameters.BasicBaseDamage, Vector2.right * facingDirection);
+            }
+        }
+        attacking = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
 
     #endregion
 
 
     #region EntityStuff
-
+    bool canTakeDamage = true;
     public override void TakeDamage(float baseDamage, Vector2 direction){
-        //TODO :: APPLY KNOCKBACK
+        if(!canTakeDamage)
+            return;
+        StartCoroutine(KnockBack(direction));
+        TakeDamage(baseDamage);
+    }
 
-        //NOTE :: NOT NORMALIZED
+    //Huh, we have no direction to figure out knockback
+    //Lets just use a random direction
+    public override void TakeDamage(float baseDamage){
+        StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
         base.TakeDamage(baseDamage);
+    }
+
+    public IEnumerator KnockBack(Vector2 direction){
+        lockControls = true;
+        KnockBack(direction, parameters.KnockBackIntensity);
+        yield return new WaitForSeconds(parameters.KnockBackTime);
+        lockControls = false;
+    }
+
+    public IEnumerator InvincibilityFrames(float invincibilityTime){
+        canTakeDamage = true;
+        Color color = render.color;
+        color.a = .5f;
+        render.color = color;
+        yield return new WaitForSeconds(invincibilityTime);
+        color.a = 1;
+        render.color = color;
+        canTakeDamage = true;
     }
 
     public override void OnDeath()
     {
         //We don't want to destroy ourselves on death lmao
+
+        //Someone else implement this
         return;
     }
 
