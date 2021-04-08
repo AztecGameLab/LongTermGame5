@@ -7,17 +7,19 @@ public class RicochetBullet : MonoBehaviour
     private float damage = 1;
     private int reflectionsRemaining = 5;
     public Rigidbody2D rb;
+    public Collider2D coll;
 
-    void Start()
+    void Awake()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
+        coll = this.gameObject.GetComponent<Collider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.layer == layer.Entity)
+        Entity entity = other.gameObject.GetComponent<Entity>();
+        if (entity != null)
         {
-            Entity entity = other.gameObject.GetComponent<Entity>();
             entity.TakeDamage(damage, rb.velocity);
             GameObject.Destroy(this.gameObject, 0);
         }
