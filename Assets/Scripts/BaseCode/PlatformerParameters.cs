@@ -6,6 +6,15 @@ using UnityEngine;
 public class PlatformerParameters : EntityData
 {
 
+    [Tooltip("How long will the player be invincible after taking damage (s)")]
+    public float InvincibilityTime = 1;
+
+    [Tooltip("How powerfull is the knockback (s)")]
+    public float KnockBackIntensity = 1;
+
+    [Tooltip("How long will controls lock for the player")]
+    public float KnockBackTime = 1;
+
     #region JumpingParameters
 
     [Header("Jump Parameters")]
@@ -52,11 +61,28 @@ public class PlatformerParameters : EntityData
     [Space]
     [Header("Attacking Parameters")]
 
+    [Tooltip("How much damage does the basic attack use")]
+    public float BasicBaseDamage = 1;
+
+    [Tooltip("At what point does the attack damage an enemy (sec)")]
+    public float BasicAttackDelay = .25f;
+
+    [Tooltip("How long is a basic attack valid (sec)")]
+    public float BasicAttackForgiveness = .25f;
+
+    [Tooltip("How long until we can use our basic attack again (sec) [must be larger than Attack Delay + Basic Attack Forgveness]")]
+    public float BasicAttackCooldown = .25f;
+
+    [Tooltip("Float Attack Size")]
+    public float BasicAttackSize = .5f;
+
+    [Tooltip("How far can we attack")]
+    public float BasicAttackRange = 3f;
+
     [Tooltip("How fast should time move while you are aiming your weapon")]
     public float BulletTimeSlowDown = 0.1f;
 
-    [Tooltip("How long until we can use our basic attack again (sec)")]
-    public float BasicAttackCooldown = .25f;
+    
 
     #endregion
 }
