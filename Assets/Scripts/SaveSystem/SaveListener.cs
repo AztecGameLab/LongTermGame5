@@ -6,12 +6,10 @@ namespace SaveSystem
     public class SaveListener : MonoBehaviour
     {
         private LevelController _levelController;
-        private CameraController _cameraController;
 
         private void Start()
         {
             _levelController = LevelController.Get();
-            _cameraController = CameraController.Get();
             
             SceneManager.sceneLoaded += AfterLevelLoaded;
             _levelController.BeforeStartUnload += BeforeLevelUnloaded;
