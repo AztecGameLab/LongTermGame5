@@ -429,7 +429,6 @@ GameObject:
   - component: {fileID: 792761748}
   - component: {fileID: 792761750}
   - component: {fileID: 792761749}
-  - component: {fileID: 792761751}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -516,7 +515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iceBall: {fileID: 2679426629057502800, guid: 9bd67937c0aa7f640ae36221a0c24a03, type: 3}
-  newIceBall: {fileID: 0}
   iceBallSpeed: 10
   IceBallSize: 5
   upForce: 0
@@ -605,20 +603,6 @@ PolygonCollider2D:
       - {x: 0.099999994, y: -0.074999996}
       - {x: 0.099999994, y: 0.055}
       - {x: 0.049999997, y: 0.099999994}
---- !u!114 &792761751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792761744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f24985b3f917a540bfcbab23b59c700, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iceball: {fileID: 0}
-  cam: {fileID: 90675961}
 --- !u!1 &1902849712
 GameObject:
   m_ObjectHideFlags: 0
