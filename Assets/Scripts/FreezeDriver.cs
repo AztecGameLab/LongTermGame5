@@ -21,6 +21,9 @@ public class FreezeDriver : MonoBehaviour
         {
             iceball.Charge(direction);
             iceball.OnAimChange(direction);
+           
+        }else if (Input.GetMouseButtonUp(0))
+        {
             iceball.Fire(direction);
         }
 

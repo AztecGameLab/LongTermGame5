@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class FreezeProjectile : ProjectileWeapon
 {
     public GameObject iceBall;
@@ -14,13 +13,15 @@ public class FreezeProjectile : ProjectileWeapon
     [SerializeField]
     private float upForce;
 
+    private float chargeTime;
     public Vector2 position = PlatformerController.instance.transform.position;
 
     // called when the player releases the button
     override
     public void Fire(Vector2 direction)
     {
-        newIceBall.GetComponent<Rigidbody2D>().velocity = (position + direction * IceBallSize) + (Vector2)(newIceBall.transform.up * upForce);
+        IceBallSize += chargeTime;
+        newIceBall.GetComponent<Rigidbody2D>().velocity = (position + direction * IceBallSize * iceBallSpeed) + (Vector2)(newIceBall.transform.up * upForce);
     }
 
 
@@ -28,6 +29,7 @@ public class FreezeProjectile : ProjectileWeapon
     override
     public void Charge(Vector2 direction)
     {
+        chargeTime += Time.deltaTime;
         newIceBall = Instantiate(iceBall, position + direction * IceBallSize, Quaternion.identity); 
 
     }
