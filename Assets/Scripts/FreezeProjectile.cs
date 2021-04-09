@@ -7,44 +7,35 @@ public class FreezeProjectile : ProjectileWeapon
 {
     public GameObject iceBall;
     GameObject newIceBall;
-    public Transform shootingPosition;
-
     [SerializeField]
     private float iceBallSpeed;
-    [SerializeField]
-    public float chargeTimer;
     [SerializeField]
     private float IceBallSize;
     [SerializeField]
     private float upForce;
-    private float initialIceBallSize;
-    override
-    public void Fire()
-    {
-        newIceBall = Instantiate(iceBall, shootingPosition.position, shootingPosition.rotation); //creates an iceball
-        initialIceBallSize = IceBallSize;
-        IceBallSize += chargeTimer; //the longer the iceball is charged the bigger it will get
-        newIceBall.transform.localScale = new Vector3(IceBallSize, IceBallSize, IceBallSize); //
-        newIceBall.GetComponent<Rigidbody2D>().velocity = (newIceBall.transform.right * iceBallSpeed) + (newIceBall.transform.up * upForce);
-        chargeTimer = 0f; // resets the timer
-        IceBallSize = initialIceBallSize; // resets the size of the iceball
-    }
-    override
-    public void Charge()
-    {
-        if (chargeTimer < 2)
-        {
-            chargeTimer += Time.deltaTime;
 
-        }
+    public Vector2 position = PlatformerController.instance.transform.position;
+
+    // called when the player releases the button
+    override
+    public void Fire(Vector2 direction)
+    {
+        newIceBall.GetComponent<Rigidbody2D>().velocity = (position + direction * IceBallSize) + (Vector2)(newIceBall.transform.up * upForce);
     }
 
-    private void Update()
+
+    //called when the player hold down the button
+    override
+    public void Charge(Vector2 direction)
     {
-      //  if (Input.GetMouseButtonDown(0))
-      //  {
-       //     Fire();
-      //  }
-        
+        newIceBall = Instantiate(iceBall, position + direction * IceBallSize, Quaternion.identity); 
+
+    }
+
+    //runs after charge
+    override
+    public void OnAimChange(Vector2 direction)
+    {
+        newIceBall.transform.position = position+direction;
     }
 }

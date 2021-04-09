@@ -428,6 +428,8 @@ GameObject:
   - component: {fileID: 792761747}
   - component: {fileID: 792761748}
   - component: {fileID: 792761750}
+  - component: {fileID: 792761749}
+  - component: {fileID: 792761751}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -514,11 +516,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iceBall: {fileID: 2679426629057502800, guid: 9bd67937c0aa7f640ae36221a0c24a03, type: 3}
-  shootingPosition: {fileID: 1956066935}
+  newIceBall: {fileID: 0}
   iceBallSpeed: 10
-  chargeTimer: 5
   IceBallSize: 5
   upForce: 0
+  position: {x: 0, y: 0}
 --- !u!50 &792761748
 Rigidbody2D:
   serializedVersion: 4
@@ -540,6 +542,35 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &792761749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792761744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20036a77c63e0b847a885ba07bf97bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  parameters: {fileID: 0}
+  rigid: {fileID: 792761748}
+  anim: {fileID: 0}
+  coll: {fileID: 0}
+  lockControls: 0
+  currWeapon: 0
+  weapons: []
+  facingDirection: 1
+  error: 0
+  primaryStick: {x: 0, y: 0}
+  goalVelocity: 0
+  jumpCounter: 0
+  isJumping: 0
+  isGrounded: 0
+  canJump: 0
+  isAiming: 0
 --- !u!60 &792761750
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -574,6 +605,20 @@ PolygonCollider2D:
       - {x: 0.099999994, y: -0.074999996}
       - {x: 0.099999994, y: 0.055}
       - {x: 0.049999997, y: 0.099999994}
+--- !u!114 &792761751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792761744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f24985b3f917a540bfcbab23b59c700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iceball: {fileID: 0}
+  cam: {fileID: 90675961}
 --- !u!1 &1902849712
 GameObject:
   m_ObjectHideFlags: 0
