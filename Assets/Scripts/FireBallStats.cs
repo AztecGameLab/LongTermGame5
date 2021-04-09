@@ -7,12 +7,11 @@ public class FireBallStats : ProjectileWeapon
 {
     public GameObject fireBall;
     GameObject newFireBall;
-    private Vector2 spawn;
-
+   
     public float launchForce;
     public float recoil;
     public float upForce;
-    private float chargeTimer;
+    public float chargeTimer;
     private bool rocket;
     public int damage;
 
@@ -21,7 +20,9 @@ public class FireBallStats : ProjectileWeapon
     public override void Fire(Vector2 direction)
     {
         PlatformerController.instance.StopCoroutine(Power());
+        chargeTimer = 0f;
         Destroy(newFireBall);
+        FireBallSize = 3f;
     }
 
     public override void Charge(Vector2 direction)
@@ -31,20 +32,21 @@ public class FireBallStats : ProjectileWeapon
         fireBall.transform.position = PlatformerController.instance.transform.position + (Vector3)direction;
         fireBall.transform.position *= PlatformerController.instance.coll.size;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, fireBall.transform.rotation);
-        newFireBall.GetComponent<Collider>().enabled = false;
+        newFireBall.GetComponent<Collider2D>().enabled = false;
         PlatformerController.instance.StartCoroutine(Power());
     }
     IEnumerator Power()
     {
-        
-        if(chargeTimer < 3)
+        Debug.Log("PRINTPRINT");
+        while (chargeTimer < 3)
         {
             chargeTimer += Time.deltaTime;
             FireBallSize += chargeTimer;
             newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
             damage += 1;
+            yield return null;
         }
-        yield return new WaitForSeconds(0);
+        
     }
     
     public override void OnAimChange(Vector2 direction) {

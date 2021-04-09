@@ -59,6 +59,7 @@ public class Driver : MonoBehaviour
             moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
             spawnPoint = new Vector2(moveDirection, 0);
             fireball.OnAimChange(spawnPoint);
+            
         }
         else
         {
