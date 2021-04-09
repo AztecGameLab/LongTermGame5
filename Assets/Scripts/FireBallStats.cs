@@ -36,7 +36,7 @@ public class FireBallStats : ProjectileWeapon
     {
         chargeTimer = 0f;
         damage = 0;
-        fireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*2);
+        fireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*1.5f);
         fireBall.transform.position *= PlatformerController.instance.coll.size;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, Quaternion.identity);
         newFireBall.GetComponent<Collider2D>().enabled = false;
@@ -59,7 +59,7 @@ public class FireBallStats : ProjectileWeapon
     }
     
     public override void OnAimChange(Vector2 direction) {
-        newFireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*2);
+        newFireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*1.5f);
         newFireBall.transform.position *= PlatformerController.instance.coll.size;
     }
 }
