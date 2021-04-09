@@ -12,16 +12,20 @@ public class FireBallStats : ProjectileWeapon
     public float recoil;
     public float upForce;
     public float chargeTimer;
-    private bool rocket;
     public int damage;
+    public float FireBallSize = 3f;
 
-    private float FireBallSize = 3f;   
+    private Vector2 radius;
+    private bool charging;
 
     public override void Fire(Vector2 direction)
     {
+        charging = false;
         PlatformerController.instance.StopCoroutine(Power());
         chargeTimer = 0f;
-        Destroy(newFireBall);
+        launchForce = 10 + FireBallSize;
+        newFireBall.GetComponent<Rigidbody2D>().gravityScale = 3f;
+        newFireBall.GetComponent<Rigidbody2D>().velocity = launchForce * direction;
         FireBallSize = 3f;
     }
 
@@ -31,22 +35,24 @@ public class FireBallStats : ProjectileWeapon
         damage = 0;
         fireBall.transform.position = PlatformerController.instance.transform.position + (Vector3)direction;
         fireBall.transform.position *= PlatformerController.instance.coll.size;
-        newFireBall = Instantiate(fireBall, fireBall.transform.position, fireBall.transform.rotation);
+        newFireBall = Instantiate(fireBall, fireBall.transform.position, Quaternion.identity);
         newFireBall.GetComponent<Collider2D>().enabled = false;
+        charging = true;
         PlatformerController.instance.StartCoroutine(Power());
+        
     }
     IEnumerator Power()
     {
-        Debug.Log("PRINTPRINT");
-        while (chargeTimer < 3)
+        
+        while (chargeTimer < 3 && charging == true)
         {
-            chargeTimer += Time.deltaTime;
-            FireBallSize += chargeTimer;
+            chargeTimer += Time.fixedDeltaTime;
+            FireBallSize = 3 + chargeTimer;
             newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
             damage += 1;
             yield return null;
         }
-        
+        yield return new WaitForSeconds(0f);
     }
     
     public override void OnAimChange(Vector2 direction) {
