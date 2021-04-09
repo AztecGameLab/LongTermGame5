@@ -1,9 +1,10 @@
-using System.Collections;
+using FMODUnity;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class SimpleBashable : MonoBehaviour, IBashable
 {
+    [EventRef] public string bashSound = "Default";
     public float shakeIntensity = 1f;
     public float speedBoost = 10f;
     public float bashRange = 1;
@@ -21,26 +22,21 @@ public class SimpleBashable : MonoBehaviour, IBashable
         return playerDistance <= bashRange;
     }
 
-    public void Bash(PlatformerController controller)
+    public void Bash(PlatformerController controller, float distance)
     {
-        StartCoroutine(Launch(controller));
-    }
-
-    private IEnumerator Launch(PlatformerController controller)
-    {
+        if (bashSound != "Default")
+            RuntimeManager.PlayOneShot(bashSound);
+        
         var bashDirection = controller.primaryStick.normalized;
         var bashOrigin = transform.position;
         
-        // _rigidbody.gravityScale = 0;
         _rigidbody.velocity = -bashDirection * speedBoost;
 
         controller.isJumping = false;
         controller.rigid.velocity = Vector2.zero;
         controller.transform.position = bashOrigin;
-        controller.KnockBack(bashDirection, speedBoost);
+        controller.KnockBack(bashDirection, distance);
         controller.playerImpulseSource.GenerateImpulse(shakeIntensity);
-        
-        yield return null;
     }
     
 #if UNITY_EDITOR

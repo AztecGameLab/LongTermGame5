@@ -11,7 +11,7 @@ public class BashAbility : Ability
         var nearestBashable = Scanner.GetClosestObject<IBashable>(Player.transform.position);
 
         if (CanBash(nearestBashable))
-            nearestBashable.Bash(Player);
+            nearestBashable.Bash(Player, bashDistance);
     }
 
     private bool CanBash(IBashable bashable)
