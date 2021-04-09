@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class FlyingEnemyMovement : MonoBehaviour
@@ -22,16 +23,17 @@ public class FlyingEnemyMovement : MonoBehaviour
     float rotate = 180;
     
     Rigidbody2D rb;
-    
+    Animator animator;
     
 
     // Start is called before the first frame update
     void Start()
     {
-
+        animator = GetComponent<Animator>();
         player = PlatformerController.instance;
         rb = GetComponent<Rigidbody2D>();
         PeacefulPattern();
+        
 
     }
 
@@ -79,6 +81,7 @@ public class FlyingEnemyMovement : MonoBehaviour
             {
                 
                 hasDashed = true;
+                animator.SetTrigger("Dash");
                 // only dash 10% higher
                 dir.y *= .1f;
                 rb.AddForce(-dir.normalized * dashSpeed);
@@ -136,6 +139,7 @@ public class FlyingEnemyMovement : MonoBehaviour
         while (IsAttacking)
         {
             LookatPlayer();
+            animator.SetTrigger("Shot");
             Instantiate(Projectile, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
             yield return new WaitForSeconds(FireRate);
 
