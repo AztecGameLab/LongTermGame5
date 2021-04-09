@@ -369,6 +369,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""89ced33d-1255-4d6f-bc24-a51908cb711a"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""RangedAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""170cbbe5-5fd4-474c-b451-3cf04cf5d409"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
