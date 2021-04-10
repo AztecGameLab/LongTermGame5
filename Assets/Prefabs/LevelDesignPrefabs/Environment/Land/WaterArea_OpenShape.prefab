@@ -8,17 +8,41 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
       propertyPath: m_Color.g
-      value: 0.627451
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
       propertyPath: m_Color.r
-      value: 0.20784314
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
       propertyPath: m_DynamicOccludee
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_LocalAABB.m_Center.x
+      value: 3.5729852
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_LocalAABB.m_Center.y
+      value: 0.6433205
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.x
+      value: 8.602378
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_LocalAABB.m_Extent.y
+      value: 1.4194767
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842760, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 02cbb8abbda73b342954436172180706, type: 3}
     - target: {fileID: 7336491432794842761, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -115,5 +139,9 @@ PrefabInstance:
       propertyPath: m_Points.Array.data[16].y
       value: 1.5874593
       objectReference: {fileID: 0}
+    - target: {fileID: 7336491432794842871, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
+      propertyPath: m_SpriteShape
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a3c5f72fc97a0a46b02fcad29d1b22e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0bd7226e395e514ab426c6348f9736d, type: 3}
