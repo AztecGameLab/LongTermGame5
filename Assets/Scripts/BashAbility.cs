@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class BashAbility : Ability
 {
-    protected override string InputName => "Bash";
     public float bashDistance;
     
     protected override void Started(InputAction.CallbackContext context)
@@ -20,4 +19,6 @@ public class BashAbility : Ability
                && Player.primaryStick.normalized != Vector2.zero  
                && bashable.CanBash(Player);
     }
+    
+    protected override string InputName => "Bash";
 }

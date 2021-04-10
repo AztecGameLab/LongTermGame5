@@ -546,10 +546,10 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c56a8c82-b328-4c9b-9ead-fa65508b0831"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""ManaHeal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
