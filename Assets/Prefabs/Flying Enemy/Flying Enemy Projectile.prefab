@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6501929313506144655}
   - component: {fileID: 6501929313506144654}
   - component: {fileID: 6501929313506144653}
+  - component: {fileID: -7197980336827342804}
   m_Layer: 0
   m_Name: Flying Enemy Projectile
   m_TagString: Untagged
@@ -146,3 +147,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-7197980336827342804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6501929313506144651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfbe0011f3b42e088816430e18d21c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeIntensity: 1
+  speedBoost: 10
+  bashRange: 4
