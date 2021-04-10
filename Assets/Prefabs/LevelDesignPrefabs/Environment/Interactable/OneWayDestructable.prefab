@@ -46,10 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
-  TheLeft: 0
-  TheRight: 0
-  Up: 0
-  Down: 0
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  breakSound: Default
+  leftSprite: {fileID: 636111166475690527}
+  rightSprite: {fileID: 5721690708223507630}
+  topSprite: {fileID: 1657611866713914866}
+  bottomSprite: {fileID: 3387006156437954404}
 --- !u!61 &6010433977145527712
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -92,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8042529806488256230
 Transform:
   m_ObjectHideFlags: 0
@@ -174,7 +179,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6734341362018306324
 Transform:
   m_ObjectHideFlags: 0
@@ -343,7 +348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6737968021173345711
 Transform:
   m_ObjectHideFlags: 0
@@ -425,7 +430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7768636612965448241
 Transform:
   m_ObjectHideFlags: 0
