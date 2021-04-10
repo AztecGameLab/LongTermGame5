@@ -1,41 +1,54 @@
-using System;
 using System.Collections;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//TODO: move cam controller back into awake when timing is fixed
 public class HealingAbility : Ability
 {
     [Header("Heal Settings")]
     public float healAmount = 1;
+    public float healZoomAmount = 1f;
     public float healChargeTime = 2f;
+    public AnimationCurve healChargeCurve;
+    public AnimationCurve healResetCurve;
     [EventRef] public string healSfx;
-
+    
     [Header("Heal State")] 
     public float remainingHealTime = 0f;
     public float remainingHealTimeAnalog = 0f;
     
     private float MaxHealth => Player.parameters.MaxHealth;
     private EventInstance _healSfxEvent;
-
-    private void Awake()
+    private CameraController _cameraController;
+    private float _zoomDefault;
+    private Coroutine _healingCoroutine;
+    
+    protected override void Start()
     {
+        _cameraController = CameraController.Get();
         _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
+        
+        base.Start();
     }
 
     protected override void Started(InputAction.CallbackContext context)
     {
-        StartCoroutine(ChargeHeal());
+        _healingCoroutine = StartCoroutine(ChargeHeal());
     }
 
     protected override void Canceled(InputAction.CallbackContext context)
     {
-        StopAllCoroutines();
+        StopCoroutine(_healingCoroutine);
+        StartCoroutine(Cleanup());
     }
 
     private IEnumerator ChargeHeal()
     {
+        var shouldZoom = _cameraController.TryGetZoom(out _zoomDefault);
+        var zoomStart = _zoomDefault - healZoomAmount;
+
         _healSfxEvent.start();
         remainingHealTime = healChargeTime;
         Player.lockControls = true;
@@ -44,13 +57,31 @@ public class HealingAbility : Ability
         {
             remainingHealTime -= Time.deltaTime;
             remainingHealTimeAnalog = 1 - remainingHealTime / healChargeTime;
+            
+            if (shouldZoom)
+                _cameraController.SetZoom(Mathf.Lerp(_zoomDefault, zoomStart, healChargeCurve.Evaluate(remainingHealTimeAnalog)));
+            
             yield return new WaitForEndOfFrame();
         }
+        Player.health = Mathf.Min(Player.health + healAmount, MaxHealth);
+        StartCoroutine(Cleanup());
+    }
+
+    private IEnumerator Cleanup()
+    {
+        var startTime = Time.time;
+        _cameraController.TryGetZoom(out var currentZoom);
         Player.lockControls = false;
         remainingHealTime = 0;
         remainingHealTimeAnalog = 0;
-        Player.health = Mathf.Min(Player.health + healAmount, MaxHealth);
         _healSfxEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        
+        while (Time.time - startTime < 1)
+        {
+            var t = Time.time - startTime; 
+            _cameraController.SetZoom(Mathf.Lerp(currentZoom, _zoomDefault, healResetCurve.Evaluate(t)));
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     private void OnGUI()
