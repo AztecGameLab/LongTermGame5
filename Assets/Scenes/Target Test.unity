@@ -787,9 +787,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   isActive: 0
+  timerRemaining: 0
+  timerResetPercent: 0
   isTimed: 1
   shootingResetsTimer: 0
-  resetTimeSeconds: 5
+  resetTimeSeconds: 2
   events:
     buttonTurnOnEvent:
       m_PersistentCalls:
@@ -821,6 +823,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  activatedSound: event:/UI/Menu Enter
+  deactivatedSound: event:/UI/Menu Exit
 --- !u!1 &1877011339
 GameObject:
   m_ObjectHideFlags: 0

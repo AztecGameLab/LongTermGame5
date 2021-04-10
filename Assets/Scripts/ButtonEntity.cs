@@ -1,16 +1,25 @@
 using System;
 using System.Collections;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ButtonEntity : Entity
 {
-    [Header("Button Settings")]
+    [Header("Button State")]
     public bool isActive = false;
+    public float timerRemaining = 0f;
+    public float timerResetPercent = 0f;
+    
+    [Header("Button Timer Settings")] 
     public bool isTimed = false;
     public bool shootingResetsTimer = false;
     public float resetTimeSeconds = 5f;
     public Events events;
+    
+    [Header("Button Sounds")]
+    [EventRef] public string activatedSound;
+    [EventRef] public string deactivatedSound;
 
     public override void TakeDamage(float baseDamage)
     {
@@ -21,16 +30,21 @@ public class ButtonEntity : Entity
     {
         if (isActive == active)
         {
-            if (shootingResetsTimer)
+            if (shootingResetsTimer && active)
+            {
                 ResetTimer();
-                
+                RuntimeManager.PlayOneShot(activatedSound);
+            }
             return;
         }
-
+        
         if (isTimed && active)
             ResetTimer();
         
+        
+        var targetSound = active ? activatedSound : deactivatedSound;
         var targetEvent = active ? events.buttonTurnOnEvent : events.buttonTurnOffEvent;
+        RuntimeManager.PlayOneShot(targetSound);
         targetEvent?.Invoke();
         isActive = active;
     }
@@ -43,7 +57,14 @@ public class ButtonEntity : Entity
 
     private IEnumerator ResetButtonCoroutine()
     {
-        yield return new WaitForSeconds(resetTimeSeconds);
+        timerRemaining = resetTimeSeconds;
+
+        while (timerRemaining > 0)
+        {
+            timerRemaining = Mathf.Max(timerRemaining - Time.deltaTime, 0);
+            timerResetPercent = Mathf.Clamp01(1 - timerRemaining / resetTimeSeconds);
+            yield return new WaitForEndOfFrame();
+        }
         SetActive(false);
     }
 }
