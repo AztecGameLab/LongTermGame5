@@ -523,6 +523,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4ccae55d-81ee-455a-9d80-59a26c342477"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""692913a8-a9aa-496a-9151-7a841d31aaff"",
                     ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
