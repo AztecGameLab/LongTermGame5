@@ -1,4 +1,7 @@
+using System;
 using System.Collections;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,12 +10,19 @@ public class HealingAbility : Ability
     [Header("Heal Settings")]
     public float healAmount = 1;
     public float healChargeTime = 2f;
+    [EventRef] public string healSfx;
 
     [Header("Heal State")] 
     public float remainingHealTime = 0f;
     public float remainingHealTimeAnalog = 0f;
     
     private float MaxHealth => Player.parameters.MaxHealth;
+    private EventInstance _healSfxEvent;
+
+    private void Awake()
+    {
+        _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
+    }
 
     protected override void Started(InputAction.CallbackContext context)
     {
@@ -26,6 +36,7 @@ public class HealingAbility : Ability
 
     private IEnumerator ChargeHeal()
     {
+        _healSfxEvent.start();
         remainingHealTime = healChargeTime;
         Player.lockControls = true;
 
@@ -39,6 +50,7 @@ public class HealingAbility : Ability
         remainingHealTime = 0;
         remainingHealTimeAnalog = 0;
         Player.health = Mathf.Min(Player.health + healAmount, MaxHealth);
+        _healSfxEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnGUI()
