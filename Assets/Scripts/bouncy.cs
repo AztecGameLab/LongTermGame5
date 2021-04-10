@@ -12,6 +12,8 @@ public class bouncy : MonoBehaviour
     {
         if (coll.rigidbody)
         {
+            GetComponentInChildren<Animator>().SetTrigger("Bounce");
+            
             if (coll.gameObject.GetComponent<PlatformerController>())
             {
                 coll.rigidbody.AddForce(new Vector2(0, springForce * 2));
