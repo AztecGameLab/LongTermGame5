@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ricochet", menuName = "LTG5/Weapons/Ricochet")]
@@ -12,33 +11,33 @@ public class Ricochet : ProjectileWeapon
     private Vector2 direction;
     public float radius;
 
-    public override void Fire(Vector2 direction)
+    public override void Fire(Vector2 dir)
     {
-        currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) direction * radius;
-        currBullet.rb.velocity = direction * speed;
+        currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) dir * radius;
+        currBullet.rb.velocity = dir * speed;
         currBullet.coll.enabled = true;
     }
 
-    public override void Charge(Vector2 direction)
+    public override void Charge(Vector2 dir)
     {
-        GameObject bulletGo = Instantiate(bullet, PlatformerController.instance.transform.position + (Vector3) direction * radius, Quaternion.identity);
+        GameObject bulletGo = Instantiate(bullet, PlatformerController.instance.transform.position + (Vector3) dir * radius, Quaternion.identity);
         currBullet = bulletGo.GetComponent<RicochetBullet>();
         currBullet.coll.enabled = false;
-        this.direction = direction;
-        PlatformerController.instance.StartCoroutine(bulletUpdate());
+        direction = dir;
+        PlatformerController.instance.StartCoroutine(BulletUpdate());
     }
 
-    public override void OnAimChange(Vector2 direction)
+    public override void OnAimChange(Vector2 dir)
     {
         if (currBullet == null)
-        {
             return;
-        }
-        this.direction = direction;
-        currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) direction * radius;
+        
+        direction = dir;
+        currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) dir * radius;
+        
     }
 
-    IEnumerator bulletUpdate()
+    private IEnumerator BulletUpdate()
     {
         while (currBullet.coll.enabled == false)
         {

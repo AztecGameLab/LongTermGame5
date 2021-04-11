@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RicochetBullet : MonoBehaviour
 {
@@ -9,10 +7,10 @@ public class RicochetBullet : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D coll;
 
-    void Awake()
+    private void Awake()
     {
-        rb = this.gameObject.GetComponent<Rigidbody2D>();
-        coll = this.gameObject.GetComponent<Collider2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        coll = gameObject.GetComponent<Collider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -21,7 +19,7 @@ public class RicochetBullet : MonoBehaviour
         if (entity != null)
         {
             entity.TakeDamage(damage, rb.velocity);
-            GameObject.Destroy(this.gameObject, 0);
+            Destroy(gameObject, 0);
         }
         else
         {
@@ -33,7 +31,7 @@ public class RicochetBullet : MonoBehaviour
             }
             else
             {
-                GameObject.Destroy(this.gameObject, 0);
+                Destroy(gameObject, 0);
             }
         }
     }
