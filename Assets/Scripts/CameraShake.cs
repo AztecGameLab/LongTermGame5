@@ -12,18 +12,18 @@ public class CameraShake : MonoBehaviour{
     public static CameraShake instance;
     public Transform player;
 
-    [SerializeField]
-    private float maxOffset, // Controls the range of GetPerlinNoise()
-                    frequency, // Controls the speed of the camera movement
-                    shakeTimeRemaining,
-                    rotationMultiplier; // Controls the rotations range.
-
-    void Start(){
+    [SerializeField] private float maxOffset = 0.1f;
+    [SerializeField] private float frequency = 8.0f;
+    [SerializeField] private float shakeTimeRemaining = 0f;
+    [SerializeField] private float rotationMultiplier = 7.0f;
+    
+    private void Start()
+    {
         instance = this;
-        maxOffset = 0.1f;
-        frequency = 8.0f;
-        rotationMultiplier = 7.0f;
+        originPos = transform.position;
     }
+
+    private Vector3 originPos;
     private void LateUpdate(){
         if (shakeTimeRemaining > 0){
             shakeTimeRemaining -= Time.deltaTime;
@@ -31,7 +31,7 @@ public class CameraShake : MonoBehaviour{
             Vector3 offset = new Vector3(GetPerlinNoise(1) * maxOffset, GetPerlinNoise(2) * maxOffset, 0f);
 
             // moves the camera around the assumed cameras position. 
-            transform.position = offset + AssumedCamPos();
+            transform.position = offset + originPos;
 
             // rotates the camera
             transform.localRotation = Quaternion.Euler(0f, 0f, GetPerlinNoise(3) * 2 * rotationMultiplier);
@@ -39,7 +39,7 @@ public class CameraShake : MonoBehaviour{
             // Resets the cameras position and rotation to assumed values before the shake.
             // When shakeTimeRemaining has reached 0, this will run once.
             if (shakeTimeRemaining <= 0){
-                transform.position = AssumedCamPos();
+                transform.position = originPos;
                 transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             }
         }
