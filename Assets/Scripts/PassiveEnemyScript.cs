@@ -13,8 +13,10 @@ public class PassiveEnemyScript : Entity
     [SerializeField] bool passive; //used for testing
     private bool shouldAttack = false; //should be default set to true and changed by the method
     //[SerializeField] bool shouldAttack; //use for testing attack function
-    private float cooldownTimer = .10f;
     bool onCooldown = false;
+    bool isControllable = true;
+    bool isFrozen = false;
+    Vector2 frozenPosition = Vector2.zero;
     Rigidbody2D rb2d;
     
 
@@ -131,11 +133,10 @@ public class PassiveEnemyScript : Entity
         
         if (col.GetComponent<PlatformerController>())
         {
-            shouldAttack = true;
             freezePlayer();
-            Debug.Log("Trigger"); //tester code for circle collider
-            Debug.Log(cooldownTimer);
-            Debug.Log(onCooldown);
+            shouldAttack = false; //should be true?
+            //Debug.Log("Trigger"); //tester code for circle collider
+            //Debug.Log(onCooldown);
         }
     }
 
@@ -145,28 +146,40 @@ public class PassiveEnemyScript : Entity
         if (col.GetComponent<PlatformerController>())
         {
             shouldAttack = false;
-            Debug.Log("Outside Trigger"); //tester code for circle collider
+            //Debug.Log("Outside Trigger"); //tester code for circle collider
         }
     }
 
-    //freezes player for (x) seconds when within range //temporarily launches player upwards
+    //freezes player for (x) seconds when within range
     private void freezePlayer()
     {
-        if (!onCooldown)
-        {
-            onCooldown = true;
-            cooldownTimer = .1f;
-            Vector2 downForce = new Vector2(0, 500); //temporarily launches player upward for testing
-            player.GetComponent<Rigidbody2D>().AddForce(downForce); //force player downwards
-        }
-        else
-        {
-            cooldownTimer -= Time.deltaTime;
-            if(cooldownTimer <= 0)
-            {
-                onCooldown = false;
+        StartCoroutine("freeze");
+        onCooldown = true;
+        StartCoroutine("cooldown");
+
+    }
+
+    IEnumerator freeze() //TODO: timers work, just need to actually freeze player
+    {
+            if (!onCooldown)
+        {                                         /*   //all of this doesnt work
+                isControllable = false;           
+                frozenPosition = player.position;  
+                isFrozen = true;                  */
+
+            Debug.Log("player frozen");
             }
-        }
+        yield return new WaitForSeconds(1);
+    }
+
+    IEnumerator cooldown()
+    {
+            if (onCooldown)
+            {
+                yield return new WaitForSeconds(6);
+                onCooldown = false;
+                Debug.Log("freeze attack on cooldown");
+            }
     }
 
 }
