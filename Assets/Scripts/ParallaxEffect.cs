@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Cinemachine;
 using UnityEngine;
 
 public class ParallaxEffect : MonoBehaviour
@@ -10,15 +9,12 @@ public class ParallaxEffect : MonoBehaviour
     public float smoothing = 1f;        // How smooth the parallax is going to be. Set above 0
 
     private Transform cam;              
-    private Vector3 previousCamPos;     
-
-     void Awake()
-    {
-        cam = Camera.main.transform;
-    }
+    private Vector3 previousCamPos;
 
     void Start()
     {
+        cam = FindObjectOfType<CinemachineVirtualCamera>().transform;
+        
         previousCamPos = cam.position;
 
         parallaxScales = new float[backgrounds.Length];
