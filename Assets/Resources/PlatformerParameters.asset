@@ -15,14 +15,22 @@ MonoBehaviour:
   element: 0
   MaxHealth: 20
   manaDropAmount: 0
+  InvincibilityTime: 1
+  KnockBackIntensity: 5
+  KnockBackTime: 1
   CoyoteTime: 0.2
-  JumpHeight: 1
+  JumpHeight: 100
   JumpBufferTime: 0.2
-  JumpCount: 1
-  JumpSpeed: 5
+  JumpCount: 2
+  JumpSpeed: 16
   MaxFallSpeed: 2
-  MaxRunSpeed: 4
+  MaxRunSpeed: 8
   MaxGroundAngle: 45
   AccelerationMultiplier: 8
-  BulletTimeSlowDown: 0.1
+  BasicBaseDamage: 1
+  BasicAttackDelay: 0.25
+  BasicAttackForgiveness: 0.25
   BasicAttackCooldown: 0.25
+  BasicAttackSize: 0.5
+  BasicAttackRange: 3
+  BulletTimeSlowDown: 0.1
