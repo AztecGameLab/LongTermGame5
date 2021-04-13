@@ -32,9 +32,21 @@ public class Ricochet : ProjectileWeapon
         _chargingBullet = Instantiate(bullet).GetComponent<RicochetBullet>();
         _chargingBullet.coll.enabled = false;
         _lastInput = dir;
-        
+
+        PlatformerController.instance.StartCoroutine(SpawnAnimation());
         UpdateBulletTransform(spawnPos);
         OnAimChange(spawnPos);
+    }
+
+    private IEnumerator SpawnAnimation()
+    {
+        var elapsedTime = 0f;
+        while (elapsedTime < 0.25f)
+        {
+            _chargingBullet.transform.localScale = Vector3.Slerp(Vector3.zero, Vector3.one, elapsedTime / 0.25f);
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
     }
 
     public override void OnAimChange(Vector2 dir)
