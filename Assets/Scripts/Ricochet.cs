@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ricochet", menuName = "LTG5/Weapons/Ricochet")]
 public class Ricochet : ProjectileWeapon
@@ -7,43 +6,39 @@ public class Ricochet : ProjectileWeapon
     public float speed = 25.0f;
     public float damage = 1;
     public GameObject bullet;
-    private RicochetBullet currBullet;
-    private Vector2 direction;
     public float radius;
 
+    private RicochetBullet _chargingBullet;
+    
     public override void Fire(Vector2 dir)
     {
-        currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) dir * radius;
-        currBullet.rb.velocity = dir * speed;
-        currBullet.coll.enabled = true;
+        _chargingBullet.rb.velocity = _chargingBullet.transform.right * speed;
+        _chargingBullet.coll.enabled = true;
     }
 
     public override void Charge(Vector2 dir)
     {
-        GameObject bulletGo = Instantiate(bullet, PlatformerController.instance.transform.position + (Vector3) dir * radius, Quaternion.identity);
-        currBullet = bulletGo.GetComponent<RicochetBullet>();
-        currBullet.coll.enabled = false;
-        direction = dir;
-        PlatformerController.instance.StartCoroutine(BulletUpdate());
+        _chargingBullet = Instantiate(bullet).GetComponent<RicochetBullet>();
+        _chargingBullet.coll.enabled = false;
+
+        UpdateBulletTransform(dir);
     }
 
     public override void OnAimChange(Vector2 dir)
     {
-        if (currBullet == null)
+        if (_chargingBullet == null)
             return;
         
-        direction = dir;
-        currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) dir * radius;
-        
+        UpdateBulletTransform(dir);   
     }
 
-    private IEnumerator BulletUpdate()
+    private void UpdateBulletTransform(Vector2 input)
     {
-        while (currBullet.coll.enabled == false)
-        {
-            currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) direction * radius;
-            yield return null;
-        }
+        var degrees = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
+        var newPos = PlatformerController.instance.transform.position + (Vector3) input * radius;
+        var newRot = Quaternion.Euler(Vector3.forward * degrees);
+        
+        _chargingBullet.transform.SetPositionAndRotation(newPos, newRot);
     }
-
+    
 }
