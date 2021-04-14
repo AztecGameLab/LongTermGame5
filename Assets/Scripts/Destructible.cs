@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using FMODUnity;
+using UnityEngine;
 
 /***********************************************************
  * Script will change an object's texture to appear damage
@@ -7,9 +8,15 @@
  ***********************************************************/
 public class Destructible : Entity
 {
+    [Header("Destructible Settings")]
     [SerializeField] private Sprite[] sprites; //The different textures go into this array
     [SerializeField] private bool destroyOnEnd = true;
     [SerializeField] private EntityData entityData;
+    
+    [Header("Destructible Sounds")]
+    [SerializeField, EventRef] private string hitDamageSound;
+    [SerializeField, EventRef] private string hitNoDamageSound;
+    [SerializeField, EventRef] private string hitBreakSound;
     
     private float[] _healthPercents;
     private SpriteRenderer _spriteRenderer; 
@@ -39,10 +46,14 @@ public class Destructible : Entity
     
     public override void TakeDamage(float damage)
     {
-        if (health <= 0 && !destroyOnEnd)
+        if (health <= 1 && !destroyOnEnd)
+        {
+            RuntimeManager.PlayOneShotAttached(hitNoDamageSound, gameObject);
             return;
+        }
         
         base.TakeDamage(damage);
+        RuntimeManager.PlayOneShotAttached(hitDamageSound, gameObject);
         ChangeTextures();
     }
 
@@ -64,6 +75,9 @@ public class Destructible : Entity
     public override void OnDeath()
     {
         if (destroyOnEnd)
+        {
+            RuntimeManager.PlayOneShotAttached(hitBreakSound, gameObject);
             base.OnDeath();
+        }
     }
 }
