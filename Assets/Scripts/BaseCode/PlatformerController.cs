@@ -78,14 +78,15 @@ public class PlatformerController : Entity
 
     [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
-        //Going with a PID loop with only P lol
+        
         if(lockControls || isAiming){ 
             rigid.drag = 2;
-            return; 
+            return;
         } else{
             rigid.drag = 0;
         }
-
+        
+        //Going with a PID loop with only P lol
         float maxForce = parameters.AccelerationMultiplier * 2.5f;
         error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
@@ -214,13 +215,21 @@ public class PlatformerController : Entity
 
 
         if(context.performed){
+            weapons[currWeapon].Charge(primaryStick.normalized);
+            AimingState(true);
+        }else if(context.canceled && isAiming){
+            AimingState(false);
+            weapons[currWeapon].Fire(primaryStick.normalized);
+        }
+    }
+
+    public void AimingState(bool state){
+        if(state){
             Time.timeScale = parameters.BulletTimeSlowDown;
             isAiming = true;
-            weapons[currWeapon].Charge(primaryStick.normalized);
-        }else if(context.canceled){
+        } else {
             Time.timeScale = 1; //Return to regular timescale
             isAiming = false;
-            weapons[currWeapon].Fire(primaryStick.normalized);
         }
     }
 
@@ -230,6 +239,21 @@ public class PlatformerController : Entity
         if(weapons == null){ return; }
         if(weapons.Count <= 0){ return; }
         weapons[currWeapon].OnAimChange(primaryStick);
+    }
+
+    public void ProjectileCancelHandle(InputAction.CallbackContext context){
+        if(context.performed){
+            CancelProjectile();
+        }
+    }
+
+    void CancelProjectile(){
+        if(lockControls) return; //dont allow projectiles when locked
+        if(weapons == null){ return; }
+        if(weapons.Count <= 0){ return; }
+
+        weapons[currWeapon].Cancel();
+        AimingState(false);
     }
 
     #endregion
@@ -334,7 +358,6 @@ public class PlatformerController : Entity
 
     #endregion
 
-
     #region EntityStuff
     bool canTakeDamage = true;
     public override void TakeDamage(float baseDamage, Vector2 direction){
@@ -347,6 +370,7 @@ public class PlatformerController : Entity
     //Huh, we have no direction to figure out knockback
     //Lets just use a random direction
     public override void TakeDamage(float baseDamage){
+        CancelProjectile();
         StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
         base.TakeDamage(baseDamage);
     }
