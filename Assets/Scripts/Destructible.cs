@@ -16,7 +16,6 @@ public class Destructible : Entity
     
     [Header("Destructible Sounds")]
     [SerializeField, EventRef] private string hitDamageSound;
-    [SerializeField, EventRef] private string hitNoDamageSound;
     [SerializeField, EventRef] private string hitBreakSound;
     
     [Header("Destructible Events")]
@@ -55,9 +54,14 @@ public class Destructible : Entity
     {
         damageEvent.Invoke(CurrentPercentHealth);
         
-        if (health <= 1 && !destroyOnEnd)
+        if (health <= 2 && !destroyOnEnd)
         {
-            RuntimeManager.PlayOneShotAttached(hitNoDamageSound, gameObject);
+            if (TryGetComponent<Collider2D>(out var collider2d))
+                collider2d.enabled = false;
+            
+            RuntimeManager.PlayOneShotAttached(hitBreakSound, gameObject);
+            health = 1;
+            ChangeTextures();
             return;
         }
         
