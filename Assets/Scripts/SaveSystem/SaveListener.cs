@@ -41,7 +41,25 @@ namespace SaveSystem
         {
             return level != null && level.isGameplayLevel;
         }
+        
+        private void OnActiveLevelChanged(Level oldLevel, Level newLevel)
+        {
+            var player = PlatformerController.instance;
+            
+            if (ShouldSave(oldLevel) && player != null)
+            {
+                MoveToActiveLevel(player.gameObject);
+                
+                var playerData = new PlayerData
+                {
+                    currentScene = oldLevel.sceneName, 
+                    position = player.transform.position
+                };
 
+                SaveLoad.SetPlayerData(playerData);
+            }
+        }
+        
         private void MoveToActiveLevel(GameObject objectToMove)
         {
             if (_levelController.ActiveLevel != null)
@@ -52,23 +70,5 @@ namespace SaveSystem
                 SceneManager.MoveGameObjectToScene(objectToMove, activeScene);
             }
         }
-        
-        private void OnActiveLevelChanged(Level level)
-        {
-            var player = PlatformerController.instance;
-            
-            if (ShouldSave(level) && player != null)
-            {
-                MoveToActiveLevel(player.gameObject);
-                
-                var playerData = new PlayerData
-                {
-                    currentScene = level.sceneName, 
-                    position = player.transform.position
-                };
-
-                SaveLoad.SetPlayerData(playerData);
-            }
-        }
-    }    
+    }
 }
