@@ -8,6 +8,7 @@
 public class Destructible : Entity
 {
     [SerializeField] private Sprite[] sprites; //The different textures go into this array
+    [SerializeField] private bool destroyOnEnd = true;
     [SerializeField] private EntityData entityData;
     
     private float[] _healthPercents;
@@ -21,46 +22,48 @@ public class Destructible : Entity
         health = Mathf.Clamp(health, 0, entityData.MaxHealth);
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = sprites[0];
-
         _healthPercents = CreatePercents(sprites.Length);
     }
     
-    //Private method determines the cutoffs on percent the ranges based on the number of Sprites
+    // Determines the cutoffs on percent the ranges based on the number of Sprites
     private static float[] CreatePercents(int numSprites)
     {
         float[] healthPercents = new float[numSprites];
-
-        healthPercents[0] = 1;
-        if (numSprites > 1)
-        {
-            float distance = 1 / ((float) numSprites - 1); //Constant value; Distance from one cutoff to another
-            for (int i = 1; i < numSprites; ++i)
-            {
-                healthPercents[i] = healthPercents[i - 1] - distance;
-            }
-        }
+        float frequencyOfChange = 1 / ((float) numSprites - 1);
+        
+        for (int i = 0; i < healthPercents.Length; i++)
+            healthPercents[i] = 1 - i * frequencyOfChange;
+        
         return healthPercents;
     }
     
-    //Overrides TakeDamage from entity class; will also prompt a change of textures when object is damaged
-    public override void TakeDamage(float baseDamage)
+    public override void TakeDamage(float damage)
     {
-        base.TakeDamage(baseDamage);
+        if (health <= 0 && !destroyOnEnd)
+            return;
+        
+        base.TakeDamage(damage);
         ChangeTextures();
     }
 
-    //Private method which will gauge what texture to display when a health percentage is within a desired range
+    // Gauges what texture to display when a health percentage is within a desired range
     private void ChangeTextures()
     {
+        var curPercent = health / entityData.MaxHealth;
+
         for (int i = 0; i < _healthPercents.Length - 1; ++i)
         {
-            var currPercent = health / entityData.MaxHealth;
-
-            if (currPercent < _healthPercents[i] && currPercent >= _healthPercents[i + 1])
+            if (curPercent < _healthPercents[i] && curPercent >= _healthPercents[i + 1])
             {
                 _spriteRenderer.sprite = sprites[i + 1];
                 break;
             }
         }
+    }
+
+    public override void OnDeath()
+    {
+        if (destroyOnEnd)
+            base.OnDeath();
     }
 }
