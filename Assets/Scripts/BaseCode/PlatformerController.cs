@@ -227,12 +227,13 @@ public class PlatformerController : Entity
     }
 
     public void AimingState(bool state){
+        isAiming = state;
         if(state){
             Time.timeScale = parameters.BulletTimeSlowDown;
-            isAiming = true;
+            Time.fixedDeltaTime = .02f * parameters.BulletTimeSlowDown;
         } else {
             Time.timeScale = 1; //Return to regular timescale
-            isAiming = false;
+            Time.fixedDeltaTime = .02f; //This is default physics time
         }
     }
 
@@ -251,7 +252,6 @@ public class PlatformerController : Entity
     }
 
     void CancelProjectile(){
-        if(lockControls) return; //dont allow projectiles when locked
         if(weapons == null){ return; }
         if(weapons.Count <= 0){ return; }
 
