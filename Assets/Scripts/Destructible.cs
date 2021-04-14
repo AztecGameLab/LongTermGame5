@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /***********************************************************
  * Script will change an object's texture to appear damage
@@ -9,43 +7,35 @@ using UnityEngine;
  ***********************************************************/
 public class Destructible : Entity
 {
-    public Sprite[] sprites; //The different textures go into this array
-    private float[] healthPercents;
-    private float maxHealth; //Constant value; an objects maximum health
-    private SpriteRenderer spriteRenderer; 
+    [SerializeField] private Sprite[] sprites; //The different textures go into this array
+    [SerializeField] private EntityData entityData;
+    
+    private float[] _healthPercents;
+    private SpriteRenderer _spriteRenderer; 
 
-    //Private method determines the cutoffs on percent the ranges based on the number of Sprites
-    private float[] CreatePercents(int numSprites)
+    private void Start()
     {
-        float[] HealthPercents = new float[numSprites];
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _spriteRenderer.sprite = sprites[0];
 
-        HealthPercents[0] = 100;
+        _healthPercents = CreatePercents(sprites.Length);
+    }
+    
+    //Private method determines the cutoffs on percent the ranges based on the number of Sprites
+    private static float[] CreatePercents(int numSprites)
+    {
+        float[] healthPercents = new float[numSprites];
+
+        healthPercents[0] = 100;
         if (numSprites > 1)
         {
             float distance = 100 / (numSprites - 1); //Constant value; Distance from one cutoff to another
             for (int i = 1; i < numSprites; ++i)
             {
-                HealthPercents[i] = HealthPercents[i - 1] - distance;
+                healthPercents[i] = healthPercents[i - 1] - distance;
             }
         }
-        return HealthPercents;
-    }
-
-    //Private method which will gauge what texture to display when a health percentage is within a desired range
-    private void ChangeTextures()
-    {
-        float currPercent;
-
-        for (int i = 0; i < healthPercents.Length - 1; ++i)
-        {
-            currPercent = base.health / maxHealth * 100;
-
-            if (currPercent < healthPercents[i] & currPercent >= healthPercents[i + 1])
-            {
-                spriteRenderer.sprite = sprites[i + 1];
-                break;
-            }
-        }
+        return healthPercents;
     }
     
     //Overrides TakeDamage from entity class; will also prompt a change of textures when object is damaged
@@ -55,13 +45,18 @@ public class Destructible : Entity
         ChangeTextures();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    //Private method which will gauge what texture to display when a health percentage is within a desired range
+    private void ChangeTextures()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        healthPercents = CreatePercents(sprites.Length);
-        spriteRenderer.sprite = sprites[0];
-        maxHealth = base.health;
-    }
+        for (int i = 0; i < _healthPercents.Length - 1; ++i)
+        {
+            var currPercent = health / entityData.MaxHealth * 100;
 
+            if (currPercent < _healthPercents[i] & currPercent >= _healthPercents[i + 1])
+            {
+                _spriteRenderer.sprite = sprites[i + 1];
+                break;
+            }
+        }
+    }
 }
