@@ -4,64 +4,77 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Ricochet", menuName = "LTG5/Weapons/Ricochet")]
 public class Ricochet : ProjectileWeapon
 {
+    [SerializeField] private GameObject bullet;
     [SerializeField] private float degreesPerSecond = 360f;
-    public float speed = 25.0f;
-    public float damage = 1;
-    public GameObject bullet;
-    public float radius;
+    [SerializeField] private float speed = 25.0f;
+    [SerializeField] private float radius;
+    [SerializeField] private float spawnAnimationTime = 0.25f;
 
+    private Transform _bulletHolder;
     private RicochetBullet _chargingBullet;
-    private Coroutine _chargingAnimation;
+    private PlatformerController _player;
+    private Coroutine _movementAnimation;
     private float _targetDegrees = 0f;
-    private Vector2 _lastInput;
     private float CurrentDegrees => _chargingBullet.transform.rotation.eulerAngles.z;
-    
-    public override void Fire(Vector2 dir)
-    {
-        if (_chargingAnimation != null)
-            PlatformerController.instance.StopCoroutine(_chargingAnimation);
-        
-        _chargingBullet.rb.velocity = _chargingBullet.transform.right * speed;
-        _chargingBullet.coll.enabled = true;
-    }
 
     public override void Charge(Vector2 dir)
     {
         var spawnPos = dir == Vector2.zero ? (Vector2) PlatformerController.instance.transform.right : dir;
         
-        _chargingBullet = Instantiate(bullet).GetComponent<RicochetBullet>();
-        _chargingBullet.coll.enabled = false;
-        _lastInput = dir;
-
-        PlatformerController.instance.StartCoroutine(SpawnAnimation());
+        _player = PlatformerController.instance;
+        SpawnBullet();
+        _player.StartCoroutine(SpawnAnimation());
         UpdateBulletTransform(spawnPos);
         OnAimChange(spawnPos);
     }
-
-    private IEnumerator SpawnAnimation()
-    {
-        var elapsedTime = 0f;
-        while (elapsedTime < 0.25f)
-        {
-            _chargingBullet.transform.localScale = Vector3.Slerp(Vector3.zero, Vector3.one, elapsedTime / 0.25f);
-            elapsedTime += Time.unscaledDeltaTime;
-            yield return null;
-        }
-    }
-
+    
     public override void OnAimChange(Vector2 dir)
     {
         if (_chargingBullet == null || dir == Vector2.zero)
             return;
 
-        var player = PlatformerController.instance;
         _targetDegrees = PositionToDegrees(dir);
-        _lastInput = dir;
         
-        if (_chargingAnimation != null)
-            player.StopCoroutine(_chargingAnimation);
+        if (_movementAnimation != null)
+            _player.StopCoroutine(_movementAnimation);
         
-        _chargingAnimation = player.StartCoroutine(MoveToTargetPosition());
+        _movementAnimation = _player.StartCoroutine(MoveToTargetPosition());
+    }
+    
+    public override void Fire(Vector2 dir)
+    {
+        if (_movementAnimation != null)
+            _player.StopCoroutine(_movementAnimation);
+        
+        _chargingBullet.transform.SetParent(_bulletHolder);
+        _chargingBullet.rb.bodyType = RigidbodyType2D.Dynamic;
+        _chargingBullet.rb.velocity = _chargingBullet.transform.right * speed;
+        _chargingBullet.coll.enabled = true;
+    }
+    
+    private void SpawnBullet()
+    {
+        if (_bulletHolder == null)
+            _bulletHolder = new GameObject("Fired Ricochet Projectiles").transform;
+        
+        _chargingBullet = Instantiate(bullet).GetComponent<RicochetBullet>();
+        _chargingBullet.coll.enabled = false;
+        _chargingBullet.rb.bodyType = RigidbodyType2D.Kinematic;
+        _chargingBullet.transform.SetParent(_player.transform);
+    }
+
+    private IEnumerator SpawnAnimation()
+    {
+        var elapsedTime = 0f;
+        var chargingBullet = _chargingBullet; // Cache the charging bullet so when it changes, animation still works
+        
+        while (elapsedTime < spawnAnimationTime && chargingBullet != null)
+        {
+            var completion = elapsedTime / spawnAnimationTime;
+            chargingBullet.transform.localScale = Vector3.Slerp(Vector3.zero, Vector3.one, completion);
+            elapsedTime += Time.unscaledDeltaTime; // Unscaled because of TimeScale changing during animation
+            yield return null;
+        }
     }
 
     private IEnumerator MoveToTargetPosition()
@@ -70,26 +83,20 @@ public class Ricochet : ProjectileWeapon
         var targetB = CurrentDegrees > targetA ? targetA + 360: targetA - 360;
         var targetADistance = Mathf.Abs(CurrentDegrees - targetA);
         var targetBDistance = Mathf.Abs(CurrentDegrees - targetB);
+        
         var closestTarget = targetADistance < targetBDistance ? targetA : targetB;
-
-        var origin = PlatformerController.instance.transform.position;
+        var closestTargetWrapped = (closestTarget < 0 ? 360 + closestTarget : closestTarget) % 360;
+        
         var axis = Vector3.forward;
         var degreeDelta = degreesPerSecond * Time.unscaledDeltaTime;
         var direction = Mathf.Sign(closestTarget - CurrentDegrees);
-
-        var realTarget = (closestTarget < 0 ? 360 + closestTarget : closestTarget) % 360;
         
-        while (Mathf.Abs(realTarget - CurrentDegrees) >= degreeDelta)
+        // Execute while the distance needed is greater than our movement speed
+        while (Mathf.Abs(closestTargetWrapped - CurrentDegrees) >= degreeDelta)
         {
-            origin = PlatformerController.instance.transform.position;
+            var origin = _player.transform.position;
             _chargingBullet.transform.RotateAround(origin, axis, direction * degreeDelta);
-            yield return null;
-        }
-        
-        while (true)
-        {
-            UpdateBulletTransform(_lastInput);
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -101,10 +108,9 @@ public class Ricochet : ProjectileWeapon
     private void UpdateBulletTransform(Vector2 position)
     {
         var degrees = PositionToDegrees(position);
-        var newPos = PlatformerController.instance.transform.position + (Vector3) position * radius;
+        var newPos = _player.transform.position + (Vector3) position * radius;
         var newRot = Quaternion.Euler(Vector3.forward * degrees);
 
         _chargingBullet.transform.SetPositionAndRotation(newPos, newRot);
     }
-    
 }
