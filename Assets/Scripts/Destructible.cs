@@ -20,11 +20,13 @@ public class Destructible : Entity
     [SerializeField, EventRef] private string hitBreakSound;
     
     [Header("Destructible Events")]
-    [SerializeField] private UnityEvent damageEvent;
+    [SerializeField] private UnityEvent<float> damageEvent; // Passes the current percent damage, as a 01 float
     [SerializeField] private UnityEvent breakEvent;
     
     private float[] _healthPercents;
     private SpriteRenderer _spriteRenderer; 
+    
+    public float CurrentPercentHealth => health / entityData.MaxHealth;
 
     private void Start()
     {
@@ -51,7 +53,7 @@ public class Destructible : Entity
     
     public override void TakeDamage(float damage)
     {
-        damageEvent.Invoke();
+        damageEvent.Invoke(CurrentPercentHealth);
         
         if (health <= 1 && !destroyOnEnd)
         {
@@ -67,11 +69,9 @@ public class Destructible : Entity
     // Gauges what texture to display when a health percentage is within a desired range
     private void ChangeTextures()
     {
-        var curPercent = health / entityData.MaxHealth;
-
         for (int i = 0; i < _healthPercents.Length - 1; ++i)
         {
-            if (curPercent < _healthPercents[i] && curPercent >= _healthPercents[i + 1])
+            if (CurrentPercentHealth < _healthPercents[i] && CurrentPercentHealth >= _healthPercents[i + 1])
             {
                 _spriteRenderer.sprite = sprites[i + 1];
                 break;
