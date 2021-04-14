@@ -20,7 +20,6 @@ public class RicochetBullet : MonoBehaviour
         
         if (entity != null)
         {
-            print(rb.velocity.normalized * knockback);
             entity.TakeDamage(damage, rb.velocity.normalized * knockback);
             Destroy(gameObject);
         }

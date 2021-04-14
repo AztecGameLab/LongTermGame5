@@ -43,6 +43,9 @@ public class Ricochet : ProjectileWeapon
     
     public override void Fire(Vector2 dir)
     {
+        if (_chargingBullet == null)
+            return;
+    
         if (_movementAnimation != null)
             _player.StopCoroutine(_movementAnimation);
         
