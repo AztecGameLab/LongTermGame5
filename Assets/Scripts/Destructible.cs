@@ -15,6 +15,10 @@ public class Destructible : Entity
 
     private void Start()
     {
+        if (health > entityData.MaxHealth)
+            Debug.LogWarning($"Tried to set health ({health}) greater than the MaxHealth ({entityData.MaxHealth}) for {entityData.name}");
+        
+        health = Mathf.Clamp(health, 0, entityData.MaxHealth);
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = sprites[0];
 
@@ -26,10 +30,10 @@ public class Destructible : Entity
     {
         float[] healthPercents = new float[numSprites];
 
-        healthPercents[0] = 100;
+        healthPercents[0] = 1;
         if (numSprites > 1)
         {
-            float distance = 100 / (numSprites - 1); //Constant value; Distance from one cutoff to another
+            float distance = 1 / ((float) numSprites - 1); //Constant value; Distance from one cutoff to another
             for (int i = 1; i < numSprites; ++i)
             {
                 healthPercents[i] = healthPercents[i - 1] - distance;
@@ -50,9 +54,9 @@ public class Destructible : Entity
     {
         for (int i = 0; i < _healthPercents.Length - 1; ++i)
         {
-            var currPercent = health / entityData.MaxHealth * 100;
+            var currPercent = health / entityData.MaxHealth;
 
-            if (currPercent < _healthPercents[i] & currPercent >= _healthPercents[i + 1])
+            if (currPercent < _healthPercents[i] && currPercent >= _healthPercents[i + 1])
             {
                 _spriteRenderer.sprite = sprites[i + 1];
                 break;
