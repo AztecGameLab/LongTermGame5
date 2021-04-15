@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using FMODUnity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,17 +7,21 @@ using UnityEngine;
 public class Ricochet : ProjectileWeapon
 {
     public float speed = 25.0f;
-    public float damage = 1;
     public GameObject bullet;
     private RicochetBullet currBullet;
     private Vector2 direction;
     public float radius;
+    [EventRef] public string ricochetSoundLaunch = "Default";
 
     public override void Fire(Vector2 direction)
     {
         currBullet.gameObject.transform.position = PlatformerController.instance.transform.position + (Vector3) direction * radius;
         currBullet.rb.velocity = direction * speed;
         currBullet.coll.enabled = true;
+        if (ricochetSoundLaunch != "Default")
+        {
+            RuntimeManager.PlayOneShot(ricochetSoundLaunch);
+        }
     }
 
     public override void Charge(Vector2 direction)
