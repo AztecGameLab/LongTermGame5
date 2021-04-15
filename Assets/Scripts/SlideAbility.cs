@@ -9,7 +9,7 @@ public class SlideAbility : Ability
     private Animator anim;
 
     [Tooltip("Duration of the slide (sec)")]
-    public float slideDuration = 1;
+    public float slideDuration = 0.2f;
 
     //The math only works at 0.5, I could make it work at different values but I'm lazy
     private float shrinkValue = .5f;

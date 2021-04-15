@@ -12,25 +12,28 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
         switch (ability)
         {
             case Abilities.Slide:
-                GetComponent<SlideAbility>().enabled = true;
+                gameObject.AddComponent<SlideAbility>();
                 break;
             case Abilities.ReflectingProjectile:
-                print("unlock");
+                var pc = GetComponent<PlatformerController>();
+                pc.weapons.Add(Resources.Load<Ricochet>("Ricochet"));
+                pc.currWeapon = pc.weapons.Count - 1;
                 break;
             case Abilities.Bash:
-                GetComponent<BashAbility>().enabled = true;
+                gameObject.AddComponent<BashAbility>();
                 break;
             case Abilities.FireBall:
                 print("unlock");
                 break;
             case Abilities.DoubleJump:
-                GetComponent<PlatformerController>().parameters.JumpCount = 2;
+                print("unlock");
+                //GetComponent<PlatformerController>().parameters.JumpCount = 2;
                 break;
             case Abilities.FreezeProjectile:
                 print("unlock");
                 break;
             case Abilities.GroundPound:
-                GetComponent<GroundPound>().enabled = true;
+                gameObject.AddComponent<GroundPound>();
                 break;
             case Abilities.Grapple:
                 print("unlock");
