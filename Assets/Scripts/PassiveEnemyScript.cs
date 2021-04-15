@@ -7,18 +7,15 @@ using UnityEngine;
 public class PassiveEnemyScript : Entity
 {
     [SerializeField] Transform player;
-    [SerializeField] float moveSpeed;
-    [SerializeField] float rushDistance;
-    //public static bool passive = false; //use this when making all enemies aggressive
+    [SerializeField] private float moveSpeed = 1;
+    [SerializeField] private float rushDistance = 2;
+    //public static bool passive = true; //use this when making all enemies aggressive
     [SerializeField] bool passive; //used for testing
-    private bool shouldAttack = false; //should be default set to true and changed by the method
-    //[SerializeField] bool shouldAttack; //use for testing attack function
     bool onCooldown = false;
-    bool isControllable = true;
-    bool isFrozen = false;
-    Vector2 frozenPosition = Vector2.zero;
+    Vector3 difference;
+    bool inRange;
+    float rushSpeed;
     Rigidbody2D rb2d;
-    
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +34,6 @@ public class PassiveEnemyScript : Entity
         if (passive == false)
         {
             ChasePlayer();
-            Attack();
         }
         else
         {
@@ -45,7 +41,7 @@ public class PassiveEnemyScript : Entity
         }
     }
 
-    public void changePasive() //change the passive based on the player's skill unlocks
+    public void changePasive() //change the passive based on the player's skill unlocks        /\/\/\/\TODO/\/\/\/\
     {
         //if([skill unlocked]){ passive = false;}
     }
@@ -117,15 +113,20 @@ public class PassiveEnemyScript : Entity
         }
     }
 
+
+    float freezeTime = 3;
+    float knockForce = 4;
     private void Attack()//implement player's take damage function
     {
-        //invoke player take damage function
-        if (shouldAttack == true)
+        if (!passive)
         {
-            //player.TakeDamage(damage, direction); //TODO: not right, figure out how to make it take damage
-            onCooldown = true;
+            float temp = PlatformerController.instance.parameters.KnockBackTime;
+            PlatformerController.instance.parameters.KnockBackTime = freezeTime;
+
+            PlatformerController.instance.TakeDamage(15, difference*knockForce);
+
+            PlatformerController.instance.parameters.KnockBackTime = temp;
         }
-        
     }
 
     void OnTriggerEnter2D(Collider2D col) 
@@ -133,20 +134,11 @@ public class PassiveEnemyScript : Entity
         
         if (col.GetComponent<PlatformerController>())
         {
-            freezePlayer();
-            shouldAttack = false; //should be true?
-            //Debug.Log("Trigger"); //tester code for circle collider
-            //Debug.Log(onCooldown);
-        }
-    }
+            difference = (col.transform.position - transform.position).normalized;
 
-    void OnTriggerExit2D(Collider2D col)
-    {
-        
-        if (col.GetComponent<PlatformerController>())
-        {
-            shouldAttack = false;
-            //Debug.Log("Outside Trigger"); //tester code for circle collider
+            Attack();
+            freezePlayer();
+
         }
     }
 
@@ -155,31 +147,33 @@ public class PassiveEnemyScript : Entity
     {
         StartCoroutine("freeze");
         onCooldown = true;
-        StartCoroutine("cooldown");
 
     }
 
-    IEnumerator freeze() //TODO: timers work, just need to actually freeze player
+    IEnumerator freeze() //works
     {
+        
             if (!onCooldown)
-        {                                         /*   //all of this doesnt work
-                isControllable = false;           
-                frozenPosition = player.position;  
-                isFrozen = true;                  */
+            {
+                PlatformerController.instance.lockControls = true;
+                Debug.Log("player frozen");
+                yield return new WaitForSeconds(3);
+                yield return StartCoroutine("cooldown");
 
-            Debug.Log("player frozen");
             }
-        yield return new WaitForSeconds(1);
+        
     }
 
     IEnumerator cooldown()
     {
-            if (onCooldown)
-            {
-                yield return new WaitForSeconds(6);
-                onCooldown = false;
-                Debug.Log("freeze attack on cooldown");
-            }
+       
+        if (onCooldown)
+          {
+            PlatformerController.instance.lockControls = false;
+            Debug.Log("freeze attack on cooldown");
+            yield return new WaitForSeconds(3);
+            onCooldown = false;    
+          }
     }
 
 }
