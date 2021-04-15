@@ -179,12 +179,12 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1831558400415614738}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+        m_TargetAssemblyTypeName: PlatformerController, Assembly-CSharp
+        m_MethodName: ProjectileHandler
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -193,7 +193,19 @@ MonoBehaviour:
     m_ActionId: f8b1a4d2-e8f8-45c2-99e3-e96f36a573dc
     m_ActionName: Player/RangedAttack
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1831558400415614738}
+        m_TargetAssemblyTypeName: PlatformerController, Assembly-CSharp
+        m_MethodName: AttackHandler
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 78f8dce3-aa72-4523-9d0e-6aeff034fb36
     m_ActionName: Player/Attack
   - m_PersistentCalls:
