@@ -1,6 +1,8 @@
-﻿using FMODUnity;
+﻿using System;
+using FMODUnity;
 using SaveSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -16,6 +18,25 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField, EventRef] private string menuEnterSound;
     [SerializeField, EventRef] private string menuExitSound;
     [SerializeField, EventRef] private string menuHoverSound;
+
+    private void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnLevelLoaded;
+    }
+
+    private void OnLevelLoaded(Scene oldScene, Scene newScene)
+    {
+        if (newScene.name == firstLevel.sceneName)
+        {
+            print("Level " + newScene.name + " has been loaded!");
+            
+            var player = Instantiate(playerPrefab);
+            var playerData = SaveLoad.GetPlayerData();
+            player.transform.position = playerData == null ? Vector3.zero : (Vector3) playerData.position;
+
+            SceneManager.activeSceneChanged -= OnLevelLoaded;
+        }
+    }
     
     private void Start()
     {
@@ -51,11 +72,7 @@ public class MainMenuUI : MonoBehaviour
             print("Save found! Loading " + level.sceneName);
         }
 
-        LevelUtil.Get().TransitionTo(level, () =>
-        {
-            var player = Instantiate(playerPrefab);
-            player.transform.position = playerPosition;
-        });
+        LevelUtil.Get().TransitionTo(level);
     }
 
     public void PlayCredits()
