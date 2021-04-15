@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 [CreateAssetMenu(fileName = "Ricochet", menuName = "LTG5/Weapons/Ricochet")]
 public class Ricochet : ProjectileWeapon
@@ -14,6 +15,7 @@ public class Ricochet : ProjectileWeapon
     private RicochetBullet _chargingBullet;
     private PlatformerController _player;
     private Coroutine _movementAnimation;
+    private Coroutine _spawnAnimation;
     private float _targetDegrees = 0f;
     private float CurrentDegrees => _chargingBullet.transform.rotation.eulerAngles.z;
 
@@ -23,7 +25,7 @@ public class Ricochet : ProjectileWeapon
         
         _player = PlatformerController.instance;
         SpawnBullet();
-        _player.StartCoroutine(SpawnAnimation());
+        _spawnAnimation = _player.StartCoroutine(SpawnAnimation());
         UpdateBulletTransform(spawnPos);
         OnAimChange(spawnPos);
     }
@@ -54,6 +56,12 @@ public class Ricochet : ProjectileWeapon
         _chargingBullet.rb.velocity = _chargingBullet.transform.right * speed;
         _chargingBullet.coll.enabled = true;
     }
+
+    public override void Cancel()
+    {
+        if (_player.lockControls)
+            DestroyActiveBullet();
+    }
     
     private void SpawnBullet()
     {
@@ -64,6 +72,18 @@ public class Ricochet : ProjectileWeapon
         _chargingBullet.coll.enabled = false;
         _chargingBullet.rb.bodyType = RigidbodyType2D.Kinematic;
         _chargingBullet.transform.SetParent(_player.transform);
+    }
+
+    private void DestroyActiveBullet()
+    {
+        if (_movementAnimation != null)
+            _player.StopCoroutine(_movementAnimation);
+        
+        if (_spawnAnimation != null)
+            _player.StopCoroutine(_spawnAnimation);
+        
+        if (_chargingBullet != null)
+            Destroy(_chargingBullet.gameObject);
     }
 
     private IEnumerator SpawnAnimation()
