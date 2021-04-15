@@ -16,7 +16,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
                 break;
             case Abilities.ReflectingProjectile:
                 var pc = GetComponent<PlatformerController>();
-                pc.weapons.Add(Resources.Load<Ricochet>("Ricochet"));
+                pc.weapons.Add(Resources.Load<Ricochet>("Weapons/Ricochet"));
                 pc.currWeapon = pc.weapons.Count - 1;
                 break;
             case Abilities.Bash:
