@@ -9,6 +9,7 @@ public class ProjectileWeapon : ScriptableObject
     public virtual void Fire(){}
     public virtual void Charge(){}
 
+    public virtual void Cancel(){}
 
     public virtual void Fire(Vector2 direction){}
     public virtual void Charge(Vector2 direction){}
