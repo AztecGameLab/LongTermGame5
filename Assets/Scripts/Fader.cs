@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 // Allows child-classes to safely fade a value in and out over animation curves.
 public abstract class Fader : MonoBehaviour
 {
+    public event Action<FadeType> TransitionStartEvent;
+    public event Action<FadeType> TransitionStopEvent;
+    
     public AnimationCurve     fadeInCurve = AnimationCurve.Linear(0, 0, 3, 1);
     public AnimationCurve     fadeOutCurve = AnimationCurve.Linear(0, 1, 3, 0);
 
@@ -12,21 +16,21 @@ public abstract class Fader : MonoBehaviour
     public bool               Transitioning { get; protected set; } = false;
     public float              Duration { get; set; } = 1;
     
-    public void Fade(FadeType type)
+    public void Fade(FadeType type, Action onComplete = null)
     {
         if (CurrentCoroutine != null && Transitioning) // If this component is already fading, cancel the previous fade.
         {
             StopCoroutine(CurrentCoroutine);
-            OnTransitionStop(type);
+            TransitionStopEvent?.Invoke(type);
         }
 
         AnimationCurve curve = type == FadeType.In ? fadeInCurve : fadeOutCurve;
-        CurrentCoroutine = StartCoroutine(FadeCoroutine(curve, type));
+        CurrentCoroutine = StartCoroutine(FadeCoroutine(curve, type, onComplete));
     }
 
-    private IEnumerator FadeCoroutine(AnimationCurve curve, FadeType type)
+    private IEnumerator FadeCoroutine(AnimationCurve curve, FadeType type, Action onComplete)
     {
-        OnTransitionStart(type);
+        TransitionStartEvent?.Invoke(type);
         Transitioning = true;
         
         AnimationCurveHelper.ChangeFirstKeyframeValue(curve, Value);
@@ -45,11 +49,9 @@ public abstract class Fader : MonoBehaviour
 
         Value = AnimationCurveHelper.LastKey(curve).value;
         Transitioning = false;
-        OnTransitionStop(type);
+        onComplete?.Invoke();
+        TransitionStopEvent?.Invoke(type);
     }
-
-    protected virtual void OnTransitionStart(FadeType type) { }
-    protected virtual void OnTransitionStop(FadeType type) { }
 }
 
 public enum FadeType
