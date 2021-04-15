@@ -4,7 +4,6 @@ using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-//TODO: move cam controller back into awake when timing is fixed
 public class HealingAbility : Ability
 {
     [Header("Heal Settings")]
@@ -27,10 +26,10 @@ public class HealingAbility : Ability
     
     protected override void Start()
     {
+        base.Start();
+
         _cameraController = CameraController.Get();
         _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
-        
-        base.Start();
     }
 
     protected override void Started(InputAction.CallbackContext context)

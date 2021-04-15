@@ -24,11 +24,13 @@ public abstract class Ability : MonoBehaviour
         _inputAction.performed -= Performed;
     }
     
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         Player = GetComponent<PlatformerController>();
         _inputs = Player.Inputs;
         _inputAction = _inputs.Player.Get().FindAction(InputName, true);
+        
+        OnEnable();
     }
 
     protected virtual void Started(InputAction.CallbackContext context) { }
