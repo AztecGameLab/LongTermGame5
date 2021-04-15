@@ -30,7 +30,10 @@ public class Ricochet : ProjectileWeapon
 
     public override void Cancel()
     {
-        Destroy(currBullet.gameObject, 0);
+        if(currBullet != null){
+            Destroy(currBullet.gameObject, 0);
+            
+        }
         PlatformerController.instance.StopCoroutine(bulletUpdate());
     }
 

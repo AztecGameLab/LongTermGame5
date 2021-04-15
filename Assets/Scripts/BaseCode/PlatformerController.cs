@@ -110,7 +110,9 @@ public class PlatformerController : Entity
         //TODO :: Implement a fast fall function
 
         //handle the projectile aiming
-        ProjectileAimHandle(primaryStick);
+        if(primaryStick.sqrMagnitude > Vector2.kEpsilon)
+            aimDirection = primaryStick.normalized;
+        ProjectileAimHandle(aimDirection);
     }
 
     #region Jumping
@@ -218,11 +220,12 @@ public class PlatformerController : Entity
 
 
         if(context.performed){
-            weapons[currWeapon].Charge(primaryStick.normalized);
+            weapons[currWeapon].Cancel();
+            weapons[currWeapon].Charge(aimDirection);
             AimingState(true);
         }else if(context.canceled && isAiming){
             AimingState(false);
-            weapons[currWeapon].Fire(primaryStick.normalized);
+            weapons[currWeapon].Fire(aimDirection);
         }
     }
 
@@ -242,7 +245,7 @@ public class PlatformerController : Entity
             return;
         if(weapons == null){ return; }
         if(weapons.Count <= 0){ return; }
-        weapons[currWeapon].OnAimChange(primaryStick);
+        weapons[currWeapon].OnAimChange(aimDirection);
     }
 
     public void ProjectileCancelHandle(InputAction.CallbackContext context){
