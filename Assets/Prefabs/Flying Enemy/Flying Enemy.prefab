@@ -191,7 +191,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8edbe73ca8f2b6c4b83a88969cb836c5, type: 3}
+  m_Sprite: {fileID: -5366474749321288097, guid: 20769c9927d181342a4079ab56196c6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -230,6 +230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 018462815cd29464c8761d34be77bfee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  shotSound: FlyingEnemyShot
+  deathSound: FlyingEnemyDeath
   speed: 1
   amountToMove: 3
   FireRate: 2
@@ -238,7 +241,7 @@ MonoBehaviour:
   playerDistanceBeforeDashing: 3
   dashSpeed: 250
   dashtime: 0.4
-  dashCoolDown: 3
+  dashCoolDown: 2
 --- !u!114 &4579136359184050221
 MonoBehaviour:
   m_ObjectHideFlags: 0

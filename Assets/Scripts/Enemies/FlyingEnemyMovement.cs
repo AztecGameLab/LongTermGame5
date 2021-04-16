@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMODUnity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class FlyingEnemyMovement : Entity
 {
     PlatformerController player;
+    [EventRef] public string shotSound = "FlyingEnemyShot";
+    [EventRef] public string deathSound = "FlyingEnemyDeath";
     [SerializeField] private float speed;
     [SerializeField] private float amountToMove;
     [SerializeField] private float FireRate = 1f;
@@ -21,6 +24,7 @@ public class FlyingEnemyMovement : Entity
     bool CanMove = true;
     float rotate = 180;
     private SpriteRenderer _spriteRenderer;
+
     
     Rigidbody2D rb;
 
@@ -50,8 +54,30 @@ public class FlyingEnemyMovement : Entity
             {
                 StartCoroutine(Dash(lookDirection));
             }
+            else
+            {
+                if (!hasDashed)
+                {
+                    MoveTowrdsPlayer();
+                }
+               
+            }
             
         }
+        
+    }
+
+    private void MoveTowrdsPlayer()
+    {
+        var pPos = player.transform.position;
+        var ePos = transform.position;
+        if(Mathf.Abs(pPos.x- ePos.x) > playerDistanceBeforeDashing + 1f)
+        {
+            pPos.Normalize();
+            rb.MovePosition(ePos - (pPos * speed * Time.deltaTime));
+        }
+        
+
     }
 
     private void PeacefulPattern()
@@ -80,7 +106,7 @@ public class FlyingEnemyMovement : Entity
 
             if (dashCoolDown != tempdashCoolDown)
             {
-                
+                _animator.SetTrigger("Dash");
                 hasDashed = true;
                 // only dash 10% higher
                 dir.y *= .1f;
@@ -140,6 +166,8 @@ public class FlyingEnemyMovement : Entity
     {
         while (IsAttacking)
         {
+            _animator.SetTrigger("Shoting");
+            RuntimeManager.PlayOneShot(shotSound);
             LookatPlayer();
             Instantiate(Projectile, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
             yield return new WaitForSeconds(FireRate);
@@ -169,6 +197,7 @@ public class FlyingEnemyMovement : Entity
     public override void TakeDamage(float baseDamage)
     {
         _animator.SetTrigger("Damaged");
+        RuntimeManager.PlayOneShot(deathSound);
         base.TakeDamage(baseDamage);
     }
 
