@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using EasyButtons;
+using UnityEngine.InputSystem;
 
 public class DialogSystem : MonoBehaviour
 {
@@ -34,8 +35,12 @@ public class DialogSystem : MonoBehaviour
             NextDialog();
     }
 
-    private void StartDialog()
+    public void StartDialog()
     {
+        if (_currentDialogIndex >= 0)
+            return;
+        
+        ListenForInput();
         transform.GetChild(0).gameObject.SetActive(true);
         _textComponent = GetComponentInChildren<TMP_Text>();
 
@@ -59,9 +64,12 @@ public class DialogSystem : MonoBehaviour
             CloseDialog();
     }
 
+    public Action finishedDialog;
     private void CloseDialog()
     {
+        StopListenForInput();
         _currentDialogIndex = -1;
+        finishedDialog?.Invoke();
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -89,5 +97,23 @@ public class DialogSystem : MonoBehaviour
         _secondsPerChar = _defaultSecondsPerChar;
         _textRevealing = false;
         _currentRevealString = null;
+    }
+
+
+
+    void ListenForInput()
+    {
+        PlatformerController.instance.Inputs.Player.Get().FindAction("Interact", true).performed += Performed;
+    }
+
+    void StopListenForInput()
+    {
+        PlatformerController.instance.Inputs.Player.Get().FindAction("Interact", true).performed -= Performed;
+    }
+    
+
+    void Performed(InputAction.CallbackContext context)
+    {
+        InteractDialog();
     }
 }
