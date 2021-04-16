@@ -7,6 +7,12 @@ public class ManaSystem : FillSystem
 {
     private static ManaSystem _instance;
 
+    public override void Start()
+    {
+        base.Start();
+        FillBarUI = GameObject.FindObjectOfType<FillBarUI>();
+    }
+
     public static ManaSystem instance
     {
         get
