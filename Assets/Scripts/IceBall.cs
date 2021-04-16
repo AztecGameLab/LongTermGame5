@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class IceBall : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag != "Player") //incase the spawn position of the ice ball overlaps with the player
-        {
-            Vector3 freeze = collision.gameObject.transform.position; // gets the position of the object it hit
-            collision.gameObject.transform.position = freeze; // "freezes" the gameobject in the position they were hit
 
-            Destroy(gameObject);
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+        if (collision.gameObject.tag != "Player") { 
+        collision.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+        Destroy(gameObject);
+        StartCoroutine(Unfreeze(collision));
+       // collision.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;  
         }
+    }
+     IEnumerator Unfreeze(Collision2D collision)
+    {
+     // collision.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        Debug.Log("Made it");
+        yield return new WaitForSeconds(5.0f);
+     collision.gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        Debug.Log("unfreeze");
+
     }
 }
