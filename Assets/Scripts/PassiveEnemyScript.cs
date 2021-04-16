@@ -6,11 +6,10 @@ using UnityEngine;
 
 public class PassiveEnemyScript : Entity
 {
-    [SerializeField] Transform player;
-    [SerializeField] private float moveSpeed = 1;
+    Transform player;
+    [SerializeField] private float moveSpeed = 1; //tehee hardcoded values
     [SerializeField] private float rushDistance = 2;
-    //public static bool passive = true; //use this when making all enemies aggressive
-    [SerializeField] bool passive; //used for testing
+    public static bool passive = true;
     bool onCooldown = false;
     Vector3 difference;
     bool inRange;
@@ -21,7 +20,9 @@ public class PassiveEnemyScript : Entity
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        player = GetComponent<Transform>();
         Look(); //looks at player from a stationary POV
+        changePassive();
     }
 
     // Update is called once per frame
@@ -41,9 +42,9 @@ public class PassiveEnemyScript : Entity
         }
     }
 
-    public void changePasive() //change the passive based on the player's skill unlocks        /\/\/\/\TODO/\/\/\/\
+    public void changePassive() //change the passive based on the player's skill unlock
     {
-        //if([skill unlocked]){ passive = false;}
+        passive = false;
     }
 
     public float getDistance()
@@ -120,7 +121,7 @@ public class PassiveEnemyScript : Entity
     {
         if (!passive)
         {
-            float temp = PlatformerController.instance.parameters.KnockBackTime;
+            float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;
 
             PlatformerController.instance.TakeDamage(15, difference*knockForce);
@@ -157,7 +158,7 @@ public class PassiveEnemyScript : Entity
             {
                 PlatformerController.instance.lockControls = true;
                 Debug.Log("player frozen");
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(3);  
                 yield return StartCoroutine("cooldown");
 
             }
