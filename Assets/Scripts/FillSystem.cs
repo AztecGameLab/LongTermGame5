@@ -12,9 +12,8 @@ public class FillSystem : MonoBehaviour
     /* When the game starts set the currentMana to the max it can be
      * 
      */
-    void Start()
+    public virtual void Start()
     {
-        FillBarUI = gameObject.GetComponent<FillBarUI>();
         currentFill = maxFill;
     }
 
