@@ -17,11 +17,12 @@ public class LocalizedWind : MonoBehaviour
         Rigidbody2D objectRigid = col.gameObject.GetComponent<Rigidbody2D>();
         if (objectRigid != null)
         {
-            RigidbodiesinWindZoneList.Add(objectRigid);
+          
             if (col.gameObject.tag == "Player")
             {
                 WindBecomesAggressive();
             }
+            RigidbodiesinWindZoneList.Add(objectRigid);
         }
             
     }
@@ -32,11 +33,12 @@ public class LocalizedWind : MonoBehaviour
         Rigidbody2D objectRigid = col.gameObject.GetComponent<Rigidbody2D>();
         if (objectRigid != null)
         {
-            RigidbodiesinWindZoneList.Remove(objectRigid);
+            
             if(col.gameObject.tag == "Player")
             {
                 WindBecomesPassive();
             }
+            RigidbodiesinWindZoneList.Remove(objectRigid);
         }
     }
 
