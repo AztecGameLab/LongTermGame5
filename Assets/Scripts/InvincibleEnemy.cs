@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using System;
 
@@ -7,6 +8,7 @@ public class InvincibleEnemy : Entity
 {
     Rigidbody2D enemyRigidBody2D;
     Transform enemyTransform;
+    [EventRef] public string JumpSound;
     public float EnemySpeed = 70;
     public float Strength = 5;
     public int Radius = 5;
@@ -87,6 +89,7 @@ public class InvincibleEnemy : Entity
                     // animator.SetFloat("VelocityX", enemyRigidBody2D.velocity.x);
                     // animator.SetFloat("VelocityY", enemyRigidBody2D.velocity.y);
                     animator.SetTrigger("Jump");
+                    RuntimeManager.PlayOneShot(JumpSound);
                 }
             }
 
