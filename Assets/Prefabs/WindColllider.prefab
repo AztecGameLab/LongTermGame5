@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6171068777228148783}
   - component: {fileID: 6171068777228148780}
   - component: {fileID: 6171068777228148781}
+  - component: {fileID: -2170151030980705718}
   m_Layer: 0
   m_Name: WindColllider
   m_TagString: Untagged
@@ -70,5 +71,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 192a394ef491ed84aa8e80bf68d2420b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windDirection: {x: 1, y: 2, z: 0}
+  windDirection: {x: 1, y: 2}
   windStrength: 10
+  windEmitter: {fileID: 0}
+--- !u!114 &-2170151030980705718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6171068777228148770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
