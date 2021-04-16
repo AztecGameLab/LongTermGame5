@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1831558400415614738, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
+      propertyPath: weapons.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1831558400415614749, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
       propertyPath: m_Name
-      value: TempPlayer
+      value: DefaultPlayer_V
       objectReference: {fileID: 0}
     - target: {fileID: 1831558400415614751, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
       propertyPath: m_RootOrder
@@ -55,5 +59,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1264670024628744136, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
+    - {fileID: 7703436898061140919, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
+    - {fileID: -4000552939673573262, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
