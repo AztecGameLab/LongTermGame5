@@ -121,7 +121,7 @@ public class BulkyEnemy : Entity
                 isAttacking = true;
                 enemyRigidBody2D.velocity = Vector2.zero;
                 //BulkyAttack(PlayerIsLeft);
-                print("Attack"); //Not quite sure how we will be implementing attack?
+                //print("Attack"); //Not quite sure how we will be implementing attack?
             }
             else if (!isAttacking)
             {
