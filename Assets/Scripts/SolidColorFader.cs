@@ -15,6 +15,9 @@ public class SolidColorFader : Fader
     private void Awake()
     {
         canvasGroup.blocksRaycasts = false;
+
+        TransitionStartEvent += OnTransitionStart;
+        TransitionStopEvent += OnTransitionStop;
     }
 
     public void SetColor(Color color)
@@ -22,15 +25,13 @@ public class SolidColorFader : Fader
         image.color = color;
     }
 
-    protected override void OnTransitionStart(FadeType type)
+    private void OnTransitionStart(FadeType type)
     {
-        base.OnTransitionStart(type);
         canvasGroup.blocksRaycasts = true;
     }
 
-    protected override void OnTransitionStop(FadeType type)
+    private void OnTransitionStop(FadeType type)
     {
-        base.OnTransitionStop(type);
         canvasGroup.blocksRaycasts = false;
     }
 }

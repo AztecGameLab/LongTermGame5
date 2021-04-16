@@ -90,7 +90,7 @@
             <key>width</key>
             <int>8192</int>
             <key>height</key>
-            <int>2048</int>
+            <int>8192</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -106,7 +106,7 @@
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
-            <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
+            <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
             <key>forceSquared</key>
             <false/>
             <key>maxRects</key>
@@ -184,6 +184,11 @@
             <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0000.png</key>
             <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0001.png</key>
             <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0002.png</key>
+            <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0003.png</key>
+            <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0004.png</key>
+            <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0005.png</key>
+            <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0006.png</key>
+            <key type="filename">D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0007.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -204,6 +209,11 @@
             <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0000.png</filename>
             <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0001.png</filename>
             <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0002.png</filename>
+            <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0003.png</filename>
+            <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0004.png</filename>
+            <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0005.png</filename>
+            <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0006.png</filename>
+            <filename>D:/Desktop/Kappi/Kappi-jump-20210404T055238Z-001/Kappi-jump/Kappi-Jump_0007.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
