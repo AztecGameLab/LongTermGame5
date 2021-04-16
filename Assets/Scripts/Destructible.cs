@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using FMODUnity;
 using UnityEngine;
+using UnityEngine.Events;
 
 /***********************************************************
  * Script will change an object's texture to appear damage
@@ -9,59 +9,87 @@ using UnityEngine;
  ***********************************************************/
 public class Destructible : Entity
 {
-    public Sprite[] sprites; //The different textures go into this array
-    private float[] healthPercents;
-    private float maxHealth; //Constant value; an objects maximum health
-    private SpriteRenderer spriteRenderer; 
+    [Header("Destructible Settings")]
+    [SerializeField] private Sprite[] sprites; //The different textures go into this array
+    [SerializeField] private bool destroyOnEnd = true;
+    [SerializeField] private EntityData entityData;
+    
+    [Header("Destructible Sounds")]
+    [SerializeField, EventRef] private string hitDamageSound;
+    [SerializeField, EventRef] private string hitBreakSound;
+    
+    [Header("Destructible Events")]
+    [SerializeField] private UnityEvent<float> damageEvent; // Passes the current percent damage, as a 01 float
+    [SerializeField] private UnityEvent breakEvent;
+    
+    private float[] _healthPercents;
+    private SpriteRenderer _spriteRenderer; 
+    
+    public float CurrentPercentHealth => health / entityData.MaxHealth;
 
-    //Private method determines the cutoffs on percent the ranges based on the number of Sprites
-    private float[] CreatePercents(int numSprites)
+    private void Start()
     {
-        float[] HealthPercents = new float[numSprites];
-
-        HealthPercents[0] = 100;
-        if (numSprites > 1)
+        if (health > entityData.MaxHealth)
+            Debug.LogWarning($"Tried to set health ({health}) greater than the MaxHealth ({entityData.MaxHealth}) for {entityData.name}");
+        
+        health = Mathf.Clamp(health, 0, entityData.MaxHealth);
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _spriteRenderer.sprite = sprites[0];
+        _healthPercents = CreatePercents(sprites.Length);
+    }
+    
+    // Determines the cutoffs on percent the ranges based on the number of Sprites
+    private static float[] CreatePercents(int numSprites)
+    {
+        float[] healthPercents = new float[numSprites];
+        float frequencyOfChange = 1 / ((float) numSprites - 1);
+        
+        for (int i = 0; i < healthPercents.Length; i++)
+            healthPercents[i] = 1 - i * frequencyOfChange;
+        
+        return healthPercents;
+    }
+    
+    public override void TakeDamage(float damage)
+    {
+        damageEvent.Invoke(CurrentPercentHealth);
+        
+        if (health <= 2 && !destroyOnEnd)
         {
-            float distance = 100 / (numSprites - 1); //Constant value; Distance from one cutoff to another
-            for (int i = 1; i < numSprites; ++i)
-            {
-                HealthPercents[i] = HealthPercents[i - 1] - distance;
-            }
+            if (TryGetComponent<Collider2D>(out var collider2d))
+                collider2d.enabled = false;
+            
+            RuntimeManager.PlayOneShotAttached(hitBreakSound, gameObject);
+            health = 1;
+            ChangeTextures();
+            return;
         }
-        return HealthPercents;
+        
+        base.TakeDamage(damage);
+        RuntimeManager.PlayOneShotAttached(hitDamageSound, gameObject);
+        ChangeTextures();
     }
 
-    //Private method which will gauge what texture to display when a health percentage is within a desired range
+    // Gauges what texture to display when a health percentage is within a desired range
     private void ChangeTextures()
     {
-        float currPercent;
-
-        for (int i = 0; i < healthPercents.Length - 1; ++i)
+        for (int i = 0; i < _healthPercents.Length - 1; ++i)
         {
-            currPercent = base.health / maxHealth * 100;
-
-            if (currPercent < healthPercents[i] & currPercent >= healthPercents[i + 1])
+            if (CurrentPercentHealth < _healthPercents[i] && CurrentPercentHealth >= _healthPercents[i + 1])
             {
-                spriteRenderer.sprite = sprites[i + 1];
+                _spriteRenderer.sprite = sprites[i + 1];
                 break;
             }
         }
     }
-    
-    //Overrides TakeDamage from entity class; will also prompt a change of textures when object is damaged
-    public override void TakeDamage(float baseDamage)
-    {
-        base.TakeDamage(baseDamage);
-        ChangeTextures();
-    }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnDeath()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        healthPercents = CreatePercents(sprites.Length);
-        spriteRenderer.sprite = sprites[0];
-        maxHealth = base.health;
+        if (destroyOnEnd)
+        {
+            breakEvent.Invoke();
+            RuntimeManager.PlayOneShotAttached(hitBreakSound, gameObject);
+            base.OnDeath();
+        }
     }
-
 }
