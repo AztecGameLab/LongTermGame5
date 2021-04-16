@@ -15,7 +15,9 @@ public class FreezeProjectile : ProjectileWeapon
     private float upForce;
     [SerializeField]
     private float gravityForce;
-    private float chargeTime;
+    [SerializeField]
+    public float damage;
+    public float chargeTime;
     private bool isCharging;
     public Vector2 position;
     public Vector2 radius;
@@ -29,8 +31,8 @@ public class FreezeProjectile : ProjectileWeapon
         chargeTime = 0f;
         iceBallSpeed = 10 + IceBallSize;
         
-        newIceBall.GetComponent<Rigidbody2D>().gravityScale = gravityForce;
-        newIceBall.GetComponent<Rigidbody2D>().velocity = iceBallSpeed*direction + (Vector2)(newIceBall.transform.up * upForce);
+       newIceBall.GetComponent<Rigidbody2D>().gravityScale = gravityForce;
+        newIceBall.GetComponent<Rigidbody2D>().velocity = iceBallSpeed * direction + (Vector2)(newIceBall.transform.up * upForce);
         newIceBall.GetComponent<Collider2D>().enabled = true;
         
         IceBallSize = 3f;
@@ -40,6 +42,7 @@ public class FreezeProjectile : ProjectileWeapon
     public void Charge(Vector2 direction)
     {
         chargeTime = 0f;
+        damage = 0;
         iceBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction * 1.5f);//
         iceBall.transform.position *= PlatformerController.instance.coll.size;
         newIceBall = Instantiate(iceBall, iceBall.transform.position, Quaternion.identity);
@@ -51,7 +54,7 @@ public class FreezeProjectile : ProjectileWeapon
     override
     public void OnAimChange(Vector2 direction)
     {
-        newIceBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction * 1.5f);
+        newIceBall.transform.position = PlatformerController.instance.transform.position+ ((Vector3)direction * 1.5f);
         newIceBall.transform.position *= PlatformerController.instance.coll.size;
     }
    private IEnumerator IceBallPower()
@@ -61,6 +64,7 @@ public class FreezeProjectile : ProjectileWeapon
             chargeTime += Time.fixedDeltaTime;
             IceBallSize = 3 + chargeTime;
             newIceBall.transform.localScale = new Vector3(IceBallSize, IceBallSize, IceBallSize);
+            damage += 0.5f;
             yield return null;
         }
         yield return new WaitForSeconds(0f);
