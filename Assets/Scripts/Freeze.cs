@@ -9,9 +9,9 @@ public class Freeze : MonoBehaviour
     {
         Collider2D collider = GetComponent<Collider2D>();
         Debug.Log("Made it");
-        collider.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+        collider.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(5.0f);
-        collider.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        collider.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         Debug.Log("unfreeze");
         Destroy(this);
     }
