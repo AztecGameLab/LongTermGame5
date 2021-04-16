@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -402,10 +403,9 @@ public class PlatformerController : Entity
 
     public override void OnDeath()
     {
-        //We don't want to destroy ourselves on death lmao
-
-        //Someone else implement this
-        return;
+        // play death animation        
+                
+        LevelUtil.Get().LoadSavedGame();
     }
 
     #endregion
