@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : Singleton<LevelController>
 {
-    public event Action<Level> ActiveLevelChanged;
+    public event Action<Level, Level> ActiveLevelChanged;
     public event Action<Level> BeforeStartLoad;
     public event Action<Level> BeforeStartUnload;
     
@@ -66,10 +66,11 @@ public class LevelController : Singleton<LevelController>
         if (_activeLevels.Contains(level) || level.isPersistent) 
             return;
 
+        var oldActiveLevel = ActiveLevel;
         _activeLevels.AddFirst(level);
         
         if (ActiveLevel == level)
-            ActiveLevelChanged?.Invoke(ActiveLevel);
+            ActiveLevelChanged?.Invoke(oldActiveLevel, ActiveLevel);
     }
     
     private void RemoveActiveLevel(Level level)
@@ -81,7 +82,7 @@ public class LevelController : Singleton<LevelController>
         _activeLevels.Remove(level);
         
         if (oldActiveLevel != ActiveLevel)
-            ActiveLevelChanged?.Invoke(ActiveLevel);
+            ActiveLevelChanged?.Invoke(oldActiveLevel, ActiveLevel);
     }
 
     private void SetupLoadedLevels()
@@ -130,13 +131,13 @@ public class LevelController : Singleton<LevelController>
         _loadingScenes.Remove(scene);
     }
 
-    private void OnActiveChanged(Level level)
+    private void OnActiveChanged(Level oldLevel, Level newLevel)
     {
-        if (level == null)
+        if (newLevel == null)
             return;
         
         if (SceneManager.GetSceneByName(ActiveLevel.sceneName).isLoaded)
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(level.sceneName));
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(newLevel.sceneName));
     }
 
     public void LoadLevel(string sceneName)
