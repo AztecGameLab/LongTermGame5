@@ -19,18 +19,18 @@ MonoBehaviour:
   KnockBackIntensity: 5
   KnockBackTime: 1
   CoyoteTime: 0.2
-  JumpHeight: 1
+  JumpHeight: 100
   JumpBufferTime: 0.2
-  JumpCount: 1
-  JumpSpeed: 5
+  JumpCount: 2
+  JumpSpeed: 16
   MaxFallSpeed: 2
-  MaxRunSpeed: 4
+  MaxRunSpeed: 8
   MaxGroundAngle: 45
   AccelerationMultiplier: 8
   BasicBaseDamage: 1
-  BasicAttackDelay: 0.25
-  BasicAttackForgiveness: 0.25
-  BasicAttackCooldown: 0.25
-  BasicAttackSize: 0.5
+  BasicAttackDelay: 0.05
+  BasicAttackForgiveness: 0.1
+  BasicAttackCooldown: 0.3
+  BasicAttackSize: 0.75
   BasicAttackRange: 3
   BulletTimeSlowDown: 0.1

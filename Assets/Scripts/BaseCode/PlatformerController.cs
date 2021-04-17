@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ public class PlatformerController : Entity
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
+
+    public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
     SpriteRenderer render;
 
@@ -36,6 +39,7 @@ public class PlatformerController : Entity
             rigid.sharedMaterial.friction = 0;
             rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rigid.interpolation = RigidbodyInterpolation2D.Extrapolate;
+            rigid.gravityScale = 3;
             rigid.freezeRotation = true;
         }
 
@@ -78,14 +82,15 @@ public class PlatformerController : Entity
 
     [SerializeField] float error; //For testing purposes
     void FixedUpdate(){
-        //Going with a PID loop with only P lol
+        
         if(lockControls || isAiming){ 
             rigid.drag = 2;
-            return; 
+            return;
         } else{
             rigid.drag = 0;
         }
-
+        
+        //Going with a PID loop with only P lol
         float maxForce = parameters.AccelerationMultiplier * 2.5f;
         error = Mathf.Clamp((goalVelocity - rigid.velocity.x) * parameters.AccelerationMultiplier, -maxForce, maxForce);
         
@@ -106,7 +111,9 @@ public class PlatformerController : Entity
         //TODO :: Implement a fast fall function
 
         //handle the projectile aiming
-        ProjectileAimHandle(primaryStick);
+        if(primaryStick.sqrMagnitude > Vector2.kEpsilon)
+            aimDirection = primaryStick.normalized;
+        ProjectileAimHandle(aimDirection);
     }
 
     #region Jumping
@@ -214,13 +221,23 @@ public class PlatformerController : Entity
 
 
         if(context.performed){
+            weapons[currWeapon].Cancel();
+            weapons[currWeapon].Charge(aimDirection);
+            AimingState(true);
+        }else if(context.canceled && isAiming){
+            AimingState(false);
+            weapons[currWeapon].Fire(aimDirection);
+        }
+    }
+
+    public void AimingState(bool state){
+        isAiming = state;
+        if(state){
             Time.timeScale = parameters.BulletTimeSlowDown;
-            isAiming = true;
-            weapons[currWeapon].Charge(primaryStick.normalized);
-        }else if(context.canceled){
+            Time.fixedDeltaTime = .02f * parameters.BulletTimeSlowDown;
+        } else {
             Time.timeScale = 1; //Return to regular timescale
-            isAiming = false;
-            weapons[currWeapon].Fire(primaryStick.normalized);
+            Time.fixedDeltaTime = .02f; //This is default physics time
         }
     }
 
@@ -229,7 +246,21 @@ public class PlatformerController : Entity
             return;
         if(weapons == null){ return; }
         if(weapons.Count <= 0){ return; }
-        weapons[currWeapon].OnAimChange(primaryStick);
+        weapons[currWeapon].OnAimChange(aimDirection);
+    }
+
+    public void ProjectileCancelHandle(InputAction.CallbackContext context){
+        if(context.performed){
+            CancelProjectile();
+        }
+    }
+
+    void CancelProjectile(){
+        if(weapons == null){ return; }
+        if(weapons.Count <= 0){ return; }
+
+        weapons[currWeapon].Cancel();
+        AimingState(false);
     }
 
     #endregion
@@ -334,28 +365,26 @@ public class PlatformerController : Entity
 
     #endregion
 
-
     #region EntityStuff
     bool canTakeDamage = true;
     public override void TakeDamage(float baseDamage, Vector2 direction){
         if(!canTakeDamage)
             return;
-        //TODO :: APPLY KNOCKBACK
         StartCoroutine(KnockBack(direction));
-        StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
-        //NOTE :: NOT NORMALIZED
-        base.TakeDamage(baseDamage);
+        TakeDamage(baseDamage);
     }
 
     //Huh, we have no direction to figure out knockback
     //Lets just use a random direction
     public override void TakeDamage(float baseDamage){
-        TakeDamage(baseDamage, Random.insideUnitCircle);
+        CancelProjectile();
+        StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
+        base.TakeDamage(baseDamage);
     }
 
     public IEnumerator KnockBack(Vector2 direction){
         lockControls = true;
-        rigid.velocity = (direction) * parameters.KnockBackIntensity;
+        KnockBack(direction, parameters.KnockBackIntensity);
         yield return new WaitForSeconds(parameters.KnockBackTime);
         lockControls = false;
     }
