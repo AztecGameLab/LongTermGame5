@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windDirection: {x: 1, y: 2}
   windStrength: 10
-  windEmitter: {fileID: 0}
+  windEmitter: {fileID: -2170151030980705718}
 --- !u!114 &-2170151030980705718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,13 +87,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: 
-  PlayEvent: 0
-  StopEvent: 0
+  Event: event:/Environment/Wind Patches
+  PlayEvent: 11
+  StopEvent: 12
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
   Params: []
   OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

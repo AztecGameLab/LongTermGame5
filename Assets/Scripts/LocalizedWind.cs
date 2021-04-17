@@ -18,7 +18,7 @@ public class LocalizedWind : MonoBehaviour
         if (objectRigid != null)
         {
           
-            if (col.gameObject.tag == "Player")
+            if (col.gameObject.CompareTag("Player"))
             {
                 WindBecomesAggressive();
             }
@@ -34,7 +34,7 @@ public class LocalizedWind : MonoBehaviour
         if (objectRigid != null)
         {
             
-            if(col.gameObject.tag == "Player")
+            if(col.gameObject.CompareTag("Player"))
             {
                 WindBecomesPassive();
             }
@@ -54,13 +54,13 @@ public class LocalizedWind : MonoBehaviour
 
     private void WindBecomesPassive()
     {
-        // This will cause the wind SFX to sound calm
+        
         windEmitter.SetParameter("Wind State", 0);
     }
 
     private void WindBecomesAggressive()
     {
-        // This will cause the wind SFX to sound more aggressive
+        
         windEmitter.SetParameter("Wind State", 1);
     }
 }
