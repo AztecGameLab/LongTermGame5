@@ -5,9 +5,9 @@ using UnityEngine;
 public class GroundPound : MonoBehaviour
 {
 
-    public float dropForce =10f;
-    public float stopTime = 0.5f;
-    public float gravityScale = 1f;
+    public float dropForce =20f;
+    public float stopTime = 0.2f;
+    public float gravityScale = 3f;
     private PlatformerController player;
     private Rigidbody2D body;
     private bool doGroundPound = false;

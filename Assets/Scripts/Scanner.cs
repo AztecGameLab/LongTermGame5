@@ -9,15 +9,15 @@ public static class Scanner
 {
     private static readonly Collider2D[] NearbyColliderBuffer = new Collider2D[100];
     
-    public static bool HasObjectsInScene<T>(string sceneName, out T[] result, Predicate<GameObject> shouldSelect = null) 
-        where T : Component
+    public static bool HasObjectsInScene<T>
+        (string sceneName, out T[] result, Predicate<T> shouldSelect = null)
     {
         Scene scene = SceneManager.GetSceneByName(sceneName);
         var rootGameObjects = scene.GetRootGameObjects();
         var resultList = 
             from rootObject in rootGameObjects 
             from gameObjectChild in rootObject.GetComponentsInChildren<T>() 
-            where shouldSelect == null || shouldSelect(gameObjectChild.gameObject) 
+            where shouldSelect == null || shouldSelect(gameObjectChild) 
             select gameObjectChild;
 
         result = resultList.ToArray();
@@ -25,18 +25,21 @@ public static class Scanner
         return result.Length > 0;
     }
 
-    public static bool HasObjectsInScene<T>(out T[] result, Predicate<GameObject> shouldSelect = null)
-        where T : Component
+    public static bool HasObjectsInScene<T>(out T[] result, Predicate<T> shouldSelect = null)
     {
         var sceneName = SceneManager.GetActiveScene().name;
         return HasObjectsInScene(sceneName, out result, shouldSelect);
     }
     
-    public static T GetClosestObject<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
+    public static T GetClosestObject<T>(Vector2 origin, float range = 10)
     {
         int resultSize = PopulateColliderBuffer(range, origin);
         
         Collider2D closest = FindFirstColliderWithComponent<T>(NearbyColliderBuffer, resultSize);
+
+        if (closest == null)
+            return default;
+        
         float closestDistance = (origin - (Vector2) closest.bounds.center).sqrMagnitude;
         
         for (int i = 0; i < resultSize; i++)
@@ -68,7 +71,7 @@ public static class Scanner
     }
     
     private static Collider2D FindFirstColliderWithComponent<T>
-        (Collider2D[] arrayToSearch, int elementsToSearch) where T : MonoBehaviour
+        (Collider2D[] arrayToSearch, int elementsToSearch)
     {
         for (int i = 0; i < elementsToSearch; i++)
         {
@@ -79,7 +82,7 @@ public static class Scanner
         return null;
     }
     
-    public static T[] GetObjectsInRange<T>(Vector2 origin, float range = 10) where T : MonoBehaviour
+    public static T[] GetObjectsInRange<T>(Vector2 origin, float range = 10)
     {
         var resultSize = PopulateColliderBuffer(range, origin);
         var result = new List<T>();

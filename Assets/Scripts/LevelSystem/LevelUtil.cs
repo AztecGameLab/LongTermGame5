@@ -37,6 +37,7 @@ public class LevelUtil : Singleton<LevelUtil>
         _transitionController.FadeTo(Color.black, fadeTime);
         yield return new WaitForSeconds(fadeTime);
         
+        GC.Collect();
         _levelController.UnloadAll();
         _levelController.LoadLevel(level);
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == level.sceneName);
