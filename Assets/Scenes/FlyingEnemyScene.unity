@@ -483,26 +483,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4579136359184050208, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -5366474749321288097, guid: 20769c9927d181342a4079ab56196c6d, type: 3}
-    - target: {fileID: 4579136359184050210, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
-      propertyPath: dashtime
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4579136359184050210, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
-      propertyPath: dashSpeed
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 4579136359184050210, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
-      propertyPath: dashCoolDown
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4579136359184050210, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
-      propertyPath: playerDistanceBeforeDashing
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4579136359184050211, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -550,10 +530,6 @@ PrefabInstance:
     - target: {fileID: 4579136359184050212, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
       propertyPath: m_Name
       value: Flying Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 4579136359184050215, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
-      propertyPath: m_Constraints
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 944129a560d887d4d8bf2a37b673cb37, type: 3}
