@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using FMODUnity;
 public class TriggeredTorch : MonoBehaviour
 {
- 
+    [EventRef] public string A = "Default";
    [SerializeField]
     private GameObject Light;
  
@@ -34,6 +34,10 @@ public class TriggeredTorch : MonoBehaviour
         if (collision.gameObject.tag == "Fireball")      //checking that the game object that collides is the Fireball
         {
             Light.SetActive(true);                       // turning on the torch when the fireball hits it
+            if(A != "Default")
+            {
+                RuntimeManager.PlayOneShot(A);
+            }
             this.gameObject.GetComponent<SpriteRenderer>().sprite = onTorch;   //switching the sprite 
         }
 
