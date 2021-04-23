@@ -1476,6 +1476,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5213092276688977703, guid: dd2b1999ef2dac04a99180a113063b96, type: 3}
+      propertyPath: JumpSound
+      value: event:/Enemies/Fire Enemy/Fire Enemy Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 5213092276688977703, guid: dd2b1999ef2dac04a99180a113063b96, type: 3}
+      propertyPath: LandSound
+      value: event:/Enemies/Fire Enemy/Fire Enemy Land
+      objectReference: {fileID: 0}
     - target: {fileID: 5213092276688977705, guid: dd2b1999ef2dac04a99180a113063b96, type: 3}
       propertyPath: m_Name
       value: InvincibleEnemy
