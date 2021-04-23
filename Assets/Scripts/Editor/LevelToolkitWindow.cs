@@ -56,10 +56,20 @@ namespace Editor
             
             GenerateLevelButton();
             OpenScenesButton();
+            LoadPersistentSceneButton();
             
             GUILayout.EndHorizontal();
         }
-        
+
+        private static void LoadPersistentSceneButton()
+        {
+            if (GUILayout.Button("Persistent Scene"))
+            {
+                Debug.Log("Loading persistent scene!");
+                EditorUtil.EnsureSceneIsLoaded("Persistent");
+            }
+        }
+
         private static void LevelInformation()
         {
             PlayerSpawnInformation();
@@ -157,7 +167,7 @@ namespace Editor
         {
             if (IsValidLevel)
             {
-                if (GUILayout.Button("View Level In Inspector"))
+                if (GUILayout.Button("Open Level In Inspector"))
                 {
                     EditorUtility.FocusProjectWindow();
                     Selection.activeObject = ActiveLevel;
@@ -183,7 +193,7 @@ namespace Editor
 
         private static void OpenScenesButton()
         {
-            if (GUILayout.Button("Open Scenes Folder"))
+            if (GUILayout.Button("Scenes Folder"))
             {
                 EditorUtility.FocusProjectWindow();
                 var results = AssetDatabase.FindAssets("t:Object", new [] { "Assets/Scenes"});
