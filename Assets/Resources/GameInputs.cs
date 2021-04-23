@@ -83,7 +83,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""GroudPound"",
+                    ""name"": ""GroundPound"",
                     ""type"": ""Button"",
                     ""id"": ""103fc6e5-1af3-4ba4-b304-aa6d939c768a"",
                     ""expectedControlType"": ""Button"",
@@ -440,7 +440,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""GroudPound"",
+                    ""action"": ""GroundPound"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -451,7 +451,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""GroudPound"",
+                    ""action"": ""GroundPound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -462,7 +462,40 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""GroudPound"",
+                    ""action"": ""GroundPound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Down Attack"",
+                    ""id"": ""60e898c2-e7ba-40a3-9f06-5f105fdc2cf4"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GroundPound"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""fda02261-b2bc-45e6-af0c-483629db81ac"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""GroundPound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""55f712a8-95e0-46ed-933d-2daebfd51a46"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""GroundPound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -531,7 +564,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         m_Player_Bash = m_Player.FindAction("Bash", throwIfNotFound: true);
         m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_ManaHeal = m_Player.FindAction("ManaHeal", throwIfNotFound: true);
-        m_Player_GroudPound = m_Player.FindAction("GroudPound", throwIfNotFound: true);
+        m_Player_GroundPound = m_Player.FindAction("GroundPound", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -592,7 +625,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Bash;
     private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_ManaHeal;
-    private readonly InputAction m_Player_GroudPound;
+    private readonly InputAction m_Player_GroundPound;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -605,7 +638,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         public InputAction @Bash => m_Wrapper.m_Player_Bash;
         public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @ManaHeal => m_Wrapper.m_Player_ManaHeal;
-        public InputAction @GroudPound => m_Wrapper.m_Player_GroudPound;
+        public InputAction @GroundPound => m_Wrapper.m_Player_GroundPound;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -639,9 +672,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @ManaHeal.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnManaHeal;
                 @ManaHeal.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnManaHeal;
                 @ManaHeal.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnManaHeal;
-                @GroudPound.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroudPound;
-                @GroudPound.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroudPound;
-                @GroudPound.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroudPound;
+                @GroundPound.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroundPound;
+                @GroundPound.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroundPound;
+                @GroundPound.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroundPound;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -670,9 +703,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @ManaHeal.started += instance.OnManaHeal;
                 @ManaHeal.performed += instance.OnManaHeal;
                 @ManaHeal.canceled += instance.OnManaHeal;
-                @GroudPound.started += instance.OnGroudPound;
-                @GroudPound.performed += instance.OnGroudPound;
-                @GroudPound.canceled += instance.OnGroudPound;
+                @GroundPound.started += instance.OnGroundPound;
+                @GroundPound.performed += instance.OnGroundPound;
+                @GroundPound.canceled += instance.OnGroundPound;
             }
         }
     }
@@ -738,7 +771,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         void OnBash(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnManaHeal(InputAction.CallbackContext context);
-        void OnGroudPound(InputAction.CallbackContext context);
+        void OnGroundPound(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
