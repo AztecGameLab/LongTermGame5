@@ -33,6 +33,15 @@ public class Ricochet : ProjectileWeapon
         PlatformerController.instance.StartCoroutine(bulletUpdate());
     }
 
+    public override void Cancel()
+    {
+        if(currBullet != null){
+            Destroy(currBullet.gameObject, 0);
+            
+        }
+        PlatformerController.instance.StopCoroutine(bulletUpdate());
+    }
+
     public override void OnAimChange(Vector2 direction)
     {
         if (currBullet == null)

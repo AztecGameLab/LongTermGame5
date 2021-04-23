@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class BashAbility : Ability
 {
     protected override string InputName => "Bash";
-    public float bashDistance;
+    public float bashDistance = 20;
     
     protected override void Started(InputAction.CallbackContext context)
     {

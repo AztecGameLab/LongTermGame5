@@ -261,7 +261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dfbe0011f3b42e088816430e18d21c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeTime: 0.2
+  bashSound: Default
+  shakeIntensity: 1
   speedBoost: 10
   bashRange: 3
 --- !u!1001 &802710819
@@ -365,7 +366,7 @@ PrefabInstance:
       objectReference: {fileID: 6188471}
     - target: {fileID: 506775014149633602, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: orthographicSize
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3654648204269142249, guid: b0dc922b445264e4e9bdd4accf4ba731, type: 3}
       propertyPath: m_Name
@@ -537,6 +538,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 956867256}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1171086362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1171086364}
+  - component: {fileID: 1171086363}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1171086363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171086362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9f64ea3f00438d969fde398ec7dec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicEvent: event:/Temp/Temp Music Overworld
+  playOnAwake: 1
+  transitionTime: 1
+--- !u!4 &1171086364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171086362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1416579068
 GameObject:

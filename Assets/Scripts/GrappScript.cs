@@ -21,6 +21,11 @@ public class GrappScript : ProjectileWeapon
         
     }
 
+    public override void Cancel()
+    {
+        EndGrapple();
+    }
+
     public void EndGrapple()            
     {
 
@@ -41,9 +46,6 @@ public class GrappScript : ProjectileWeapon
   
 
             joint = PlatformerController.instance.gameObject.AddComponent<SpringJoint2D>();
-  
-
-             ;
 
             joint.enableCollision = true;
             joint.autoConfigureConnectedAnchor = false;                         //grapple settings
