@@ -2,27 +2,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Minimap : Singleton<Minimap>
 {
-    public CanvasGroup canvasGroup;
-    private Vector2 center = new Vector2(150, 150);
-
-    private static Texture2D backgroundTexture;
-    private static GUIStyle textureStyle;
+    [SerializeField]
+    Image air;
+    [SerializeField]
+    Image bog;
+    [SerializeField]
+    Image lava;
+    [SerializeField]
+    Image water;
+    [SerializeField]
+    Image boss;
+    public enum Areas {Air, Lava, Bog, Water, Boss }
 
     // Start is called before the first frame update
     void Start()
     {
         getRooms();
-        backgroundTexture = Texture2D.whiteTexture;
-        textureStyle = new GUIStyle { normal = new GUIStyleState { background = backgroundTexture } };
+    }
+
+    public void enableArea(Areas area)
+    {
+        switch (area)
+        {
+            case Areas.Air:
+                air.gameObject.SetActive(true);
+                break;
+            case Areas.Water:
+                water.gameObject.SetActive(true);
+                break;
+            case Areas.Lava:
+                lava.gameObject.SetActive(true);
+                break;
+            case Areas.Bog:
+                bog.gameObject.SetActive(true);
+                break;
+            case Areas.Boss:
+                boss.gameObject.SetActive(true);
+                break;
+        }
     }
 
     private void getRooms()
     {
-        GameObject[] boundingBoxes = GameObject.FindGameObjectsWithTag("BoundingBox");
-        
+        enableArea(Areas.Air);
+        enableArea(Areas.Lava);
+
         //TODO: Get rooms from bounding boxes
     }
 
