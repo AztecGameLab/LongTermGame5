@@ -31,8 +31,6 @@ public class GroundPound : Ability
     //if the player collides with something, then the ground pound stops
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(doingGroundPound)
-            print(other.contacts[0].normal);
         if (other.contacts[0].normal.y >= 0.5 && doingGroundPound)
         {
             CompleteGroundPound();

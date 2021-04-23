@@ -74,10 +74,9 @@ public class PlatformerController : Entity
         //anim.SetFloat("HorizontalSpeed", rigid.velocity.x);
         //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
-        print(Mathf.Abs(rigid.velocity.x));
         anim.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
         
-        if(Mathf.Abs(rigid.velocity.x) > 0){
+        if(Mathf.Abs(rigid.velocity.x) > 0.25f){
             render.flipX = !(rigid.velocity.x > 0);
             facingDirection = render.flipX ? -1 : 1;
         }
