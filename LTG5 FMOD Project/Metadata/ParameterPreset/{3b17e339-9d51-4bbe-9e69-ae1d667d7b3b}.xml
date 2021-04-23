@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="ParameterPreset" id="{3b17e339-9d51-4bbe-9e69-ae1d667d7b3b}">
+		<property name="name">
+			<value>Double Jump</value>
+		</property>
+		<relationship name="folder">
+			<destination>{b15d2ee8-06db-4a56-ad46-2e28156e5002}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{3a22f826-f29f-41fb-be46-158554d7eb15}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{3a22f826-f29f-41fb-be46-158554d7eb15}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Woosh</value>
+			<value>Land</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
