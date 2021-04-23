@@ -15,14 +15,15 @@ public class PassiveEnemyScript : Entity
     bool inRange;
     float rushSpeed;
     Rigidbody2D rb2d;
+    private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        _animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
-        player = GetComponent<Transform>();
+        player = PlatformerController.instance.transform;
         Look(); //looks at player from a stationary POV
-        changePassive();
     }
 
     // Update is called once per frame
@@ -34,7 +35,10 @@ public class PassiveEnemyScript : Entity
         //check if passive
         if (passive == false)
         {
-            ChasePlayer();
+            if(Vector2.Distance(player.position, transform.position) < 15)
+                ChasePlayer();
+            else
+                _animator.SetBool("walking", false);
         }
         else
         {
@@ -42,7 +46,8 @@ public class PassiveEnemyScript : Entity
         }
     }
 
-    public void changePassive() //change the passive based on the player's skill unlock
+    [EasyButtons.Button]
+    public static void changePassive() //change the passive based on the player's skill unlock
     {
         passive = false;
     }
@@ -55,6 +60,7 @@ public class PassiveEnemyScript : Entity
 
     private void ChasePlayer()
     {
+        _animator.SetBool("walking", true);
 
         if (transform.position.x < player.position.x)
         {
@@ -121,6 +127,7 @@ public class PassiveEnemyScript : Entity
     {
         if (!passive)
         {
+            _animator.Play("slash");
             float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;
 
@@ -137,10 +144,15 @@ public class PassiveEnemyScript : Entity
         {
             difference = (col.transform.position - transform.position).normalized;
 
-            Attack();
             freezePlayer();
 
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.GetComponent<PlatformerController>())
+            Attack();
     }
 
     //freezes player for (x) seconds when within range
@@ -158,7 +170,7 @@ public class PassiveEnemyScript : Entity
             {
                 PlatformerController.instance.lockControls = true;
                 Debug.Log("player frozen");
-                yield return new WaitForSeconds(3);  
+                yield return new WaitForSeconds(3);
                 yield return StartCoroutine("cooldown");
 
             }
@@ -177,4 +189,15 @@ public class PassiveEnemyScript : Entity
           }
     }
 
+    public override void TakeDamage(float baseDamage)
+    {
+        _animator.Play("damage");
+        base.TakeDamage(baseDamage);
+    }
+
+    public override void OnDeath()
+    {
+        _animator.Play("death");
+        GameObject.Destroy(this.gameObject, 3);
+    }
 }
