@@ -52,6 +52,7 @@ public class GroundPound : Ability
     {
         ClearForces();
         body.gravityScale = 0;
+        GetComponent<Animator>().Play("groundPound");
         //animation line here while spinning/whatever
     }
 
@@ -71,6 +72,7 @@ public class GroundPound : Ability
     //End of ground pound
     public void CompleteGroundPound()
     {
+        GetComponent<Animator>().SetTrigger("groundPoundDone");
         body.gravityScale = gravityScale;
         Player.lockControls = false;
         doingGroundPound = false;
