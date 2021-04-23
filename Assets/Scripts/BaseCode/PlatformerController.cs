@@ -67,6 +67,8 @@ public class PlatformerController : Entity
             Debug.Log("Error!!, no platformer parameter!!");
             parameters = Resources.Load<PlatformerParameters>("PlatformerParameters"); //If we dont have one try and load it
         }
+
+        health = parameters.MaxHealth;
     }
 
     public int facingDirection = 1;
@@ -408,7 +410,8 @@ public class PlatformerController : Entity
     public override void OnDeath()
     {
         //We don't want to destroy ourselves on death lmao
-
+        anim.Play("death");
+        lockControls = true;
         //Someone else implement this
         return;
     }
