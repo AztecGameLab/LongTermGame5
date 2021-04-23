@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Management.Instrumentation;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FireBallCollider : MonoBehaviour
 {
     public GameObject fireball;
     public FireBallStats stats;
+    public GameObject explosion;
     
     void Start()
     {
@@ -14,18 +17,19 @@ public class FireBallCollider : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D col)
     {
+        Destroy(Instantiate(explosion, transform.position, quaternion.identity),0.2f);
         if(col.gameObject.GetComponent<Entity>() != null)
         {
             col.gameObject.GetComponent<Entity>().TakeDamage(this.stats.damage);
         }
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(fireball.transform.position, fireball.GetComponent<CircleCollider2D>().radius*20);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(fireball.transform.position, 3);
         for(int i=0; i<colliders.Length; ++i)
         {
             
             if(colliders[i].gameObject.GetComponent<Rigidbody2D>() != null)
             {
                 Debug.Log(colliders[i].gameObject.name);
-                colliders[i].attachedRigidbody.AddForce(colliders[i].gameObject.transform.up * stats.FireBallSize * 3, ForceMode2D.Impulse);
+                colliders[i].attachedRigidbody.velocity = (colliders[i].gameObject.transform.position - transform.position).normalized * stats.FireBallSize * 5;
             }
         }
         Destroy(fireball);

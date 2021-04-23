@@ -15,6 +15,8 @@ public class FireBallStats : ProjectileWeapon
     public float damage;
     public float FireBallSize = 3f;
     public Vector2 getDir;
+    private Vector2 direction;
+
 
     private Vector2 radius;
     private bool charging;
@@ -36,30 +38,43 @@ public class FireBallStats : ProjectileWeapon
     {
         chargeTimer = 0f;
         damage = 0;
-        fireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*1.5f);
-        fireBall.transform.position *= PlatformerController.instance.coll.size;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, Quaternion.identity);
+        //newFireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*1.5f);
+        //newFireBall.transform.position *= PlatformerController.instance.coll.size;
         newFireBall.GetComponent<Collider2D>().enabled = false;
         charging = true;
+        this.direction = direction;
+        PlatformerController.instance.StartCoroutine(bulletUpdate());
         PlatformerController.instance.StartCoroutine(Power());
         
     }
     IEnumerator Power()
     {
         
-        while (chargeTimer < 3 && charging == true)
+        while (chargeTimer < 1 && charging == true)
         {
             chargeTimer += Time.fixedDeltaTime;
-            FireBallSize = 3 + chargeTimer;
+            FireBallSize = 2 + chargeTimer * 4;
             newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
-            damage += 0.5f;
+            damage = 2 + chargeTimer * 2;
             yield return null;
         }
         yield return new WaitForSeconds(0f);
     }
     
-    public override void OnAimChange(Vector2 direction) {
-        newFireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*1.5f);
-        newFireBall.transform.position *= PlatformerController.instance.coll.size;
+    public override void OnAimChange(Vector2 direction)
+    {
+        this.direction = direction;
+        newFireBall.transform.position = (Vector2)PlatformerController.instance.transform.position + (direction * 2);
+        //newFireBall.transform.position *= PlatformerController.instance.coll.size;
+    }
+    
+    IEnumerator bulletUpdate()
+    {
+        while (newFireBall.GetComponent<Collider2D>()?.enabled == false)
+        {
+            newFireBall.transform.position = (Vector2)PlatformerController.instance.transform.position + (direction * 2);
+            yield return null;
+        }
     }
 }
