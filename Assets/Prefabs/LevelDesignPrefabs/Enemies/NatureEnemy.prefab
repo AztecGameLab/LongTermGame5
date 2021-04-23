@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 1986629857}
   - component: {fileID: 1986629856}
   - component: {fileID: 1986629853}
+  - component: {fileID: -8814177515608569681}
   m_Layer: 0
   m_Name: NatureEnemy
   m_TagString: Untagged
@@ -245,3 +246,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 3.1244998}
   m_EdgeRadius: 0
+--- !u!114 &-8814177515608569681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5641718127488160733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfbe0011f3b42e088816430e18d21c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bashSound: Default
+  shakeIntensity: 1
+  speedBoost: 10
+  bashRange: 4
