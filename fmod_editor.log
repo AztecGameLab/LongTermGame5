@@ -8,7 +8,7 @@
 [WRN] SystemI::init                            : Output requires a sample rate of 44100Hz, resampling will occur.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x8000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 00000217418066A8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000002173BEE90B8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -19,3 +19,98 @@
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 134)
 [LOG] Manager::readBank                        : fileversion = 125, compatVersion = 119 (oldest = 44, newest = 134)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] SystemI::createSound                     : filename = Assets\FMOD Banks\Desktop/Master.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] Thread::initThread                       : Init FMOD nonblocking thread (0). Affinity: 0x8000000000000003, Priority: 0xFFFF7FFC, Stack Size: 114688, Semaphore: Yes, Sleep Time: 0, Looping: Yes.
+[LOG] SystemI::createSound                     : setdata soundi = 00000217FE861BB8 : node = 00000217F9E98450
+[LOG] SystemI::createSound                     : add node to async list : head = 000002170F1FFB28.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000217FE861BB8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets\FMOD Banks\Desktop/Master.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 16145088
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 61696
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000217F9E98560
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='Virtual Space', format=5, channels=2, frequency=48000, lengthbytes=805568, lengthpcm=3578570, pcmblocksize=0, loopstart=0, loopend=2962284, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.298706.
+[LOG] Thread::initThread                       :     Init FMOD file thread. Affinity: 0x8000000000000003, Priority: 0xFFFF7FFC, Stack Size: 49152, Semaphore: No, Sleep Time: 10, Looping: Yes.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000217FE861BB8
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000217FE862AE8
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000217FE862AE8
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 16145088
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 61696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000CAA9E3F398
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE7C1C7DA0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE7C1C7D70
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE7C1C7E70
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE7C1C7F30
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002171275D0A8
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Menu Option 1', format=5, channels=2, frequency=48000, lengthbytes=3136, lengthpcm=10328, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.367920.
+[LOG] SystemI::createSoundInternal             : Create name='', mode=0x02000202
+[LOG] SystemI::createSoundInternal             : exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             : exinfo->length             = 16145088
+[LOG] SystemI::createSoundInternal             : exinfo->fileoffset         = 61696
+[LOG] SystemI::createSoundInternal             : exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlist      = 000000CAA9E3F398
+[LOG] SystemI::createSoundInternal             : exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             : exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             : exinfo->useropen           = 00007FFE7C1C7DA0
+[LOG] SystemI::createSoundInternal             : exinfo->userclose          = 00007FFE7C1C7D70
+[LOG] SystemI::createSoundInternal             : exinfo->userread           = 00007FFE7C1C7E70
+[LOG] SystemI::createSoundInternal             : exinfo->userseek           = 00007FFE7C1C7F30
+[LOG] SystemI::createSoundInternal             : exinfo->fileuserdata       = 000002171275DF18
+[LOG] SystemI::createSoundInternal             : exinfo->initialseekpostype = 1
+[LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 5
+[LOG] SystemI::createSoundInternal             : Sample 0/1: name='Menu Whoosh 1', format=5, channels=2, frequency=48000, lengthbytes=16320, lengthpcm=62573, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.059448.
+[LOG] SystemI::createSound                     : filename = Assets\FMOD Banks\Desktop/Master.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] SystemI::createSound                     : setdata soundi = 00000217FE8682A8 : node = 00000217FA168840
+[LOG] SystemI::createSound                     : add node to async list : head = 000002170F1FFB28.  list count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000217FE8682A8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets\FMOD Banks\Desktop/Master.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 16145088
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 61696
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 00000217FA168950
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='random minecraft music', format=5, channels=2, frequency=48000, lengthbytes=852736, lengthpcm=3949715, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.349873.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000217FE8682A8
+[LOG] SoundI::release                          : Virtual Space (00000217FE861BB8)
+[LOG] SoundI::release                          :     Virtual Space (000002173CD489A8)
+[LOG] SoundI::release                          :     Virtual Space (00000217FE862AE8)
+[LOG] SoundI::release                          : random minecraft music (00000217FE8682A8)
+[LOG] SoundI::release                          :     random minecraft music (000002173C275938)
+[LOG] SoundI::release                          :     random minecraft music (00000217FE867F48)
+[LOG] SoundI::release                          :  (00000217FACEB068)
+[LOG] SoundI::release                          :     Menu Option 1 (00000217FEDB3158)
+[LOG] SoundI::release                          :  (00000217FACEB1D8)
+[LOG] SoundI::release                          :     Menu Whoosh 1 (00000217FEDB10D8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] SystemI::close                           : Closed.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] SystemI::close                           : Closed.
+[LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
+[LOG] Thread::callback                         : FMOD file thread finished.
