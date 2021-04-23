@@ -23,14 +23,16 @@ public class GroundPound : Ability
     }
 
 
-    private void FixedUpdate()
-    {
-        doingGroundPound = false;
-    }
+    // private void FixedUpdate()
+    // {
+    //     doingGroundPound = false;
+    // }
 
     //if the player collides with something, then the ground pound stops
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if(doingGroundPound)
+            print(other.contacts[0].normal);
         if (other.contacts[0].normal.y >= 0.5 && doingGroundPound)
         {
             CompleteGroundPound();
@@ -42,7 +44,7 @@ public class GroundPound : Ability
         doingGroundPound = true;
         Player.lockControls = true;
         StopAndSpin();
-        StartCoroutine("DropAndSmash");
+        StartCoroutine(DropAndSmash());
     }
 
     //stop in the air and play animation
@@ -57,7 +59,12 @@ public class GroundPound : Ability
     private IEnumerator DropAndSmash()
     {
         yield return new WaitForSeconds(stopTime);
-        body.AddForce(Vector2.down * dropForce, ForceMode2D.Impulse);
+        while (doingGroundPound)
+        {
+            body.AddForce(Vector2.down * dropForce, ForceMode2D.Force);
+            yield return null;
+        }
+        //body.AddForce(Vector2.down * dropForce, ForceMode2D.Impulse);
         //animation line here while dropping down
     }
 
