@@ -14,7 +14,7 @@ public class Driver : MonoBehaviour
     public Camera mainCamera;
 
     public FireBallStats fireball;
-
+    Vector2 spawnPoint;
     bool facingRight = true;
     float moveDirection = 0;
     bool isGrounded = false;
@@ -34,7 +34,7 @@ public class Driver : MonoBehaviour
         r2d.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         r2d.gravityScale = gravityScale;
         facingRight = t.localScale.x > 0;
-
+        
         if (mainCamera)
         {
             cameraPos = mainCamera.transform.position;
@@ -44,18 +44,22 @@ public class Driver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            fireball.Charge();
+            spawnPoint = new Vector2(1, 1);
+            fireball.Charge(spawnPoint);
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            fireball.Fire();
+            fireball.Fire(spawnPoint);
         }
         // Movement controls
         if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || Mathf.Abs(r2d.velocity.x) > 0.01f))
         {
             moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+            spawnPoint = new Vector2(moveDirection, 0);
+            fireball.OnAimChange(spawnPoint);
+            
         }
         else
         {
@@ -81,14 +85,7 @@ public class Driver : MonoBehaviour
         }
 
         // Jumping
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
-        {
-            r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-
-        }
+        
 
         // Camera follow
         if (mainCamera)
