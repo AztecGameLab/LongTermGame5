@@ -7,23 +7,26 @@ public class BulkyEnemy : Entity
     float healthTrigger;
     Rigidbody2D enemyRigidBody2D;
     Transform enemyTransform;
-    public BoxCollider2D AttackHitBox;
+    //public BoxCollider2D AttackHitBox;
     public float EnemySpeed;
     Vector3 playerPos;
-    int attackRange;
+    float attackRange = 2;
     public bool lowHealth;
     private bool isAttacking, PlayerIsLeft;
     public Animator animator;
+    private SpriteRenderer _spriteRenderer;
+    public float damage = 1;
 
     public void Awake()
     {
-        enabled = false;
+        //enabled = false;
         attackRange = 3;
         enemyRigidBody2D = GetComponent<Rigidbody2D>();
         enemyTransform = GetComponent<Transform>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        AttackHitBox.offset = new Vector2(0f, 0f); // Left 
-        AttackHitBox.size = new Vector2(1f, 2f); //Small
+        //AttackHitBox.offset = new Vector2(0f, 0f); // Left 
+        //AttackHitBox.size = new Vector2(1f, 2f); //Small
     }
 
     // Start is called before the first frame update
@@ -33,21 +36,30 @@ public class BulkyEnemy : Entity
         healthTrigger = health / 2;
         isAttacking = false;
         PlayerIsLeft = false;
+        animator.SetBool("Walking", true);
+        GetComponentInChildren<BulkyEnemyEvent>().BulkyEnemy = this;
 
     }
-    void OnBecameVisible()
+    // void OnBecameVisible()
+    // {
+    //     enabled = true;
+    // }
+    // void OnBecameInvisible()
+    // {
+    //     enabled = false;
+    // }
+    public void AttackEnd()
     {
-        enabled = true;
-    }
-    void OnBecameInvisible()
-    {
-        enabled = false;
-    }
-    void AttackEnd()
-    {
+        var hits = Physics2D.CircleCastAll(transform.position, 1, PlayerIsLeft ? Vector2.left : Vector2.right, attackRange);
+        foreach (var hit in hits)
+        {
+            var pc = hit.transform.GetComponent<PlatformerController>();
+            if(pc)
+                pc.TakeDamage(damage);
+        }
         isAttacking = false;
-        AttackHitBox.offset = new Vector2(0f, 0f); // Left 
-        AttackHitBox.size = new Vector2(1f, 2f); //Small
+        //AttackHitBox.offset = new Vector2(0f, 0f); // Left 
+        //AttackHitBox.size = new Vector2(1f, 2f); //Small
     }
     bool WhichSideIsPlayer()
     {
@@ -57,35 +69,38 @@ public class BulkyEnemy : Entity
     {
         print("HIT");
     }
-    void BulkyAttack(bool direction)
-    {
-        if (!lowHealth)
-        {
-            if (direction)
-            {
-                AttackHitBox.offset = new Vector2(-1.5f, -.5f); // Left 
-                AttackHitBox.size = new Vector2(2f, 1f); //Small
-            }
-            else
-            {
-                AttackHitBox.offset = new Vector2(1.5f, -.5f); // Right
-                AttackHitBox.size = new Vector2(2f, 1f); //Small
-            }
-        }
-        else
-        {
-            if (direction)
-            {
-                AttackHitBox.offset = new Vector2(-2f, 0f); // Left 
-                AttackHitBox.size = new Vector2(3f, 2f); //Large
-            }
-            else
-            {
-                AttackHitBox.offset = new Vector2(2f, 0f); // Right 
-                AttackHitBox.size = new Vector2(3f, 2f); //Large
-            }
-        }
-    }
+    // void BulkyAttack(bool direction)
+    // {
+    //     
+    //     if (!lowHealth)
+    //     {
+    //         if (direction)
+    //         {
+    //             AttackHitBox.offset = new Vector2(-1.5f, -.5f); // Left 
+    //             AttackHitBox.size = new Vector2(2f, 1f); //Small
+    //         }
+    //         else
+    //         {
+    //             AttackHitBox.offset = new Vector2(1.5f, -.5f); // Right
+    //             AttackHitBox.size = new Vector2(2f, 1f); //Small
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if (direction)
+    //         {
+    //             AttackHitBox.offset = new Vector2(-2f, 0f); // Left 
+    //             AttackHitBox.size = new Vector2(3f, 2f); //Large
+    //         }
+    //         else
+    //         {
+    //             AttackHitBox.offset = new Vector2(2f, 0f); // Right 
+    //             AttackHitBox.size = new Vector2(3f, 2f); //Large
+    //         }
+    //     }
+    //
+    // }
+    
 
     // Update is called once per frame
     void Update()
@@ -105,8 +120,8 @@ public class BulkyEnemy : Entity
             {
                 isAttacking = true;
                 enemyRigidBody2D.velocity = Vector2.zero;
-                BulkyAttack(PlayerIsLeft);
-                print("Attack"); //Not quite sure how we will be implementing attack?
+                //BulkyAttack(PlayerIsLeft);
+                //print("Attack"); //Not quite sure how we will be implementing attack?
             }
             else if (!isAttacking)
             {
@@ -125,7 +140,31 @@ public class BulkyEnemy : Entity
             enemyRigidBody2D.velocity = Vector2.zero;
         }
 
-        animator.SetBool("IsPlayerLeft", PlayerIsLeft);
+        if (PlayerIsLeft)
+            _spriteRenderer.flipX = true;
+        else
+            _spriteRenderer.flipX = false;
+        //animator.SetBool("IsPlayerLeft", PlayerIsLeft);
         animator.SetBool("Attacking", isAttacking);
+    }
+    
+    public override void TakeDamage(float baseDamage)
+    {
+        animator.SetTrigger("Damaged");
+        StartCoroutine(BlinkRed());
+        base.TakeDamage(baseDamage);
+    }
+
+    IEnumerator BlinkRed()
+    {
+        _spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        _spriteRenderer.color = Color.white;
+    }
+
+    public override void OnDeath()
+    {
+        animator.SetBool("Dead", true);
+        GameObject.Destroy(this.gameObject, 3);
     }
 }
