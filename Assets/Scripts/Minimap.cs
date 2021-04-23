@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: Integrate minimap unlock data with SaveSystem
 public class Minimap : Singleton<Minimap>
 {
     [Serializable]
