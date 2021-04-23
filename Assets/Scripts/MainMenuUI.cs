@@ -58,11 +58,7 @@ public class MainMenuUI : MonoBehaviour
             
             player.transform.position = playerPosition;
             minimap.EnableMinimap(PlatformerController.instance);
-            minimap.UnlockArea(Minimap.Areas.Air);
-            minimap.UnlockArea(Minimap.Areas.Bog);
-            minimap.UnlockArea(Minimap.Areas.Boss);
-            minimap.UnlockArea(Minimap.Areas.Lava);
-            minimap.UnlockArea(Minimap.Areas.Water);
+            minimap.UnlockAllAreas();
         });
     }
 

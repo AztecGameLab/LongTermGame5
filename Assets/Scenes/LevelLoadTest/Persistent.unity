@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 402205812}
   - component: {fileID: 402205811}
   m_Layer: 5
-  m_Name: Dot
+  m_Name: Player Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,12 +649,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f2c2e00205ad94fb4ee41ebfb550cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  air: {fileID: 1247155401}
-  bog: {fileID: 200027724}
-  lava: {fileID: 406332449}
-  water: {fileID: 1725487776}
-  boss: {fileID: 1114325537}
-  player: {fileID: 402205811}
+  minimapAreas:
+  - image: {fileID: 1247155401}
+    area: 0
+  - image: {fileID: 1114325537}
+    area: 4
+  - image: {fileID: 406332449}
+    area: 1
+  - image: {fileID: 1725487776}
+    area: 3
+  - image: {fileID: 200027724}
+    area: 2
+  playerMarker: {fileID: 402205811}
   scaleFactor: 0.63
   worldOrigin: {x: -37.5, y: 4.7}
 --- !u!1 &621620092

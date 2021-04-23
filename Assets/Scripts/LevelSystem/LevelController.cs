@@ -232,7 +232,11 @@ public class LevelController : Singleton<LevelController>
         if (showDebugButtons)
         {
             if (GUILayout.Button("Return to menu"))
-                LevelUtil.Get().TransitionTo(GetLevel("MainMenu"));
+            {
+                Minimap.Get().RemovePlayerBinding();
+                LevelUtil.Get().TransitionTo(GetLevel("MainMenu"), 
+                    () => Minimap.Get().DisableMinimap());
+            }
 
             if (GUILayout.Button("Save Game"))
                 LevelUtil.Get().SaveGame();    
