@@ -50,11 +50,19 @@ public class MainMenuUI : MonoBehaviour
             playerPosition = playerData.position;
             print("Save found! Loading " + level.sceneName);
         }
-
+        
         LevelUtil.Get().TransitionTo(level, () =>
         {
             var player = Instantiate(playerPrefab);
+            var minimap = Minimap.Get();
+            
             player.transform.position = playerPosition;
+            minimap.EnableMinimap(PlatformerController.instance);
+            minimap.UnlockArea(Minimap.Areas.Air);
+            minimap.UnlockArea(Minimap.Areas.Bog);
+            minimap.UnlockArea(Minimap.Areas.Boss);
+            minimap.UnlockArea(Minimap.Areas.Lava);
+            minimap.UnlockArea(Minimap.Areas.Water);
         });
     }
 

@@ -1,30 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Minimap : Singleton<Minimap>
 {
-    [SerializeField]
-    Image air;
-    [SerializeField]
-    Image bog;
-    [SerializeField]
-    Image lava;
-    [SerializeField]
-    Image water;
-    [SerializeField]
-    Image boss;
     public enum Areas {Air, Lava, Bog, Water, Boss }
+    
+    [SerializeField] private Image air;
+    [SerializeField] private Image bog;
+    [SerializeField] private Image lava;
+    [SerializeField] private Image water;
+    [SerializeField] private Image boss;
+    [SerializeField] private Image player;
+    
+    [SerializeField] private float scaleFactor = 0.6222f;
+    [SerializeField] private Vector2 worldOrigin = new Vector2(-37.5f, 4.7f); 
+    
+    private PlatformerController _player;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        getRooms();
+        if (_player == null)
+            return;
+
+        var playerPosition = _player.transform.position;
+
+        var xPos = -scaleFactor * playerPosition.x - worldOrigin.x;
+        var yPos = -scaleFactor * playerPosition.y - worldOrigin.y;
+        
+        transform.localPosition = new Vector3(xPos, yPos);
     }
 
-    public void enableArea(Areas area)
+    public void EnableMinimap(PlatformerController player)
+    {
+        _player = player;
+        
+        this.player.gameObject.SetActive(true);
+        gameObject.SetActive(true);
+    }
+
+    public void DisableMinimap()
+    {
+        player.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
+    
+    public void UnlockArea(Areas area)
     {
         switch (area)
         {
@@ -44,23 +64,5 @@ public class Minimap : Singleton<Minimap>
                 boss.gameObject.SetActive(true);
                 break;
         }
-    }
-
-    private void getRooms()
-    {
-        enableArea(Areas.Air);
-        enableArea(Areas.Lava);
-
-        //TODO: Get rooms from bounding boxes
-    }
-
-    public void toggleMinimap(bool isOn)
-    {
-
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
