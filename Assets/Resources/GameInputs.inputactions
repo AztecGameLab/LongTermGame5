@@ -70,7 +70,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "GroudPound",
+                    "name": "GroundPound",
                     "type": "Button",
                     "id": "103fc6e5-1af3-4ba4-b304-aa6d939c768a",
                     "expectedControlType": "Button",
@@ -379,7 +379,7 @@
                 {
                     "name": "",
                     "id": "9b0046e4-c80c-459e-9131-fd46b99e5680",
-                    "path": "<Keyboard>/x",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -438,7 +438,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "GroudPound",
+                    "action": "GroundPound",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -449,7 +449,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "GroudPound",
+                    "action": "GroundPound",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -460,7 +460,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "GroudPound",
+                    "action": "GroundPound",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down Attack",
+                    "id": "60e898c2-e7ba-40a3-9f06-5f105fdc2cf4",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GroundPound",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "fda02261-b2bc-45e6-af0c-483629db81ac",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "GroundPound",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "55f712a8-95e0-46ed-933d-2daebfd51a46",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "GroundPound",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
