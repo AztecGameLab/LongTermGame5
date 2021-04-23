@@ -53,6 +53,7 @@ public class HealingAbility : Ability
 
     private IEnumerator ChargeHeal()
     {
+        GetComponent<Animator>().SetBool("healing", true);
         var shouldZoom = _cameraController.TryGetZoom(out _zoomDefault);
         var zoomStart = _zoomDefault - healZoomAmount;
 
@@ -76,6 +77,7 @@ public class HealingAbility : Ability
 
     private IEnumerator Cleanup()
     {
+        GetComponent<Animator>().SetBool("healing", false);
         var startTime = Time.time;
         _cameraController.TryGetZoom(out var currentZoom);
         Player.lockControls = false;
@@ -92,8 +94,6 @@ public class HealingAbility : Ability
         }
 
         _canHeal = true;
-        if (Inputs.Player.ManaHeal.ReadValue<float>() > 0f)
-            _healingCoroutine = StartCoroutine(ChargeHeal());
     }
 
     private void OnGUI()
