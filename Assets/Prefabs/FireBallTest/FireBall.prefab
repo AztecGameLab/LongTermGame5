@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9000563240690001610}
   - component: {fileID: 9000563240690001613}
   - component: {fileID: 3928665409916365654}
+  - component: {fileID: -2218258984119389548}
   m_Layer: 13
   m_Name: FireBall
   m_TagString: Untagged
@@ -137,3 +138,27 @@ MonoBehaviour:
   fireball: {fileID: 9000563240690001614}
   stats: {fileID: 11400000, guid: 512f2e61fa33c8a4cb8dd02358daf6e0, type: 2}
   explosion: {fileID: 981021324122546832, guid: db7adb4a5c2d9e94f8d27d094fc9b03a, type: 3}
+  fireballSound: {fileID: -2218258984119389548}
+--- !u!114 &-2218258984119389548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9000563240690001614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Player/Fireball
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
