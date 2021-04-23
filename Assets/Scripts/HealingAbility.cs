@@ -1,4 +1,5 @@
 using System.Collections;
+using FMOD;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -23,24 +24,31 @@ public class HealingAbility : Ability
     private CameraController _cameraController;
     private float _zoomDefault;
     private Coroutine _healingCoroutine;
+    private bool _canHeal = true;
     
     protected override void Start()
     {
-        base.Start();
-
         _cameraController = CameraController.Get();
         _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
+        
+        base.Start();
     }
 
     protected override void Started(InputAction.CallbackContext context)
     {
-        _healingCoroutine = StartCoroutine(ChargeHeal());
+        if (_canHeal)
+            _healingCoroutine = StartCoroutine(ChargeHeal());
     }
 
     protected override void Canceled(InputAction.CallbackContext context)
     {
-        StopCoroutine(_healingCoroutine);
-        StartCoroutine(Cleanup());
+        if (_healingCoroutine != null)
+        {
+            StopCoroutine(_healingCoroutine);
+            StartCoroutine(Cleanup());
+
+            _healingCoroutine = null;
+        }
     }
 
     private IEnumerator ChargeHeal()
@@ -74,6 +82,7 @@ public class HealingAbility : Ability
         remainingHealTime = 0;
         remainingHealTimeAnalog = 0;
         _healSfxEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        _canHeal = false;
         
         while (Time.time - startTime < 1)
         {
@@ -81,6 +90,10 @@ public class HealingAbility : Ability
             _cameraController.SetZoom(Mathf.Lerp(currentZoom, _zoomDefault, healResetCurve.Evaluate(t)));
             yield return new WaitForEndOfFrame();
         }
+
+        _canHeal = true;
+        if (Inputs.Player.ManaHeal.ReadValue<float>() > 0f)
+            _healingCoroutine = StartCoroutine(ChargeHeal());
     }
 
     private void OnGUI()
