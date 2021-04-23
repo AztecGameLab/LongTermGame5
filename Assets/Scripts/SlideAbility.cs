@@ -47,7 +47,9 @@ public class SlideAbility : Ability
         canSlide = false;
         Player.lockControls = true;
         Player.coll.bounds.size.Set(Player.coll.bounds.size.x, Player.coll.bounds.size.y * shrinkValue, Player.coll.bounds.size.z);
+        GetComponent<Animator>().Play("slide");
         yield return new WaitForSeconds(slideDuration);
+        GetComponent<Animator>().SetTrigger("slideDone");
         StartCoroutine(Cooldown());
         Player.coll.bounds.size.Set(Player.coll.bounds.size.x, Player.coll.bounds.size.y / shrinkValue, Player.coll.bounds.size.z);
         Player.lockControls = false;

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 9000563240690001615}
   - component: {fileID: 9000563240690001610}
   - component: {fileID: 9000563240690001613}
-  - component: {fileID: -728397494478933607}
-  m_Layer: 0
+  - component: {fileID: 3928665409916365654}
+  m_Layer: 13
   m_Name: FireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9000563240690001614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.88, y: -1.4, z: -126.36819}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,7 +100,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.5
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -116,13 +116,13 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &-728397494478933607
+--- !u!114 &3928665409916365654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,6 +131,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9000563240690001614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 967591aeb81d5a14ca4412c0d94a4bbc, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c3dd0a127b15c441a2d728452e9a42d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireball: {fileID: 9000563240690001614}
+  stats: {fileID: 11400000, guid: 512f2e61fa33c8a4cb8dd02358daf6e0, type: 2}
+  explosion: {fileID: 981021324122546832, guid: db7adb4a5c2d9e94f8d27d094fc9b03a, type: 3}
