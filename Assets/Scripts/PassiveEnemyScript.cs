@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +6,13 @@ using UnityEngine;
 public class PassiveEnemyScript : Entity
 {
     Transform player;
-    [SerializeField] private float moveSpeed = 1; //tehee hardcoded values
-    [SerializeField] private float rushDistance = 2;
+
+    [SerializeField]
+    private float moveSpeed = 1; //tehee hardcoded values
+
+    [SerializeField]
+    private float rushDistance = 2;
+
     public static bool passive = true;
     bool onCooldown = false;
     Vector3 difference;
@@ -35,7 +39,7 @@ public class PassiveEnemyScript : Entity
         //check if passive
         if (passive == false)
         {
-            if(Vector2.Distance(player.position, transform.position) < 15)
+            if (Vector2.Distance(player.position, transform.position) < 15)
                 ChasePlayer();
             else
                 _animator.SetBool("walking", false);
@@ -73,7 +77,6 @@ public class PassiveEnemyScript : Entity
             rb2d.velocity = new Vector2(moveSpeed, -1);
             //turn enemy right if player is left
             transform.localScale = new Vector2(1, 1);
-            
         }
         else
         {
@@ -86,7 +89,6 @@ public class PassiveEnemyScript : Entity
             rb2d.velocity = new Vector2(-moveSpeed, -1);
             //turn enemy left if player is right 
             transform.localScale = new Vector2(-1, 1);
-
         }
     }
 
@@ -110,11 +112,11 @@ public class PassiveEnemyScript : Entity
 
     private void Look()
     {
-        if(transform.position.x < player.position.x) //faces right if player is on left side
+        if (transform.position.x < player.position.x) //faces right if player is on left side
         {
             transform.localScale = new Vector2(1, 1);
         }
-        else                                        //faces left if player is on right side
+        else //faces left if player is on right side
         {
             transform.localScale = new Vector2(-1, 1);
         }
@@ -123,7 +125,8 @@ public class PassiveEnemyScript : Entity
 
     float freezeTime = 3;
     float knockForce = 4;
-    private void Attack()//implement player's take damage function
+
+    private void Attack() //implement player's take damage function
     {
         if (!passive)
         {
@@ -131,21 +134,19 @@ public class PassiveEnemyScript : Entity
             float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;
 
-            PlatformerController.instance.TakeDamage(15, difference*knockForce);
+            PlatformerController.instance.TakeDamage(15, difference * knockForce);
 
             PlatformerController.instance.parameters.KnockBackTime = temp;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col) 
+    void OnTriggerEnter2D(Collider2D col)
     {
-        
         if (col.GetComponent<PlatformerController>())
         {
             difference = (col.transform.position - transform.position).normalized;
 
             freezePlayer();
-
         }
     }
 
@@ -160,33 +161,37 @@ public class PassiveEnemyScript : Entity
     {
         StartCoroutine("freeze");
         onCooldown = true;
-
     }
+
+    private GameObject playerIce;
 
     IEnumerator freeze() //works
     {
-        
-            if (!onCooldown)
-            {
-                PlatformerController.instance.lockControls = true;
-                Debug.Log("player frozen");
-                yield return new WaitForSeconds(3);
-                yield return StartCoroutine("cooldown");
+        if (!onCooldown)
+        {
+            PlatformerController.instance.lockControls = true;
 
-            }
-        
+            var sr = PlatformerController.instance.GetComponent<SpriteRenderer>();
+            playerIce = Instantiate(Resources.Load("PlayerIce") as GameObject, sr.bounds.center, Quaternion.identity);
+            playerIce.transform.parent = PlatformerController.instance.transform;
+            playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
+
+            Debug.Log("player frozen");
+            yield return new WaitForSeconds(3);
+            yield return StartCoroutine("cooldown");
+        }
     }
 
     IEnumerator cooldown()
     {
-       
         if (onCooldown)
-          {
+        {
+            Destroy(playerIce);
             PlatformerController.instance.lockControls = false;
             Debug.Log("freeze attack on cooldown");
             yield return new WaitForSeconds(3);
-            onCooldown = false;    
-          }
+            onCooldown = false;
+        }
     }
 
     public override void TakeDamage(float baseDamage)
