@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,11 +16,17 @@ public class FlyingEnemyProjectile : MonoBehaviour
         player = PlatformerController.instance;
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce((player.transform.position - transform.position).normalized * speed);
+
         //destroy itself after 5 seconds
         StartCoroutine(DestroyProjectile());
     }
 
-IEnumerator DestroyProjectile()
+    private void Update()
+    {
+        transform.right = rb.velocity;
+    }
+
+    IEnumerator DestroyProjectile()
     {
         yield return new WaitForSeconds(5f);
         Destroy(gameObject);
