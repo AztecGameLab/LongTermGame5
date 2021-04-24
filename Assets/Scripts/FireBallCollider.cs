@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Management.Instrumentation;
 using Unity.Mathematics;
 using UnityEngine;
+using FMODUnity;
 
 public class FireBallCollider : MonoBehaviour
 {
     public GameObject fireball;
     public FireBallStats stats;
     public GameObject explosion;
-    
+    public StudioEventEmitter fireballSound;
+
     void Start()
     {
         
@@ -17,6 +19,7 @@ public class FireBallCollider : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D col)
     {
+        fireballSound.SetParameter("Fireball", 2);
         Destroy(Instantiate(explosion, transform.position, quaternion.identity),0.2f);
         if(col.gameObject.GetComponent<Entity>() != null)
         {

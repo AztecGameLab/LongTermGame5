@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 public class LevelUtil : Singleton<LevelUtil>
 {
     [SerializeField] private float fadeTime = 0.25f;
+    [SerializeField] private Level defaultLevel;
+    [SerializeField] private GameObject playerPrefab;
     
     private LevelController _levelController;
     private TransitionController _transitionController;
@@ -39,10 +41,10 @@ public class LevelUtil : Singleton<LevelUtil>
         
         GC.Collect();
         _levelController.UnloadAll();
-        _levelController.LoadLevel(level);
+        _levelController.LoadLevel(level, beforeTransitionIn);
+
         yield return new WaitUntil(() => SceneManager.GetActiveScene().name == level.sceneName);
         
-        beforeTransitionIn?.Invoke();
         
         _transitionController.FadeFrom(Color.black, fadeTime);
         yield return new WaitForSeconds(fadeTime);
@@ -67,5 +69,29 @@ public class LevelUtil : Singleton<LevelUtil>
 
         SaveLoad.SetPlayerData(playerData);
         SaveLoad.SaveTempDataToFile();
+    }
+
+    public void LoadSavedGame()
+    {
+        SaveLoad.LoadFromFileToTempData();
+        var playerData = SaveLoad.GetPlayerData();
+        Level level;
+
+        if (playerData == null)
+        {
+            level = defaultLevel;
+            print("No save found: Loading " + level.sceneName);
+        }
+        else
+        {
+            level = _levelController.GetLevel(playerData.currentScene);
+            print("Save found! Loading " + level.sceneName);
+        }
+
+        TransitionTo(level, () =>
+        {
+            var playerGameObject = Instantiate(playerPrefab);
+            playerGameObject.transform.position = playerData == null ? Vector3.zero : (Vector3) playerData.position;
+        });        
     }
 }

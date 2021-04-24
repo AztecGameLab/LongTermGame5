@@ -1,24 +1,21 @@
 using FMODUnity;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class SimpleBashable : MonoBehaviour, IBashable
 {
+    [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private SpriteRenderer sprite;
+    
     [EventRef] public string bashSound = "Default";
     public float shakeIntensity = 1f;
     public float speedBoost = 10f;
     public float bashRange = 1;
     
-    private Rigidbody2D _rigidbody;
-    
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
+    private Vector3 BashOrigin => sprite.bounds.center;
     
     public bool CanBash(PlatformerController controller)
     {
-        var playerDistance = Vector2.Distance(controller.transform.position, transform.position);
+        var playerDistance = Vector2.Distance(controller.transform.position, BashOrigin);
         return playerDistance <= bashRange;
     }
 
@@ -28,13 +25,11 @@ public class SimpleBashable : MonoBehaviour, IBashable
             RuntimeManager.PlayOneShot(bashSound);
         
         var bashDirection = controller.primaryStick.normalized;
-        var bashOrigin = transform.position;
-        
-        _rigidbody.velocity = -bashDirection * speedBoost;
+        rigidbody2d.velocity = -bashDirection * speedBoost;
 
         controller.isJumping = false;
         controller.rigid.velocity = Vector2.zero;
-        controller.transform.position = bashOrigin;
+        controller.transform.position = BashOrigin + (Vector3) bashDirection * 0.1f;
         controller.KnockBack(bashDirection, distance);
         controller.playerImpulseSource.GenerateImpulse(shakeIntensity);
     }
@@ -45,7 +40,7 @@ public class SimpleBashable : MonoBehaviour, IBashable
     private void OnDrawGizmos()
     {
         UnityEditor.Handles.color = _bashRangeColor;
-        UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.forward, bashRange);
+        UnityEditor.Handles.DrawSolidDisc(BashOrigin, Vector3.forward, bashRange);
     }
 #endif
 }
