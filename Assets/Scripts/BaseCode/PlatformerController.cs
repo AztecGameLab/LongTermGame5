@@ -39,6 +39,7 @@ public class PlatformerController : Entity
             rigid.sharedMaterial.friction = 0;
             rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rigid.interpolation = RigidbodyInterpolation2D.Extrapolate;
+            rigid.gravityScale = 3;
             rigid.freezeRotation = true;
         }
 
@@ -66,6 +67,8 @@ public class PlatformerController : Entity
             Debug.Log("Error!!, no platformer parameter!!");
             parameters = Resources.Load<PlatformerParameters>("PlatformerParameters"); //If we dont have one try and load it
         }
+
+        health = parameters.MaxHealth;
     }
 
     public int facingDirection = 1;
@@ -73,7 +76,9 @@ public class PlatformerController : Entity
         //anim.SetFloat("HorizontalSpeed", rigid.velocity.x);
         //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
-        if(Mathf.Abs(rigid.velocity.x) > 0){
+        anim.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
+        
+        if(Mathf.Abs(rigid.velocity.x) > 0.25f){
             render.flipX = !(rigid.velocity.x > 0);
             facingDirection = render.flipX ? -1 : 1;
         }
@@ -149,6 +154,7 @@ public class PlatformerController : Entity
     }
 
     private void Jump(){
+        anim.Play("jump");
         rigid.velocity = new Vector2(rigid.velocity.x, parameters.JumpSpeed);
         jumpCounter++;
         isJumping = true;
@@ -226,6 +232,7 @@ public class PlatformerController : Entity
         }else if(context.canceled && isAiming){
             AimingState(false);
             weapons[currWeapon].Fire(aimDirection);
+            anim.Play("magicCast");
         }
     }
 
@@ -327,6 +334,7 @@ public class PlatformerController : Entity
 
         while((attackForgiveness -= Time.deltaTime) > 0){
             
+            anim.Play("punch");
             //I'm gonna be honest, I have no idea if this will work
             //But I guess lets find out
             RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, parameters.BasicAttackSize, Vector2.right * facingDirection, parameters.BasicAttackRange);
@@ -402,7 +410,8 @@ public class PlatformerController : Entity
     public override void OnDeath()
     {
         //We don't want to destroy ourselves on death lmao
-
+        anim.Play("death");
+        lockControls = true;
         //Someone else implement this
         return;
     }
