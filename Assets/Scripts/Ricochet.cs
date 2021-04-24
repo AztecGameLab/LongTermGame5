@@ -1,7 +1,6 @@
 ﻿using FMODUnity;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 
 [CreateAssetMenu(fileName = "Ricochet", menuName = "LTG5/Weapons/Ricochet")]
 public class Ricochet : ProjectileWeapon
@@ -11,7 +10,6 @@ public class Ricochet : ProjectileWeapon
     [SerializeField] private float speed = 25.0f;
     [SerializeField] private float radius;
     [SerializeField] private float spawnAnimationTime = 0.25f;
-    [SerializeField,EventRef] private string ricochetSoundLaunch;
     
     private Transform _bulletHolder;
     private RicochetBullet _chargingBullet;
@@ -57,12 +55,11 @@ public class Ricochet : ProjectileWeapon
         _chargingBullet.rb.bodyType = RigidbodyType2D.Dynamic;
         _chargingBullet.rb.velocity = _chargingBullet.transform.right * speed;
         _chargingBullet.coll.enabled = true;
-        RuntimeManager.PlayOneShot(ricochetSoundLaunch);
     }
 
     public override void Cancel()
     {
-        if (_player.lockControls)
+        if (_player != null && _player.lockControls)
             DestroyActiveBullet();
     }
     
