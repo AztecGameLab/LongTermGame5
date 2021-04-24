@@ -140,9 +140,9 @@ public class LevelController : Singleton<LevelController>
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(newLevel.sceneName));
     }
 
-    public void LoadLevel(string sceneName)
+    public void LoadLevel(string sceneName, Action onLoaded = null)
     {
-        LoadLevel(GetLevel(sceneName));
+        LoadLevel(GetLevel(sceneName), onLoaded);
     }
     
     public void UnloadLevel(string sceneName)
@@ -150,11 +150,11 @@ public class LevelController : Singleton<LevelController>
         UnloadLevel(GetLevel(sceneName));
     }
     
-    public void LoadLevel(Level level)
+    public void LoadLevel(Level level, Action onLoaded = null)
     {
         AddActiveLevel(level);
         
-        LoadAdditive(level);
+        LoadAdditive(level, onLoaded);
 
         foreach (var neighbor in level.levelsToPreload)
             LoadAdditive(neighbor);
@@ -170,16 +170,20 @@ public class LevelController : Singleton<LevelController>
             TryToUnload(levelNeighbor);
     }
     
-    private void LoadAdditive(Level level)
+    private void LoadAdditive(Level level, Action onLoaded = null)
     {
         if (level == null)
             return;
         
-        if (!IsLoaded(level))
+        if (!_loadedLevels.Contains(level))
         {
             BeforeStartLoad?.Invoke(level);
             
-            SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive);
+            var op = SceneManager.LoadSceneAsync(level.sceneName, LoadSceneMode.Additive);
+            
+            if (onLoaded != null)
+                op.completed += operation => onLoaded.Invoke();
+
             _loadingScenes.Add(SceneManager.GetSceneByName(level.sceneName));
         }
         
