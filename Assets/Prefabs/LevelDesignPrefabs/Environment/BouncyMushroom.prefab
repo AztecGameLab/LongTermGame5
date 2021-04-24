@@ -147,7 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa329128c1d96fc42a9973e7d214b769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springForce: 500
+  springForce: 20
+  bounceSound: event:/Enemies/Fire Enemy/Fire Enemy Jump
 --- !u!60 &6638889104931609607
 PolygonCollider2D:
   m_ObjectHideFlags: 0

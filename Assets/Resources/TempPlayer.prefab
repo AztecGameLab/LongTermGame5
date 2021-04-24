@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: -4000552939673573262}
   - component: {fileID: 7703436898061140919}
   - component: {fileID: 1264670024628744136}
+  - component: {fileID: 1461539949513278626}
   - component: {fileID: 8105901004087270762}
   m_Layer: 10
   m_Name: TempPlayer
@@ -105,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20036a77c63e0b847a885ba07bf97bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 5
   parameters: {fileID: 11400000, guid: b1cea7653e06a2c42bbfd030f2ab6431, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
@@ -397,6 +398,72 @@ MonoBehaviour:
   dropForce: 20
   stopTime: 0.4
   gravityScale: 3
+--- !u!114 &1461539949513278626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831558400415614749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e9ff06629b41778e82fb4a7ca08e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 1
+  healZoomAmount: 1.5
+  healChargeTime: 1.5
+  healChargeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.3091435
+      outSlope: 3.3091435
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.054166667
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  healResetCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041656494
+      value: 0
+      inSlope: 2.6995647
+      outSlope: 2.6995647
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.054166667
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  healSfx: event:/UI/Menu Hover
+  remainingHealTime: 0
+  remainingHealTimeAnalog: 0
 --- !u!95 &8105901004087270762
 Animator:
   serializedVersion: 3

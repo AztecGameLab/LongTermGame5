@@ -14,7 +14,7 @@ public class SpikeScript : MonoBehaviour {
 
     [SerializeField] private float intensity = 5;
     [SerializeField] private float spikeDamage = 1;     //TODO :: spikeDamage will probably be greater than 1
-    [EventRef] public string A;
+    [EventRef] public string spikeSound;
 
     void OnCollisionEnter2D(Collision2D other) {
 
@@ -27,7 +27,7 @@ public class SpikeScript : MonoBehaviour {
             player.TakeDamage(spikeDamage);
             player.KnockBack(direction, intensity);
 
-            RuntimeManager.PlayOneShot(A); /*Play Sound*/
+            RuntimeManager.PlayOneShot(spikeSound, transform.position); /*Play Sound*/
         }
     }
 }
