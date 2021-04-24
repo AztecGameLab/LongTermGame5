@@ -232,10 +232,13 @@ public class LevelController : Singleton<LevelController>
     {
         if (showDebugButtons)
         {
-            if (GUILayout.Button("Return to menu"))
+            Rect position1 = new Rect(Screen.width - 200, 50, 200, 20);
+            Rect position2 = new Rect(Screen.width - 200, 70, 200, 20);
+            
+            if (GUI.Button(position1, "Return to menu"))
                 LevelUtil.Get().TransitionTo(GetLevel("MainMenu"));
 
-            if (GUILayout.Button("Save Game"))
+            if (GUI.Button(position2, "Save Game"))
                 LevelUtil.Get().SaveGame();    
         }
 
