@@ -2190,6 +2190,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4666526740324144984, guid: c6dccc80236fe5047932159ad44e45d6, type: 3}
+      propertyPath: bounceSound
+      value: event:/Enemies/Fire Enemy/Fire Enemy Jump
+      objectReference: {fileID: 0}
     - target: {fileID: 6616809658810979413, guid: c6dccc80236fe5047932159ad44e45d6, type: 3}
       propertyPath: m_Name
       value: BouncyMushroom
@@ -4177,7 +4181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[40].y
-      value: -0.56682587
+      value: -0.56682575
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[41].x
@@ -4341,7 +4345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[61].x
-      value: 2.7776442
+      value: 2.7776446
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[61].y
@@ -4389,7 +4393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[67].x
-      value: -5.056453
+      value: -5.0564528
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[67].y
@@ -4433,7 +4437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[72].y
-      value: -4.6104965
+      value: -4.610496
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[73].x
@@ -4441,11 +4445,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[73].y
-      value: -4.374384
+      value: -4.374385
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[74].x
-      value: -6.574615
+      value: -6.574616
       objectReference: {fileID: 0}
     - target: {fileID: 5278574461533879297, guid: 8cbe3c9f9d008ee44a2fd5f620533a67, type: 3}
       propertyPath: m_Points.Array.data[74].y
