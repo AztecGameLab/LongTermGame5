@@ -12,7 +12,13 @@ public class RicochetBullet : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private Collider2D collider2d;
     [SerializeField, EventRef] private string bounceSound;
+    [SerializeField, EventRef] private string spawnSound;
     [SerializeField, EventRef] private string hitSound;
+
+    private void Awake()
+    {
+        RuntimeManager.PlayOneShot(spawnSound);
+    }
 
     public void Fire(float speed)
     {
