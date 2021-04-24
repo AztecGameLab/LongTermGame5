@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1479968638}
   - component: {fileID: 1479968633}
   - component: {fileID: 1479968635}
+  - component: {fileID: -9202307806008324253}
   m_Layer: 0
   m_Name: FireEnemy
   m_TagString: Untagged
@@ -124,7 +125,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -5623762708637586975, guid: 7379a1c20d0405e4280e0a0cc605fc28, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -168,6 +169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  JumpSound: event:/Enemies/Fire Enemy/Fire Enemy Jump
+  LandSound: event:/Enemies/Fire Enemy/Fire Enemy Land
   EnemySpeed: 500
   Strength: 5
   Radius: 3
@@ -178,3 +181,21 @@ MonoBehaviour:
   DOWN: 1
   animator: {fileID: 1479968633}
   agroRange: 30
+--- !u!114 &-9202307806008324253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2386817888158999390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfbe0011f3b42e088816430e18d21c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody2d: {fileID: 1479968636}
+  sprite: {fileID: 1479968638}
+  bashSound: Default
+  shakeIntensity: 1
+  speedBoost: 10
+  bashRange: 4
