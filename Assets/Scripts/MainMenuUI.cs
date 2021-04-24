@@ -32,8 +32,18 @@ public class MainMenuUI : MonoBehaviour
             
             var player = Instantiate(playerPrefab);
             var playerData = SaveLoad.GetPlayerData();
-            player.transform.position = playerData == null ? Vector3.zero : (Vector3) playerData.position;
+            var playerSpawn = Vector3.zero;
 
+            if (playerData != null)
+            {
+                playerSpawn = playerData.position;
+            }
+            else if (Scanner.HasObjectsInScene(out Transform[] playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
+            {
+                playerSpawn = playerSpawnTransform[0].position;
+            }
+
+            player.transform.position = playerSpawn;
             SceneManager.activeSceneChanged -= OnLevelLoaded;
         }
     }
@@ -53,7 +63,6 @@ public class MainMenuUI : MonoBehaviour
         RuntimeManager.PlayOneShot(menuEnterSound);
         
         Level level;
-        Vector3 playerPosition;
         
         SaveLoad.LoadFromFileToTempData();
         var playerData = SaveLoad.GetPlayerData();
@@ -62,13 +71,12 @@ public class MainMenuUI : MonoBehaviour
         {
             // No save has been made yet, load cutscene / starting scene
             level = firstLevel;
-            playerPosition = Vector3.zero;
             print("No save found: Loading " + level.sceneName);
         }
         else
         {
             level = _levelController.GetLevel(playerData.currentScene);
-            playerPosition = playerData.position;
+            firstLevel = level;
             print("Save found! Loading " + level.sceneName);
         }
 
