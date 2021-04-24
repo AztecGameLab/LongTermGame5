@@ -1,5 +1,4 @@
-﻿using FMODUnity;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ricochet", menuName = "LTG5/Weapons/Ricochet")]
@@ -52,9 +51,7 @@ public class Ricochet : ProjectileWeapon
             _player.StopCoroutine(_movementAnimation);
         
         _chargingBullet.transform.SetParent(_bulletHolder);
-        _chargingBullet.rb.bodyType = RigidbodyType2D.Dynamic;
-        _chargingBullet.rb.velocity = _chargingBullet.transform.right * speed;
-        _chargingBullet.coll.enabled = true;
+        _chargingBullet.Fire(speed);
     }
 
     public override void Cancel()
@@ -69,8 +66,6 @@ public class Ricochet : ProjectileWeapon
             _bulletHolder = new GameObject("Fired Ricochet Projectiles").transform;
         
         _chargingBullet = Instantiate(bullet).GetComponent<RicochetBullet>();
-        _chargingBullet.coll.enabled = false;
-        _chargingBullet.rb.bodyType = RigidbodyType2D.Kinematic;
         _chargingBullet.transform.SetParent(_player.transform);
     }
 
