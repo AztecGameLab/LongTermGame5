@@ -10,8 +10,8 @@ public class IceBall : MonoBehaviour
 
         if (collision.gameObject.tag != "Player" && collision.rigidbody != null) {
             collision.gameObject.AddComponent<Freeze>();
-            Destroy(gameObject);
-           
         }
+
+        Destroy(gameObject);
     }
 }
