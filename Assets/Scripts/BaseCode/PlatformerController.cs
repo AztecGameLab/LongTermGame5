@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cinemachine;
-using SaveSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,9 @@ public class PlatformerController : Entity
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
-
+    [SerializeField] private float deathTimeSeconds = 2f;
+    private bool isDying = false;
+    
     public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
     SpriteRenderer render;
@@ -408,14 +411,19 @@ public class PlatformerController : Entity
         canTakeDamage = true;
     }
 
-    public override void OnDeath()
+    public override async void OnDeath()
     {
+        if (isDying)
+            return;
+        
         //We don't want to destroy ourselves on death lmao
         anim.Play("death");
         lockControls = true;
+        isDying = true;
+        
+        await Task.Delay(TimeSpan.FromSeconds(deathTimeSeconds));
+        print("done waiting");
         LevelUtil.Get().LoadSavedGame();
-        //Someone else implement this
-        return;
     }
 
     #endregion
