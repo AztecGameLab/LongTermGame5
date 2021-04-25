@@ -110,6 +110,7 @@ MonoBehaviour:
   rigid: {fileID: 0}
   anim: {fileID: 0}
   deathTimeSeconds: 2
+  projectileManaCost: 0.1
   playerImpulseSource: {fileID: 5725528633323557417}
   coll: {fileID: 0}
   lockControls: 0
@@ -395,6 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e9ff06629b41778e82fb4a7ca08e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manaCost: 0.2
   healAmount: 1
   healZoomAmount: 1.5
   healChargeTime: 1.5

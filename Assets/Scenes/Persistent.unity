@@ -382,9 +382,9 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 70
+  field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 6
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -772,8 +772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b574b72ac8f8540b6b8a2943d76e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxFill: 0
-  currentFill: 0
+  maxFill: 1
+  currentFill: 1
   fillBarUI: {fileID: 1319013191}
 --- !u!1 &1316512615
 GameObject:

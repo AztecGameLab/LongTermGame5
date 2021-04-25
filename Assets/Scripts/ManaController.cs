@@ -6,6 +6,11 @@ public class ManaController : Singleton<ManaController>
     [SerializeField] private float currentFill;
     [SerializeField] private FillBarUI fillBarUI;
 
+    private void OnGUI()
+    {
+        GUILayout.Label("" + currentFill);
+    }
+
     private void OnEnable()
     {
         currentFill = maxFill;
