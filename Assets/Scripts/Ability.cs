@@ -10,7 +10,7 @@ public abstract class Ability : MonoBehaviour
 
     protected abstract string InputName { get; }
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
         Player = GetComponent<PlatformerController>();
         Inputs = Player.Inputs;
@@ -21,11 +21,8 @@ public abstract class Ability : MonoBehaviour
         _inputAction.performed += Performed;
     }
     
-    private void OnDestroy()
+    protected virtual void OnDisable()
     {
-        if (_inputAction == null)
-            return;
-            
         _inputAction.started -= Started;
         _inputAction.canceled -= Canceled;
         _inputAction.performed -= Performed;

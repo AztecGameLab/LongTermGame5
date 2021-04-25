@@ -28,13 +28,11 @@ public class HealingAbility : Ability
     private bool _canHeal = true;
     private ManaController _manaController;
     
-    protected override void Start()
+    private void Start()
     {
         _manaController = ManaController.Get();
         _cameraController = CameraController.Get();
         _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
-        
-        base.Start();
     }
 
     protected override void Started(InputAction.CallbackContext context)
