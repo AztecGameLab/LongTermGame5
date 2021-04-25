@@ -729,6 +729,52 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1108715562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1108715563}
+  - component: {fileID: 1108715564}
+  m_Layer: 0
+  m_Name: Mana Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1108715563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108715562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1887999474}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1108715564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108715562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62b574b72ac8f8540b6b8a2943d76e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxFill: 0
+  currentFill: 0
+  fillBarUI: {fileID: 1319013191}
 --- !u!1 &1316512615
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +860,7 @@ GameObject:
   - component: {fileID: 1319013188}
   - component: {fileID: 1319013190}
   - component: {fileID: 1319013189}
+  - component: {fileID: 1319013191}
   m_Layer: 5
   m_Name: ManaBar
   m_TagString: Untagged
@@ -879,6 +926,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1319013187}
   m_CullTransparentMesh: 0
+--- !u!114 &1319013191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319013187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c6ece0db059e94ba404ab726180512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barFill: {fileID: 1841111720}
+  lerpDuration: 0.25
 --- !u!1 &1513626807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,7 +1207,6 @@ GameObject:
   - component: {fileID: 1841111718}
   - component: {fileID: 1841111721}
   - component: {fileID: 1841111720}
-  - component: {fileID: 1841111719}
   m_Layer: 5
   m_Name: ManaBarFill
   m_TagString: Untagged
@@ -1173,20 +1233,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1841111719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841111717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c6ece0db059e94ba404ab726180512, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BarFill: {fileID: 0}
-  lerpDuration: 0.5
 --- !u!114 &1841111720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1256,6 +1302,7 @@ Transform:
   - {fileID: 1513626808}
   - {fileID: 1626364697}
   - {fileID: 621620093}
+  - {fileID: 1108715563}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

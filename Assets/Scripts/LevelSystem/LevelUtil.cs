@@ -90,6 +90,8 @@ public class LevelUtil : Singleton<LevelUtil>
 
         TransitionTo(level, () =>
         {
+            GameplayEventChannel.PublishStart();
+            
             var playerGameObject = Instantiate(playerPrefab);
             var playerSpawn = Vector3.zero;
             
