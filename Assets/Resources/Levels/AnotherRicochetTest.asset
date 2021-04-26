@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5395a58971726e5429690cdb05b0d302, type: 3}
-  m_Name: Ricochet
+  m_Script: {fileID: 11500000, guid: 032a97f1993a4df1a1a5578f650cbd1b, type: 3}
+  m_Name: AnotherRicochetTest
   m_EditorClassIdentifier: 
-  degreesPerSecond: 400
-  speed: 20
-  damage: 1
-  bullet: {fileID: 7011875826906566697, guid: 81dee739caff04643b2cce08ae2fe6f1, type: 3}
-  radius: 1.5
+  sceneName: AnotherRicochetTest
+  levelsToPreload: []
+  isGameplayLevel: 1
+  isPersistent: 0
