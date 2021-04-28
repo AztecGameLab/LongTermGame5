@@ -6,19 +6,29 @@ public abstract class Ability : MonoBehaviour
 {
     protected PlatformerController Player;
     private GameInputs _inputs;
+    private InputAction _inputAction;
 
     protected abstract string InputName { get; }
 
-    protected virtual void Start()
+    private void OnEnable()
+    {
+        _inputAction.started += Started;
+        _inputAction.canceled += Canceled;
+        _inputAction.performed += Performed;
+    }
+
+    private void OnDisable()
+    {
+        _inputAction.started -= Started;
+        _inputAction.canceled -= Canceled;
+        _inputAction.performed -= Performed;
+    }
+    
+    protected virtual void Awake()
     {
         Player = GetComponent<PlatformerController>();
         _inputs = Player.Inputs;
-
-        var inputAction = _inputs.Player.Get().FindAction(InputName, true);
-        
-        inputAction.started += Started;
-        inputAction.canceled += Canceled;
-        inputAction.performed += Performed;
+        _inputAction = _inputs.Player.Get().FindAction(InputName, true);
     }
 
     protected virtual void Started(InputAction.CallbackContext context) { }

@@ -1,11 +1,14 @@
-﻿using System;
+﻿using FMODUnity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlyingEnemyMovement : MonoBehaviour
+public class FlyingEnemyMovement : Entity
 {
     PlatformerController player;
+    [EventRef] public string shotSound = "FlyingEnemyShot";
+    [EventRef] public string deathSound = "FlyingEnemyDeath";
     [SerializeField] private float speed;
     [SerializeField] private float amountToMove;
     [SerializeField] private float FireRate = 1f;
@@ -20,15 +23,19 @@ public class FlyingEnemyMovement : MonoBehaviour
     bool IsAttacking = false;
     bool CanMove = true;
     float rotate = 180;
+    private SpriteRenderer _spriteRenderer;
+
     
     Rigidbody2D rb;
-    
+
+    private Animator _animator;
     
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _animator = GetComponentInChildren<Animator>();
         player = PlatformerController.instance;
         rb = GetComponent<Rigidbody2D>();
         PeacefulPattern();
@@ -47,8 +54,30 @@ public class FlyingEnemyMovement : MonoBehaviour
             {
                 StartCoroutine(Dash(lookDirection));
             }
+            else
+            {
+                if (!hasDashed)
+                {
+                    MoveTowrdsPlayer();
+                }
+               
+            }
             
         }
+        
+    }
+
+    private void MoveTowrdsPlayer()
+    {
+        var pPos = player.transform.position;
+        var ePos = transform.position;
+        if(Mathf.Abs(pPos.x- ePos.x) > playerDistanceBeforeDashing + 1f)
+        {
+            pPos.Normalize();
+            rb.MovePosition(ePos - (pPos * speed * Time.deltaTime));
+        }
+        
+
     }
 
     private void PeacefulPattern()
@@ -77,7 +106,7 @@ public class FlyingEnemyMovement : MonoBehaviour
 
             if (dashCoolDown != tempdashCoolDown)
             {
-                
+                _animator.SetTrigger("Dash");
                 hasDashed = true;
                 // only dash 10% higher
                 dir.y *= .1f;
@@ -104,16 +133,18 @@ public class FlyingEnemyMovement : MonoBehaviour
 
     private void LookatPlayer()
     {
-        float rotate = 180;
+        //float rotate = 180;
         if (transform.position.x > player.transform.position.x)
         {
-            rotate = 0;
+            _spriteRenderer.flipX = true;
+            //rotate = 0;
         }
         else if (transform.position.x < player.transform.position.x)
         {
-            rotate = 180;
+            _spriteRenderer.flipX = false;
+            //rotate = 180;
         }
-        transform.localRotation = Quaternion.Euler(0, rotate, 0);
+        //transform.localRotation = Quaternion.Euler(0, rotate, 0);
     }
 
     IEnumerator RLMovment()
@@ -123,9 +154,9 @@ public class FlyingEnemyMovement : MonoBehaviour
             CanMove = false;
             //flip right to left by adding nagative velocity
 
-            rotate += 180;
+            //rotate += 180;
             speed *= -1f;
-            transform.localRotation = Quaternion.Euler(0, rotate, 0);
+            //transform.localRotation = Quaternion.Euler(0, rotate, 0);
             rb.velocity = new Vector2(speed, 0);
             yield return new WaitForSeconds(amountToMove);
             CanMove = true;
@@ -135,6 +166,8 @@ public class FlyingEnemyMovement : MonoBehaviour
     {
         while (IsAttacking)
         {
+            _animator.SetTrigger("Shoting");
+            RuntimeManager.PlayOneShot(shotSound);
             LookatPlayer();
             Instantiate(Projectile, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
             yield return new WaitForSeconds(FireRate);
@@ -161,4 +194,17 @@ public class FlyingEnemyMovement : MonoBehaviour
         }
     }
 
+    public override void TakeDamage(float baseDamage)
+    {
+        _animator.SetTrigger("Damaged");
+        RuntimeManager.PlayOneShot(deathSound);
+        base.TakeDamage(baseDamage);
+    }
+
+    public override void OnDeath()
+    {
+        rb.gravityScale = 1;
+        _animator.SetTrigger("Die");
+        GameObject.Destroy(this.gameObject, 3);
+    }
 }

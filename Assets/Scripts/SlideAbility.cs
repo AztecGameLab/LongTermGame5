@@ -9,10 +9,11 @@ public class SlideAbility : Ability
     private Animator anim;
 
     [Tooltip("Duration of the slide (sec)")]
-    public float slideDuration = 1;
+    public float slideDuration = 0.2f;
 
-    //The math only works at 0.5, I could make it work at different values but I'm lazy
+    //The math only works at 0.25, I could make it work at different values but I'm lazy
     private float shrinkValue = .5f;
+    private float yOffset = .25f;
 
     [Tooltip("How fast should our slide speed be? (% of max speed)")]
     public float slideSpeedMultiplier = 3f;
@@ -40,16 +41,15 @@ public class SlideAbility : Ability
 
     IEnumerator Sliding(){
 
-        //To Prevent us from falling we need to calculate Y offset
-        float yOffset = (Player.coll.size.y / 2) * shrinkValue;
-
         Player.coll.size = new Vector2( Player.coll.size.x, Player.coll.size.y * shrinkValue);
         Player.coll.offset = new Vector2(Player.coll.offset.x, Player.coll.offset.y - yOffset);
 
         canSlide = false;
         Player.lockControls = true;
         Player.coll.bounds.size.Set(Player.coll.bounds.size.x, Player.coll.bounds.size.y * shrinkValue, Player.coll.bounds.size.z);
+        GetComponent<Animator>().Play("slide");
         yield return new WaitForSeconds(slideDuration);
+        GetComponent<Animator>().SetTrigger("slideDone");
         StartCoroutine(Cooldown());
         Player.coll.bounds.size.Set(Player.coll.bounds.size.x, Player.coll.bounds.size.y / shrinkValue, Player.coll.bounds.size.z);
         Player.lockControls = false;
