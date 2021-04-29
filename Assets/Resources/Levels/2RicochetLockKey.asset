@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 2RicochetLockKey
   m_EditorClassIdentifier: 
   sceneName: 2RicochetLockKey
-  levelsToPreload: []
+  levelsToPreload:
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: c4b67b9bde1814042b2666c6e90087b0, type: 2}
   isGameplayLevel: 1
   isPersistent: 0
