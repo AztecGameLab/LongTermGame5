@@ -12,7 +12,6 @@ public class GodEvent : MonoBehaviour
         if(usedGodEvent)
             return;
 
-        PlatformerController.instance.canTakeDamage = false;
         PlatformerController.instance.lockControls = true;
         DialogSystem dialogSystem = GetComponentInChildren<DialogSystem>();
         dialogSystem.StartDialog();
@@ -24,6 +23,5 @@ public class GodEvent : MonoBehaviour
         AbilityUnlocks.Get().Unlock(abilityToUnlock);
         usedGodEvent = true;
         PlatformerController.instance.lockControls = false;
-        PlatformerController.instance.canTakeDamage = true;
     }
 }

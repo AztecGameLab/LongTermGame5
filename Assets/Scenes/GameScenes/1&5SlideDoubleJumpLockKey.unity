@@ -812,7 +812,7 @@ Transform:
   - {fileID: 252780425}
   - {fileID: 1101015009}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &164164332
 PrefabInstance:
@@ -10227,7 +10227,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &659113576
 PrefabInstance:
@@ -30277,7 +30277,7 @@ Transform:
   - {fileID: 1760602559}
   - {fileID: 1825664775}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1944291333
 PrefabInstance:
@@ -33254,8 +33254,111 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2051595989
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[0]
+      value: Hello young one, you may call me Vindr, Deity of the Nimbus Mountains.
+        You have come so far already, proving your abilities as well as your affinity
+        for the sky.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[1]
+      value: I deem you worthy of my gift, but first, you must know how to use it
+        properly. With this new power, you will be able to launch a beam of wind
+        from your fingertips.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[2]
+      value: You can also use your surroundings to your advantage, bouncing this
+        projectile in a direction that you please- pushing those caught in the crossfire
+        in said direction
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[3]
+      value: Listen, Kappi, you must use your power for the greater good. These tainted
+        skies? Well, they once shined with a blue and white iridescence,
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[4]
+      value: "but now glow with a cursed maroon. They have not been the same ever
+        since The Betrayer consumed the sky\u2019s light with her repulsive magic."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[5]
+      value: Kappi! You must put a stop to her! If you hesitate now, you will not
+        succeed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[6]
+      value: Now, continue your journey into the Grove of Tranquility. Use my gift,
+        and you will have no trouble. Good luck young one.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 208.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 66.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683868, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: abilityToUnlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683871, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_Name
+      value: GodEvent (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
 --- !u!4 &2052194663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8055528970034599019, guid: f0a8d2d50734a1646a61746b0a0444a0, type: 3}
@@ -37148,7 +37251,7 @@ Transform:
   - {fileID: 446444787}
   - {fileID: 1628103484}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2144236926
 PrefabInstance:
