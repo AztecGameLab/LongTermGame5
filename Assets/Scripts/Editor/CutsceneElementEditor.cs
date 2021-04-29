@@ -1,10 +1,11 @@
-﻿using UnityEditor;
+﻿using CutsceneSystem;
+using UnityEditor;
 using UnityEngine;
 
-namespace CutsceneSystem
+namespace Editor
 {
     [CustomEditor(typeof(Element))]
-    public class CutsceneElementEditor : Editor
+    public class CutsceneElementEditor : UnityEditor.Editor
     {
         private float gap = 10;
 
