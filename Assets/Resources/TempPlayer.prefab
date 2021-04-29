@@ -286,7 +286,7 @@ MonoBehaviour:
   rigid: {fileID: 0}
   anim: {fileID: 0}
   deathTimeSeconds: 2
-  projectileManaCost: 0.25
+  isDying: 0
   playerImpulseSource: {fileID: 5725528633323557417}
   coll: {fileID: 0}
   lockControls: 0
@@ -659,9 +659,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237c0a9518c23351fa72fa64e4b406af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponWheel: {fileID: 0}
-  maxWeapons: 4
+  WeaponWheel: {fileID: 8892098812225099572}
   quickStopTimeout: 0.5
+  lastWeapon: 0
 --- !u!1 &4143225699924275704
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 75}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &557938968233336017
@@ -846,7 +846,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -75}
+  m_AnchoredPosition: {x: 0, y: 75}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2938649949237394083
@@ -940,5 +940,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   images: []
+  LockedIcon: {fileID: 0}
   unselectedOpacity: 0.5
   selectedOpacity: 1

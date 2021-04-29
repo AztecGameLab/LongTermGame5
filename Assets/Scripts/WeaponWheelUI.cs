@@ -7,6 +7,7 @@ public class WeaponWheelUI : MonoBehaviour
 {
 
     public Image[] images;
+    public Sprite LockedIcon;
 
     [Range(0, 1)]
     public float unselectedOpacity, selectedOpacity;
@@ -16,15 +17,18 @@ public class WeaponWheelUI : MonoBehaviour
     {
         images = this.gameObject.GetComponentsInChildren<Image>();
         for(int i = 0; i < images.Length; i++){
-            images[i].gameObject.SetActive(false);
             images[i].color = new Color(images[i].color.r, images[i].color.g, images[i].color.b, unselectedOpacity);
         }
+
+        this.gameObject.SetActive(false);
     }
 
     public void Appear(){
-        for(int i = 0; i < PlatformerController.instance.weapons.Count; i++){
-            images[i].sprite = PlatformerController.instance.weapons[i].RuneSprite;
-            images[i].gameObject.SetActive(true);
+        for(int i = 0; i < images.Length; i++){
+            if(i < PlatformerController.instance.weapons.Count)
+                images[i].sprite = PlatformerController.instance.weapons[i].RuneSprite;
+            else
+                images[i].sprite = LockedIcon;
         }
 
         this.gameObject.SetActive(true);
@@ -38,11 +42,12 @@ public class WeaponWheelUI : MonoBehaviour
         //TODO :: Make the icon grow or something to indicate which weapon was picked
     }
 
-    int lastHighlighted = 0;
-
     public void HighlightWeapon(int index){
-        if(index != lastHighlighted)
-            images[lastHighlighted].color = new Color(images[lastHighlighted].color.r, images[lastHighlighted].color.g, images[lastHighlighted].color.b, unselectedOpacity);
+
+        for(int i = 0; i < images.Length; i++){
+            images[i].color = new Color(images[i].color.r, images[i].color.g, images[i].color.b, unselectedOpacity);
+        }
+
         images[index].color = new Color(images[index].color.r, images[index].color.g, images[index].color.b, selectedOpacity);
     }
 }

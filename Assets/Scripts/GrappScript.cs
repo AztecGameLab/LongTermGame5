@@ -34,7 +34,8 @@ public class GrappScript : ProjectileWeapon
     {
         Vector2 playerPos = PlatformerController.instance.transform.position;
         //Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;      for testing while i didnt have PlatformerController on
-        RaycastHit2D hit = Physics2D.Raycast(playerPos, direction, 100);                           
+        RaycastHit2D hit = RaycastIgnoreTriggers(playerPos, direction, 100, ~LayerMask.NameToLayer("Player"));
+        Debug.Log(hit);                      
 
         Debug.DrawRay(playerPos, direction, Color.red, 10);
         if (hit.collider != null)
@@ -56,6 +57,15 @@ public class GrappScript : ProjectileWeapon
             PlatformerController.instance.StartCoroutine(DrawRope());
         }
 
+    }
+
+    RaycastHit2D RaycastIgnoreTriggers(Vector2 origin, Vector2 direction, float distance, int layerMask){
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance, layerMask);
+        foreach(RaycastHit2D hit in hits){
+            if(!hit.collider.isTrigger)
+                return hit;
+        }
+        return new RaycastHit2D();
     }
 
     IEnumerator DrawRope()

@@ -96,7 +96,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""id"": ""249a9798-ba00-492d-8998-be25e559f19d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -302,7 +302,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""f71d8770-de30-4a6f-bfd1-e7f0dde39b56"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""RangedAttack"",
@@ -524,7 +524,18 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""WeaponWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e81c44a-69c8-4934-b6d0-c1c77e3510b4"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""WeaponWheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

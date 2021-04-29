@@ -9,41 +9,37 @@ public class WeaponSwitchAbility : Ability
     //My reasoning for a weaponWheel
     //https://uxdesign.cc/the-evolution-of-accessibility-weapons-wheel-f8fed0fed78e
 
-    protected override string InputName => "WeaponSwitch";
+    protected override string InputName => "WeaponWheel";
 
     public WeaponWheelUI WeaponWheel;
-    public int maxWeapons = 4;
 
     public float quickStopTimeout = 0.5f;
 
-    int lastWeapon = 0;
-    bool quickSwap = true;
+    public int lastWeapon = 0;
 
     protected override void Started(InputAction.CallbackContext context) { 
-        //This will run immediatly when the butten is held down
-        StartCoroutine(QuickSwapTimeout(quickStopTimeout));
-        print("Button Pressed down");
+
     }
 
     protected override void Canceled(InputAction.CallbackContext context) {
         //This will run when the button is released
         
-        int weaponIndex = (int)(((Vector2.SignedAngle(Vector2.up, Player.primaryStick) + 180)/360) * maxWeapons);
+        print("Button Released");
 
-        StopCoroutine(Update());
+        //I was lazy
+        int weaponIndex = Mathf.RoundToInt(((Vector2.SignedAngle(new Vector2(1, 0), Player.primaryStick))+90)/90);
+            if(weaponIndex == -1)
+                weaponIndex = 3;
+
+        StopCoroutine(UpdateInput());
         WeaponWheel.Disappear();
         Player.TimeSlowDown(false);
 
         //Quickswap or you chose a weapon that you dont have
-        if(quickSwap || weaponIndex > Player.weapons.Count){
-            //Just an XOR Swap
-            Player.currWeapon ^= lastWeapon;
-            lastWeapon ^= Player.currWeapon;
-            Player.currWeapon ^= lastWeapon;
+        if(weaponIndex > Player.weapons.Count){
             return;
         }
 
-        lastWeapon = Player.currWeapon;
         Player.currWeapon = weaponIndex;
     }
 
@@ -51,19 +47,16 @@ public class WeaponSwitchAbility : Ability
         //This will run when when the InputAction is held for n amount of time
         Player.TimeSlowDown(true);
         WeaponWheel.Appear();
-        StartCoroutine(Update());
-        print("Button Held down");
+        StartCoroutine(UpdateInput());
     }
 
-    IEnumerator QuickSwapTimeout(float timeout){
-        quickSwap = true;
-        yield return new WaitForSeconds(timeout);
-        quickSwap = false;
-    }
-
-    IEnumerator Update(){
-        while(true){
-            int weaponIndex = (int)(((Vector2.SignedAngle(Vector2.up, Player.primaryStick) + 180)/360) * maxWeapons);
+    IEnumerator UpdateInput(){
+        while(WeaponWheel.enabled){
+            //I was lazy
+            int weaponIndex = Mathf.RoundToInt(((Vector2.SignedAngle(new Vector2(1, 0), Player.primaryStick))+90)/90);
+            if(weaponIndex == -1)
+                weaponIndex = 3;
+                
             WeaponWheel.HighlightWeapon(weaponIndex);
             yield return null;
         }
