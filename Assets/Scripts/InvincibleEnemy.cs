@@ -54,7 +54,7 @@ public class InvincibleEnemy : Entity
         distance += h / Mathf.Tan(a);
 
         // calculate velocity
-        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+        float velocity = Mathf.Sqrt(Mathf.Abs(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a)));
         return velocity * direction.normalized;
     }
 
