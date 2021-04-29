@@ -89,6 +89,14 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""WeaponWheel"",
+                    ""type"": ""Button"",
+                    ""id"": ""249a9798-ba00-492d-8998-be25e559f19d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -434,6 +442,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""c56a8c82-b328-4c9b-9ead-fa65508b0831"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ManaHeal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""Down Attack"",
                     ""id"": ""bdb44f70-6712-42c7-ac7c-9653cd92aab4"",
                     ""path"": ""ButtonWithOneModifier"",
@@ -498,6 +517,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""action"": ""GroundPound"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e7febcd-53eb-467c-a8ed-01803eaba143"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -565,6 +595,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_ManaHeal = m_Player.FindAction("ManaHeal", throwIfNotFound: true);
         m_Player_GroundPound = m_Player.FindAction("GroundPound", throwIfNotFound: true);
+        m_Player_WeaponWheel = m_Player.FindAction("WeaponWheel", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -626,6 +657,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_ManaHeal;
     private readonly InputAction m_Player_GroundPound;
+    private readonly InputAction m_Player_WeaponWheel;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -639,6 +671,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @ManaHeal => m_Wrapper.m_Player_ManaHeal;
         public InputAction @GroundPound => m_Wrapper.m_Player_GroundPound;
+        public InputAction @WeaponWheel => m_Wrapper.m_Player_WeaponWheel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -675,6 +708,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @GroundPound.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroundPound;
                 @GroundPound.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroundPound;
                 @GroundPound.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGroundPound;
+                @WeaponWheel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheel;
+                @WeaponWheel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheel;
+                @WeaponWheel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheel;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -706,6 +742,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @GroundPound.started += instance.OnGroundPound;
                 @GroundPound.performed += instance.OnGroundPound;
                 @GroundPound.canceled += instance.OnGroundPound;
+                @WeaponWheel.started += instance.OnWeaponWheel;
+                @WeaponWheel.performed += instance.OnWeaponWheel;
+                @WeaponWheel.canceled += instance.OnWeaponWheel;
             }
         }
     }
@@ -772,6 +811,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         void OnSlide(InputAction.CallbackContext context);
         void OnManaHeal(InputAction.CallbackContext context);
         void OnGroundPound(InputAction.CallbackContext context);
+        void OnWeaponWheel(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 [CreateAssetMenu(fileName = "FireBall", menuName = "FireBall")]
 public class FireBallStats : ProjectileWeapon
 {
     public GameObject fireBall;
     GameObject newFireBall;
-   
+    public StudioEventEmitter fireballSound;
     public float launchForce;
     public float recoil;
     public float upForce;
@@ -23,6 +24,8 @@ public class FireBallStats : ProjectileWeapon
 
     public override void Fire(Vector2 direction)
     {
+        fireballSound.SetParameter("Fireball", 1);
+        fireballSound.Play();
         getDir = direction;
         charging = false;
         PlatformerController.instance.StopCoroutine(Power());
@@ -36,6 +39,7 @@ public class FireBallStats : ProjectileWeapon
 
     public override void Charge(Vector2 direction)
     {
+        fireballSound.SetParameter("Fireball", 0);
         chargeTimer = 0f;
         damage = 0;
         newFireBall = Instantiate(fireBall, fireBall.transform.position, Quaternion.identity);

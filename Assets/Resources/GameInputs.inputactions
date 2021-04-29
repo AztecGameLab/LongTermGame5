@@ -76,6 +76,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "WeaponWheel",
+                    "type": "Button",
+                    "id": "249a9798-ba00-492d-8998-be25e559f19d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -421,6 +429,17 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "",
+                    "id": "c56a8c82-b328-4c9b-9ead-fa65508b0831",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ManaHeal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "Down Attack",
                     "id": "bdb44f70-6712-42c7-ac7c-9653cd92aab4",
                     "path": "ButtonWithOneModifier",
@@ -485,6 +504,17 @@
                     "action": "GroundPound",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4e7febcd-53eb-467c-a8ed-01803eaba143",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WeaponWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

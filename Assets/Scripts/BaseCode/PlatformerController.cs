@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +11,12 @@ public class PlatformerController : Entity
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
-
+    [SerializeField] private float deathTimeSeconds = 2f;
+    [SerializeField] private float projectileManaCost = 0.25f;
+    
+    public bool isDying = false;
+    private ManaController _manaController;
+    
     public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
     SpriteRenderer render;
@@ -69,6 +76,7 @@ public class PlatformerController : Entity
         }
 
         health = parameters.MaxHealth;
+        _manaController = ManaController.Get();
     }
 
     public int facingDirection = 1;
@@ -225,13 +233,14 @@ public class PlatformerController : Entity
         if(weapons.Count <= 0){ return; }
 
 
-        if(context.performed){
+        if(context.performed && _manaController.GetCurrentFill() > 0){
             weapons[currWeapon].Cancel();
             weapons[currWeapon].Charge(aimDirection);
             AimingState(true);
         }else if(context.canceled && isAiming){
             AimingState(false);
             weapons[currWeapon].Fire(aimDirection);
+            _manaController.Consume(projectileManaCost, true);
             anim.Play("magicCast");
         }
     }
@@ -407,13 +416,19 @@ public class PlatformerController : Entity
         canTakeDamage = true;
     }
 
-    public override void OnDeath()
+    public override async void OnDeath()
     {
+        if (isDying)
+            return;
+        
         //We don't want to destroy ourselves on death lmao
         anim.Play("death");
         lockControls = true;
-        //Someone else implement this
-        return;
+        isDying = true;
+        
+        await Task.Delay(TimeSpan.FromSeconds(deathTimeSeconds));
+        print("done waiting");
+        LevelUtil.Get().LoadSavedGame();
     }
 
     #endregion

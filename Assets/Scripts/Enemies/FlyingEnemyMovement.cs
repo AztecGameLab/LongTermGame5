@@ -157,6 +157,7 @@ public class FlyingEnemyMovement : Entity
             //rotate += 180;
             speed *= -1f;
             //transform.localRotation = Quaternion.Euler(0, rotate, 0);
+            _spriteRenderer.flipX = !_spriteRenderer.flipX;
             rb.velocity = new Vector2(speed, 0);
             yield return new WaitForSeconds(amountToMove);
             CanMove = true;
@@ -169,9 +170,10 @@ public class FlyingEnemyMovement : Entity
             _animator.SetTrigger("Shoting");
             RuntimeManager.PlayOneShot(shotSound);
             LookatPlayer();
-            Instantiate(Projectile, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
+            var dirToPlayer = (player.transform.position - transform.position).normalized;
+            var angleToPlayer = Vector3.SignedAngle(dirToPlayer, Vector3.right, Vector3.back);
+            Instantiate(Projectile, ProjectileSpawnPoint.position, Quaternion.Euler(0, 0, angleToPlayer));
             yield return new WaitForSeconds(FireRate);
-
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
