@@ -78,9 +78,9 @@
                     "interactions": ""
                 },
                 {
-                    "name": "WeaponSwitch",
+                    "name": "WeaponWheel",
                     "type": "Button",
-                    "id": "a2245740-1694-4731-9eb8-e699c66436f5",
+                    "id": "249a9798-ba00-492d-8998-be25e559f19d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -507,12 +507,12 @@
                 },
                 {
                     "name": "",
-                    "id": "bb5a8553-f20f-4eb5-96f9-3710065285c2",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "Hold",
+                    "id": "4e7febcd-53eb-467c-a8ed-01803eaba143",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "WeaponSwitch",
+                    "groups": "",
+                    "action": "WeaponWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
