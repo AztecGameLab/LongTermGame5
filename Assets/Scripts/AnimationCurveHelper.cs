@@ -2,6 +2,8 @@ using UnityEngine;
 
 public static class AnimationCurveHelper
 {
+    
+    
     public static void ChangeFirstKeyframeValue(AnimationCurve curve, float value)
     {
         Keyframe startKeyframe = curve[0];
@@ -31,5 +33,10 @@ public static class AnimationCurveHelper
     public static Keyframe LastKey(AnimationCurve curve)
     {
         return curve.keys[Mathf.Max(0, curve.length - 1)];
+    }
+    
+    public static float Duration(AnimationCurve curve)
+    {
+        return LastKey(curve).time;
     }
 }
