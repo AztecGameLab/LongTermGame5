@@ -30,10 +30,28 @@ public class Minimap : Singleton<Minimap>
     private PlatformerController _player;
     private readonly Dictionary<Area, MinimapArea> _mappedAreas = new Dictionary<Area, MinimapArea>();
 
+    public void OnEnable()
+    {
+        GameplayEventChannel.Start += EnableMinimap;
+        GameplayEventChannel.End += DisableMinimap;
+    }
+
+    public void OnDisable()
+    {
+        GameplayEventChannel.Start -= EnableMinimap;
+        GameplayEventChannel.End -= DisableMinimap;
+    }
+
+    bool filledDict = false;
     private void OnValidate()
     {
-        foreach (var minimapArea in minimapAreas)
-            _mappedAreas.Add(minimapArea.area, minimapArea);
+        if (!filledDict)
+        {
+            foreach (var minimapArea in minimapAreas)
+                _mappedAreas.Add(minimapArea.area, minimapArea);
+            filledDict = true;
+        }
+        
     }
 
     private void Update()
@@ -52,9 +70,9 @@ public class Minimap : Singleton<Minimap>
         transform.localPosition = new Vector3(xPos, yPos);
     }
 
-    public void EnableMinimap(PlatformerController player)
+    public void EnableMinimap()
     {
-        _player = player;
+        _player = PlatformerController.instance;
         _isEnabled = true;
         playerMarker.gameObject.SetActive(true);
         gameObject.SetActive(true);
