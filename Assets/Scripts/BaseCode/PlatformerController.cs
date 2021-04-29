@@ -195,7 +195,8 @@ public class PlatformerController : Entity
             Vector2 direction =  point.point - (Vector2)this.transform.position;
             //We're gonna be pretty forgiving and if ANY colliders are below our feet
             if(Vector3.Angle(-this.transform.up, direction) < parameters.MaxGroundAngle){
-                
+                isJumping = false;
+
                 if(isJumping){
                     break;
                 }
@@ -301,7 +302,6 @@ public class PlatformerController : Entity
     #region Helpers
 
     void OnCollisionEnter2D(Collision2D other){
-        isJumping = false;
         CheckGroundedState(other);
     }
 
