@@ -1,20 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FillSystem : MonoBehaviour
+public class ManaController : Singleton<ManaController>
 {
-    public float maxFill;
-    public float currentFill;
+    [SerializeField] private float maxFill;
+    [SerializeField] private float currentFill;
+    [SerializeField] private FillBarUI fillBarUI;
 
-    public FillBarUI FillBarUI;
-
-    /* When the game starts set the currentMana to the max it can be
-     * 
-     */
-    public virtual void Start()
+    private void OnEnable()
     {
         currentFill = maxFill;
+        
+        GameplayEventChannel.Start += ShowUI;
+        GameplayEventChannel.End += HideUI;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventChannel.Start -= ShowUI;
+        GameplayEventChannel.End -= HideUI;
+    }
+
+    private void ShowUI()
+    {
+        fillBarUI.gameObject.SetActive(true);
+    }
+    
+    private void HideUI()
+    {
+        fillBarUI.gameObject.SetActive(false);
     }
 
     /* A method which returns the currentFill
@@ -50,7 +63,7 @@ public class FillSystem : MonoBehaviour
             float fillBefore = currentFill;
             currentFill += valueGained;
             currentFill = Mathf.Clamp(currentFill, 0, maxFill);
-            StartCoroutine(FillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
+            StartCoroutine(fillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
         }
     }
 
@@ -96,24 +109,23 @@ public class FillSystem : MonoBehaviour
             Debug.LogError("Did you intend to use the Gain() function?");
             return false;
         }
-        else if (currentFill >= cost)
+
+        if (currentFill >= cost)
         {
             currentFill -= cost;
-            StartCoroutine(FillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
+            StartCoroutine(fillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
             return true;
         }
-        else if (canBeReducedPastZero)
+        
+        if (canBeReducedPastZero)
         {
             currentFill = 0;
-            StartCoroutine(FillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
+            StartCoroutine(fillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
             return true;
         }
-        else
-        {
-            //Not enough fill to Consume because cost is too high
-            return false;
-        }
-
+        
+        //Not enough fill to Consume because cost is too high
+        return false;
     }
 
 

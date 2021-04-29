@@ -7,17 +7,18 @@ using UnityEngine.InputSystem;
 
 public class HealingAbility : Ability
 {
-    [Header("Heal Settings")]
-    public float healAmount = 1;
-    public float healZoomAmount = 1f;
-    public float healChargeTime = 2f;
-    public AnimationCurve healChargeCurve;
-    public AnimationCurve healResetCurve;
-    [EventRef] public string healSfx;
+    [Header("Heal Settings")] 
+    [SerializeField] private float manaCost = 0.25f;
+    [SerializeField] private float healAmount = 1;
+    [SerializeField] private float healZoomAmount = 1f;
+    [SerializeField] private float healChargeTime = 2f;
+    [SerializeField] private AnimationCurve healChargeCurve;
+    [SerializeField] private AnimationCurve healResetCurve;
+    [SerializeField, EventRef] private string healSfx;
     
     [Header("Heal State")] 
-    public float remainingHealTime = 0f;
-    public float remainingHealTimeAnalog = 0f;
+    [SerializeField] private float remainingHealTime = 0f;
+    [SerializeField] private float remainingHealTimeAnalog = 0f;
     
     private float MaxHealth => Player.parameters.MaxHealth;
     private EventInstance _healSfxEvent;
@@ -25,18 +26,18 @@ public class HealingAbility : Ability
     private float _zoomDefault;
     private Coroutine _healingCoroutine;
     private bool _canHeal = true;
+    private ManaController _manaController;
     
-    protected override void Start()
+    private void Start()
     {
+        _manaController = ManaController.Get();
         _cameraController = CameraController.Get();
         _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
-        
-        base.Start();
     }
 
     protected override void Started(InputAction.CallbackContext context)
     {
-        if (_canHeal)
+        if (_canHeal && _manaController.GetCurrentFill() >= manaCost)
             _healingCoroutine = StartCoroutine(ChargeHeal());
     }
 
@@ -72,6 +73,7 @@ public class HealingAbility : Ability
             yield return new WaitForEndOfFrame();
         }
         Player.health = Mathf.Min(Player.health + healAmount, MaxHealth);
+        _manaController.Consume(manaCost, false);
         StartCoroutine(Cleanup());
     }
 
@@ -96,10 +98,5 @@ public class HealingAbility : Ability
         _canHeal = true;
     }
 
-    private void OnGUI()
-    {
-        GUILayout.Label($"Player HP: {Player.health}");
-    }
-    
     protected override string InputName => "ManaHeal";
 }

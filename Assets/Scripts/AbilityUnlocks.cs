@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AbilityUnlocks : Singleton<AbilityUnlocks>
 {
+    public static event Action<Abilities> AbilityUnlocked;
+    
     public enum Abilities {Slide, ReflectingProjectile, Bash, FireBall, DoubleJump, FreezeProjectile, GroundPound, Grapple}
     
     public void Unlock(Abilities ability)
@@ -39,5 +41,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
                 print("unlock");
                 break;
         }
+        
+        AbilityUnlocked?.Invoke(ability);
     }
 }
