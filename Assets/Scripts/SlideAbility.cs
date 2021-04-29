@@ -26,6 +26,9 @@ public class SlideAbility : Ability
         if(!canSlide)
             return;
 
+        if(Player.lockControls)
+            return;
+
         int direction = Player.primaryStick.x >= 0 ? 1 : -1;
         if(Player.primaryStick.x == 0){
             direction = Player.facingDirection;
