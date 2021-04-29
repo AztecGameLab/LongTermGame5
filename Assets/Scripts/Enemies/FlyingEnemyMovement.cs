@@ -157,6 +157,7 @@ public class FlyingEnemyMovement : Entity
             //rotate += 180;
             speed *= -1f;
             //transform.localRotation = Quaternion.Euler(0, rotate, 0);
+            _spriteRenderer.flipX = !_spriteRenderer.flipX;
             rb.velocity = new Vector2(speed, 0);
             yield return new WaitForSeconds(amountToMove);
             CanMove = true;

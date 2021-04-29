@@ -434,6 +434,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""c56a8c82-b328-4c9b-9ead-fa65508b0831"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ManaHeal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""Down Attack"",
                     ""id"": ""bdb44f70-6712-42c7-ac7c-9653cd92aab4"",
                     ""path"": ""ButtonWithOneModifier"",
