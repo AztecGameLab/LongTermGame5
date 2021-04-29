@@ -28,11 +28,13 @@ public class PlayerCamera : MonoBehaviour
     private float VerticalDirection => Input.y > 0 ? 1 : -1;
     private float HorizontalDirection => Input.x > 0 ? 1 : -1; 
     private float _holdTime = 0;
+    private bool _hasTransposer = false;
     
     private void Awake()
     {
         _camera = GetComponent<CinemachineVirtualCamera>();
         _transposer = _camera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        _hasTransposer = _transposer != null;
 
         activeZone.events.collisionEnter.AddListener(TriggerEnter);
         activeZone.events.collisionExit.AddListener(TriggerExit);
@@ -49,10 +51,13 @@ public class PlayerCamera : MonoBehaviour
     
     private void Update()
     {
-        LookHorizontal();
-        LookVertical();
+        if (_hasTransposer)
+        {
+            LookHorizontal();
+            LookVertical();
 
-        _transposer.m_TrackedObjectOffset = _offset;
+            _transposer.m_TrackedObjectOffset = _offset;    
+        }
     }
 
     private void LookHorizontal()
