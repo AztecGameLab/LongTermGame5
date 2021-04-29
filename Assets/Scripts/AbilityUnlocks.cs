@@ -7,12 +7,14 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
 {
     public static event Action<Abilities> AbilityUnlocked;
     
-    public enum Abilities {Slide, ReflectingProjectile, Bash, FireBall, DoubleJump, FreezeProjectile, GroundPound, Grapple}
+    public enum Abilities {Slide, ReflectingProjectile, Bash, FireBall, DoubleJump, FreezeProjectile, GroundPound, Grapple, None}
     
     public void Unlock(Abilities ability)
     {
         switch (ability)
         {
+            case Abilities.None:
+                break;
             case Abilities.Slide:
                 gameObject.AddComponent<SlideAbility>();
                 break;
