@@ -1,4 +1,5 @@
-using System.Threading.Tasks;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Editor.EditorUtil;
@@ -7,16 +8,41 @@ namespace Editor
 {
     public static class EditorSceneSetupController
     {
-        [RuntimeInitializeOnLoadMethod]
-        private static async void LoadDependentScenes()
+        [InitializeOnLoadMethod]
+        private static void Init()
         {
-            EnsureSceneIsLoaded("Persistent");
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
+        }
 
+        private static void OnPlayModeChanged(PlayModeStateChange state)
+        {
+            if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                {
+                    try
+                    {
+                        EditorSceneManager.OpenScene("Assets/Scenes/Persistent.unity", OpenSceneMode.Additive);
+                    }
+                    catch
+                    {
+                        EditorApplication.isPlaying = false;
+                    }
+                }
+                else
+                {
+                    // User cancelled the save operation -- cancel play as well.
+                    EditorApplication.isPlaying = false;
+                }
+            }
+        }
+
+        [RuntimeInitializeOnLoadMethod]
+        private static void LoadPlayerAtSpawn()
+        {
             if (HasPlayerSpawn(out var playerSpawn))
                 CreatePlayerAt(playerSpawn.transform.position);
-            
-            await Task.Yield();
-            
+
             var currentLevel = LevelController.Get().GetLevel(SceneManager.GetActiveScene().name);
             
             if (currentLevel.isGameplayLevel)
