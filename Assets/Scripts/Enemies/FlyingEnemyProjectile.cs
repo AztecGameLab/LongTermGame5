@@ -21,11 +21,6 @@ public class FlyingEnemyProjectile : MonoBehaviour
         StartCoroutine(DestroyProjectile());
     }
 
-    private void Update()
-    {
-        transform.right = rb.velocity;
-    }
-
     IEnumerator DestroyProjectile()
     {
         yield return new WaitForSeconds(5f);
