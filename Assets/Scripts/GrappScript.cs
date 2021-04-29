@@ -14,11 +14,7 @@ public class GrappScript : ProjectileWeapon
     public void Fire(Vector2 direction)
     {
         lr = PlatformerController.instance.gameObject.AddComponent<LineRenderer>();
-
-
-
         StartGrapple(direction);
-        
     }
 
     public override void Cancel()

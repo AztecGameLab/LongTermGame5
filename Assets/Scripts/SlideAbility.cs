@@ -41,7 +41,7 @@ public class SlideAbility : Ability
 
     IEnumerator Sliding(){
 
-        Player.coll.size = new Vector2( Player.coll.size.x, Player.coll.size.y * shrinkValue);
+        Player.coll.size = new Vector2(Player.coll.size.x, Player.coll.size.y * shrinkValue);
         Player.coll.offset = new Vector2(Player.coll.offset.x, Player.coll.offset.y - yOffset);
 
         canSlide = false;

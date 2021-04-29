@@ -242,6 +242,10 @@ public class PlatformerController : Entity
 
     public void AimingState(bool state){
         isAiming = state;
+        TimeSlowDown(state);
+    }
+
+    public void TimeSlowDown(bool state){
         if(state){
             Time.timeScale = parameters.BulletTimeSlowDown;
             Time.fixedDeltaTime = .02f * parameters.BulletTimeSlowDown;
