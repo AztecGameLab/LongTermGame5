@@ -198,7 +198,7 @@ Transform:
   - {fileID: 1277941775}
   - {fileID: 58910562}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &101201141 stripped
 Transform:
@@ -870,6 +870,113 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 254926031d7b9c44b9dce7aecdc1328e, type: 3}
+--- !u!1001 &339006322
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[0]
+      value: "Bah! Such insolent creatures. You startled me, Kappi - I almost mistook
+        you for one and would\u2019ve banished you along with the rest of them."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[1]
+      value: However, worry not about such trivialities, we have more pressing issues.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[2]
+      value: The last time our paths crossed I granted you the power of flame to
+        assist you on your journey. And today, I will be doing the same.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[3]
+      value: Today, I deem you worthy of furthering your progression with the power
+        of flame.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[4]
+      value: This new ability will destroy terrain underneath you, allowing you to
+        travel to places most cannot. Use it wisely.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[5]
+      value: You have come a long way, my radiant spark. You are almost ready to
+        face the Betrayer god.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971399403331, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: dialog.Array.data[6]
+      value: "I can teach you no more, but seek out J\xF6rkun; your final trials
+        lie in the Grove of Tranquility. Godspeed."
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 169.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -24.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683864, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683868, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: abilityToUnlock
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683869, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_Size.x
+      value: 16.23996
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683869, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_Offset.x
+      value: -1.8800201
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010972394683871, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_Name
+      value: GodEvent
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
 --- !u!114 &396074252 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3586038383431929379, guid: f26ec602274a8aa4f8aaee88b65eadf3, type: 3}
@@ -3678,7 +3785,7 @@ Transform:
   - {fileID: 1956789616}
   - {fileID: 497539477}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &957440882
 PrefabInstance:
@@ -5137,7 +5244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1153396847
 PrefabInstance:
@@ -5885,7 +5992,7 @@ Transform:
   - {fileID: 2043376945}
   - {fileID: 702826419}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1350182641
 GameObject:
@@ -5971,7 +6078,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1350993682
 PrefabInstance:
@@ -8176,7 +8283,7 @@ Transform:
   - {fileID: 1555351170}
   - {fileID: 745831367}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1664343147
 PrefabInstance:
@@ -9747,7 +9854,7 @@ Transform:
   - {fileID: 48268412}
   - {fileID: 1689252952}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1946489655
 PrefabInstance:

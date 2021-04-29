@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class DialogSystem : MonoBehaviour
 {
+    public static bool isDialoging;
+    
     public float charPerSecond = 1;
 
     [TextArea(5, 10)]
@@ -39,7 +41,8 @@ public class DialogSystem : MonoBehaviour
     {
         if (_currentDialogIndex >= 0)
             return;
-        
+
+        isDialoging = true;
         ListenForInput();
         transform.GetChild(0).gameObject.SetActive(true);
         _textComponent = GetComponentInChildren<TMP_Text>();
@@ -53,7 +56,7 @@ public class DialogSystem : MonoBehaviour
     private void NextDialog()
     {
         if (_textRevealing)
-            _secondsPerChar = 0.001f;
+            _secondsPerChar = 0.0001f;
         else if (++_currentDialogIndex < dialog.Length)
         {
             if (_currentRevealString != null)
@@ -67,6 +70,7 @@ public class DialogSystem : MonoBehaviour
     public Action finishedDialog;
     private void CloseDialog()
     {
+        isDialoging = false;
         StopListenForInput();
         _currentDialogIndex = -1;
         finishedDialog?.Invoke();
@@ -85,7 +89,7 @@ public class DialogSystem : MonoBehaviour
         int totalCharacters = _textComponent.textInfo.characterCount;
         int visibleCount = 0;
 
-        while (visibleCount < totalCharacters)
+        while (visibleCount <= totalCharacters)
         {
             _textComponent.maxVisibleCharacters = visibleCount;
 
