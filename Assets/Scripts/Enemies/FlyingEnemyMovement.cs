@@ -170,9 +170,10 @@ public class FlyingEnemyMovement : Entity
             _animator.SetTrigger("Shoting");
             RuntimeManager.PlayOneShot(shotSound);
             LookatPlayer();
-            Instantiate(Projectile, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
+            var dirToPlayer = (player.transform.position - transform.position).normalized;
+            var angleToPlayer = Vector3.SignedAngle(dirToPlayer, Vector3.right, Vector3.back);
+            Instantiate(Projectile, ProjectileSpawnPoint.position, Quaternion.Euler(0, 0, angleToPlayer));
             yield return new WaitForSeconds(FireRate);
-
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

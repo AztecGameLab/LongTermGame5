@@ -90,8 +90,21 @@ public class LevelUtil : Singleton<LevelUtil>
 
         TransitionTo(level, () =>
         {
+            GameplayEventChannel.PublishStart();
+            
             var playerGameObject = Instantiate(playerPrefab);
-            playerGameObject.transform.position = playerData == null ? Vector3.zero : (Vector3) playerData.position;
+            var playerSpawn = Vector3.zero;
+            
+            if (playerData != null)
+            {
+                playerSpawn = playerData.position;
+            }
+            else if (Scanner.HasObjectsInScene(out Transform[] playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
+            {
+                playerSpawn = playerSpawnTransform[0].position;
+            }
+            
+            playerGameObject.transform.position = playerSpawn;
         });        
     }
 }

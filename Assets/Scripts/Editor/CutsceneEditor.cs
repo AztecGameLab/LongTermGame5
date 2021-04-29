@@ -1,10 +1,11 @@
-﻿using UnityEditor;
+﻿using CutsceneSystem;
+using UnityEditor;
 using UnityEngine;
 
-namespace CutsceneSystem
+namespace Editor
 {
     [CustomEditor(typeof(Cutscene))]
-    public class CutsceneEditor : Editor
+    public class CutsceneEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI() //makes a dynamic slider based on how many frames there are
         {
