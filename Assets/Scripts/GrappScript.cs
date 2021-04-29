@@ -30,18 +30,20 @@ public class GrappScript : ProjectileWeapon
         Destroy(joint);
     }
 
+    public override void OnAimChange(Vector2 direction)
+    {
+        Vector2 playerPos = PlatformerController.instance.transform.position;
+        Debug.DrawRay(playerPos, direction * Mathf.Infinity, Color.red, 10);
+        base.OnAimChange(direction);
+    }
+
     public void StartGrapple(Vector2 direction)
     {
         Vector2 playerPos = PlatformerController.instance.transform.position;
-        //Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;      for testing while i didnt have PlatformerController on
-        RaycastHit2D hit = RaycastIgnoreTriggers(playerPos, direction, 100, ~LayerMask.NameToLayer("Player"));
-        Debug.Log(hit);                      
+        RaycastHit2D hit = RaycastIgnoreTriggers(playerPos, direction, Mathf.Infinity);                
 
-        Debug.DrawRay(playerPos, direction, Color.red, 10);
         if (hit.collider != null)
         {
-  
-
             joint = PlatformerController.instance.gameObject.AddComponent<SpringJoint2D>();
 
             joint.enableCollision = true;
@@ -59,11 +61,15 @@ public class GrappScript : ProjectileWeapon
 
     }
 
-    RaycastHit2D RaycastIgnoreTriggers(Vector2 origin, Vector2 direction, float distance, int layerMask){
-        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance, layerMask);
+    RaycastHit2D RaycastIgnoreTriggers(Vector2 origin, Vector2 direction, float distance){
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance);
         foreach(RaycastHit2D hit in hits){
-            if(!hit.collider.isTrigger)
+            
+            Debug.Log(hit.transform.name);
+            if(!hit.collider.isTrigger && hit.transform.gameObject.layer != LayerMask.NameToLayer("Player")){
                 return hit;
+            }
+                
         }
         return new RaycastHit2D();
     }

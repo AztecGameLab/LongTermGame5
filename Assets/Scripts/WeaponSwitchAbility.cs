@@ -39,7 +39,7 @@ public class WeaponSwitchAbility : Ability
         if(weaponIndex > Player.weapons.Count){
             return;
         }
-
+        Player.weapons[Player.currWeapon].Cancel();
         Player.currWeapon = weaponIndex;
     }
 
