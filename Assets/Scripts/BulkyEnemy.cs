@@ -24,11 +24,11 @@ public class BulkyEnemy : Entity
         enemyRigidBody2D = GetComponent<Rigidbody2D>();
         enemyTransform = GetComponent<Transform>();
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _player = PlatformerController.instance;
     }
 
     private void Start()
     {
+        _player = PlatformerController.instance;
         lowHealth = false;
         healthTrigger = health / 2;
         isAttacking = false;
