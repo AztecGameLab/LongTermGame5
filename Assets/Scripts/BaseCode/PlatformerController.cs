@@ -382,7 +382,7 @@ public class PlatformerController : Entity
     #endregion
 
     #region EntityStuff
-    bool canTakeDamage = true;
+    public bool canTakeDamage = true;
     public override void TakeDamage(float baseDamage, Vector2 direction){
         if(!canTakeDamage)
             return;
