@@ -14,7 +14,7 @@ public class PlatformerController : Entity
     [SerializeField] private float deathTimeSeconds = 2f;
     [SerializeField] private float projectileManaCost = 0.25f;
     
-    private bool _isDying = false;
+    public bool isDying = false;
     private ManaController _manaController;
     
     public CinemachineImpulseSource playerImpulseSource;
@@ -418,13 +418,13 @@ public class PlatformerController : Entity
 
     public override async void OnDeath()
     {
-        if (_isDying)
+        if (isDying)
             return;
         
         //We don't want to destroy ourselves on death lmao
         anim.Play("death");
         lockControls = true;
-        _isDying = true;
+        isDying = true;
         
         await Task.Delay(TimeSpan.FromSeconds(deathTimeSeconds));
         print("done waiting");
