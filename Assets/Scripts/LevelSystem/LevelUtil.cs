@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using FMODUnity;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ public class LevelUtil : Singleton<LevelUtil>
     [SerializeField] private float fadeTime = 0.25f;
     [SerializeField] private Level defaultLevel;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField, EventRef] private string respawnSound;
     
     private LevelController _levelController;
     private TransitionController _transitionController;
@@ -104,6 +106,7 @@ public class LevelUtil : Singleton<LevelUtil>
                 playerSpawn = playerSpawnTransform[0].position;
             }
             
+            RuntimeManager.PlayOneShot(respawnSound, playerSpawn);
             playerGameObject.transform.position = playerSpawn;
         });        
     }
