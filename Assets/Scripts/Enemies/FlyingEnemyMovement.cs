@@ -2,22 +2,46 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class FlyingEnemyMovement : Entity
 {
     PlatformerController player;
-    [EventRef] public string shotSound = "FlyingEnemyShot";
-    [EventRef] public string deathSound = "FlyingEnemyDeath";
-    [SerializeField] private float speed;
-    [SerializeField] private float amountToMove;
-    [SerializeField] private float FireRate = 1f;
-    [SerializeField] private Transform ProjectileSpawnPoint;
-    [SerializeField] private GameObject Projectile;
-    [SerializeField] float playerDistanceBeforeDashing = .3f;
-    [SerializeField] float dashSpeed = 1f;
-    [SerializeField] float dashtime = .1f;
-    [SerializeField] float dashCoolDown;
+
+    [EventRef]
+    public string shotSound = "FlyingEnemyShot";
+
+    [EventRef]
+    public string deathSound = "FlyingEnemyDeath";
+
+    [SerializeField]
+    private float speed;
+
+    [SerializeField]
+    private float amountToMove;
+
+    [SerializeField]
+    private float FireRate = 1f;
+
+    [SerializeField]
+    private Transform ProjectileSpawnPoint;
+
+    [SerializeField]
+    private GameObject Projectile;
+
+    [SerializeField]
+    float playerDistanceBeforeDashing = .3f;
+
+    [SerializeField]
+    float dashSpeed = 1f;
+
+    [SerializeField]
+    float dashtime = .1f;
+
+    [SerializeField]
+    float dashCoolDown;
+
     float tempdashCoolDown;
     bool hasDashed = false;
     bool IsAttacking = false;
@@ -25,11 +49,11 @@ public class FlyingEnemyMovement : Entity
     float rotate = 180;
     private SpriteRenderer _spriteRenderer;
 
-    
+
     Rigidbody2D rb;
 
     private Animator _animator;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,13 +63,11 @@ public class FlyingEnemyMovement : Entity
         player = PlatformerController.instance;
         rb = GetComponent<Rigidbody2D>();
         PeacefulPattern();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         if (IsAttacking)
         {
             Vector3 lookDirection = player.transform.position - transform.position;
@@ -60,34 +82,27 @@ public class FlyingEnemyMovement : Entity
                 {
                     MoveTowrdsPlayer();
                 }
-               
             }
-            
         }
-        
     }
 
     private void MoveTowrdsPlayer()
     {
         var pPos = player.transform.position;
         var ePos = transform.position;
-        if(Mathf.Abs(pPos.x- ePos.x) > playerDistanceBeforeDashing + 1f)
+        if (Mathf.Abs(pPos.x - ePos.x) > playerDistanceBeforeDashing + 1f)
         {
             pPos.Normalize();
             rb.MovePosition(ePos - (pPos * speed * Time.deltaTime));
         }
-        
-
     }
 
     private void PeacefulPattern()
     {
-
         if (CanMove)
         {
             StartCoroutine(RLMovment());
         }
-        
     }
 
     private void AttackPattern()
@@ -96,26 +111,23 @@ public class FlyingEnemyMovement : Entity
         rb.velocity = new Vector2(0, 0);
         LookatPlayer();
         StartCoroutine(Shoot());
-
-        
     }
+
     IEnumerator Dash(Vector2 dir)
     {
         if (!hasDashed)
         {
-
             if (dashCoolDown != tempdashCoolDown)
             {
                 _animator.SetTrigger("Dash");
                 hasDashed = true;
-                
+
                 dir.y *= -.1f;
                 rb.AddForce(-dir.normalized * dashSpeed);
                 yield return new WaitForSeconds(dashtime);
                 rb.velocity = new Vector2(0, 0);
                 hasDashed = false;
                 tempdashCoolDown = dashCoolDown;
-
             }
             else
             {
@@ -123,12 +135,8 @@ public class FlyingEnemyMovement : Entity
                 yield return new WaitForSeconds(dashCoolDown);
                 tempdashCoolDown = 0;
                 hasDashed = false;
-
             }
         }
-
-
-
     }
 
     private void LookatPlayer()
@@ -144,6 +152,7 @@ public class FlyingEnemyMovement : Entity
             _spriteRenderer.flipX = false;
             //rotate = 180;
         }
+
         //transform.localRotation = Quaternion.Euler(0, rotate, 0);
     }
 
@@ -163,6 +172,7 @@ public class FlyingEnemyMovement : Entity
             CanMove = true;
         }
     }
+
     IEnumerator Shoot()
     {
         while (IsAttacking && health > 0)
@@ -176,16 +186,17 @@ public class FlyingEnemyMovement : Entity
             yield return new WaitForSeconds(FireRate);
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<PlatformerController>())
+        if (collision.GetComponent<PlatformerController>())
         {
             IsAttacking = true;
             AttackPattern();
             GetComponent<CircleCollider2D>().radius *= 2f;
         }
-
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<PlatformerController>())
@@ -205,6 +216,10 @@ public class FlyingEnemyMovement : Entity
 
     public override void OnDeath()
     {
+        foreach (Transform t in transform)
+        {
+            gameObject.layer = 16;
+        }
         rb.gravityScale = 1;
         _animator.SetTrigger("Die");
         GameObject.Destroy(this.gameObject, 3);
