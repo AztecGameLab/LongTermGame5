@@ -56,6 +56,7 @@ public class RicochetBullet : MonoBehaviour
     {
         spawnAndHitEmitter.SetParameter("Air Ricochet", 1);
         sprite.enabled = false;
+        rigidbody2d.simulated = false;
         
         yield return new WaitForSecondsRealtime(2);
         
