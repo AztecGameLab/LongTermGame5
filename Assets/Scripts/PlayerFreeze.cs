@@ -13,7 +13,7 @@ public class PlayerFreeze : MonoBehaviour
         playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
         //Debug.Log("player frozen");
         
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1f);
         
         PlatformerController.instance.lockControls = false;
         Destroy(playerIce);

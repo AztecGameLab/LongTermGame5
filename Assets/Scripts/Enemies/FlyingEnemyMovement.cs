@@ -108,8 +108,8 @@ public class FlyingEnemyMovement : Entity
             {
                 _animator.SetTrigger("Dash");
                 hasDashed = true;
-                // only dash 10% higher
-                dir.y *= .1f;
+                
+                dir.y *= -.1f;
                 rb.AddForce(-dir.normalized * dashSpeed);
                 yield return new WaitForSeconds(dashtime);
                 rb.velocity = new Vector2(0, 0);
