@@ -12,17 +12,17 @@ public class Entity : MonoBehaviour
     [SerializeField]
     public float health;
 
-    [SerializeField, EventRef] private string damageSound = "event:/Player/Injury/Generic Damage";
-    [SerializeField, EventRef] private string deathSound = "event:/Player/Death Sound/Death Plop";
+    [SerializeField, EventRef] private string entityDamageSound = "event:/Player/Injury/Generic Damage";
+    [SerializeField, EventRef] private string entityDeathSound = "event:/Player/Death Sound/Death Plop";
     [SerializeField] protected bool hasDamageSound = false;
     
     [EasyButtons.Button]
     public virtual void TakeDamage(float baseDamage)
     {
         if (hasDamageSound && health <= 0)
-            RuntimeManager.PlayOneShotAttached(deathSound, gameObject);
+            RuntimeManager.PlayOneShotAttached(entityDeathSound, gameObject);
         else if (hasDamageSound && health > 0)
-            RuntimeManager.PlayOneShotAttached(damageSound, gameObject);
+            RuntimeManager.PlayOneShotAttached(entityDamageSound, gameObject);
         
         health -= baseDamage;
 
