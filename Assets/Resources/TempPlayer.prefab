@@ -190,9 +190,6 @@ GameObject:
   - component: {fileID: 3117931290674367020}
   - component: {fileID: 5725528633323557417}
   - component: {fileID: -1716592923914753442}
-  - component: {fileID: -4000552939673573262}
-  - component: {fileID: 7703436898061140919}
-  - component: {fileID: 1264670024628744136}
   - component: {fileID: 1461539949513278626}
   - component: {fileID: 8105901004087270762}
   - component: {fileID: 7007142612919393717}
@@ -302,6 +299,7 @@ MonoBehaviour:
   isGrounded: 0
   canJump: 0
   isAiming: 0
+  currentUnlockState: 0
 --- !u!114 &1831558400415614737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,50 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f55ee939e48bbb4b8458fac7a57d254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-4000552939673573262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831558400415614749}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6af2c74a65adcc04397b578f07a2d9ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bashDistance: 20
---- !u!114 &7703436898061140919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831558400415614749}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 428a917f6b9a35e6db23edf70fd8668d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slideDuration: 0.2
-  slideSpeedMultiplier: 3
-  slideCooldown: 0.25
-  canSlide: 1
---- !u!114 &1264670024628744136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831558400415614749}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee621d07e821649beaa6ce0b0fdc6b2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropForce: 20
-  stopTime: 0.4
-  gravityScale: 3
 --- !u!114 &1461539949513278626
 MonoBehaviour:
   m_ObjectHideFlags: 0

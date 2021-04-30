@@ -7,7 +7,7 @@ using SaveSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlatformerController : Entity
+public class PlatformerController : Entity, ISaveableComponent
 {
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
@@ -443,6 +443,40 @@ public class PlatformerController : Entity
 
     #endregion
     
+    
+    #region SAVE SYSTEM
+
+    public int currentUnlockState;
+    
+    [System.Serializable]
+    protected class PlayerSaveData : ISaveData //class that is a container for data that will be saved
+    {
+        public int unlockState;
+
+        public override string ToString()
+        {
+            return "unlock state: " + unlockState;
+        }
+    }
+
+    public ISaveData GatherSaveData() //store current state into the SaveData class
+    {
+        return new PlayerSaveData { unlockState =  currentUnlockState };
+    }
+    public void RestoreSaveData(ISaveData state) //receive SaveData class and set variables
+    {
+        var saveData = (PlayerSaveData)state;
+
+        if (saveData.unlockState < 5)
+            parameters.JumpCount = 1;
+
+        for (int i = 0; i < saveData.unlockState; i++)
+        {
+            AbilityUnlocks.Get().Unlock((AbilityUnlocks.Abilities) i);
+        }
+        
+    }
+    #endregion
     
     
 }
