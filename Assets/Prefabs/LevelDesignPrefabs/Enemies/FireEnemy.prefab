@@ -169,6 +169,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  damageSound: event:/Player/Injury/Generic Damage
+  deathSound: event:/Player/Death Sound/Death Plop
+  hasDamageSound: 1
   JumpSound: event:/Enemies/Fire Enemy/Fire Enemy Jump
   LandSound: event:/Enemies/Fire Enemy/Fire Enemy Land
   EnemySpeed: 500
@@ -195,7 +198,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 1479968636}
   sprite: {fileID: 1479968638}
-  bashSound: Default
   shakeIntensity: 1
   speedBoost: 10
   bashRange: 4
