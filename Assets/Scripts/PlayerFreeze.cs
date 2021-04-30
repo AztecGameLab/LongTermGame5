@@ -11,7 +11,7 @@ public class PlayerFreeze : MonoBehaviour
         var playerIce = Instantiate(Resources.Load("PlayerIce") as GameObject, sr.bounds.center, Quaternion.identity);
         playerIce.transform.parent = PlatformerController.instance.transform;
         playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
-        Debug.Log("player frozen");
+        //Debug.Log("player frozen");
         
         yield return new WaitForSeconds(3);
         
