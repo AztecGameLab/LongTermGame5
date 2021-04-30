@@ -91,6 +91,8 @@ namespace SaveSystem
         [Button]
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
+            tempCurrentGame.playerData.position = PlatformerController.instance.transform.position;
+            tempCurrentGame.playerData.currentScene = SceneManager.GetActiveScene().name;
             SaveGameFile(tempCurrentGame);
             // Debug.Log("tempCurrentGame was saved to file");
         }
@@ -99,6 +101,7 @@ namespace SaveSystem
         public static void LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame = LoadMostRecentGameFile();
+            PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
         }
 
 
