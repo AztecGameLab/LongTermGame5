@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cinemachine;
+using FMODUnity;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +14,8 @@ public class PlatformerController : Entity
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
     [SerializeField] private float deathTimeSeconds = 2f;
-
+    [SerializeField, EventRef] private string attackSound;
+    
     public int currentUnlockState;
     
     public bool isDying = false;
@@ -335,6 +337,7 @@ public class PlatformerController : Entity
             return;
         
         if(context.started){
+            RuntimeManager.PlayOneShot(attackSound);
             StartCoroutine(AttackTimeout(parameters.BasicAttackDelay, parameters.BasicAttackForgiveness, parameters.BasicAttackCooldown));
         }
     }
