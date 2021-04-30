@@ -11,19 +11,23 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
     
     public void Unlock(Abilities ability)
     {
+        print(ability);
         switch (ability)
         {
             case Abilities.Slide:
+                print("addslide");
                 gameObject.AddComponent<SlideAbility>();
                 PlatformerController.instance.currentUnlockState = 1;
                 break;
             case Abilities.ReflectingProjectile:
+                print("addrico");
                 var pc = GetComponent<PlatformerController>();
                 pc.weapons.Add(Resources.Load<Ricochet>("Weapons/Ricochet"));
                 pc.currWeapon = pc.weapons.Count - 1;
                 PlatformerController.instance.currentUnlockState = 2;
                 break;
             case Abilities.Bash:
+                print("addbash");
                 gameObject.AddComponent<BashAbility>();
                 PlatformerController.instance.currentUnlockState = 3;
                 break;
