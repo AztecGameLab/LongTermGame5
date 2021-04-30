@@ -26,18 +26,18 @@ public class HealingAbility : Ability
     private float _zoomDefault;
     private Coroutine _healingCoroutine;
     private bool _canHeal = true;
-    private ManaController _manaController;
+    private UiController _uiController;
     
     private void Start()
     {
-        _manaController = ManaController.Get();
+        _uiController = UiController.Get();
         _cameraController = CameraController.Get();
         _healSfxEvent = RuntimeManager.CreateInstance(healSfx);
     }
 
     protected override void Started(InputAction.CallbackContext context)
     {
-        if (_canHeal && _manaController.GetCurrentFill() >= manaCost)
+        if (_canHeal && _uiController.GetCurrentFill() >= manaCost)
             _healingCoroutine = StartCoroutine(ChargeHeal());
     }
 
@@ -73,7 +73,9 @@ public class HealingAbility : Ability
             yield return new WaitForEndOfFrame();
         }
         Player.health = Mathf.Min(Player.health + healAmount, MaxHealth);
-        _manaController.Consume(manaCost, false);
+        UiController.Get().SetHealth(Player.health/MaxHealth);
+
+        _uiController.Consume(manaCost, false);
         StartCoroutine(Cleanup());
     }
 

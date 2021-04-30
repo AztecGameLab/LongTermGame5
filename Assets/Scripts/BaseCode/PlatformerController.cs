@@ -14,7 +14,7 @@ public class PlatformerController : Entity
     [SerializeField] private float deathTimeSeconds = 2f;
     
     public bool isDying = false;
-    private ManaController _manaController;
+    private UiController _uiController;
     
     public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
@@ -75,7 +75,7 @@ public class PlatformerController : Entity
         }
 
         health = parameters.MaxHealth;
-        _manaController = ManaController.Get();
+        _uiController = UiController.Get();
     }
 
     public int facingDirection = 1;
@@ -233,14 +233,14 @@ public class PlatformerController : Entity
         if(weapons.Count <= 0){ return; }
 
 
-        if(context.performed && _manaController.GetCurrentFill() > 0){
+        if(context.performed && _uiController.GetCurrentFill() > 0){
             weapons[currWeapon].Cancel();
             weapons[currWeapon].Charge(aimDirection);
             AimingState(true);
         }else if(context.canceled && isAiming){
             AimingState(false);
             weapons[currWeapon].Fire(aimDirection);
-            _manaController.Consume(weapons[currWeapon].manaCost, true);
+            _uiController.Consume(weapons[currWeapon].manaCost, true);
             anim.Play("magicCast");
         }
     }
@@ -400,6 +400,7 @@ public class PlatformerController : Entity
             return;
         CancelProjectile();
         StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         base.TakeDamage(baseDamage);
     }
 

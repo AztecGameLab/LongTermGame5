@@ -27,6 +27,7 @@ public class PassiveEnemyScript : Entity
         _animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         player = PlatformerController.instance.transform;
+        StartCoroutine(auraLoop());
         Look(); //looks at player from a stationary POV
     }
 
@@ -159,38 +160,60 @@ public class PassiveEnemyScript : Entity
     //freezes player for (x) seconds when within range
     private void freezePlayer()
     {
-        StartCoroutine("freeze");
+        PlatformerController.instance.gameObject.AddComponent<PlayerFreeze>();
+        //StartCoroutine("freeze");
         onCooldown = true;
     }
 
-    private GameObject playerIce;
+    // private GameObject playerIce;
+    //
+    // IEnumerator freeze() //works
+    // {
+    //     if (!onCooldown)
+    //     {
+    //         PlatformerController.instance.lockControls = true;
+    //
+    //         var sr = PlatformerController.instance.GetComponent<SpriteRenderer>();
+    //         playerIce = Instantiate(Resources.Load("PlayerIce") as GameObject, sr.bounds.center, Quaternion.identity);
+    //         playerIce.transform.parent = PlatformerController.instance.transform;
+    //         playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
+    //
+    //         Debug.Log("player frozen");
+    //         yield return new WaitForSeconds(3);
+    //         yield return StartCoroutine("cooldown");
+    //     }
+    // }
+    //
+    // IEnumerator cooldown()
+    // {
+    //     if (onCooldown)
+    //     {
+    //         Destroy(playerIce);
+    //         PlatformerController.instance.lockControls = false;
+    //         Debug.Log("freeze attack on cooldown");
+    //         yield return new WaitForSeconds(3);
+    //         onCooldown = false;
+    //     }
+    // }
 
-    IEnumerator freeze() //works
+    public SpriteRenderer aura;
+    public Collider2D auraTrigger;
+    IEnumerator auraLoop()
     {
-        if (!onCooldown)
+        while (true)
         {
-            PlatformerController.instance.lockControls = true;
+            aura.enabled = false;
+            auraTrigger.enabled = false;
 
-            var sr = PlatformerController.instance.GetComponent<SpriteRenderer>();
-            playerIce = Instantiate(Resources.Load("PlayerIce") as GameObject, sr.bounds.center, Quaternion.identity);
-            playerIce.transform.parent = PlatformerController.instance.transform;
-            playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
+            yield return new WaitForSeconds(2);
+            
+            aura.enabled = true;
+            auraTrigger.enabled = true;
 
-            Debug.Log("player frozen");
-            yield return new WaitForSeconds(3);
-            yield return StartCoroutine("cooldown");
-        }
-    }
-
-    IEnumerator cooldown()
-    {
-        if (onCooldown)
-        {
-            Destroy(playerIce);
-            PlatformerController.instance.lockControls = false;
-            Debug.Log("freeze attack on cooldown");
-            yield return new WaitForSeconds(3);
-            onCooldown = false;
+            yield return new WaitForSeconds(2);
+            
+            
+            yield return null;
         }
     }
 

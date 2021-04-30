@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class FillBarUI : MonoBehaviour
 {
-    [SerializeField] private Image barFill;
+    public Image barFill;
     [SerializeField] private float lerpDuration;
 
     /* ChangeFillAmount() is a IEnumerator called externally whenever:

@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 
-public class ManaController : Singleton<ManaController>
+public class UiController : Singleton<UiController>
 {
-    [SerializeField] private float maxFill;
-    [SerializeField] private float currentFill;
-    [SerializeField] private FillBarUI fillBarUI;
+    [SerializeField]
+    private float maxFill;
+
+    [SerializeField]
+    private float currentFill;
+
+    [SerializeField]
+    private FillBarUI fillBarUI;
+
+    public FillBarUI HealthBarUI;
 
     private void OnEnable()
     {
         currentFill = maxFill;
-        
+
         GameplayEventChannel.Start += ShowUI;
         GameplayEventChannel.End += HideUI;
     }
@@ -23,11 +30,13 @@ public class ManaController : Singleton<ManaController>
     private void ShowUI()
     {
         fillBarUI.gameObject.SetActive(true);
+        HealthBarUI.gameObject.SetActive(true);
     }
-    
+
     private void HideUI()
     {
         fillBarUI.gameObject.SetActive(false);
+        HealthBarUI.gameObject.SetActive(false);
     }
 
     /* A method which returns the currentFill
@@ -51,6 +60,12 @@ public class ManaController : Singleton<ManaController>
      *      ChangeFillAmount() based on the new fill level
      *      
      */
+    public void SetHealth(float percent)
+    {
+        float healthBefore = HealthBarUI.barFill.fillAmount;
+        StartCoroutine(HealthBarUI.ChangeFillAmount(healthBefore, percent, 1));
+    }
+
     public void Gain(float valueGained)
     {
         if (valueGained < 0)
@@ -70,7 +85,7 @@ public class ManaController : Singleton<ManaController>
     //These two scripts allow the buttons to work
     public void CanConsumePastZero(float cost)
     {
-       Consume(cost, true);
+        Consume(cost, true);
     }
 
     public void CanNotConsumePastZero(float cost)
@@ -102,7 +117,7 @@ public class ManaController : Singleton<ManaController>
     public bool Consume(float cost, bool canBeReducedPastZero)
     {
         float fillBefore = currentFill;
-        
+
         if (cost < 0)
         {
             Debug.LogError("The Consume() function expects a positive \"cost\" not a negative one");
@@ -116,14 +131,14 @@ public class ManaController : Singleton<ManaController>
             StartCoroutine(fillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
             return true;
         }
-        
+
         if (canBeReducedPastZero)
         {
             currentFill = 0;
             StartCoroutine(fillBarUI.ChangeFillAmount(fillBefore, currentFill, maxFill));
             return true;
         }
-        
+
         //Not enough fill to Consume because cost is too high
         return false;
     }

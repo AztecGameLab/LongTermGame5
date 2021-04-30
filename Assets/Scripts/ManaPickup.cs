@@ -13,7 +13,7 @@ public class ManaPickup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player")) //If an orb collides with whatever the object of the player's name is
         {
-            ManaController.Get().Gain(mana);
+            UiController.Get().Gain(mana);
             Destroy(gameObject);
         }
     }
