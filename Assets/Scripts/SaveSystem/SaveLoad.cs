@@ -102,6 +102,10 @@ namespace SaveSystem
         public static void LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame = LoadMostRecentGameFile();
+
+            if (PlatformerController.instance == null)
+                return;
+            
             PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
             PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
             

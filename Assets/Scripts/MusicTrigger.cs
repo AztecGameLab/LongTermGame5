@@ -12,14 +12,15 @@ public class MusicTrigger : MonoBehaviour
     
     private void Start()
     {
-        _audioController = AudioController.Get();
-        
         if (playOnAwake)
             Play();
     }
 
     public void Play()
     {
+        if (_audioController == null)
+            _audioController = AudioController.Get();
+        
         if (isAmbience)
             _audioController.PlayAmbience(audioEvent, transitionTime);
         else
