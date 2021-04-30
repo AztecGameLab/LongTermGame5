@@ -91,6 +91,7 @@ namespace SaveSystem
         [Button]
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
+            tempCurrentGame.playerData.unlockState = PlatformerController.instance.currentUnlockState;
             tempCurrentGame.playerData.position = PlatformerController.instance.transform.position;
             tempCurrentGame.playerData.currentScene = SceneManager.GetActiveScene().name;
             SaveGameFile(tempCurrentGame);
@@ -102,6 +103,15 @@ namespace SaveSystem
         {
             tempCurrentGame = LoadMostRecentGameFile();
             PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+            PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
+            
+            if (tempCurrentGame.playerData.unlockState < 5)
+                PlatformerController.instance.parameters.JumpCount = 1;
+            for (int i = 0; i < tempCurrentGame.playerData.unlockState; i++)
+            {
+                AbilityUnlocks.Get().Unlock((AbilityUnlocks.Abilities) i);
+            }
+            
             Debug.Log("file was loaded to temp data");
         }
 

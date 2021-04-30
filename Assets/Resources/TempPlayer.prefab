@@ -193,7 +193,6 @@ GameObject:
   - component: {fileID: 1461539949513278626}
   - component: {fileID: 8105901004087270762}
   - component: {fileID: 7007142612919393717}
-  - component: {fileID: 7395203112643008668}
   m_Layer: 10
   m_Name: TempPlayer
   m_TagString: Untagged
@@ -619,19 +618,6 @@ MonoBehaviour:
   WeaponWheel: {fileID: 8892098812225099572}
   quickStopTimeout: 0.5
   lastWeapon: 0
---- !u!114 &7395203112643008668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831558400415614749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3992fae8dc0899b429ce9b57a6d82ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &4143225699924275704
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,6 +31,8 @@ namespace SaveSystem
         public string currentScene;
         [SerializeField] 
         public SVector3 position;
+        [SerializeField] 
+        public int unlockState;
     }
 
     [Serializable]
