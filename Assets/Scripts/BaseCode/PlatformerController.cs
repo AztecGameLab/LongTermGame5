@@ -194,7 +194,8 @@ public class PlatformerController : Entity
             Vector2 direction =  point.point - (Vector2)this.transform.position;
             //We're gonna be pretty forgiving and if ANY colliders are below our feet
             if(Vector3.Angle(-this.transform.up, direction) < parameters.MaxGroundAngle){
-                
+                isJumping = false;
+
                 if(isJumping){
                     break;
                 }
@@ -304,7 +305,6 @@ public class PlatformerController : Entity
     #region Helpers
 
     void OnCollisionEnter2D(Collision2D other){
-        isJumping = false;
         CheckGroundedState(other);
     }
 
@@ -387,7 +387,7 @@ public class PlatformerController : Entity
     #region EntityStuff
     bool canTakeDamage = true;
     public override void TakeDamage(float baseDamage, Vector2 direction){
-        if(!canTakeDamage)
+        if(!canTakeDamage || DialogSystem.isDialoging)
             return;
         StartCoroutine(KnockBack(direction));
         TakeDamage(baseDamage);
@@ -396,6 +396,8 @@ public class PlatformerController : Entity
     //Huh, we have no direction to figure out knockback
     //Lets just use a random direction
     public override void TakeDamage(float baseDamage){
+        if(!canTakeDamage || DialogSystem.isDialoging)
+            return;
         CancelProjectile();
         StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
         base.TakeDamage(baseDamage);
