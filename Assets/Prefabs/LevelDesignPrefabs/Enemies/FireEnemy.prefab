@@ -168,16 +168,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 404c4ac768bf5d940b324bff6d454e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 5
   JumpSound: event:/Enemies/Fire Enemy/Fire Enemy Jump
   LandSound: event:/Enemies/Fire Enemy/Fire Enemy Land
   EnemySpeed: 500
-  Strength: 5
+  Strength: 2
   Radius: 3
   moveRight: 0
-  LEFT: 0
-  RIGHT: 0
-  UP: 0
+  LEFT: 1
+  RIGHT: 1
+  UP: 1
   DOWN: 1
   animator: {fileID: 1479968633}
   agroRange: 30

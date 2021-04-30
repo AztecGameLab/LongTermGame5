@@ -52,7 +52,7 @@ namespace SaveSystem
         public static void SaveSceneToTempData(string sceneName)
         {
             tempCurrentGame.dict[sceneName] = GatherSceneSaveData(sceneName);
-            // Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
+            Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
         }
 
         [Button]
@@ -70,12 +70,12 @@ namespace SaveSystem
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-                // Debug.Log("\"" + sceneName + "\" save loaded");
+                Debug.Log("\"" + sceneName + "\" save loaded");
 #endif
             }
             else
             {
-                // Debug.LogWarning("\"" + sceneName + "\" save not found in tempCurrentGame");
+                Debug.LogWarning("\"" + sceneName + "\" save not found in tempCurrentGame");
             }
         }
 
@@ -91,14 +91,28 @@ namespace SaveSystem
         [Button]
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
+            tempCurrentGame.playerData.unlockState = PlatformerController.instance.currentUnlockState;
+            tempCurrentGame.playerData.position = PlatformerController.instance.transform.position;
+            tempCurrentGame.playerData.currentScene = SceneManager.GetActiveScene().name;
             SaveGameFile(tempCurrentGame);
-            // Debug.Log("tempCurrentGame was saved to file");
+            Debug.Log("tempCurrentGame was saved to file");
         }
 
         [Button]
         public static void LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame = LoadMostRecentGameFile();
+            PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+            PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
+            
+            if (tempCurrentGame.playerData.unlockState < 5)
+                PlatformerController.instance.parameters.JumpCount = 1;
+            for (int i = 0; i < tempCurrentGame.playerData.unlockState; i++)
+            {
+                AbilityUnlocks.Get().Unlock((AbilityUnlocks.Abilities) i);
+            }
+            
+            Debug.Log("file was loaded to temp data");
         }
 
 

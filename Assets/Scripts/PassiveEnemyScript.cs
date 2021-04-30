@@ -27,6 +27,7 @@ public class PassiveEnemyScript : Entity
         _animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         player = PlatformerController.instance.transform;
+        StartCoroutine(auraLoop());
         Look(); //looks at player from a stationary POV
     }
 
@@ -64,6 +65,8 @@ public class PassiveEnemyScript : Entity
 
     private void ChasePlayer()
     {
+        if (health <= 0)
+            return;
         _animator.SetBool("walking", true);
 
         if (transform.position.x < player.position.x)
@@ -130,11 +133,13 @@ public class PassiveEnemyScript : Entity
     {
         if (!passive)
         {
+            if (health <= 0)
+                return;
             _animator.Play("slash");
             float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;
 
-            PlatformerController.instance.TakeDamage(15, difference * knockForce);
+            PlatformerController.instance.TakeDamage(3, difference * knockForce);
 
             PlatformerController.instance.parameters.KnockBackTime = temp;
         }
@@ -159,43 +164,67 @@ public class PassiveEnemyScript : Entity
     //freezes player for (x) seconds when within range
     private void freezePlayer()
     {
-        StartCoroutine("freeze");
+        PlatformerController.instance.gameObject.AddComponent<PlayerFreeze>();
+        //StartCoroutine("freeze");
         onCooldown = true;
     }
 
-    private GameObject playerIce;
+    // private GameObject playerIce;
+    //
+    // IEnumerator freeze() //works
+    // {
+    //     if (!onCooldown)
+    //     {
+    //         PlatformerController.instance.lockControls = true;
+    //
+    //         var sr = PlatformerController.instance.GetComponent<SpriteRenderer>();
+    //         playerIce = Instantiate(Resources.Load("PlayerIce") as GameObject, sr.bounds.center, Quaternion.identity);
+    //         playerIce.transform.parent = PlatformerController.instance.transform;
+    //         playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
+    //
+    //         Debug.Log("player frozen");
+    //         yield return new WaitForSeconds(3);
+    //         yield return StartCoroutine("cooldown");
+    //     }
+    // }
+    //
+    // IEnumerator cooldown()
+    // {
+    //     if (onCooldown)
+    //     {
+    //         Destroy(playerIce);
+    //         PlatformerController.instance.lockControls = false;
+    //         Debug.Log("freeze attack on cooldown");
+    //         yield return new WaitForSeconds(3);
+    //         onCooldown = false;
+    //     }
+    // }
 
-    IEnumerator freeze() //works
+    public SpriteRenderer aura;
+    public Collider2D auraTrigger;
+    IEnumerator auraLoop()
     {
-        if (!onCooldown)
+        while (health > 0)
         {
-            PlatformerController.instance.lockControls = true;
+            aura.enabled = false;
+            auraTrigger.enabled = false;
 
-            var sr = PlatformerController.instance.GetComponent<SpriteRenderer>();
-            playerIce = Instantiate(Resources.Load("PlayerIce") as GameObject, sr.bounds.center, Quaternion.identity);
-            playerIce.transform.parent = PlatformerController.instance.transform;
-            playerIce.transform.localScale = Vector3.one * sr.bounds.size.y;
+            yield return new WaitForSeconds(2);
+            
+            aura.enabled = true;
+            auraTrigger.enabled = true;
 
-            Debug.Log("player frozen");
             yield return new WaitForSeconds(3);
-            yield return StartCoroutine("cooldown");
-        }
-    }
-
-    IEnumerator cooldown()
-    {
-        if (onCooldown)
-        {
-            Destroy(playerIce);
-            PlatformerController.instance.lockControls = false;
-            Debug.Log("freeze attack on cooldown");
-            yield return new WaitForSeconds(3);
-            onCooldown = false;
+            
+            
+            yield return null;
         }
     }
 
     public override void TakeDamage(float baseDamage)
     {
+        if (health <= 0)
+            return;
         _animator.Play("damage");
         base.TakeDamage(baseDamage);
     }
