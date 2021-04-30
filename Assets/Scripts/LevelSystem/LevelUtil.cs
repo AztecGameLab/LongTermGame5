@@ -79,7 +79,7 @@ public class LevelUtil : Singleton<LevelUtil>
         var playerData = SaveLoad.GetPlayerData();
         Level level;
 
-        if (playerData == null)
+        if (playerData.currentScene == null)
         {
             level = defaultLevel;
             print("No save found: Loading " + level.sceneName);
@@ -97,7 +97,7 @@ public class LevelUtil : Singleton<LevelUtil>
             var playerGameObject = Instantiate(playerPrefab);
             var playerSpawn = Vector3.zero;
             
-            if (playerData != null)
+            if (playerData.currentScene != null)
             {
                 playerSpawn = playerData.position;
             }

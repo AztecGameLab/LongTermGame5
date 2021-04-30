@@ -32,7 +32,7 @@ public class MainMenuUI : MonoBehaviour
         var audioController = AudioController.Get();
         audioController.StopMusic(5);
 
-        if (playerData == null)
+        if (playerData.currentScene == null)
         {
             defaultMusic.Play();
         }
