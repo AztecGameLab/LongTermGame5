@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1988158513927091411}
   - component: {fileID: 2595274200283975730}
   - component: {fileID: 647390341208813746}
+  - component: {fileID: 5282208848836745426}
   m_Layer: 0
   m_Name: SavePoint
   m_TagString: Untagged
@@ -63,6 +64,18 @@ MonoBehaviour:
       - m_Target: {fileID: 11400000, guid: 69d9cfa39a8cefc469f90bd47274c4a1, type: 2}
         m_TargetAssemblyTypeName: StaticWrapper, Assembly-CSharp
         m_MethodName: SaveTempDataToFile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5282208848836745426}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, Assembly-CSharp-firstpass
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -125,6 +138,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 5282208848836745426}
+          m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, Assembly-CSharp-firstpass
+          m_MethodName: Play
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
     collisionExit:
       m_PersistentCalls:
         m_Calls: []
@@ -159,6 +184,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.09, y: 5.1}
   m_EdgeRadius: 0
+--- !u!114 &5282208848836745426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647390341208813750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Environment/Save Point/Save Point
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 1
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &3330266197718316711
 GameObject:
   m_ObjectHideFlags: 0
