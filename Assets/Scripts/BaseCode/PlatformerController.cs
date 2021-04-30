@@ -88,6 +88,7 @@ public class PlatformerController : Entity
         //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
         anim.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
+        anim.SetBool("grounded", isGrounded);
         
         if(Mathf.Abs(rigid.velocity.x) > 0.25f){
             render.flipX = !(rigid.velocity.x > 0);
@@ -175,6 +176,7 @@ public class PlatformerController : Entity
     IEnumerator CoyoteTime(float time){
         yield return new WaitForSeconds(time);
         jumpCounter++;
+        anim.Play("airborn");
     }
 
     IEnumerator JumpTimeout(){
@@ -199,11 +201,6 @@ public class PlatformerController : Entity
             //We're gonna be pretty forgiving and if ANY colliders are below our feet
             if(Vector3.Angle(-this.transform.up, direction) < parameters.MaxGroundAngle){
                 isJumping = false;
-
-                if(isJumping){
-                    break;
-                }
-
                 isGrounded = true;
                 canJump = true;
                 jumpCounter = 0;
@@ -310,6 +307,8 @@ public class PlatformerController : Entity
 
     void OnCollisionEnter2D(Collision2D other){
         CheckGroundedState(other);
+        if(isGrounded)
+            anim.Play("land");
     }
 
     void OnCollisionStay2D(Collision2D other){
