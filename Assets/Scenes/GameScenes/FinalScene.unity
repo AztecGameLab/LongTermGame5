@@ -2446,6 +2446,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  entityDamageSound: event:/Player/Injury/Generic Damage
+  entityDeathSound: event:/Player/Death Sound/Death Plop
+  hasDamageSound: 0
 --- !u!1001 &875877456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4036,7 +4039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2980010972394683871, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
