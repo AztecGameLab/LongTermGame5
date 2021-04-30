@@ -114,7 +114,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""08619404-8035-4b5f-9b96-b78a83c3af27"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -125,7 +125,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""fd556ccc-10aa-40e9-88e0-8892145fad3b"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -136,7 +136,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""f2c22f15-3010-4780-aa9d-cae1ee91acd5"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -147,7 +147,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""94a5757e-142a-45af-8e7b-9296189856a0"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

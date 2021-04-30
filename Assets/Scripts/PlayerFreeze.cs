@@ -15,7 +15,8 @@ public class PlayerFreeze : MonoBehaviour
         
         yield return new WaitForSeconds(3);
         
-        Destroy(playerIce);
         PlatformerController.instance.lockControls = false;
+        Destroy(playerIce);
+        Destroy(this);
     }
 }
