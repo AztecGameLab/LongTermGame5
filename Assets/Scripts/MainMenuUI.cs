@@ -48,11 +48,13 @@ public class MainMenuUI : MonoBehaviour
     {
         RuntimeManager.PlayOneShot(menuHoverSound);
     }
-    
+
+    public Level prologue;
     public void EnterGame()
     {
         RuntimeManager.PlayOneShot(menuEnterSound);
-        LevelUtil.Get().LoadSavedGame();
+        LevelUtil.Get().TransitionTo(prologue);
+        //LevelUtil.Get().LoadSavedGame();
     }
 
     public void PlayCredits()
