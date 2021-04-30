@@ -14,11 +14,7 @@ public class GrappScript : ProjectileWeapon
     public void Fire(Vector2 direction)
     {
         lr = PlatformerController.instance.gameObject.AddComponent<LineRenderer>();
-
-
-
         StartGrapple(direction);
-        
     }
 
     public override void Cancel()
@@ -34,17 +30,20 @@ public class GrappScript : ProjectileWeapon
         Destroy(joint);
     }
 
+    public override void OnAimChange(Vector2 direction)
+    {
+        Vector2 playerPos = PlatformerController.instance.transform.position;
+        Debug.DrawRay(playerPos, direction * Mathf.Infinity, Color.red, 10);
+        base.OnAimChange(direction);
+    }
+
     public void StartGrapple(Vector2 direction)
     {
         Vector2 playerPos = PlatformerController.instance.transform.position;
-        //Vector2 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;      for testing while i didnt have PlatformerController on
-        RaycastHit2D hit = Physics2D.Raycast(playerPos, direction, 100);                           
+        RaycastHit2D hit = RaycastIgnoreTriggers(playerPos, direction, Mathf.Infinity);                
 
-        Debug.DrawRay(playerPos, direction, Color.red, 10);
         if (hit.collider != null)
         {
-  
-
             joint = PlatformerController.instance.gameObject.AddComponent<SpringJoint2D>();
 
             joint.enableCollision = true;
@@ -60,6 +59,19 @@ public class GrappScript : ProjectileWeapon
             PlatformerController.instance.StartCoroutine(DrawRope());
         }
 
+    }
+
+    RaycastHit2D RaycastIgnoreTriggers(Vector2 origin, Vector2 direction, float distance){
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, distance);
+        foreach(RaycastHit2D hit in hits){
+            
+            Debug.Log(hit.transform.name);
+            if(!hit.collider.isTrigger && hit.transform.gameObject.layer != LayerMask.NameToLayer("Player")){
+                return hit;
+            }
+                
+        }
+        return new RaycastHit2D();
     }
 
     IEnumerator DrawRope()
