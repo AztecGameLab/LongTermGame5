@@ -9,6 +9,9 @@ public class ProjectileWeapon : ScriptableObject
     public virtual void Fire(){}
     public virtual void Charge(){}
 
+    public Sprite RuneSprite;
+    public float manaCost;
+
     public virtual void Cancel(){}
 
     public virtual void Fire(Vector2 direction){}

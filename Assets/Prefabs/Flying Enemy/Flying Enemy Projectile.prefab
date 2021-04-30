@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6501929313506144654}
   - component: {fileID: 6501929313506144653}
   - component: {fileID: -7197980336827342804}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Flying Enemy Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 300
-  Damge: 10
+  Damage: 2
 --- !u!50 &6501929313506144655
 Rigidbody2D:
   serializedVersion: 4
@@ -80,7 +80,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.12583452, y: 0.08461273}

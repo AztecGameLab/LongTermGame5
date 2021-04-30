@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8378339879753019536}
   - component: {fileID: 900871335751690939}
   - component: {fileID: 8619549610556684735}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: AirEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 018462815cd29464c8761d34be77bfee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 3
   shotSound: event:/Enemies/Sky Enemy/Sky Enemy Projectile
   deathSound: event:/Enemies/Sky Enemy/Sky Enemy Flap
   speed: 1
@@ -151,7 +151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6415860028275975026}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Projectile Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 3554940648720462762}
   - component: {fileID: 2421032225823317109}
   - component: {fileID: 1734923205}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SkyEnemy_Flyinh_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2354691776544382523}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SpriteHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

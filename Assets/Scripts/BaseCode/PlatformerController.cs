@@ -12,10 +12,9 @@ public class PlatformerController : Entity
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
     [SerializeField] private float deathTimeSeconds = 2f;
-    [SerializeField] private float projectileManaCost = 0.25f;
     
     public bool isDying = false;
-    private ManaController _manaController;
+    private UiController _uiController;
     
     public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
@@ -76,7 +75,8 @@ public class PlatformerController : Entity
         }
 
         health = parameters.MaxHealth;
-        _manaController = ManaController.Get();
+        _uiController = UiController.Get();
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
     }
 
     public int facingDirection = 1;
@@ -234,20 +234,24 @@ public class PlatformerController : Entity
         if(weapons.Count <= 0){ return; }
 
 
-        if(context.performed && _manaController.GetCurrentFill() > 0){
+        if(context.performed && _uiController.GetCurrentFill() > 0){
             weapons[currWeapon].Cancel();
             weapons[currWeapon].Charge(aimDirection);
             AimingState(true);
         }else if(context.canceled && isAiming){
             AimingState(false);
             weapons[currWeapon].Fire(aimDirection);
-            _manaController.Consume(projectileManaCost, true);
+            _uiController.Consume(weapons[currWeapon].manaCost, true);
             anim.Play("magicCast");
         }
     }
 
     public void AimingState(bool state){
         isAiming = state;
+        TimeSlowDown(state);
+    }
+
+    public void TimeSlowDown(bool state){
         if(state){
             Time.timeScale = parameters.BulletTimeSlowDown;
             Time.fixedDeltaTime = .02f * parameters.BulletTimeSlowDown;
@@ -397,6 +401,7 @@ public class PlatformerController : Entity
             return;
         CancelProjectile();
         StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         base.TakeDamage(baseDamage);
     }
 
