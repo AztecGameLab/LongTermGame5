@@ -6,7 +6,7 @@ using UnityEngine;
 public class FlyingEnemyProjectile : MonoBehaviour
 {
     [SerializeField] float speed =10f;
-    [SerializeField] float Damge = 10f;
+    [SerializeField] float Damage = 2f;
     Rigidbody2D rb;
     PlatformerController player;
 
@@ -24,6 +24,17 @@ public class FlyingEnemyProjectile : MonoBehaviour
     IEnumerator DestroyProjectile()
     {
         yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        var player = other.gameObject.GetComponent<PlatformerController>();
+        if (player)
+        {
+            player.TakeDamage(Damage);
+        }
+        
         Destroy(gameObject);
     }
 }

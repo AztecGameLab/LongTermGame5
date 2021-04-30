@@ -76,6 +76,7 @@ public class PlatformerController : Entity
 
         health = parameters.MaxHealth;
         _uiController = UiController.Get();
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
     }
 
     public int facingDirection = 1;

@@ -172,12 +172,12 @@ MonoBehaviour:
   JumpSound: event:/Enemies/Fire Enemy/Fire Enemy Jump
   LandSound: event:/Enemies/Fire Enemy/Fire Enemy Land
   EnemySpeed: 500
-  Strength: 5
+  Strength: 2
   Radius: 3
   moveRight: 0
-  LEFT: 0
-  RIGHT: 0
-  UP: 0
+  LEFT: 1
+  RIGHT: 1
+  UP: 1
   DOWN: 1
   animator: {fileID: 1479968633}
   agroRange: 30

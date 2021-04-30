@@ -135,7 +135,7 @@ public class PassiveEnemyScript : Entity
             float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;
 
-            PlatformerController.instance.TakeDamage(15, difference * knockForce);
+            PlatformerController.instance.TakeDamage(3, difference * knockForce);
 
             PlatformerController.instance.parameters.KnockBackTime = temp;
         }
