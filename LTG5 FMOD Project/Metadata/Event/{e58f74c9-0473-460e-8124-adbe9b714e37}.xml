@@ -5,7 +5,7 @@
 			<value>Orb Absorb</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{dfcd9a75-f8a1-4930-8f1e-d7ed30d2545f}</destination>
@@ -116,7 +116,6 @@
 	<object class="MixerBusEffectChain" id="{5711b34d-cbaf-432a-90ff-5fe2369c32a8}">
 		<relationship name="effects">
 			<destination>{80a55704-b423-4fbe-8c21-9b2072070aa3}</destination>
-			<destination>{e5082495-c2a6-4c21-a9bc-6e66d656bd1a}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{068ad54f-601c-4a65-87b6-d7361963f3dd}" />
@@ -128,6 +127,5 @@
 	</object>
 	<object class="MixerBusPanner" id="{d4fe3e48-898a-40e6-9020-33138742ba75}" />
 	<object class="MixerBusFader" id="{80a55704-b423-4fbe-8c21-9b2072070aa3}" />
-	<object class="SpatialiserEffect" id="{e5082495-c2a6-4c21-a9bc-6e66d656bd1a}" />
 	<object class="MixerBusFader" id="{3737d8ee-9fec-4fad-b4e7-14888a623515}" />
 </objects>

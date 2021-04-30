@@ -6,7 +6,7 @@ public class SimpleBashable : MonoBehaviour, IBashable
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private SpriteRenderer sprite;
     
-    [EventRef] public string bashSound = "Default";
+    private const string BashSound = "event:/Player/Vault/Vault Grab";
     public float shakeIntensity = 1f;
     public float speedBoost = 10f;
     public float bashRange = 1;
@@ -21,8 +21,7 @@ public class SimpleBashable : MonoBehaviour, IBashable
 
     public void Bash(PlatformerController controller, float distance)
     {
-        if (bashSound != "Default")
-            RuntimeManager.PlayOneShot(bashSound);
+        RuntimeManager.PlayOneShot(BashSound);
         
         var bashDirection = controller.primaryStick.normalized;
         rigidbody2d.velocity = -bashDirection * speedBoost;

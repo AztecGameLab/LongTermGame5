@@ -279,10 +279,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  damageSound: event:/Player/Injury/Generic Damage
+  deathSound: event:/Player/Death Sound/Death Plop
+  hasDamageSound: 1
   parameters: {fileID: 11400000, guid: b1cea7653e06a2c42bbfd030f2ab6431, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
   deathTimeSeconds: 2
+  attackSound: event:/Player/Punch/Punch
+  currentUnlockState: 0
   isDying: 0
   playerImpulseSource: {fileID: 5725528633323557417}
   coll: {fileID: 0}
@@ -298,7 +303,6 @@ MonoBehaviour:
   isGrounded: 0
   canJump: 0
   isAiming: 0
-  currentUnlockState: 0
 --- !u!114 &1831558400415614737
 MonoBehaviour:
   m_ObjectHideFlags: 0

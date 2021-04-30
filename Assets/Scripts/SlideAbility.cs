@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,8 @@ public class SlideAbility : Ability
     [Tooltip("How long until we can slide again")]
     public float slideCooldown = .25f;
 
+    private const string SlideSound = "event:/Player/Slide/Grass Slide";
+
     [SerializeField] bool canSlide = true;
     protected override void Started(InputAction.CallbackContext context){
         if(!canSlide)
@@ -40,6 +43,7 @@ public class SlideAbility : Ability
         
         StartCoroutine(Sliding());
         Player.rigid.AddForce((Vector2.right) * (velocityToAdd * Player.rigid.mass), ForceMode2D.Impulse);
+        RuntimeManager.PlayOneShot(SlideSound);
     }
 
     IEnumerator Sliding(){

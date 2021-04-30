@@ -50,6 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
+  damageSound: event:/Player/Injury/Generic Damage
+  deathSound: event:/Enemies/Sky Enemy/Sky Enemy Flap
+  hasDamageSound: 1
   shotSound: event:/Enemies/Sky Enemy/Sky Enemy Projectile
   deathSound: event:/Enemies/Sky Enemy/Sky Enemy Flap
   speed: 1
@@ -138,7 +141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 8969301486597062105}
   sprite: {fileID: 3554940648720462762}
-  bashSound: Default
   shakeIntensity: 1
   speedBoost: 10
   bashRange: 4

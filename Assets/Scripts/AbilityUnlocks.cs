@@ -36,7 +36,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
                 break;
             case Abilities.FireBall:
                 print("unlock");
-                pc.weapons.Add(Resources.Load<Ricochet>("Weapons/FireBall"));
+                pc.weapons.Add(Resources.Load<FireBallStats>("Weapons/FireBall"));
                 pc.currWeapon = pc.weapons.Count - 1;
                 PlatformerController.instance.currentUnlockState = 4;
                 break;
@@ -47,7 +47,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
                 break;
             case Abilities.FreezeProjectile:
                 print("unlock");
-                pc.weapons.Add(Resources.Load<Ricochet>("Weapons/FreezeProjectile"));
+                pc.weapons.Add(Resources.Load<FreezeProjectile>("Weapons/FreezeProjectile"));
                 pc.currWeapon = pc.weapons.Count - 1;
                 PlatformerController.instance.currentUnlockState = 6;
                 break;
@@ -57,7 +57,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
                 break;
             case Abilities.Grapple:
                 print("unlock");
-                pc.weapons.Add(Resources.Load<Ricochet>("Weapons/GrappleHook"));
+                pc.weapons.Add(Resources.Load<GrappScript>("Weapons/GrappleHook"));
                 pc.currWeapon = pc.weapons.Count - 1;
                 PlatformerController.instance.currentUnlockState = 8;
                 break;

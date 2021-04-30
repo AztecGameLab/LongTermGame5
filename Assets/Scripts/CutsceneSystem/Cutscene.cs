@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Diagnostics.Contracts;
+using Cinemachine;
 using UnityEngine.UI;
 
 namespace CutsceneSystem
@@ -13,15 +14,9 @@ namespace CutsceneSystem
     {
         public int firstFrame = 0;
         public Frame[] frames;
-        private Camera cam;
+        public Transform cam;
         private Image fadeImage;
 
-        private void Awake()
-        {
-            frames = GetComponentsInChildren<Frame>();
-            fadeImage = GameObject.Find("BlackImage").GetComponent<Image>();
-            cam = Camera.main;
-        }
 
         public int GetFrameCount() //for editor script
         {
@@ -30,6 +25,9 @@ namespace CutsceneSystem
 
         private void Start()
         {
+            frames = GetComponentsInChildren<Frame>();
+            fadeImage = GameObject.Find("BlackImage").GetComponent<Image>();
+            cam = FindObjectOfType<CinemachineVirtualCamera>().transform;
             StartCoroutine(C_StartCutscene());
         }
 
@@ -42,7 +40,7 @@ namespace CutsceneSystem
                 frameIndex++) //for each frame, move the camera to that frame and play it. start next frame one the previous frame is over
             {
                 Frame currentFrame = frames[frameIndex];
-                cam.transform.position = currentFrame.transform.position + new Vector3(0, 0, -10);
+                cam.position = currentFrame.transform.position + new Vector3(0, 0, -10);
 
                 StartCoroutine(FadeScreen(Fade.In, currentFrame.fadeInDuration));
 
@@ -51,6 +49,15 @@ namespace CutsceneSystem
                 yield return new WaitForSeconds(currentFrame.frameDuration - currentFrame.fadeOutDuration);
                 StartCoroutine(FadeScreen(Fade.Out, frames[frameIndex].fadeOutDuration));
                 yield return new WaitForSeconds(currentFrame.fadeOutDuration);
+            }
+
+            if (GetComponent<gotocredits>())
+            {
+                GetComponent<gotocredits>().Credits();
+            }
+            else
+            {
+                LevelUtil.Get().LoadSavedGame();
             }
         }
 

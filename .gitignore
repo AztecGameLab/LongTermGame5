@@ -21,7 +21,6 @@
 
 # IDE Temp Data
 .vs/
-.vscode/
 .idea/
 
 # FMOD Temp Data
@@ -45,6 +44,7 @@ ExportedObj/
 *.pidb
 *.booproj
 *.svd
+temp_auto_push.bat
 *.pdb
 *.mdb
 *.opendb
@@ -91,4 +91,5 @@ fmod_editor.log
 
 # FMOD 1.10.x (Legacy)
 /Assets/FMODAssets/*
-/Assets/FMODStudioCache.meta
+/Assets/FMODStudioCache.metabranch_structure.json
+branch_structure.json
