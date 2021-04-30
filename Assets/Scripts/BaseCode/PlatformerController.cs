@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cinemachine;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +12,13 @@ public class PlatformerController : Entity
     [SerializeField] public PlatformerParameters parameters;
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
+    [SerializeField] private float deathTimeSeconds = 2f;
 
+    public int currentUnlockState;
+    
+    public bool isDying = false;
+    private UiController _uiController;
+    
     public CinemachineImpulseSource playerImpulseSource;
     public CapsuleCollider2D coll;
     SpriteRenderer render;
@@ -67,6 +76,10 @@ public class PlatformerController : Entity
             Debug.Log("Error!!, no platformer parameter!!");
             parameters = Resources.Load<PlatformerParameters>("PlatformerParameters"); //If we dont have one try and load it
         }
+
+        health = parameters.MaxHealth;
+        _uiController = UiController.Get();
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
     }
 
     public int facingDirection = 1;
@@ -74,7 +87,9 @@ public class PlatformerController : Entity
         //anim.SetFloat("HorizontalSpeed", rigid.velocity.x);
         //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
-        if(Mathf.Abs(rigid.velocity.x) > 0){
+        anim.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
+        
+        if(Mathf.Abs(rigid.velocity.x) > 0.25f){
             render.flipX = !(rigid.velocity.x > 0);
             facingDirection = render.flipX ? -1 : 1;
         }
@@ -150,6 +165,7 @@ public class PlatformerController : Entity
     }
 
     private void Jump(){
+        anim.Play("jump");
         rigid.velocity = new Vector2(rigid.velocity.x, parameters.JumpSpeed);
         jumpCounter++;
         isJumping = true;
@@ -182,7 +198,8 @@ public class PlatformerController : Entity
             Vector2 direction =  point.point - (Vector2)this.transform.position;
             //We're gonna be pretty forgiving and if ANY colliders are below our feet
             if(Vector3.Angle(-this.transform.up, direction) < parameters.MaxGroundAngle){
-                
+                isJumping = false;
+
                 if(isJumping){
                     break;
                 }
@@ -220,18 +237,24 @@ public class PlatformerController : Entity
         if(weapons.Count <= 0){ return; }
 
 
-        if(context.performed){
+        if(context.performed && _uiController.GetCurrentFill() > 0){
             weapons[currWeapon].Cancel();
             weapons[currWeapon].Charge(aimDirection);
             AimingState(true);
         }else if(context.canceled && isAiming){
             AimingState(false);
             weapons[currWeapon].Fire(aimDirection);
+            _uiController.Consume(weapons[currWeapon].manaCost, true);
+            anim.Play("magicCast");
         }
     }
 
     public void AimingState(bool state){
         isAiming = state;
+        TimeSlowDown(state);
+    }
+
+    public void TimeSlowDown(bool state){
         if(state){
             Time.timeScale = parameters.BulletTimeSlowDown;
             Time.fixedDeltaTime = .02f * parameters.BulletTimeSlowDown;
@@ -286,7 +309,6 @@ public class PlatformerController : Entity
     #region Helpers
 
     void OnCollisionEnter2D(Collision2D other){
-        isJumping = false;
         CheckGroundedState(other);
     }
 
@@ -328,6 +350,7 @@ public class PlatformerController : Entity
 
         while((attackForgiveness -= Time.deltaTime) > 0){
             
+            anim.Play("punch");
             //I'm gonna be honest, I have no idea if this will work
             //But I guess lets find out
             RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, parameters.BasicAttackSize, Vector2.right * facingDirection, parameters.BasicAttackRange);
@@ -368,17 +391,21 @@ public class PlatformerController : Entity
     #region EntityStuff
     bool canTakeDamage = true;
     public override void TakeDamage(float baseDamage, Vector2 direction){
-        if(!canTakeDamage)
+        if(!canTakeDamage || DialogSystem.isDialoging)
             return;
         StartCoroutine(KnockBack(direction));
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         TakeDamage(baseDamage);
     }
 
     //Huh, we have no direction to figure out knockback
     //Lets just use a random direction
     public override void TakeDamage(float baseDamage){
+        if(!canTakeDamage || DialogSystem.isDialoging)
+            return;
         CancelProjectile();
         StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         base.TakeDamage(baseDamage);
     }
 
@@ -400,13 +427,23 @@ public class PlatformerController : Entity
         canTakeDamage = true;
     }
 
-    public override void OnDeath()
+    public override async void OnDeath()
     {
+        if (isDying)
+            return;
+        
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         //We don't want to destroy ourselves on death lmao
-
-        //Someone else implement this
-        return;
+        anim.Play("death");
+        lockControls = true;
+        isDying = true;
+        
+        await Task.Delay(TimeSpan.FromSeconds(deathTimeSeconds));
+        print("done waiting");
+        LevelUtil.Get().LoadSavedGame();
     }
 
     #endregion
+    
+    
 }

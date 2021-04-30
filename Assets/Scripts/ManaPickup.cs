@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using FMODUnity;
 using UnityEngine;
 
 /**************************************************************************************************
@@ -9,15 +8,16 @@ using UnityEngine;
 **************************************************************************************************/
 public class ManaPickup : MonoBehaviour
 {
-    public float mana; //How much mana each orb will have
-
-    // Update is called once per frame
+    [SerializeField] private float mana; //How much mana each orb will have
+    [EventRef] public string pickupSound;
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<PlatformerController>()) //If an orb collides with whatever the object of the player's name is
+        if (collision.gameObject.CompareTag("Player")) //If an orb collides with whatever the object of the player's name is
         {
-            ManaSystem.instance.Gain(mana); //Calls Gain from FillSystem
-            GameObject.Destroy(this.gameObject, 0);
+            RuntimeManager.PlayOneShot(pickupSound, transform.position);
+            UiController.Get().Gain(mana);
+            Destroy(gameObject);
         }
     }
 }

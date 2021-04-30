@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 3903982177860923411}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3982, y: 1.3982, z: 1.3982}
   m_Children:
   - {fileID: 5476855863517304214}
   m_Father: {fileID: 0}
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   intensity: 10
   spikeDamage: 1
-  A: 
+  spikeSound: event:/Environment/Spike Trap/Spike
 --- !u!60 &4443283477312539521
 PolygonCollider2D:
   m_ObjectHideFlags: 0

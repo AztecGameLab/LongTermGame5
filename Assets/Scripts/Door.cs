@@ -12,6 +12,7 @@ public class Door : Entity
     [SerializeField] bool bottom = false;
 
     [EventRef] public string breakSound = "Default";
+    [EventRef] public string dudSound = "Default";
     [SerializeField] GameObject leftSprite;
     [SerializeField] GameObject rightSprite;
     [SerializeField] GameObject topSprite;
@@ -63,11 +64,15 @@ public class Door : Entity
         {
             if(breakSound != "Default")
             {
-                RuntimeManager.PlayOneShot(breakSound);
+                RuntimeManager.PlayOneShot(breakSound, transform.position);
             }
             Destroy(gameObject);
         }
-
+        else
+        {
+            RuntimeManager.PlayOneShot(dudSound, transform.position);
+        }
+        
     }
 
     public override void TakeDamage(float baseDamage)

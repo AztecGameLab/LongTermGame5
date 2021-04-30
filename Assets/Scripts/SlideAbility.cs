@@ -26,6 +26,9 @@ public class SlideAbility : Ability
         if(!canSlide)
             return;
 
+        if(Player.lockControls)
+            return;
+
         int direction = Player.primaryStick.x >= 0 ? 1 : -1;
         if(Player.primaryStick.x == 0){
             direction = Player.facingDirection;
@@ -41,13 +44,15 @@ public class SlideAbility : Ability
 
     IEnumerator Sliding(){
 
-        Player.coll.size = new Vector2( Player.coll.size.x, Player.coll.size.y * shrinkValue);
+        Player.coll.size = new Vector2(Player.coll.size.x, Player.coll.size.y * shrinkValue);
         Player.coll.offset = new Vector2(Player.coll.offset.x, Player.coll.offset.y - yOffset);
 
         canSlide = false;
         Player.lockControls = true;
         Player.coll.bounds.size.Set(Player.coll.bounds.size.x, Player.coll.bounds.size.y * shrinkValue, Player.coll.bounds.size.z);
+        GetComponent<Animator>().Play("slide");
         yield return new WaitForSeconds(slideDuration);
+        GetComponent<Animator>().SetTrigger("slideDone");
         StartCoroutine(Cooldown());
         Player.coll.bounds.size.Set(Player.coll.bounds.size.x, Player.coll.bounds.size.y / shrinkValue, Player.coll.bounds.size.z);
         Player.lockControls = false;

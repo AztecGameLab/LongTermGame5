@@ -1,62 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class GroundPound : MonoBehaviour
+public class GroundPound : Ability
 {
 
     public float dropForce =20f;
-    public float stopTime = 0.2f;
+    public float stopTime = 0.4f;
     public float gravityScale = 3f;
-    private PlatformerController player;
     private Rigidbody2D body;
-    private bool doGroundPound = false;
+    private bool doingGroundPound = false;
     //get animator later
+
+    protected override string InputName => "GroundPound";
+
+    
 
     private void Start()
     {
-        player = GetComponent<PlatformerController>();
         body = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        //works
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (!player.isGrounded)
-            {
-                doGroundPound = true;
-            }
-        }
 
-
-    }
-
-    private void FixedUpdate()
-    {
-        if (doGroundPound)
-        {
-            GroundPoundAttack();
-        }
-
-        doGroundPound = false;
-    }
+    // private void FixedUpdate()
+    // {
+    //     doingGroundPound = false;
+    // }
 
     //if the player collides with something, then the ground pound stops
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.contacts[0].normal.y >= 0.5)
+        if (other.contacts[0].normal.y >= 0.5 && doingGroundPound)
         {
             CompleteGroundPound();
         }
     }
 
-    public void GroundPoundAttack()
+    protected override void Started(InputAction.CallbackContext context)
     {
-        player.enabled = false;
+        doingGroundPound = true;
+        Player.lockControls = true;
         StopAndSpin();
-        StartCoroutine("DropAndSmash");
+        StartCoroutine(DropAndSmash());
     }
 
     //stop in the air and play animation
@@ -64,6 +50,7 @@ public class GroundPound : MonoBehaviour
     {
         ClearForces();
         body.gravityScale = 0;
+        GetComponent<Animator>().Play("groundPound");
         //animation line here while spinning/whatever
     }
 
@@ -71,15 +58,22 @@ public class GroundPound : MonoBehaviour
     private IEnumerator DropAndSmash()
     {
         yield return new WaitForSeconds(stopTime);
-        body.AddForce(Vector2.down * dropForce, ForceMode2D.Impulse);
+        while (doingGroundPound)
+        {
+            body.AddForce(Vector2.down * dropForce, ForceMode2D.Force);
+            yield return null;
+        }
+        //body.AddForce(Vector2.down * dropForce, ForceMode2D.Impulse);
         //animation line here while dropping down
     }
 
     //End of ground pound
     public void CompleteGroundPound()
     {
+        GetComponent<Animator>().SetTrigger("groundPoundDone");
         body.gravityScale = gravityScale;
-        player.enabled = true;
+        Player.lockControls = false;
+        doingGroundPound = false;
         //animation line here to stop the drop animation
     }
 
