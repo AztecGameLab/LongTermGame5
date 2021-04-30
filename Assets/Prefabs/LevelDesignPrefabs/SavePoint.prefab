@@ -156,7 +156,7 @@ MonoBehaviour:
   colliderComponent: {fileID: 647390341208813746}
   layersThatCanTrigger:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   showDebug: 1
 --- !u!61 &647390341208813746
 BoxCollider2D:
@@ -171,7 +171,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: 0}
+  m_Offset: {x: 0.029999971, y: 0.60521865}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -182,7 +182,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.09, y: 5.1}
+  m_Size: {x: 4.09, y: 3.8895626}
   m_EdgeRadius: 0
 --- !u!114 &5282208848836745426
 MonoBehaviour:

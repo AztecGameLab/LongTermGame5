@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 public class GroundPound : Ability
 {
 
-    public float dropForce =10f;
-    public float stopTime = 0.5f;
-    public float gravityScale = 1f;
+    public float dropForce =20f;
+    public float stopTime = 0.4f;
+    public float gravityScale = 3f;
     private Rigidbody2D body;
     private bool doingGroundPound = false;
     //get animator later

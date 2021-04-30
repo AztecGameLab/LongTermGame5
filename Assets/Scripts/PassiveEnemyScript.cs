@@ -65,6 +65,8 @@ public class PassiveEnemyScript : Entity
 
     private void ChasePlayer()
     {
+        if (health <= 0)
+            return;
         _animator.SetBool("walking", true);
 
         if (transform.position.x < player.position.x)
@@ -131,6 +133,8 @@ public class PassiveEnemyScript : Entity
     {
         if (!passive)
         {
+            if (health <= 0)
+                return;
             _animator.Play("slash");
             float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;
@@ -200,7 +204,7 @@ public class PassiveEnemyScript : Entity
     public Collider2D auraTrigger;
     IEnumerator auraLoop()
     {
-        while (true)
+        while (health > 0)
         {
             aura.enabled = false;
             auraTrigger.enabled = false;
@@ -210,7 +214,7 @@ public class PassiveEnemyScript : Entity
             aura.enabled = true;
             auraTrigger.enabled = true;
 
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(3);
             
             
             yield return null;
@@ -219,6 +223,8 @@ public class PassiveEnemyScript : Entity
 
     public override void TakeDamage(float baseDamage)
     {
+        if (health <= 0)
+            return;
         _animator.Play("damage");
         base.TakeDamage(baseDamage);
     }

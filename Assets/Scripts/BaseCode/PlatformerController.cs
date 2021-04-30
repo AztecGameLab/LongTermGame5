@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cinemachine;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,8 @@ public class PlatformerController : Entity
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
     [SerializeField] private float deathTimeSeconds = 2f;
+
+    public int currentUnlockState;
     
     public bool isDying = false;
     private UiController _uiController;
@@ -391,6 +394,7 @@ public class PlatformerController : Entity
         if(!canTakeDamage || DialogSystem.isDialoging)
             return;
         StartCoroutine(KnockBack(direction));
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         TakeDamage(baseDamage);
     }
 
@@ -428,6 +432,7 @@ public class PlatformerController : Entity
         if (isDying)
             return;
         
+        UiController.Get().SetHealth(health/parameters.MaxHealth);
         //We don't want to destroy ourselves on death lmao
         anim.Play("death");
         lockControls = true;
@@ -439,4 +444,6 @@ public class PlatformerController : Entity
     }
 
     #endregion
+    
+    
 }

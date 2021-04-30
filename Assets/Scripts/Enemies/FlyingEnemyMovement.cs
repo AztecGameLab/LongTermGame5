@@ -165,7 +165,7 @@ public class FlyingEnemyMovement : Entity
     }
     IEnumerator Shoot()
     {
-        while (IsAttacking)
+        while (IsAttacking && health > 0)
         {
             _animator.SetTrigger("Shoting");
             RuntimeManager.PlayOneShot(shotSound);
