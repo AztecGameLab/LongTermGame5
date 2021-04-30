@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3711427598970183434}
   - component: {fileID: 3247093660562386162}
   - component: {fileID: 5675728863890997292}
+  - component: {fileID: -2751469336134474542}
   m_Layer: 13
   m_Name: RicochetBullet
   m_TagString: Untagged
@@ -139,6 +140,29 @@ MonoBehaviour:
   reflectionsRemaining: 5
   rigidbody2d: {fileID: 3711427598970183434}
   collider2d: {fileID: 3247093660562386162}
-  bounceSound: event:/UI/Menu Slider Click
-  spawnSound: event:/UI/Menu Enter
-  hitSound: event:/UI/Menu Hover
+  sprite: {fileID: 5031051624183093504}
+  spawnAndHitEmitter: {fileID: -2751469336134474542}
+  bounceSound: event:/Player/Air Ricochet/Air Ricochet Bounce
+--- !u!114 &-2751469336134474542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7011875826906566697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Event: event:/Player/Air Ricochet/Air Ricochet Loop + Hit
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

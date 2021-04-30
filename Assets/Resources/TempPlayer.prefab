@@ -111,6 +111,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   deathTimeSeconds: 2
   projectileManaCost: 0.25
+  isDying: 0
   playerImpulseSource: {fileID: 5725528633323557417}
   coll: {fileID: 0}
   lockControls: 0
@@ -251,6 +252,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 103fc6e5-1af3-4ba4-b304-aa6d939c768a
     m_ActionName: Player/GroudPound
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 249a9798-ba00-492d-8998-be25e559f19d
+    m_ActionName: Player/WeaponWheel[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -448,7 +453,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  healSfx: event:/UI/Menu Hover
+  healSfx: event:/Player/Heal/Heal
   remainingHealTime: 0
   remainingHealTimeAnalog: 0
 --- !u!95 &8105901004087270762

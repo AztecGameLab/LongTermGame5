@@ -1,4 +1,10 @@
-﻿using FMODUnity;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using FMOD;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
 
 public class RicochetBullet : MonoBehaviour
@@ -11,17 +17,15 @@ public class RicochetBullet : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D rigidbody2d;
     [SerializeField] private Collider2D collider2d;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private StudioEventEmitter spawnAndHitEmitter;
     [SerializeField, EventRef] private string bounceSound;
-    [SerializeField, EventRef] private string spawnSound;
-    [SerializeField, EventRef] private string hitSound;
 
-    private void Awake()
-    {
-        RuntimeManager.PlayOneShot(spawnSound);
-    }
-
+    private EventInstance _spawnAndHitInstance;
+    
     public void Fire(float speed)
     {
+        spawnAndHitEmitter.Play();
         rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
         rigidbody2d.velocity = transform.right * speed;
         collider2d.enabled = true;
@@ -34,17 +38,27 @@ public class RicochetBullet : MonoBehaviour
         if (entity != null)
         {
             entity.TakeDamage(damage, rigidbody2d.velocity.normalized * knockback);
-            RuntimeManager.PlayOneShot(hitSound, transform.position);
+            spawnAndHitEmitter.SetParameter("Air Ricochet", 1);
             Destroy(gameObject);
         }
         else
         {
             RuntimeManager.PlayOneShot(bounceSound, transform.position);
-            
+
             if (reflectionsRemaining > 0)
                 --reflectionsRemaining;
-            else 
-                Destroy(gameObject);
+            else
+                StartCoroutine(CustomDestroy());
         }
+    }
+
+    private IEnumerator CustomDestroy()
+    {
+        spawnAndHitEmitter.SetParameter("Air Ricochet", 1);
+        sprite.enabled = false;
+        
+        yield return new WaitForSecondsRealtime(2);
+        
+        Destroy(gameObject);
     }
 }
