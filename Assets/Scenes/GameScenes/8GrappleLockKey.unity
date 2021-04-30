@@ -456,6 +456,58 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1932455134}
     m_Modifications:
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 782942485}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1820897817}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MusicTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MusicTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 498391008316702531, guid: 5a70de2db762850409070d671b304824, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
       value: 22.27095
@@ -6375,6 +6427,53 @@ PrefabInstance:
       objectReference: {fileID: 21300006, guid: f65cfd0a3d4a1e9f639257e6f5b0fddd, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0ccebef75b508544b2d8a33984d5bba, type: 3}
+--- !u!1 &782942484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 782942486}
+  - component: {fileID: 782942485}
+  m_Layer: 0
+  m_Name: Ambience
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &782942485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782942484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9f64ea3f00438d969fde398ec7dec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEvent: event:/Ambience/Nature/Nature Ambience
+  isAmbience: 1
+  playOnAwake: 0
+  transitionTime: 5
+--- !u!4 &782942486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782942484}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &811679963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9986,6 +10085,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1752584637181960512, guid: 4613066b2c4e0c04d855135a2f7106a0, type: 3}
   m_PrefabInstance: {fileID: 403140565}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1820897816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1820897818}
+  - component: {fileID: 1820897817}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1820897817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820897816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9f64ea3f00438d969fde398ec7dec1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEvent: event:/Music/Nature Stage/Nature Stage Music
+  isAmbience: 0
+  playOnAwake: 0
+  transitionTime: 5
+--- !u!4 &1820897818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820897816}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1911419285
 PrefabInstance:
   m_ObjectHideFlags: 0
