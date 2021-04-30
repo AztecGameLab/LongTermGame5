@@ -15,8 +15,8 @@ public class GodEvent : MonoBehaviour
         PlatformerController.instance.lockControls = true;
         DialogSystem dialogSystem = GetComponentInChildren<DialogSystem>();
         dialogSystem.StartDialog();
-        dialogSystem.finishedDialog = GoToScene;
-        dialogSystem.finishedDialog = () => UnlockAbility(abilityToUnlock);
+        dialogSystem.finishedDialog += GoToScene;
+        dialogSystem.finishedDialog += () => UnlockAbility(abilityToUnlock);
     }
 
     void UnlockAbility(AbilityUnlocks.Abilities abilityToUnlock)
@@ -30,8 +30,10 @@ public class GodEvent : MonoBehaviour
     [EasyButtons.Button]
     void GoToScene()
     {
-        print("T" + transitionLevel);
-        if(transitionLevel != null)
+        if (transitionLevel != null)
+        {
+            print("Transitioning");
             LevelUtil.Get().TransitionTo(transitionLevel);
+        }
     }
 }
