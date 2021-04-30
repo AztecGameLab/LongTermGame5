@@ -16,7 +16,7 @@ namespace CutsceneSystem
         public Frame[] frames;
         public Transform cam;
         private Image fadeImage;
-        
+
 
         public int GetFrameCount() //for editor script
         {
@@ -50,7 +50,15 @@ namespace CutsceneSystem
                 StartCoroutine(FadeScreen(Fade.Out, frames[frameIndex].fadeOutDuration));
                 yield return new WaitForSeconds(currentFrame.fadeOutDuration);
             }
-            LevelUtil.Get().LoadSavedGame();
+
+            if (GetComponent<gotocredits>())
+            {
+                GetComponent<gotocredits>().Credits();
+            }
+            else
+            {
+                LevelUtil.Get().LoadSavedGame();
+            }
         }
 
         IEnumerator FadeScreen(Fade fadeType, float fadeTime)
