@@ -216,6 +216,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  damageSound: event:/Player/Injury/Generic Damage
+  deathSound: event:/Player/Death Sound/Death Plop
+  hasDamageSound: 1
   EnemySpeed: 5
   lowHealth: 0
   animator: {fileID: 7113734486772840}
@@ -260,7 +263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody2d: {fileID: 1986629857}
   sprite: {fileID: 8997881752414644338}
-  bashSound: event:/Player/Dash/Dash
   shakeIntensity: 1
   speedBoost: 10
   bashRange: 4

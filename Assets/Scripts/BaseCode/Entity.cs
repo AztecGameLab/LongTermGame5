@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using FMODUnity;
 using UnityEngine;
 
 /// <summary>
@@ -10,12 +12,22 @@ public class Entity : MonoBehaviour
     [SerializeField]
     public float health;
 
+    [SerializeField, EventRef] private string entityDamageSound = "event:/Player/Injury/Generic Damage";
+    [SerializeField, EventRef] private string entityDeathSound = "event:/Player/Death Sound/Death Plop";
+    [SerializeField] protected bool hasDamageSound = false;
+    
     [EasyButtons.Button]
-    public virtual void TakeDamage(float baseDamage){
+    public virtual void TakeDamage(float baseDamage)
+    {
+        if (hasDamageSound && health <= 0)
+            RuntimeManager.PlayOneShotAttached(entityDeathSound, gameObject);
+        else if (hasDamageSound && health > 0)
+            RuntimeManager.PlayOneShotAttached(entityDamageSound, gameObject);
+        
         health -= baseDamage;
-        if(health <= 0){
+
+        if(health <= 0)
             OnDeath();
-        }
     }
 
     //Direction from what dealt the damage to the entity
@@ -29,6 +41,6 @@ public class Entity : MonoBehaviour
 
     public virtual void OnDeath(){
         //AAAAAA I'm Dying!!! 💀
-        GameObject.Destroy(this.gameObject, 0);
+        Destroy(gameObject, 0);
     }
 }
