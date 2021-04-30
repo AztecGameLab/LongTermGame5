@@ -408,7 +408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278600244}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.260006, y: 26.05, z: -28.561262}
+  m_LocalPosition: {x: 181.7, y: -24.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1183,9 +1183,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec2b28e20004565bab08c78cc1951db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeTime: 0.25
+  fadeTime: 0.5
   defaultLevel: {fileID: 11400000, guid: 95a534e7da1771945999a5e660d03b75, type: 2}
   playerPrefab: {fileID: 1831558400415614749, guid: 9d42730b7845e9b4ca5f64f4d2cb3a4e, type: 3}
+  respawnSound: event:/Environment/Respawn/Respawn
 --- !u!1 &1746217393
 GameObject:
   m_ObjectHideFlags: 0

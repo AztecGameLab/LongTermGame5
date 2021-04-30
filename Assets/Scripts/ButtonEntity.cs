@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using EasyButtons;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.Events;
@@ -26,6 +27,7 @@ public class ButtonEntity : Entity
         SetActive(true);
     }
 
+    [Button]
     public void SetActive(bool active)
     {
         if (isActive == active)
@@ -33,7 +35,7 @@ public class ButtonEntity : Entity
             if (shootingResetsTimer && active)
             {
                 ResetTimer();
-                RuntimeManager.PlayOneShot(activatedSound);
+                RuntimeManager.PlayOneShot(activatedSound, transform.position);
             }
             return;
         }
@@ -44,7 +46,7 @@ public class ButtonEntity : Entity
         
         var targetSound = active ? activatedSound : deactivatedSound;
         var targetEvent = active ? events.buttonTurnOnEvent : events.buttonTurnOffEvent;
-        RuntimeManager.PlayOneShot(targetSound);
+        RuntimeManager.PlayOneShot(targetSound, transform.position);
         targetEvent?.Invoke();
         isActive = active;
     }

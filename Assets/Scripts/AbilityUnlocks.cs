@@ -9,6 +9,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
     
     public enum Abilities {Slide, ReflectingProjectile, Bash, FireBall, DoubleJump, FreezeProjectile, GroundPound, Grapple, None}
     
+    [EasyButtons.Button]
     public void Unlock(Abilities ability)
     {
         var pc = GetComponent<PlatformerController>();

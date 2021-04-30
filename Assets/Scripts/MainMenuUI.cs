@@ -1,8 +1,18 @@
-﻿using FMODUnity;
+﻿using System;
+using System.Linq;
+using FMODUnity;
+using SaveSystem;
 using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [Serializable]
+    public class LevelMusic
+    {
+        public MusicTrigger music;
+        public Level[] levels;
+    }
+    
     public Level mainMenuLevel;
     public Level creditsLevel;
 
@@ -11,6 +21,28 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField, EventRef] private string menuEnterSound;
     [SerializeField, EventRef] private string menuExitSound;
     [SerializeField, EventRef] private string menuHoverSound;
+    [SerializeField] private LevelMusic[] levelMusic;
+    [SerializeField] private MusicTrigger defaultMusic;
+    
+    private void Start()
+    {
+        SaveLoad.LoadFromFileToTempData();
+        var playerData = SaveLoad.GetPlayerData();
+
+        var audioController = AudioController.Get();
+        audioController.StopMusic(5);
+
+        if (playerData.currentScene == null)
+        {
+            defaultMusic.Play();
+        }
+        else
+        {
+            var targetLevel = LevelController.Get().GetLevel(playerData.currentScene);
+            var music = levelMusic.First(element => element.levels.Contains(targetLevel)).music;
+            music.Play();
+        }
+    }
 
     public void OnButtonHover()
     {

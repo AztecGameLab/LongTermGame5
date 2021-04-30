@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using FMODUnity;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ public class LevelUtil : Singleton<LevelUtil>
     [SerializeField] private float fadeTime = 0.25f;
     [SerializeField] private Level defaultLevel;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField, EventRef] private string respawnSound;
     
     private LevelController _levelController;
     private TransitionController _transitionController;
@@ -77,7 +79,7 @@ public class LevelUtil : Singleton<LevelUtil>
         var playerData = SaveLoad.GetPlayerData();
         Level level;
 
-        if (playerData == null)
+        if (playerData.currentScene == null)
         {
             level = defaultLevel;
             print("No save found: Loading " + level.sceneName);
@@ -95,7 +97,7 @@ public class LevelUtil : Singleton<LevelUtil>
             var playerGameObject = Instantiate(playerPrefab);
             var playerSpawn = Vector3.zero;
             
-            if (playerData != null)
+            if (playerData.currentScene != null)
             {
                 playerSpawn = playerData.position;
             }
@@ -104,6 +106,7 @@ public class LevelUtil : Singleton<LevelUtil>
                 playerSpawn = playerSpawnTransform[0].position;
             }
             
+            RuntimeManager.PlayOneShot(respawnSound, playerSpawn);
             playerGameObject.transform.position = playerSpawn;
         });        
     }

@@ -12,8 +12,31 @@ public class AudioController : Singleton<AudioController>
         public string EventRef;
     }
     
-    private static MusicData _activeMusic = null;
+    private static MusicData _activeMusic;
+    private static MusicData _activeAmbience;
 
+    public void PlayAmbience(string eventRef, float transitionTime = 0f)
+    {
+        if (_activeAmbience != null && _activeAmbience.EventRef == eventRef)
+            return;
+        
+        var musicInstance = RuntimeManager.CreateInstance(eventRef);
+        StopAmbience(transitionTime, () => musicInstance.start());
+        _activeAmbience = new MusicData { Instance = musicInstance, EventRef = eventRef };
+    }
+    
+    public void StopAmbience(float fadeTime, Action onComplete = null)
+    {
+        if (_activeAmbience == null || !_activeAmbience.Instance.isValid())
+        {
+            onComplete?.Invoke();
+            return;
+        }
+        
+        StartCoroutine(FadeOutAmbience(fadeTime, onComplete));
+        _activeAmbience = null;
+    }
+    
     public void PlayMusic(string eventRef, float transitionTime = 0f)
     {
         if (_activeMusic != null && _activeMusic.EventRef == eventRef)
@@ -53,6 +76,27 @@ public class AudioController : Singleton<AudioController>
 
         fadingMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         fadingMusic.release();
+        
+        onComplete?.Invoke();
+    }
+    
+    private static IEnumerator FadeOutAmbience(float fadeTime, Action onComplete)
+    {
+        var fadingAmbience = _activeAmbience.Instance;
+        var startTime = Time.time;
+        fadingAmbience.getVolume(out var startVolume);
+        
+        while (Time.time - startTime < fadeTime)
+        {
+            var percentComplete = (Time.time - startTime) / fadeTime;
+            var targetVolume = Mathf.Lerp(startVolume, 0, percentComplete);
+            
+            fadingAmbience.setVolume(targetVolume);
+            yield return new WaitForEndOfFrame();
+        }
+
+        fadingAmbience.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        fadingAmbience.release();
         
         onComplete?.Invoke();
     }
