@@ -35,7 +35,7 @@ public class BulkyEnemy : Entity
         PlayerIsLeft = false;
         animator.SetBool("Walking", true);
         GetComponentInChildren<BulkyEnemyEvent>().BulkyEnemy = this;
-    }
+    }   
 
     public void AttackEnd()
     {

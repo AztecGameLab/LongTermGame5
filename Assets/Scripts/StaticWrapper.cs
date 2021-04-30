@@ -24,7 +24,7 @@ public class StaticWrapper : ScriptableObject
     
     public static void SaveTempDataToFile() //for when the player saves
     {
-        SaveSystem.SaveLoad.SaveTempDataToFile(); //currently saves all loaded scenes
+        LevelUtil.Get().SaveGame();
     }
 
     public static void LoadFromFileToTempData() //for when the player loads
