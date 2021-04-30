@@ -113,6 +113,10 @@ public class BulkyEnemy : Entity
 
     public override void OnDeath()
     {
+        foreach (Transform t in transform)
+        {
+            gameObject.layer = 16;
+        }
         animator.SetBool("Dead", true);
         Destroy(gameObject, 3);
     }

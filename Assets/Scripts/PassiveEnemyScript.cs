@@ -231,6 +231,10 @@ public class PassiveEnemyScript : Entity
 
     public override void OnDeath()
     {
+        foreach (Transform t in transform)
+        {
+            gameObject.layer = 16;
+        }
         _animator.Play("death");
         GameObject.Destroy(this.gameObject, 3);
     }
