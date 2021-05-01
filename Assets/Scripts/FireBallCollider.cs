@@ -65,8 +65,8 @@ public class FireBallCollider : MonoBehaviour
         foreach (var col in colliders)
         {
             Vector2 targetDirection = (col.gameObject.transform.position - transform.position).normalized;
-            Vector2 targetVelocity = targetDirection * stats.FireBallSize * 5;  
-            col.velocity = targetVelocity;
+            var speed = col.CompareTag("Player") ? stats.playerLaunchSpeed : stats.normalLaunchSpeed;
+            col.velocity = targetDirection * speed;
         }
     }
 }

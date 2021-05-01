@@ -8,6 +8,10 @@ public class FireBallStats : ProjectileWeapon
 {
     public FireBallCollider fireBallPrefab;
     private FireBallCollider _newFireBall;
+
+    public float playerLaunchSpeed = 20f;
+    public float normalLaunchSpeed = 5f;
+    
     public float launchForce;
     public float recoil;
     public float upForce;
