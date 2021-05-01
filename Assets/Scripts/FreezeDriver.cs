@@ -11,7 +11,7 @@ public class FreezeDriver : MonoBehaviour
 
     private void Awake()
     {
-        IceballScript.newIceBall = iceball;
+        // IceballScript.newIceBall = iceball;
     }
 
 

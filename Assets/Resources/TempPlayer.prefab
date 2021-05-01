@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f55ee939e48bbb4b8458fac7a57d254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityUnlockedSound: event:/Player/New Ability Aquired Sound/Ability Unlocked
 --- !u!114 &1461539949513278626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +627,7 @@ MonoBehaviour:
   WeaponWheel: {fileID: 8892098812225099572}
   quickStopTimeout: 0.5
   lastWeapon: 0
+  switchSound: event:/Player/Weapon Wheel
 --- !u!114 &-9206458393414478984
 MonoBehaviour:
   m_ObjectHideFlags: 0
