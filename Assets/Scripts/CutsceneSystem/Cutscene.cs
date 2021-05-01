@@ -17,7 +17,8 @@ namespace CutsceneSystem
         public Transform cam;
         private Image fadeImage;
 
-
+        public Level firstLevel;
+        
         public int GetFrameCount() //for editor script
         {
             return GetComponentsInChildren<Frame>().Length;
@@ -57,7 +58,7 @@ namespace CutsceneSystem
             }
             else
             {
-                LevelUtil.Get().LoadSavedGame();
+                LevelUtil.Get().StartGameOnLevel(firstLevel);
             }
         }
 

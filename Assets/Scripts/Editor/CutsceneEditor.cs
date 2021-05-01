@@ -13,6 +13,8 @@ namespace Editor
 
             GUILayout.Label("Starting Frame");
             cutscene.firstFrame = EditorGUILayout.IntSlider(cutscene.firstFrame, 0, cutscene.GetFrameCount() - 1);
+            
+            base.OnInspectorGUI();
         }
     }
 }
