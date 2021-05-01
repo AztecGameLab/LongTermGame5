@@ -135,10 +135,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3dd0a127b15c441a2d728452e9a42d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireball: {fileID: 9000563240690001614}
   stats: {fileID: 11400000, guid: 512f2e61fa33c8a4cb8dd02358daf6e0, type: 2}
-  explosion: {fileID: 981021324122546832, guid: db7adb4a5c2d9e94f8d27d094fc9b03a, type: 3}
+  explosionPrefab: {fileID: 981021324122546832, guid: db7adb4a5c2d9e94f8d27d094fc9b03a, type: 3}
   fireballSound: {fileID: -2218258984119389548}
+  sprite: {fileID: 9000563240690001615}
+  rigidbody2d: {fileID: 9000563240690001610}
+  collider2d: {fileID: 9000563240690001613}
 --- !u!114 &-2218258984119389548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: event:/Player/Fireball
+  Event: event:/Player/FireBall/Fireball
   PlayEvent: 1
   StopEvent: 2
   AllowFadeout: 1

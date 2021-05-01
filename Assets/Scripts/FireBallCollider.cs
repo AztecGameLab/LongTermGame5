@@ -1,37 +1,72 @@
-﻿using Unity.Mathematics;
+﻿using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using FMODUnity;
 
 public class FireBallCollider : MonoBehaviour
 {
-    public GameObject fireball;
-    public FireBallStats stats;
-    public GameObject explosion;
-    public StudioEventEmitter fireballSound;
+    [SerializeField] private FireBallStats stats;
+    [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private StudioEventEmitter fireballSound;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Rigidbody2D rigidbody2d;
+    [SerializeField] private Collider2D collider2d;
 
-    void Start()
+    public void Launch(Vector2 targetVelocity)
     {
+        rigidbody2d.gravityScale = 3f;
+        rigidbody2d.velocity = targetVelocity;
+        collider2d.enabled = true;
+        SetFireballAudioParameter(1);
+    }
+
+    private void SetFireballAudioParameter(int parameter)
+    {
+        // FMOD "Fireball" labeled parameter values:
+        // 0 = Charge Loop
+        // 1 = Throw Loop
+        // 2 = Hit Sound
         
+        fireballSound.SetParameter("Fireball", parameter);
     }
     
-    void OnCollisionEnter2D(Collision2D col)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        fireballSound.SetParameter("Fireball", 2);
-        Destroy(Instantiate(explosion, transform.position, quaternion.identity),0.2f);
-        if(col.gameObject.GetComponent<Entity>() != null)
+        DealDirectHitDamage(other.gameObject);
+        KnockbackNearbyRigidbodies();
+        SetFireballAudioParameter(2);
+        
+        StartCoroutine(ExplosionAnimation());
+    }
+
+    private IEnumerator ExplosionAnimation()
+    {
+        GameObject explosion = Instantiate(explosionPrefab, transform.position, quaternion.identity);
+        sprite.enabled = false;
+        rigidbody2d.simulated = false;
+        
+        yield return new WaitForSecondsRealtime(0.2f);
+        Destroy(explosion);
+        
+        yield return new WaitForSecondsRealtime(3f); // Give the explosion tail time to finish playing
+        Destroy(gameObject);
+    }
+
+    private void DealDirectHitDamage(GameObject other)
+    {
+        if(other.TryGetComponent<Entity>(out var entity))
+            entity.TakeDamage(stats.damage);
+    }
+
+    private void KnockbackNearbyRigidbodies()
+    {
+        var colliders = Scanner.GetObjectsInRange<Rigidbody2D>(transform.position, stats.radius);
+
+        foreach (var col in colliders)
         {
-            col.gameObject.GetComponent<Entity>().TakeDamage(this.stats.damage);
+            Vector2 targetDirection = (col.gameObject.transform.position - transform.position).normalized;
+            Vector2 targetVelocity = targetDirection * stats.FireBallSize * 5;  
+            col.velocity = targetVelocity;
         }
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(fireball.transform.position, 3);
-        for(int i=0; i<colliders.Length; ++i)
-        {
-            
-            if(colliders[i].gameObject.GetComponent<Rigidbody2D>() != null)
-            {
-                Debug.Log(colliders[i].gameObject.name);
-                colliders[i].attachedRigidbody.velocity = (colliders[i].gameObject.transform.position - transform.position).normalized * stats.FireBallSize * 5;
-            }
-        }
-        Destroy(fireball);
     }
 }
