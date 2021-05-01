@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class PassiveEnemyScript : Entity
 {
     Transform player;
 
+    [SerializeField, EventRef] private string hitSound = "event:/Enemies/Water Enemy/Water Enemy Melee Hit";
+    
     [SerializeField]
     private float moveSpeed = 1; //tehee hardcoded values
 
@@ -135,6 +138,8 @@ public class PassiveEnemyScript : Entity
         {
             if (health <= 0)
                 return;
+            
+            RuntimeManager.PlayOneShotAttached(hitSound, gameObject);
             _animator.Play("slash");
             float temp = PlatformerController.instance.parameters.KnockBackTime; //you told me to do this scuffed af solution Jacob you better not deny the pull req
             PlatformerController.instance.parameters.KnockBackTime = freezeTime;

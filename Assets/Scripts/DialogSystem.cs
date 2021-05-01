@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using EasyButtons;
+using FMODUnity;
 using UnityEngine.InputSystem;
 
 public class DialogSystem : MonoBehaviour
@@ -11,6 +12,9 @@ public class DialogSystem : MonoBehaviour
     public static bool isDialoging;
     
     public float charPerSecond = 1;
+
+    [EventRef] public string greetingSound;
+    public bool hasGreetingSound;
 
     [TextArea(5, 10)]
     public string[] dialog;
@@ -42,6 +46,9 @@ public class DialogSystem : MonoBehaviour
         if (_currentDialogIndex >= 0)
             return;
 
+        if (hasGreetingSound)
+            RuntimeManager.PlayOneShot(greetingSound);
+        
         isDialoging = true;
         ListenForInput();
         transform.GetChild(0).gameObject.SetActive(true);
