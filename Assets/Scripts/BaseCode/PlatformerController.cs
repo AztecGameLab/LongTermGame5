@@ -15,6 +15,7 @@ public class PlatformerController : Entity
     [SerializeField] private Animator anim;
     [SerializeField] private float deathTimeSeconds = 2f;
     [SerializeField, EventRef] private string attackSound;
+    [SerializeField] private StudioEventEmitter walkSoundEmitter;
     
     public int currentUnlockState;
     
@@ -96,6 +97,11 @@ public class PlatformerController : Entity
             render.flipX = !(rigid.velocity.x > 0);
             facingDirection = render.flipX ? -1 : 1;
         }
+        
+        if ((primaryStick == Vector2.zero || !isGrounded) && walkSoundEmitter.IsPlaying())
+            walkSoundEmitter.Stop();
+        else if (primaryStick != Vector2.zero && !walkSoundEmitter.IsPlaying() && isGrounded)
+            walkSoundEmitter.Play();
     }
 
     [SerializeField] float error; //For testing purposes
