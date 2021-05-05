@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SaveSystem;
 
-public class Door : Entity
+public class Door : Entity, ISaveableComponent
 {
     [Header("Destructible From: ")]
     [SerializeField] bool left = false;
@@ -17,6 +18,8 @@ public class Door : Entity
     [SerializeField] GameObject rightSprite;
     [SerializeField] GameObject topSprite;
     [SerializeField] GameObject bottomSprite;
+
+    private bool collapsed;
 
     private void Start()
     {
@@ -66,7 +69,7 @@ public class Door : Entity
             {
                 RuntimeManager.PlayOneShot(breakSound, transform.position);
             }
-            Destroy(gameObject);
+            Collapse();
         }
         else
         {
@@ -80,5 +83,49 @@ public class Door : Entity
         //do nothing with undirectional damge
     }
 
+    [EasyButtons.Button]
+    public void Collapse()
+    {
+        collapsed = true;
+        GetComponent<Collider2D>().enabled = false;
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+    
+    [EasyButtons.Button]
+    public void Rebuild()
+    {
+        collapsed = false;
+        GetComponent<Collider2D>().enabled = true;
+        transform.GetChild(0).gameObject.SetActive(true);
+    }
+    
+    
+    #region SAVE SYSTEM
+    [System.Serializable]
+    protected class TestEntitySaveData : ISaveData //class that is a container for data that will be saved
+    {
+        public bool destroyed;
+
+        public override string ToString()
+        {
+            return "destroyed: " + destroyed;
+        }
+    }
+
+    public ISaveData GatherSaveData() //store current state into the SaveData class
+    {
+        return new TestEntitySaveData { destroyed = collapsed};
+    }
+    public void RestoreSaveData(ISaveData state) //receive SaveData class and set variables
+    {
+        var saveData = (TestEntitySaveData)state;
+        collapsed = saveData.destroyed;
+        
+        if(collapsed)
+            Collapse();
+        else
+            Rebuild();
+    }
+    #endregion
 
 }

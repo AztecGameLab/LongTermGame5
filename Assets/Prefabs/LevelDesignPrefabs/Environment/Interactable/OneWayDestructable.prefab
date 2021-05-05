@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2950693196929771486}
   - component: {fileID: 4009359593221646747}
   - component: {fileID: 6010433977145527712}
+  - component: {fileID: 6846673127426779325}
   m_Layer: 0
   m_Name: OneWayDestructable
   m_TagString: Untagged
@@ -46,6 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
+  entityDamageSound: event:/Player/Injury/Generic Damage
+  entityDeathSound: event:/Player/Death Sound/Death Plop
+  hasDamageSound: 0
   left: 0
   right: 0
   top: 0
@@ -82,6 +86,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.85, y: 1.85}
   m_EdgeRadius: 0
+--- !u!114 &6846673127426779325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472071736171148941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3992fae8dc0899b429ce9b57a6d82ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &636111166475690527
 GameObject:
   m_ObjectHideFlags: 0
