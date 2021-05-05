@@ -41,4 +41,9 @@ public class StaticWrapper : ScriptableObject
     {
         LevelController.Get().UnloadLevel(level);
     }
+
+    public static void WaterEnemyAgro()
+    {
+        PassiveEnemyScript.changePassive();
+    }
 }
