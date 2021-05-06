@@ -58,6 +58,7 @@ public class GroundPound : Ability
     private IEnumerator DropAndSmash()
     {
         yield return new WaitForSeconds(stopTime);
+        gameObject.AddComponent<GroundPoundDamage>();
         while (doingGroundPound)
         {
             body.AddForce(Vector2.down * dropForce, ForceMode2D.Force);

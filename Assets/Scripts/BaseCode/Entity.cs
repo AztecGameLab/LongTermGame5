@@ -12,8 +12,8 @@ public class Entity : MonoBehaviour
     [SerializeField]
     public float health;
 
-    [SerializeField, EventRef] private string entityDamageSound = "event:/Player/Injury/Generic Damage";
-    [SerializeField, EventRef] private string entityDeathSound = "event:/Player/Death Sound/Death Plop";
+    [SerializeField, EventRef] protected string entityDamageSound = "event:/Player/Injury/Generic Damage";
+    [SerializeField, EventRef] protected string entityDeathSound = "event:/Player/Death Sound/Death Plop";
     [SerializeField] protected bool hasDamageSound = false;
     
     [EasyButtons.Button]
