@@ -8699,6 +8699,10 @@ PrefabInstance:
       value: 0.064777374
       objectReference: {fileID: 0}
     - target: {fileID: 4118120765667431612, guid: 7f37610c9cbbdf146a5422e69ab3a813, type: 3}
+      propertyPath: m_SortingOrder
+      value: -21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118120765667431612, guid: 7f37610c9cbbdf146a5422e69ab3a813, type: 3}
       propertyPath: m_LocalAABB.m_Center.x
       value: 11.959362
       objectReference: {fileID: 0}
@@ -14368,6 +14372,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Fire/Fire Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &886898368
 Transform:
@@ -25929,6 +25934,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Fire Stage/Fire Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1707222744
 Transform:
