@@ -457,6 +457,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1932455134}
     m_Modifications:
     - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
+      propertyPath: currentLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: d7a3fbf9c24a13446aae6ad67bf63f4f, type: 2}
+    - target: {fileID: 452428380165252367, guid: 5a70de2db762850409070d671b304824, type: 3}
       propertyPath: events.collisionEnter.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
