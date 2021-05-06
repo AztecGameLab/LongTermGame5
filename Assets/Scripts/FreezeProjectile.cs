@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using FMODUnity;
 [CreateAssetMenu(fileName = "FreezeProjectile", menuName = "LTG5/Weapons/IceBall", order = 0)]
 public class FreezeProjectile : ProjectileWeapon
 {
-    public GameObject iceBall;
-   public  GameObject newIceBall; // prefab is set in the Unity
+    public IceBall iceBallPrefab;
+    private IceBall _currentIceBall;
+    
     [SerializeField]
     private float iceBallSpeed; // launchforce
     [SerializeField]
@@ -25,15 +27,14 @@ public class FreezeProjectile : ProjectileWeapon
     override
     public  void Fire(Vector2 direction)
     {
+        _currentIceBall.transform.SetParent(PlatformerController.instance.transform.parent);
         position = direction;
         isCharging = false;
         PlatformerController.instance.StopCoroutine(IceBallPower());
         chargeTime = 0f;
         iceBallSpeed = 10 + IceBallSize;
-        
-       newIceBall.GetComponent<Rigidbody2D>().gravityScale = gravityForce;
-        newIceBall.GetComponent<Rigidbody2D>().velocity = iceBallSpeed * direction + (Vector2)(newIceBall.transform.up * upForce);
-        newIceBall.GetComponent<Collider2D>().enabled = true;
+        var targetVelocity = iceBallSpeed * direction + (Vector2) (_currentIceBall.transform.up * upForce);
+        _currentIceBall.Launch(targetVelocity, gravityForce);
         
         IceBallSize = 3f;
     }
@@ -43,10 +44,10 @@ public class FreezeProjectile : ProjectileWeapon
     {
         chargeTime = 0f;
         damage = 0;
-        iceBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction * 1.5f);//
-        iceBall.transform.position *= PlatformerController.instance.coll.size;
-        newIceBall = Instantiate(iceBall, iceBall.transform.position, Quaternion.identity);
-        newIceBall.GetComponent<Collider2D>().enabled = false;
+        _currentIceBall = Instantiate(iceBallPrefab, iceBallPrefab.transform.position, Quaternion.identity);
+        _currentIceBall.transform.SetParent(PlatformerController.instance.transform);
+        _currentIceBall.transform.localPosition = (direction * 1.5f);
+        _currentIceBall.GetComponent<Collider2D>().enabled = false;
         isCharging = true;
         PlatformerController.instance.StartCoroutine(IceBallPower());
     }
@@ -54,20 +55,17 @@ public class FreezeProjectile : ProjectileWeapon
     override
     public void OnAimChange(Vector2 direction)
     {
-        newIceBall.transform.position = PlatformerController.instance.transform.position+ ((Vector3)direction * 1.5f);
-        newIceBall.transform.position *= PlatformerController.instance.coll.size;
+        _currentIceBall.transform.localPosition = (direction * 1.5f);
     }
    private IEnumerator IceBallPower()
     {
-        while (chargeTime < 3 && isCharging == true)
+        while (chargeTime < 3 && isCharging)
         {
             chargeTime += Time.fixedDeltaTime;
             IceBallSize = 3 + chargeTime;
-            newIceBall.transform.localScale = new Vector3(IceBallSize, IceBallSize, IceBallSize);
+            _currentIceBall.transform.localScale = new Vector3(IceBallSize, IceBallSize, IceBallSize);
             damage += 0.5f;
             yield return null;
         }
-        yield return new WaitForSeconds(0f);
     }
-
 }

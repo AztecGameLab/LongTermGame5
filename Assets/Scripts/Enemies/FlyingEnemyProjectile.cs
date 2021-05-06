@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using FMODUnity;
 using UnityEngine;
 
 public class FlyingEnemyProjectile : MonoBehaviour
 {
     [SerializeField] float speed =10f;
     [SerializeField] float Damage = 2f;
+    [SerializeField, EventRef] private string launchSound = "event:/Enemies/Sky Enemy/Sky Enemy Projectile";
     Rigidbody2D rb;
     PlatformerController player;
 
@@ -19,6 +19,7 @@ public class FlyingEnemyProjectile : MonoBehaviour
 
         //destroy itself after 5 seconds
         StartCoroutine(DestroyProjectile());
+        RuntimeManager.PlayOneShotAttached(launchSound, gameObject);
     }
 
     IEnumerator DestroyProjectile()

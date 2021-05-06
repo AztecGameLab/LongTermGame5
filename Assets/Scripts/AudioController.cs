@@ -15,6 +15,8 @@ public class AudioController : Singleton<AudioController>
     private static MusicData _activeMusic;
     private static MusicData _activeAmbience;
 
+    public static string MusicRef => _activeMusic?.EventRef;
+    
     public void PlayAmbience(string eventRef, float transitionTime = 0f)
     {
         if (_activeAmbience != null && _activeAmbience.EventRef == eventRef)

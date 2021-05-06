@@ -499,7 +499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1171086363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,7 +512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e9f64ea3f00438d969fde398ec7dec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicEvent: event:/Temp/Temp Music Overworld
+  audioEvent: 
+  isAmbience: 0
   playOnAwake: 1
   transitionTime: 1
 --- !u!4 &1171086364

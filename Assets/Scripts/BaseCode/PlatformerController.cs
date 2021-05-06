@@ -14,7 +14,10 @@ public class PlatformerController : Entity
     [SerializeField] public Rigidbody2D rigid;
     [SerializeField] private Animator anim;
     [SerializeField] private float deathTimeSeconds = 2f;
+    
     [SerializeField, EventRef] private string attackSound;
+    [SerializeField, EventRef] private string normalJumpSound;
+    [SerializeField, EventRef] private string doubleJumpSound;
     
     public int currentUnlockState;
     
@@ -138,10 +141,27 @@ public class PlatformerController : Entity
     public void OnJumpPerformed(InputAction.CallbackContext context){
         if(lockControls) return; //Dont allow jumps when locked
 
-        if(context.performed){
-            if(jumpCounter >= parameters.JumpCount){
+        if(context.performed)
+        {
+            if(jumpCounter >= parameters.JumpCount)
                 canJump = false;
+            
+            if (canJump)
+            {
+                string jumpSound;
+                
+                if (parameters.JumpCount > 1)
+                {
+                    jumpSound = jumpCounter <= 0 ? normalJumpSound : doubleJumpSound;
+                }
+                else
+                {
+                    jumpSound = normalJumpSound;
+                }
+                
+                RuntimeManager.PlayOneShot(jumpSound);
             }
+            
             StartCoroutine(JumpQueue(parameters.JumpBufferTime));
         }
         else if(context.canceled){

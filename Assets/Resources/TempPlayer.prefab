@@ -279,14 +279,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
-  damageSound: event:/Player/Injury/Generic Damage
-  deathSound: event:/Player/Death Sound/Death Plop
+  entityDamageSound: event:/Player/Injury/Generic Damage
+  entityDeathSound: event:/Player/Death Sound/Death Plop
   hasDamageSound: 1
   parameters: {fileID: 11400000, guid: b1cea7653e06a2c42bbfd030f2ab6431, type: 2}
   rigid: {fileID: 0}
   anim: {fileID: 0}
   deathTimeSeconds: 2
   attackSound: event:/Player/Punch/Punch
+  normalJumpSound: event:/Player/Jump/Jump
+  doubleJumpSound: event:/Player/Double Jump/Jump
   currentUnlockState: 0
   isDying: 0
   playerImpulseSource: {fileID: 5725528633323557417}
@@ -521,6 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f55ee939e48bbb4b8458fac7a57d254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityUnlockedSound: event:/Player/New Ability Aquired Sound/Ability Unlocked
 --- !u!114 &1461539949513278626
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class AbilityUnlocks : Singleton<AbilityUnlocks>
@@ -8,16 +9,18 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
     public static event Action<Abilities> AbilityUnlocked;
     
     public enum Abilities {Slide, ReflectingProjectile, Bash, FireBall, DoubleJump, FreezeProjectile, GroundPound, Grapple, None}
+
+    [SerializeField, EventRef] private string abilityUnlockedSound;
     
     [EasyButtons.Button]
     public void Unlock(Abilities ability)
     {
         var pc = GetComponent<PlatformerController>();
+        RuntimeManager.PlayOneShot(abilityUnlockedSound);
         
         print(ability);
         switch (ability)
         {
-
             case Abilities.Slide:
                 print("addslide");
                 gameObject.AddComponent<SlideAbility>();

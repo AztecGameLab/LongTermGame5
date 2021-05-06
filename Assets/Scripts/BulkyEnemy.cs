@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class BulkyEnemy : Entity
 {
+    [EventRef] public string attackMissSound = "event:/Enemies/Nature Enemy/Attack Miss";
+    [EventRef] public string attackHitSound = "event:/Enemies/Nature Enemy/Attack Hit";
+    
     private float healthTrigger;
     private Rigidbody2D enemyRigidBody2D;
     private Transform enemyTransform;
@@ -40,11 +44,22 @@ public class BulkyEnemy : Entity
     public void AttackEnd()
     {
         var hits = Physics2D.CircleCastAll(transform.position, 1, PlayerIsLeft ? Vector2.left : Vector2.right, attackRange);
+        var hitPlayer = false;
+        
         foreach (var hit in hits)
         {
-            if(hit.transform.CompareTag("Player"))
+            if (hit.transform.CompareTag("Player"))
+            {
                 _player.TakeDamage(damage);
+                hitPlayer = true;
+            }
         }
+
+        if (hitPlayer)
+            RuntimeManager.PlayOneShot(attackHitSound);
+        else
+            RuntimeManager.PlayOneShotAttached(attackMissSound, gameObject);
+        
         isAttacking = false;
     }
 

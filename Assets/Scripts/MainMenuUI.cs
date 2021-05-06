@@ -23,14 +23,25 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField, EventRef] private string menuHoverSound;
     [SerializeField] private LevelMusic[] levelMusic;
     [SerializeField] private MusicTrigger defaultMusic;
+    [SerializeField] private bool shouldSetupMusic = true;
+
+    private const string EpilogueMusicRef = "event:/Music/Epilogue Music/Epilogue Music";
     
     private void Start()
     {
-        SaveLoad.LoadFromFileToTempData();
-        var playerData = SaveLoad.GetPlayerData();
+        if (shouldSetupMusic)
+            SetupMusic();
+    }
 
+    private void SetupMusic()
+    {
+        SaveLoad.LoadFromFileToTempData();
+        
+        var playerData = SaveLoad.GetPlayerData();
         var audioController = AudioController.Get();
-        audioController.StopMusic(5);
+        
+        if (AudioController.MusicRef != EpilogueMusicRef)
+            audioController.StopMusic(5);
 
         if (playerData.currentScene == null)
         {
@@ -49,12 +60,10 @@ public class MainMenuUI : MonoBehaviour
         RuntimeManager.PlayOneShot(menuHoverSound);
     }
 
-    public Level prologue;
     public void EnterGame()
     {
         RuntimeManager.PlayOneShot(menuEnterSound);
-        LevelUtil.Get().TransitionTo(prologue);
-        //LevelUtil.Get().LoadSavedGame();
+        LevelUtil.Get().LoadSavedGame();
     }
 
     public void PlayCredits()

@@ -6,9 +6,12 @@ using FMODUnity;
 [CreateAssetMenu(fileName = "FireBall", menuName = "FireBall")]
 public class FireBallStats : ProjectileWeapon
 {
-    public GameObject fireBall;
-    GameObject newFireBall;
-    public StudioEventEmitter fireballSound;
+    public FireBallCollider fireBallPrefab;
+    private FireBallCollider _newFireBall;
+
+    public float playerLaunchSpeed = 20f;
+    public float normalLaunchSpeed = 5f;
+    
     public float launchForce;
     public float recoil;
     public float upForce;
@@ -17,49 +20,40 @@ public class FireBallStats : ProjectileWeapon
     public float FireBallSize = 3f;
     public Vector2 getDir;
     private Vector2 direction;
-
-
-    private Vector2 radius;
+    public float radius = 3f;
     private bool charging;
 
     public override void Fire(Vector2 direction)
     {
-        fireballSound.SetParameter("Fireball", 1);
-        fireballSound.Play();
         getDir = direction;
         charging = false;
         PlatformerController.instance.StopCoroutine(Power());
         chargeTimer = 0f;
         launchForce = 10 + FireBallSize;
-        newFireBall.GetComponent<Rigidbody2D>().gravityScale = 3f;
-        newFireBall.GetComponent<Rigidbody2D>().velocity = launchForce * direction;
-        newFireBall.GetComponent<Collider2D>().enabled = true;
         FireBallSize = 3f;
+
+        _newFireBall.Launch(launchForce * direction);
     }
 
     public override void Charge(Vector2 direction)
     {
-        fireballSound.SetParameter("Fireball", 0);
         chargeTimer = 0f;
         damage = 0;
-        newFireBall = Instantiate(fireBall, fireBall.transform.position, Quaternion.identity);
-        //newFireBall.transform.position = PlatformerController.instance.transform.position + ((Vector3)direction*1.5f);
-        //newFireBall.transform.position *= PlatformerController.instance.coll.size;
-        newFireBall.GetComponent<Collider2D>().enabled = false;
+        _newFireBall = Instantiate(fireBallPrefab, fireBallPrefab.transform.position, Quaternion.identity);
+        _newFireBall.GetComponent<Collider2D>().enabled = false;
         charging = true;
         this.direction = direction;
-        PlatformerController.instance.StartCoroutine(bulletUpdate());
+        PlatformerController.instance.StartCoroutine(BulletUpdate());
         PlatformerController.instance.StartCoroutine(Power());
-        
     }
-    IEnumerator Power()
+    
+    private IEnumerator Power()
     {
-        
         while (chargeTimer < 1 && charging == true)
         {
             chargeTimer += Time.fixedDeltaTime;
             FireBallSize = 2 + chargeTimer * 4;
-            newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
+            _newFireBall.transform.localScale = new Vector3(FireBallSize, FireBallSize, FireBallSize);
             damage = 2 + chargeTimer * 2;
             yield return null;
         }
@@ -69,15 +63,14 @@ public class FireBallStats : ProjectileWeapon
     public override void OnAimChange(Vector2 direction)
     {
         this.direction = direction;
-        newFireBall.transform.position = (Vector2)PlatformerController.instance.transform.position + (direction * 2);
-        //newFireBall.transform.position *= PlatformerController.instance.coll.size;
+        _newFireBall.transform.position = (Vector2)PlatformerController.instance.transform.position + (direction * 2);
     }
     
-    IEnumerator bulletUpdate()
+    private IEnumerator BulletUpdate()
     {
-        while (newFireBall.GetComponent<Collider2D>()?.enabled == false)
+        while (_newFireBall.GetComponent<Collider2D>()?.enabled == false)
         {
-            newFireBall.transform.position = (Vector2)PlatformerController.instance.transform.position + (direction * 2);
+            _newFireBall.transform.position = (Vector2)PlatformerController.instance.transform.position + (direction * 2);
             yield return null;
         }
     }

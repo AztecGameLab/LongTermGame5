@@ -76,37 +76,37 @@ public class LevelUtil : Singleton<LevelUtil>
     public void LoadSavedGame()
     {
         SaveLoad.LoadFromFileToTempData();
+        
         var playerData = SaveLoad.GetPlayerData();
-        Level level;
+        var level = playerData.currentScene == null ? defaultLevel : _levelController.GetLevel(playerData.currentScene);
 
-        if (playerData.currentScene == null)
-        {
-            level = defaultLevel;
-            print("No save found: Loading " + level.sceneName);
-        }
-        else
-        {
-            level = _levelController.GetLevel(playerData.currentScene);
-            print("Save found! Loading " + level.sceneName);
-        }
+        StartGameOnLevel(level);
+    }
 
+    public void StartGameOnLevel(Level level)
+    {
         TransitionTo(level, () =>
         {
-            GameplayEventChannel.PublishStart();
+            if (level.isGameplayLevel)
+                GameplayEventChannel.PublishStart();
             
-            var playerGameObject = Instantiate(playerPrefab);
+            var playerData = SaveLoad.GetPlayerData();
             var playerSpawn = Vector3.zero;
+            var playerGameObject = Instantiate(playerPrefab);
             
-            if (playerData.currentScene != null)
+            if (playerData.currentScene == null)
+            {
+                if (Scanner.HasObjectsInScene(out Transform[] playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
+                    playerSpawn = playerSpawnTransform[0].position;
+            }
+            else
             {
                 playerSpawn = playerData.position;
             }
-            else if (Scanner.HasObjectsInScene(out Transform[] playerSpawnTransform, o => o.CompareTag("PlayerSpawn")))
-            {
-                playerSpawn = playerSpawnTransform[0].position;
-            }
             
-            RuntimeManager.PlayOneShot(respawnSound, playerSpawn);
+            if (level != defaultLevel)
+                RuntimeManager.PlayOneShot(respawnSound);
+            
             playerGameObject.transform.position = playerSpawn;
         });        
     }
