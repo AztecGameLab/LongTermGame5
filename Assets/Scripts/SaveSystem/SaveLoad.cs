@@ -94,6 +94,7 @@ namespace SaveSystem
             tempCurrentGame.playerData.unlockState = PlatformerController.instance.currentUnlockState;
             tempCurrentGame.playerData.position = PlatformerController.instance.transform.position;
             tempCurrentGame.playerData.currentScene = SceneManager.GetActiveScene().name;
+            tempCurrentGame.playerData.waterEnemyAngry = !PassiveEnemyScript.passive;
             SaveGameFile(tempCurrentGame);
             Debug.Log("tempCurrentGame was saved to file");
         }
@@ -108,6 +109,8 @@ namespace SaveSystem
             
             PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
             PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
+            if(tempCurrentGame.playerData.waterEnemyAngry)
+                PassiveEnemyScript.changePassive();
             
             if (tempCurrentGame.playerData.unlockState < 5)
                 PlatformerController.instance.parameters.JumpCount = 1;
