@@ -1,4 +1,5 @@
-﻿using FMODUnity;
+﻿using System;
+using FMODUnity;
 using UnityEngine;
 
 public class IceBall : MonoBehaviour
@@ -15,6 +16,11 @@ public class IceBall : MonoBehaviour
         collider2d.enabled = true;
         
         RuntimeManager.PlayOneShot(firedSound);
+    }
+
+    private void Update()
+    {
+        transform.right = rigidbody2d.velocity.normalized;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
