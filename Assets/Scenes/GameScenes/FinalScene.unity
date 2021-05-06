@@ -298,6 +298,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Nature/Nature Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &285751930
 Transform:
@@ -3981,6 +3982,18 @@ PrefabInstance:
       value: ...Without these magical bonds, I could also hold my child in my arms
         again, now that we are finally reunited.
       objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 225
+      objectReference: {fileID: 0}
     - target: {fileID: 2980010971854420649, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -7205,6 +7218,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Nature Stage/Nature Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1908873979
 Transform:

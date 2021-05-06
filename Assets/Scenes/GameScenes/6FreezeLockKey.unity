@@ -1908,6 +1908,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Water Stage/Water Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &468199125
 Transform:
@@ -3356,7 +3357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6418791384818517321, guid: b1d578f85aa31fd4d8918b5ecc626d3f, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6418791384818517321, guid: b1d578f85aa31fd4d8918b5ecc626d3f, type: 3}
       propertyPath: m_LocalScale.x
@@ -5761,6 +5762,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Water/Water Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1403713703
 Transform:
@@ -5869,6 +5871,18 @@ PrefabInstance:
       propertyPath: dialog.Array.data[9]
       value: Only with an open and disillusioned mind can I finally reveal to you
         the dark secrets they have kept from the mortals.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 265
       objectReference: {fileID: 0}
     - target: {fileID: 2980010971854420649, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
       propertyPath: m_Sprite
