@@ -77,6 +77,8 @@ public class LevelUtil : Singleton<LevelUtil>
     {
         SaveLoad.LoadFromFileToTempData();
         
+        SaveLoad.LoadActiveSceneFromTempData();
+
         var playerData = SaveLoad.GetPlayerData();
         var level = playerData.currentScene == null ? defaultLevel : _levelController.GetLevel(playerData.currentScene);
 

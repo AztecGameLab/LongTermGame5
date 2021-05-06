@@ -8955,6 +8955,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Water/Water Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &508558804 stripped
 Transform:
@@ -25797,6 +25798,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Water Stage/Water Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!1001 &1706473897
 PrefabInstance:
@@ -27734,7 +27736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[20].x
-      value: 5.95033
+      value: 5.9503307
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[20].y
@@ -27814,11 +27816,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[30].x
-      value: 16.747345
+      value: 16.747343
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[30].y
-      value: 1.9448138
+      value: 1.9448143
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[31].x
@@ -27982,7 +27984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[51].x
-      value: 14.640201
+      value: 14.6402
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[51].y
@@ -28094,11 +28096,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[65].x
-      value: -15.388659
+      value: -15.388656
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[65].y
-      value: -5.8047357
+      value: -5.804736
       objectReference: {fileID: 0}
     - target: {fileID: 8929109252893222257, guid: a45234eaaf8eb3b40a92f041c7232b52, type: 3}
       propertyPath: m_Points.Array.data[66].x
