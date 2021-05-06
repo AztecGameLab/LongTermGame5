@@ -6797,6 +6797,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Fire Stage/Fire Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1003392108
 Transform:
@@ -7624,6 +7625,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Fire/Fire Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1142887307
 Transform:
@@ -7962,6 +7964,18 @@ PrefabInstance:
       value: I am certain that with some practice, you will burn all in your path
         who dare challenge you. Now, go forth my radiant spark. Go forth, and make
         me proud.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 215
       objectReference: {fileID: 0}
     - target: {fileID: 2980010971854420649, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
       propertyPath: m_Sprite

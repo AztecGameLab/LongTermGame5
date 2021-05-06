@@ -3631,6 +3631,18 @@ PrefabInstance:
       value: If you keep showing the strength you demonstrated to me, I am sure we
         have nothing to fear.
       objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 224
+      objectReference: {fileID: 0}
     - target: {fileID: 2980010971854420649, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -5465,6 +5477,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1024255645134989278, guid: d56eea339e708bf4aa2e5444e2e00a62, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.15
+      objectReference: {fileID: 0}
     - target: {fileID: 8812517467507065284, guid: d56eea339e708bf4aa2e5444e2e00a62, type: 3}
       propertyPath: m_Size.x
       value: 37.19737
@@ -9207,6 +9223,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Nature/Nature Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1672526829
 Transform:
@@ -10385,6 +10402,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Nature Stage/Nature Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &1892531834
 Transform:

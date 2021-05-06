@@ -1071,6 +1071,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Water Stage/Water Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &219519317 stripped
 Transform:
@@ -14969,6 +14970,18 @@ PrefabInstance:
       propertyPath: dialog.Array.data[9]
       value: Only with an open and disillusioned mind can I finally reveal to you
         the dark secrets they have kept from the mortals.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2980010971854420648, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 233
       objectReference: {fileID: 0}
     - target: {fileID: 2980010971854420649, guid: 7a31c04aeccd675418f0c4b5b8bcf882, type: 3}
       propertyPath: m_Sprite
@@ -35075,6 +35088,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Water/Water Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!1001 &2070537843
 PrefabInstance:
