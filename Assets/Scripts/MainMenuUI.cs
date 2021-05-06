@@ -60,10 +60,11 @@ public class MainMenuUI : MonoBehaviour
         RuntimeManager.PlayOneShot(menuHoverSound);
     }
 
+    public Level Prologue;
     public void EnterGame()
     {
         RuntimeManager.PlayOneShot(menuEnterSound);
-        LevelUtil.Get().LoadSavedGame();
+        LevelUtil.Get().TransitionTo(Prologue);
     }
 
     public void PlayCredits()
