@@ -12,34 +12,49 @@ public class MainMenuUI : MonoBehaviour
         public MusicTrigger music;
         public Level[] levels;
     }
-    
+
     public Level mainMenuLevel;
     public Level creditsLevel;
 
     public GameObject quitButton;
 
-    [SerializeField, EventRef] private string menuEnterSound;
-    [SerializeField, EventRef] private string menuExitSound;
-    [SerializeField, EventRef] private string menuHoverSound;
-    [SerializeField] private LevelMusic[] levelMusic;
-    [SerializeField] private MusicTrigger defaultMusic;
-    [SerializeField] private bool shouldSetupMusic = true;
+    [SerializeField, EventRef]
+    private string menuEnterSound;
+
+    [SerializeField, EventRef]
+    private string menuExitSound;
+
+    [SerializeField, EventRef]
+    private string menuHoverSound;
+
+    [SerializeField]
+    private LevelMusic[] levelMusic;
+
+    [SerializeField]
+    private MusicTrigger defaultMusic;
+
+    [SerializeField]
+    private bool shouldSetupMusic = true;
 
     private const string EpilogueMusicRef = "event:/Music/Epilogue Music/Epilogue Music";
-    
+
     private void Start()
     {
         if (shouldSetupMusic)
             SetupMusic();
+
+#if UNITY_WEBGL
+        Destroy(quitButton);
+#endif
     }
 
     private void SetupMusic()
     {
         SaveLoad.LoadFromFileToTempData();
-        
+
         var playerData = SaveLoad.GetPlayerData();
         var audioController = AudioController.Get();
-        
+
         if (AudioController.MusicRef != EpilogueMusicRef)
             audioController.StopMusic(5);
 
@@ -80,21 +95,13 @@ public class MainMenuUI : MonoBehaviour
 
     public void QuitProgram()
     {
-        #if UNITY_EDITOR
-        
+#if UNITY_EDITOR
+
         UnityEditor.EditorApplication.isPlaying = false;
-        
-        #else
-        
+
+#else
         Application.Quit();
 
-        #endif
+#endif
     }
-
-    #if UNITY_WEBGL
-    private void Start()
-    {
-        Destroy(quitButton);
-    }
-    #endif
 }

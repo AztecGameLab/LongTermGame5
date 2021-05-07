@@ -97,6 +97,14 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ccbc51f-6e45-482c-85cc-b4493a409e8d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -484,6 +492,17 @@ public class @GameInputs : IInputActionCollection, IDisposable
                     ""action"": ""WeaponWheel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45f3f02a-671a-41db-ac93-08301819efca"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -552,6 +571,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         m_Player_ManaHeal = m_Player.FindAction("ManaHeal", throwIfNotFound: true);
         m_Player_GroundPound = m_Player.FindAction("GroundPound", throwIfNotFound: true);
         m_Player_WeaponWheel = m_Player.FindAction("WeaponWheel", throwIfNotFound: true);
+        m_Player_Quit = m_Player.FindAction("Quit", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
@@ -614,6 +634,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_ManaHeal;
     private readonly InputAction m_Player_GroundPound;
     private readonly InputAction m_Player_WeaponWheel;
+    private readonly InputAction m_Player_Quit;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -628,6 +649,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         public InputAction @ManaHeal => m_Wrapper.m_Player_ManaHeal;
         public InputAction @GroundPound => m_Wrapper.m_Player_GroundPound;
         public InputAction @WeaponWheel => m_Wrapper.m_Player_WeaponWheel;
+        public InputAction @Quit => m_Wrapper.m_Player_Quit;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -667,6 +689,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @WeaponWheel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheel;
                 @WeaponWheel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheel;
                 @WeaponWheel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponWheel;
+                @Quit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuit;
+                @Quit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuit;
+                @Quit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuit;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -701,6 +726,9 @@ public class @GameInputs : IInputActionCollection, IDisposable
                 @WeaponWheel.started += instance.OnWeaponWheel;
                 @WeaponWheel.performed += instance.OnWeaponWheel;
                 @WeaponWheel.canceled += instance.OnWeaponWheel;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
             }
         }
     }
@@ -768,6 +796,7 @@ public class @GameInputs : IInputActionCollection, IDisposable
         void OnManaHeal(InputAction.CallbackContext context);
         void OnGroundPound(InputAction.CallbackContext context);
         void OnWeaponWheel(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
