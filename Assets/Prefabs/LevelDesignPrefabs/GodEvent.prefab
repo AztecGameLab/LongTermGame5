@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2980010972394683866}
   - component: {fileID: 2980010972394683869}
   - component: {fileID: 2980010972394683868}
+  - component: {fileID: 1903706977993593292}
   m_Layer: 0
   m_Name: GodEvent
   m_TagString: Untagged
@@ -109,6 +110,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityToUnlock: 0
+  transitionLevel: {fileID: 0}
+--- !u!114 &1903706977993593292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980010972394683871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3992fae8dc0899b429ce9b57a6d82ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1001 &3458017449470265674
 PrefabInstance:
   m_ObjectHideFlags: 0

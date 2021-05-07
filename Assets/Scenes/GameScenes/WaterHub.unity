@@ -8955,6 +8955,7 @@ MonoBehaviour:
   audioEvent: event:/Ambience/Water/Water Ambience
   isAmbience: 1
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!4 &508558804 stripped
 Transform:
@@ -15619,11 +15620,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1218817371130289872, guid: 254926031d7b9c44b9dce7aecdc1328e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 68.47458
+      value: 71.44
       objectReference: {fileID: 0}
     - target: {fileID: 1218817371130289872, guid: 254926031d7b9c44b9dce7aecdc1328e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 36.95
+      value: 34.6
       objectReference: {fileID: 0}
     - target: {fileID: 1218817371130289872, guid: 254926031d7b9c44b9dce7aecdc1328e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -25797,6 +25798,7 @@ MonoBehaviour:
   audioEvent: event:/Music/Water Stage/Water Stage Music
   isAmbience: 0
   playOnAwake: 0
+  stopAllOnAwake: 0
   transitionTime: 5
 --- !u!1001 &1706473897
 PrefabInstance:

@@ -18,6 +18,8 @@ public class InvincibleEnemy : Entity
     private SpriteRenderer _spriteRenderer;
     public float agroRange = 30;
 
+    public float attackCooldown;
+
     // Start is called before the first frame update
     public void Awake()
     {
@@ -25,12 +27,18 @@ public class InvincibleEnemy : Entity
         enemyTransform = GetComponent<Transform>();
         moveRight = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        attackCooldown = Mathf.Infinity;
     }
 
     public void Start()
     {
         enabled = false;
         StartCoroutine("Jump");
+    }
+
+    private void Update()
+    {
+        attackCooldown += Time.deltaTime;
     }
 
     void OnBecameVisible()
@@ -64,9 +72,14 @@ public class InvincibleEnemy : Entity
         RuntimeManager.PlayOneShot(LandSound, transform.position);
         // animator.SetFloat("VelocityX", enemyRigidBody2D.velocity.x);
         // animator.SetFloat("VelocityY", enemyRigidBody2D.velocity.y);
-        if (collision.rigidbody == PlatformerController.instance.GetComponent<Rigidbody2D>())
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (attackCooldown > 1.5f && other.rigidbody == PlatformerController.instance.GetComponent<Rigidbody2D>())
         {
             PlatformerController.instance.TakeDamage(Strength);
+            attackCooldown = 0;
             //print("Success!!!");
         }
     }

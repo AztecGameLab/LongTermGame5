@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Diagnostics.Contracts;
 using Cinemachine;
@@ -30,6 +31,21 @@ namespace CutsceneSystem
             fadeImage = GameObject.Find("BlackImage").GetComponent<Image>();
             cam = FindObjectOfType<CinemachineVirtualCamera>().transform;
             StartCoroutine(C_StartCutscene());
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
+            {
+                if (GetComponent<gotocredits>())
+                {
+                    GetComponent<gotocredits>().Credits();
+                }
+                else
+                {
+                    LevelUtil.Get().StartGameOnLevel(firstLevel);
+                }
+            }
         }
 
         public IEnumerator C_StartCutscene()

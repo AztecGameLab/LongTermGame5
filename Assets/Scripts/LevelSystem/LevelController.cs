@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using SaveSystem;
 
 public class LevelController : Singleton<LevelController>
 {
@@ -120,6 +121,8 @@ public class LevelController : Singleton<LevelController>
 
     private void OnLoaded(Scene scene, LoadSceneMode mode)
     {
+        SaveLoad.LoadSceneFromTempData(scene.name);
+        
         if (ActiveLevel != null && ActiveLevel.sceneName == scene.name)
             SceneManager.SetActiveScene(scene);
         

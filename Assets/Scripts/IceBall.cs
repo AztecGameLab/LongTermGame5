@@ -17,6 +17,11 @@ public class IceBall : MonoBehaviour
         RuntimeManager.PlayOneShot(firedSound);
     }
 
+    private void Update()
+    {
+        transform.right = rigidbody2d.velocity.normalized;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Player") && collision.rigidbody != null) 
