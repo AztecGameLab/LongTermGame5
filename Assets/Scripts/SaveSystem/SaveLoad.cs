@@ -103,6 +103,7 @@ namespace SaveSystem
         public static void LoadFromFileToTempData() //call this when the player loads a game //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame = LoadMostRecentGameFile();
+
             //Debug.Log("file was loaded to temp data");
         }
 
@@ -111,7 +112,8 @@ namespace SaveSystem
             if (PlatformerController.instance == null)
                 return;
             
-            //PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+            PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+
             PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
             if(tempCurrentGame.playerData.waterEnemyAngry)
                 PassiveEnemyScript.changePassive();
