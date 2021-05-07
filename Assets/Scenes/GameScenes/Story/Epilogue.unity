@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80e0124f617e864f8919e782d1b4742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameDuration: 5
+  frameDuration: 14.57
   fadeInDuration: 2
   fadeOutDuration: 0.5
 --- !u!114 &485763092
@@ -791,7 +791,7 @@ RectTransform:
   m_GameObject: {fileID: 919533159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 1043293416}
   m_RootOrder: 0
@@ -814,7 +814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementStartTime: 0
-  elementDuration: 2
+  elementDuration: 7
   positionAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -891,7 +891,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startScale: {x: 1, y: 1}
+  startScale: {x: 1.2124, y: 1.2124}
   endScale: {x: 1, y: 1}
 --- !u!114 &919533162
 MonoBehaviour:
@@ -1191,7 +1191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80e0124f617e864f8919e782d1b4742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameDuration: 5
+  frameDuration: 7
   fadeInDuration: 2
   fadeOutDuration: 0.5
 --- !u!114 &1043293418
@@ -1396,14 +1396,14 @@ RectTransform:
   m_GameObject: {fileID: 1240513010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1824, y: 1.1824, z: 1.1824}
   m_Children: []
   m_Father: {fileID: 1566338884}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1.26, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1240513012
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementStartTime: 0
-  elementDuration: 2
+  elementDuration: 9.85
   positionAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1444,8 +1444,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startPosition: {x: 0, y: 0}
-  endPosition: {x: 0, y: 0}
+  startPosition: {x: 1.27, y: 0}
+  endPosition: {x: -1.2600002, y: 0}
   rotationAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1496,8 +1496,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startScale: {x: 1, y: 1}
-  endScale: {x: 1, y: 1}
+  startScale: {x: 1.1824, y: 1.1824}
+  endScale: {x: 1.1824, y: 1.1824}
 --- !u!114 &1240513013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,14 +1639,14 @@ RectTransform:
   m_GameObject: {fileID: 1415140272}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0338272, y: 1.0338272, z: 0}
   m_Children: []
   m_Father: {fileID: 1742072504}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.04}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1415140274
@@ -1662,7 +1662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementStartTime: 0
-  elementDuration: 2
+  elementDuration: 17.1
   positionAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1687,8 +1687,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startPosition: {x: 0, y: 0}
-  endPosition: {x: 0, y: 0}
+  startPosition: {x: 0, y: -0.23999977}
+  endPosition: {x: 0, y: 0.03999996}
   rotationAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1739,8 +1739,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startScale: {x: 1, y: 1}
-  endScale: {x: 1, y: 1}
+  startScale: {x: 1.0795573, y: 1.0795573}
+  endScale: {x: 1.0338272, y: 1.0338272}
 --- !u!114 &1415140275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2029,7 +2029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80e0124f617e864f8919e782d1b4742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameDuration: 5
+  frameDuration: 9.85
   fadeInDuration: 2
   fadeOutDuration: 0.5
 --- !u!114 &1566338886
@@ -2098,14 +2098,14 @@ RectTransform:
   m_GameObject: {fileID: 1685024663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0965099, y: 1.0965099, z: 1.0965099}
   m_Children: []
   m_Father: {fileID: 485763090}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.63, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1685024665
@@ -2121,7 +2121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementStartTime: 0
-  elementDuration: 2
+  elementDuration: 14.57
   positionAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -2146,8 +2146,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startPosition: {x: 0, y: 0}
-  endPosition: {x: 0, y: 0}
+  startPosition: {x: -0.8100004, y: 0}
+  endPosition: {x: 0.6300001, y: 0}
   rotationAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -2198,8 +2198,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  startScale: {x: 1, y: 1}
-  endScale: {x: 1, y: 1}
+  startScale: {x: 1.1665, y: 1.1665}
+  endScale: {x: 1.0965099, y: 1.0965099}
 --- !u!114 &1685024666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2492,7 +2492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80e0124f617e864f8919e782d1b4742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameDuration: 5
+  frameDuration: 17.1
   fadeInDuration: 2
   fadeOutDuration: 0.5
 --- !u!114 &1742072506
