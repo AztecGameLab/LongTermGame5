@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -30,6 +31,14 @@ public class GroundPound : Ability
 
     //if the player collides with something, then the ground pound stops
     private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.contacts[0].normal.y >= 0.5 && doingGroundPound)
+        {
+            CompleteGroundPound();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (other.contacts[0].normal.y >= 0.5 && doingGroundPound)
         {

@@ -20,6 +20,8 @@ public class InvincibleEnemy : Entity
 
     public float attackCooldown;
 
+    private bool dead;
+
     // Start is called before the first frame update
     public void Awake()
     {
@@ -76,6 +78,9 @@ public class InvincibleEnemy : Entity
 
     private void OnCollisionStay2D(Collision2D other)
     {
+        if(dead)
+            return;
+        
         if (attackCooldown > 1.5f && other.rigidbody == PlatformerController.instance.GetComponent<Rigidbody2D>())
         {
             PlatformerController.instance.TakeDamage(Strength);
@@ -86,7 +91,7 @@ public class InvincibleEnemy : Entity
 
     IEnumerator Jump()
     {
-        while (true)
+        while (!dead)
         {
             if (enabled)
             {
@@ -148,6 +153,8 @@ public class InvincibleEnemy : Entity
         {
             gameObject.layer = 16;
         }
+
+        dead = true;
         animator.SetBool("Dead", true);
         GameObject.Destroy(this.gameObject, 3);
     }
