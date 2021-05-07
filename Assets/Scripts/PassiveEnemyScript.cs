@@ -27,6 +27,7 @@ public class PassiveEnemyScript : Entity
     // Start is called before the first frame update
     void Start()
     {
+        attackCooldown = Mathf.Infinity;
         _animator = GetComponentInChildren<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         player = PlatformerController.instance.transform;
@@ -37,6 +38,7 @@ public class PassiveEnemyScript : Entity
     // Update is called once per frame
     void Update()
     {
+        attackCooldown += Time.deltaTime;
         //distance to player
         float distToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -132,9 +134,10 @@ public class PassiveEnemyScript : Entity
     float freezeTime = 3;
     float knockForce = 4;
 
+    private float attackCooldown;
     private void Attack() //implement player's take damage function
     {
-        if (!passive)
+        if (!passive && attackCooldown > 1.5f)
         {
             if (health <= 0)
                 return;
@@ -147,6 +150,8 @@ public class PassiveEnemyScript : Entity
             PlatformerController.instance.TakeDamage(3, difference * knockForce);
 
             PlatformerController.instance.parameters.KnockBackTime = temp;
+
+            attackCooldown = 0;
         }
     }
 
