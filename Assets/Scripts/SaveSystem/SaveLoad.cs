@@ -92,7 +92,7 @@ namespace SaveSystem
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame.playerData.unlockState = PlatformerController.instance.currentUnlockState;
-            tempCurrentGame.playerData.position = PlatformerController.instance.transform.position;
+            tempCurrentGame.playerData.position = PlatformerController.instance.transform.position + Vector3.up;
             tempCurrentGame.playerData.currentScene = SceneManager.GetActiveScene().name;
             tempCurrentGame.playerData.waterEnemyAngry = !PassiveEnemyScript.passive;
             SaveGameFile(tempCurrentGame);
@@ -112,7 +112,7 @@ namespace SaveSystem
             if (PlatformerController.instance == null)
                 return;
             
-            PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+            //PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
 
             PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
             if(tempCurrentGame.playerData.waterEnemyAngry)
