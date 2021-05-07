@@ -52,7 +52,7 @@ namespace SaveSystem
         public static void SaveSceneToTempData(string sceneName)
         {
             tempCurrentGame.dict[sceneName] = GatherSceneSaveData(sceneName);
-            Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
+            //Debug.Log("\"" + sceneName + "\" scene was saved to tempCurrentGame");
         }
 
         [Button]
@@ -70,7 +70,7 @@ namespace SaveSystem
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-                Debug.Log("\"" + sceneName + "\" save loaded");
+                //Debug.Log("\"" + sceneName + "\" save loaded");
 #endif
             }
             else
@@ -92,10 +92,11 @@ namespace SaveSystem
         public static void SaveTempDataToFile() //call this when the player saves //TODO make it work for multiple loaded scenes
         {
             tempCurrentGame.playerData.unlockState = PlatformerController.instance.currentUnlockState;
-            tempCurrentGame.playerData.position = PlatformerController.instance.transform.position;
+            tempCurrentGame.playerData.position = PlatformerController.instance.transform.position + Vector3.up;
             tempCurrentGame.playerData.currentScene = SceneManager.GetActiveScene().name;
+            tempCurrentGame.playerData.waterEnemyAngry = !PassiveEnemyScript.passive;
             SaveGameFile(tempCurrentGame);
-            Debug.Log("tempCurrentGame was saved to file");
+            //Debug.Log("tempCurrentGame was saved to file");
         }
 
         [Button]
@@ -103,20 +104,49 @@ namespace SaveSystem
         {
             tempCurrentGame = LoadMostRecentGameFile();
 
+            //Debug.Log("file was loaded to temp data");
+        }
+
+        public static void LoadPlayerAbilites()
+        {
             if (PlatformerController.instance == null)
                 return;
             
-            PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+            //PlatformerController.instance.transform.position = tempCurrentGame.playerData.position;
+
             PlatformerController.instance.currentUnlockState = tempCurrentGame.playerData.unlockState;
-            
+            if(tempCurrentGame.playerData.waterEnemyAngry)
+                PassiveEnemyScript.changePassive();
+
+            Debug.Log("unlockstate: " + tempCurrentGame.playerData.unlockState);
             if (tempCurrentGame.playerData.unlockState < 5)
                 PlatformerController.instance.parameters.JumpCount = 1;
             for (int i = 0; i < tempCurrentGame.playerData.unlockState; i++)
             {
                 AbilityUnlocks.Get().Unlock((AbilityUnlocks.Abilities) i);
             }
-            
-            Debug.Log("file was loaded to temp data");
+        }
+
+        public static void DeleteSaves()
+        {
+            try
+            {
+                foreach (var directory in Directory.GetDirectories(Application.persistentDataPath))
+                {
+                    DirectoryInfo data_dir = new DirectoryInfo(directory);
+                    data_dir.Delete(true);
+                }
+     
+                foreach (var file in Directory.GetFiles(Application.persistentDataPath))
+                {
+                    FileInfo file_info = new FileInfo(file);
+                    file_info.Delete();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
         }
 
 

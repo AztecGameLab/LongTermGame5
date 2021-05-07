@@ -33,6 +33,8 @@ namespace SaveSystem
         public SVector3 position;
         [SerializeField] 
         public int unlockState;
+        [SerializeField] 
+        public bool waterEnemyAngry;
     }
 
     [Serializable]
