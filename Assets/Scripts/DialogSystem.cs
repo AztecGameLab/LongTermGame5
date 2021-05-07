@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using EasyButtons;
 using FMODUnity;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class DialogSystem : MonoBehaviour
@@ -75,12 +76,14 @@ public class DialogSystem : MonoBehaviour
     }
 
     public Action finishedDialog;
+    public UnityEvent afterDialogFinishes;
     private void CloseDialog()
     {
         isDialoging = false;
         StopListenForInput();
         _currentDialogIndex = -1;
         finishedDialog?.Invoke();
+        afterDialogFinishes?.Invoke();
         transform.GetChild(0).gameObject.SetActive(false);
     }
 

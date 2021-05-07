@@ -428,6 +428,7 @@ public class PlatformerController : Entity
         CancelProjectile();
         StartCoroutine(InvincibilityFrames(parameters.InvincibilityTime));
         UiController.Get().SetHealth(health/parameters.MaxHealth);
+        playerImpulseSource.GenerateImpulse(1);
         base.TakeDamage(baseDamage);
     }
 
