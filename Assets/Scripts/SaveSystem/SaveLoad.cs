@@ -125,6 +125,28 @@ namespace SaveSystem
             }
         }
 
+        public static void DeleteSaves()
+        {
+            try
+            {
+                foreach (var directory in Directory.GetDirectories(Application.persistentDataPath))
+                {
+                    DirectoryInfo data_dir = new DirectoryInfo(directory);
+                    data_dir.Delete(true);
+                }
+     
+                foreach (var file in Directory.GetFiles(Application.persistentDataPath))
+                {
+                    FileInfo file_info = new FileInfo(file);
+                    file_info.Delete();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+        }
+
 
 //         #region old functions for saving and loading a scene
 //         
