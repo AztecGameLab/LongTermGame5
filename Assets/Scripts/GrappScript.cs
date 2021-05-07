@@ -9,6 +9,7 @@ public class GrappScript : ProjectileWeapon
     SpringJoint2D joint;
     public LineRenderer lr;
     private float _rope;
+    public Material mat;
 
     override
     public void Fire(Vector2 direction)
@@ -76,7 +77,9 @@ public class GrappScript : ProjectileWeapon
 
     IEnumerator DrawRope()
     {
-        lr.material.color = Color.red;
+        //lr.material.color = Color.red;
+        lr.material = mat;
+        lr.textureMode = LineTextureMode.Tile;
         lr.startWidth = 0.1f;
         lr.endWidth = 0.1f;
         while (joint)
