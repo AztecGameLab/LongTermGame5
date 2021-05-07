@@ -1,5 +1,4 @@
-﻿using System;
-using FMODUnity;
+﻿using FMODUnity;
 using UnityEngine;
 
 public class IceBall : MonoBehaviour
