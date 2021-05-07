@@ -25,6 +25,7 @@ public class AbilityUnlocks : Singleton<AbilityUnlocks>
                 print("addslide");
                 gameObject.AddComponent<SlideAbility>();
                 PlatformerController.instance.currentUnlockState = 1;
+                print("addslidedone");
                 break;
             case Abilities.ReflectingProjectile:
                 print("addrico");

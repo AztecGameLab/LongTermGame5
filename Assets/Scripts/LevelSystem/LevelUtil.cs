@@ -77,8 +77,6 @@ public class LevelUtil : Singleton<LevelUtil>
     {
         SaveLoad.LoadFromFileToTempData();
         
-        SaveLoad.LoadActiveSceneFromTempData();
-
         var playerData = SaveLoad.GetPlayerData();
         var level = playerData.currentScene == null ? defaultLevel : _levelController.GetLevel(playerData.currentScene);
 
@@ -92,6 +90,7 @@ public class LevelUtil : Singleton<LevelUtil>
             if (level.isGameplayLevel)
                 GameplayEventChannel.PublishStart();
             
+            SaveLoad.LoadActiveSceneFromTempData();
             var playerData = SaveLoad.GetPlayerData();
             var playerSpawn = Vector3.zero;
             var playerGameObject = Instantiate(playerPrefab);
@@ -110,6 +109,8 @@ public class LevelUtil : Singleton<LevelUtil>
                 RuntimeManager.PlayOneShot(respawnSound);
             
             playerGameObject.transform.position = playerSpawn;
+            SaveLoad.LoadPlayerAbilites();
+
         });        
     }
 }
