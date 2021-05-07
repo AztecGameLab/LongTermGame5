@@ -236,7 +236,7 @@ namespace SaveSystem
         //save the game data in binary
         static void SaveGameFile(GameData gameData)
         {
-            SaveGameJSON(new SaveDisplay(gameData));
+            //SaveGameJSON(new SaveDisplay(gameData));
 
             var gameSavePath =
                 Application.persistentDataPath +
