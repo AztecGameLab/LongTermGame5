@@ -44,7 +44,8 @@ public class MainMenuUI : MonoBehaviour
             SetupMusic();
 
 #if UNITY_WEBGL
-        Destroy(quitButton);
+        if(quitButton)
+            Destroy(quitButton);
 #endif
     }
 
