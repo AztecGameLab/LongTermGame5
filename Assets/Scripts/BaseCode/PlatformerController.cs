@@ -93,7 +93,6 @@ public class PlatformerController : Entity
         //anim.SetFloat("VerticalSpeed", rigid.velocity.y);
 
         anim.SetFloat("speed", Mathf.Abs(rigid.velocity.x));
-        anim.SetBool("grounded", isGrounded);
         
         if(Mathf.Abs(rigid.velocity.x) > 0.25f){
             render.flipX = !(rigid.velocity.x > 0);
@@ -146,6 +145,8 @@ public class PlatformerController : Entity
             if(jumpCounter >= parameters.JumpCount)
                 canJump = false;
             
+            //What?? This is in the wrong place
+            //Shouldn't it be in the Jump Function NOT the onJumpPerformed?
             if (canJump)
             {
                 string jumpSound;
@@ -191,20 +192,21 @@ public class PlatformerController : Entity
         anim.Play("jump");
         rigid.velocity = new Vector2(rigid.velocity.x, parameters.JumpSpeed);
         jumpCounter++;
+        isGrounded = false;
+        anim.SetBool("grounded", isGrounded);
         isJumping = true;
         StartCoroutine(JumpTimeout());
     }
 
     IEnumerator CoyoteTime(float time){
         yield return new WaitForSeconds(time);
-        jumpCounter++;
-        anim.Play("airborn");
+        if(!isGrounded){
+            jumpCounter++;
+            anim.Play("airborn");
+        }
     }
 
     IEnumerator JumpTimeout(){
-        //Calculate Time at apex
-        //t = (Vf - Vi) / a
-        float time = - parameters.JumpSpeed / Physics2D.gravity.magnitude;
         yield return new WaitUntil(() => rigid.velocity.y <= 0);
         isJumping = false;
     }
@@ -234,6 +236,7 @@ public class PlatformerController : Entity
                 break; //if we know we are grounded, no need to continue checking the loop
             }
         }
+        anim.SetBool("grounded", isGrounded);
     }
 
     //Almost the same as CheckGroundedState Except this need to be ran in Exit
@@ -325,12 +328,18 @@ public class PlatformerController : Entity
         rigid.AddForce(rigid.mass * direction * intensity, ForceMode2D.Impulse);
     }
 
+    public IEnumerator GroundedTimeout(Collision2D other, float timeout){
+        yield return new WaitForSeconds(timeout);
+        if(!isJumping){
+            CheckGroundedState(other);
+            CheckStartCoyoteTime(other);
+        }
+    }
+
     #region Helpers
 
     void OnCollisionEnter2D(Collision2D other){
         CheckGroundedState(other);
-        if(isGrounded)
-            anim.Play("land");
     }
 
     void OnCollisionStay2D(Collision2D other){
@@ -338,8 +347,8 @@ public class PlatformerController : Entity
     }
 
     void OnCollisionExit2D(Collision2D other){
-        CheckGroundedState(other);
-        CheckStartCoyoteTime(other);
+        StopCoroutine(GroundedTimeout(other, parameters.GroundedTimeout));
+        StartCoroutine(GroundedTimeout(other, parameters.GroundedTimeout));
     }
 
     #endregion

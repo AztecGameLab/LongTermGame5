@@ -55,6 +55,9 @@ public class PlatformerParameters : EntityData
     [Tooltip("The is the acceleration curve of our player")]
     public float AccelerationMultiplier;
 
+    [Tooltip("The amount of time from leaving the ground will we still consider grounded")]
+    public float GroundedTimeout = .25f;
+
     #endregion
 
     #region attacking

@@ -18,7 +18,7 @@ MonoBehaviour:
   InvincibilityTime: 1
   KnockBackIntensity: 5
   KnockBackTime: 1
-  CoyoteTime: 0.2
+  CoyoteTime: 0.4
   JumpHeight: 100
   JumpBufferTime: 0.2
   JumpCount: 1
@@ -27,6 +27,7 @@ MonoBehaviour:
   MaxRunSpeed: 8
   MaxGroundAngle: 45
   AccelerationMultiplier: 8
+  GroundedTimeout: 0.15
   BasicBaseDamage: 1
   BasicAttackDelay: 0.05
   BasicAttackForgiveness: 0.1
